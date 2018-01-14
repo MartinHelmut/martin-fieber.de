@@ -4,14 +4,14 @@
   "description": "My personal website.",
   "private": true,
   "scripts": {
-    "develop": "gatsby develop",
-    "build": "gatsby build",
+    "develop": "cross-env NODE_ENV=development gatsby develop",
+    "build": "cross-env NODE_ENV=production gatsby build",
     "serve": "gatsby serve",
     "commit": "node node_modules/@commitlint/prompt-cli/cli.js",
     "commitmsg": "node node_modules/@commitlint/cli/lib/cli.js -e $GIT_PARAMS",
     "precommit": "lint-staged",
     "lint": "eslint --ext .js,.jsx src && stylelint 'src/*.css'",
-    "test": "cross-env NODE_ENV=development jest",
+    "test": "cross-env NODE_ENV=development jest --coverage",
     "test:coverage": "cross-env NODE_ENV=development jest --coverage src && cat ./coverage/lcov.info | coveralls",
     "fmt:check": "prettier --tab-width 4 --single-quote --list-different 'src/**/*.{js,jsx}'",
     "clean": "rm -rf public"
@@ -112,5 +112,10 @@
     "rules": {
       "indentation": 4
     }
+  },
+  "jest": {
+    "roots": [
+      "<rootDir>/src"
+    ]
   }
 }
