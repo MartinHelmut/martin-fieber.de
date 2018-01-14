@@ -11,7 +11,7 @@ export default () => (
         </address>
         <h3>Contact</h3>
         <p>
-            Telephone: +49 174 3821210-<br />
+            Telephone: +49 174 3821210<br />
             E-Mail: info@martin-fieber.de<br />
             Website: https://martin-fieber.de<br />
         </p>
