@@ -12,7 +12,7 @@
     "precommit": "lint-staged",
     "lint": "eslint --ext .js,.jsx src && stylelint 'src/*.css'",
     "test": "cross-env NODE_ENV=development jest --coverage",
-    "test:coverage": "cross-env NODE_ENV=development jest --coverage src && cat ./coverage/lcov.info | coveralls",
+    "test:coverage": "cross-env NODE_ENV=development jest --coverage && cat ./coverage/lcov.info | coveralls",
     "fmt:check": "prettier --tab-width 4 --single-quote --list-different 'src/**/*.{js,jsx}'",
     "clean": "rm -rf public"
   },
