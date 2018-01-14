@@ -90,3 +90,5 @@ bh_unicode_properties.cache
 GitHub.sublime-settings
 .cache/
 public/
+package-lock.json
+yarn.lock
