@@ -5,8 +5,7 @@ import Index from '../index';
 
 describe('pages/index', () => {
     test('renders hello world', () => {
-        expect(shallow(<Index />).contains(<div>Hello, world!</div>)).toBe(
-            true
-        );
+        const wrapper = shallow(<Index />);
+        expect(wrapper.find('p')).toHaveLength(1);
     });
 });
