@@ -38,8 +38,15 @@
   },
   "homepage": "https://github.com/MartinHelmut/martin-fieber.de#readme",
   "dependencies": {
+    "gatsby-image": "1.0.33",
+    "gatsby-plugin-canonical-urls": "1.0.11",
+    "gatsby-plugin-react-helmet": "2.0.3",
+    "gatsby-plugin-sharp": "1.6.24",
+    "gatsby-plugin-sitemap": "1.2.9",
+    "gatsby-transformer-sharp": "1.6.16",
     "react": "16.2.0",
-    "react-dom": "16.2.0"
+    "react-dom": "16.2.0",
+    "react-helmet": "5.2.0"
   },
   "devDependencies": {
     "@commitlint/cli": "6.0.2",
@@ -55,6 +62,7 @@
     "eslint-plugin-react": "7.5.1",
     "gatsby": "1.9.155",
     "gatsby-link": "1.6.34",
+    "gatsby-plugin-remove-trailing-slashes": "1.0.3",
     "husky": "0.14.3",
     "jest": "22.0.6",
     "lint-staged": "6.0.0",
