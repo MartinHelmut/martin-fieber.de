@@ -3,13 +3,15 @@ import Typography from 'typography';
 const typography = new Typography({
     baseFontSize: '18px',
     baseLineHeight: 1.45,
-    headerFontFamily: ['Georgia', 'serif'],
     bodyFontFamily: [
-        'Avenir Next',
-        'Helvetica Neue',
+        '-apple-system',
+        'BlinkMacSystemFont',
         'Segoe UI',
-        'Helvetica',
-        'Arial',
+        'Roboto',
+        'Oxygen-Sans',
+        'Ubuntu',
+        'Cantarell',
+        'Helvetica Neue',
         'sans-serif'
     ]
 });
