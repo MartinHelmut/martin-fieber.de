@@ -13,8 +13,6 @@ module.exports = {
         'gatsby-plugin-sharp',
         'gatsby-plugin-react-helmet',
         'gatsby-plugin-remove-trailing-slashes',
-        {
-            resolve: 'gatsby-plugin-sitemap'
-        }
+        'gatsby-plugin-netlify'
     ]
 };
