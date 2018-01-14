@@ -16,6 +16,12 @@ module.exports = {
                 anonymize: true
             }
         },
+        {
+            resolve: 'gatsby-plugin-typography',
+            options: {
+                pathToConfigModule: 'src/utils/typography.js'
+            }
+        },
         'gatsby-transformer-sharp',
         'gatsby-plugin-sharp',
         'gatsby-plugin-react-helmet',

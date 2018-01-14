@@ -45,10 +45,13 @@
     "gatsby-plugin-react-helmet": "2.0.3",
     "gatsby-plugin-sharp": "1.6.24",
     "gatsby-plugin-sitemap": "1.2.9",
+    "gatsby-plugin-typography": "1.7.10",
     "gatsby-transformer-sharp": "1.6.16",
+    "gatsby-link": "1.6.34",
     "react": "16.2.0",
     "react-dom": "16.2.0",
-    "react-helmet": "5.2.0"
+    "react-helmet": "5.2.0",
+    "typography": "0.16.6"
   },
   "devDependencies": {
     "@commitlint/cli": "6.0.2",
@@ -68,7 +71,6 @@
     "eslint-plugin-jsx-a11y": "6.0.3",
     "eslint-plugin-react": "7.5.1",
     "gatsby": "1.9.155",
-    "gatsby-link": "1.6.34",
     "gatsby-plugin-remove-trailing-slashes": "1.0.3",
     "husky": "0.14.3",
     "jest": "22.0.6",
@@ -112,6 +114,21 @@
       "node": true,
       "jest": true,
       "browser": true
+    },
+    "rules": {
+      "react/prop-types": 0,
+      "react/jsx-indent": [
+        1,
+        4
+      ],
+      "jsx-a11y/anchor-is-valid": [
+        "error",
+        {
+          "components": [
+            "a"
+          ]
+        }
+      ]
     }
   },
   "stylelint": {
@@ -124,9 +141,9 @@
     "roots": [
       "<rootDir>/src"
     ],
-    "setupTestFrameworkScriptFile": "<rootDir>src/setupTests.js",
+    "setupTestFrameworkScriptFile": "<rootDir>src/utils/setupTests.js",
     "testPathIgnorePatterns": [
-      "<rootDir>/src/setupTests.js"
+      "<rootDir>/src/utils/"
     ]
   }
 }
