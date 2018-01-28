@@ -1,7 +1,9 @@
 import React from 'react';
-import Link from 'gatsby-link';
 
 import Container from '../components/container';
+import Heading from '../components/heading';
+import Footer from '../components/footer';
+import Link from '../components/link';
 
 export default ({ children }) => (
     <Container>
@@ -9,11 +11,10 @@ export default ({ children }) => (
             to="/"
             title="Link to my home page, the place where home is, the start, the beginning, and so on"
         >
-            <h1>Martin Helmut Fieber</h1>
+            <Heading>Martin Helmut Fieber</Heading>
         </Link>
-        {children()}
-        <hr />
-        <aside>
+        <main>{children()}</main>
+        <Footer>
             <Link
                 to="/legal-notice"
                 title="The legal notice page, you know, address and contact. Just in case you want to write me"
@@ -27,6 +28,6 @@ export default ({ children }) => (
             >
                 privacy policy
             </Link>
-        </aside>
+        </Footer>
     </Container>
 );

@@ -1,23 +1,27 @@
 import React, { Fragment } from 'react';
 
+import Heading from '../components/heading';
+import Text from '../components/text';
+import Address from '../components/address';
+
 export default () => (
     <Fragment>
-        <h2>Legal notice</h2>
-        <p>Information in accordance with section 5 TMG</p>
-        <address>
+        <Heading order={2}>Legal notice</Heading>
+        <Text>Information in accordance with section 5 TMG</Text>
+        <Address>
             Martin Helmut Fieber<br />
             Heiligengeiststr. 14<br />
             21335 L&uuml;neburg
-        </address>
-        <h3>Contact</h3>
-        <p>
+        </Address>
+        <Heading order={3}>Contact</Heading>
+        <Text>
             Telephone: +49 174 3821210<br />
             E-Mail: info@martin-fieber.de<br />
             Website: https://martin-fieber.de<br />
-        </p>
-        <h3>Disclaimer</h3>
-        <h4>Accountability for content</h4>
-        <p>
+        </Text>
+        <Heading order={3}>Disclaimer</Heading>
+        <Heading order={4}>Accountability for content</Heading>
+        <Text>
             The contents of my pages have been created with the utmost care.
             However, I cannot guarantee the contents&apos; accuracy,
             completeness or topicality. According to statutory provisions,
@@ -28,17 +32,17 @@ export default () => (
             activity. Our obligations to remove or block the use of information
             under generally applicable laws remain unaffected by this as per §§
             8 to 10 of the Telemedia Act (TMG).
-        </p>
-        <h4>Accountability for links</h4>
-        <p>
+        </Text>
+        <Heading order="4">Accountability for links</Heading>
+        <Text>
             Responsibility for the content of external links (to web pages of
             third parties) lies solely with the operators of the linked pages.
             No violations were evident to my at the time of linking. Should any
             legal infringement become known to my, I will remove the respective
             link immediately.
-        </p>
-        <h4>Copyright</h4>
-        <p>
+        </Text>
+        <Heading order={4}>Copyright</Heading>
+        <Text>
             My web pages and their contents are subject to German copyright law.
             Unless expressly permitted by law (§ 44a et seq. of the copyright
             law), every form of utilizing, reproducing or processing works
@@ -48,6 +52,6 @@ export default () => (
             not serve either directly or indirectly for earnings. Unauthorized
             utilization of copyrighted works is punishable (§ 106 of the
             copyright law).
-        </p>
+        </Text>
     </Fragment>
 );
