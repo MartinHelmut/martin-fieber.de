@@ -121,6 +121,10 @@
         1,
         4
       ],
+      "react/jsx-indent-props": [
+        1,
+        4
+      ],
       "jsx-a11y/anchor-is-valid": [
         "error",
         {
