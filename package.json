@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "develop": "gatsby develop",
-    "build": "npm run clean && npx gatsby build",
+    "build": "gatsby build",
     "serve": "gatsby serve",
     "commit": "node node_modules/@commitlint/prompt-cli/cli.js",
     "commitmsg": "node node_modules/@commitlint/cli/lib/cli.js -e $GIT_PARAMS",
