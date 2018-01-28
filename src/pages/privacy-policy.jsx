@@ -87,7 +87,10 @@ export default () => (
             of information to me or to any other web analytics services I may
             use. For more information about the disabling option provided by
             Google, and how to enable this option, visit{' '}
-            <a href="https://tools.google.com/dlpage/gaoptout?hl=en">
+            <a
+                href="https://tools.google.com/dlpage/gaoptout?hl=en"
+                title="A google analytics opt-out plugin"
+            >
                 https://tools.google.com/dlpage/gaoptout?hl=en
             </a>{' '}
             or click the following link to only disable tracking for this site:{' '}
