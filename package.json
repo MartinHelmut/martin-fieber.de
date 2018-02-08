@@ -59,7 +59,7 @@
   "devDependencies": {
     "@commitlint/config-conventional": "6.1.0",
     "@commitlint/cli": "6.1.0",
-    "@commitlint/prompt-cli": "6.0.2",
+    "@commitlint/prompt-cli": "6.1.0",
     "babel-jest": "22.1.0",
     "babel-preset-env": "1.6.1",
     "babel-preset-react": "6.24.1",
