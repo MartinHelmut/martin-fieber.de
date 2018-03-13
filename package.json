@@ -38,9 +38,9 @@
   },
   "homepage": "https://martin-fieber.de/",
   "dependencies": {
-    "gatsby": "1.9.231",
+    "gatsby": "1.9.232",
     "gatsby-cli": "1.1.45",
-    "gatsby-image": "1.0.41",
+    "gatsby-image": "1.0.42",
     "gatsby-link": "1.6.39",
     "gatsby-plugin-canonical-urls": "1.0.15",
     "gatsby-plugin-google-analytics": "1.0.22",
