@@ -70,6 +70,7 @@ export default class MyDocument extends Document {
                             margin: 0;
                         }
                     `}</style>
+                    <title>martin-fieber.de</title>
                 </Head>
                 <body>
                     <Main />
