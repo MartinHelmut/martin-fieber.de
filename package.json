@@ -4,6 +4,9 @@
   "description": "My personal website.",
   "private": true,
   "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start"
   },
   "engines": {
     "node": ">=8",
@@ -27,9 +30,11 @@
   },
   "homepage": "https://martin-fieber.de/",
   "dependencies": {
+    "next": "6.0.3",
+    "react": "16.3.2",
+    "react-dom": "16.3.2"
   },
-  "devDependencies": {
-  },
+  "devDependencies": {},
   "renovate": {
     "extends": [
       "config:base"
