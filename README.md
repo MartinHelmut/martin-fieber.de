@@ -9,7 +9,7 @@ My personal site, portfolio, experiments or other stuff I wanted to try 😁
 
 ## Disclaimer
 
-For contributions see the [contribution guide](CONTRIBUTING.md). This site is powered by the static site generator [GatsbyJS][gburl].
+For contributions see the [contribution guide](CONTRIBUTING.md).
 
 [bsurl]: https://travis-ci.org/MartinHelmut/martin-fieber.de.svg?branch=master
 [bsimg]: https://travis-ci.org/MartinHelmut/martin-fieber.de
@@ -19,4 +19,3 @@ For contributions see the [contribution guide](CONTRIBUTING.md). This site is po
 [cfurl]: http://commitizen.github.io/cz-cli/
 [ptimg]: https://img.shields.io/badge/code_style-prettier-ff69b4.svg
 [pturl]: https://github.com/prettier/prettier
-[gburl]: https://www.gatsbyjs.org/
