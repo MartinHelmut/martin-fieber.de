@@ -20,7 +20,7 @@ const PrivacyPolicy = () => (
             third-party access to transferred data cannot be ensured.
         </p>
         <h3>Cookies</h3>
-        <img src="static/images/cookies.jpg" alt="" width="612" height="440" />
+        <img src="/static/images/cookies.jpg" alt="" width="612" height="440" />
         <p>
             There are no cookies here. Seriously, not even any analytics script
             is used.
