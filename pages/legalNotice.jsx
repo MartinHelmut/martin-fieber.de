@@ -1,7 +1,8 @@
 import React from 'react';
+import Page from '../patterns/page';
 
 const LegalNotice = () => (
-    <div>
+    <Page>
         <h2>Legal notice</h2>
         <p>Information in accordance with section 5 TMG</p>
         <address>
@@ -49,7 +50,7 @@ const LegalNotice = () => (
             utilization of copyrighted works is punishable (§ 106 of the
             copyright law).
         </p>
-    </div>
+    </Page>
 );
 
 export default LegalNotice;

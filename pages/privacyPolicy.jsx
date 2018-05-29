@@ -1,7 +1,8 @@
 import React from 'react';
+import Page from '../patterns/page';
 
 const PrivacyPolicy = () => (
-    <div>
+    <Page>
         <h2>Privacy notice</h2>
         <p>
             My website may be used without entering personal information.
@@ -20,7 +21,12 @@ const PrivacyPolicy = () => (
             third-party access to transferred data cannot be ensured.
         </p>
         <h3>Cookies</h3>
-        <img src="/static/images/cookies.jpg" alt="" width="612" height="440" />
+        <img
+            src="/static/images/cookies.jpg"
+            alt="It shows the cookie monster with the subline: ain't no cookies here"
+            width="612"
+            height="440"
+        />
         <p>
             There are no cookies here. Seriously, not even any analytics script
             is used.
@@ -36,7 +42,7 @@ const PrivacyPolicy = () => (
             deleted, where such claim is not barred by any legal obligation to
             retain this data.
         </p>
-    </div>
+    </Page>
 );
 
 export default PrivacyPolicy;
