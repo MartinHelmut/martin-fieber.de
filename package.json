@@ -59,7 +59,7 @@
     "react-dom": "16.4.0"
   },
   "devDependencies": {
-    "babel-jest": "22.4.3",
+    "babel-jest": "23.0.1",
     "babel-preset-env": "1.7.0",
     "babel-preset-react": "6.24.1",
     "commitizen": "2.9.6",
@@ -70,7 +70,7 @@
     "eslint-plugin-jsx-a11y": "6.0.3",
     "eslint-plugin-react": "7.8.2",
     "husky": "0.14.3",
-    "jest": "22.4.3",
+    "jest": "23.0.1",
     "lint-staged": "7.1.0",
     "prettier": "1.12.1",
     "react-test-renderer": "16.4.0",
