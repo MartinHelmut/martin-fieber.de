@@ -42,3 +42,4 @@ typings/
 .env
 .next
 .idea/
+public/
