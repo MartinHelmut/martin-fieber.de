@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 const Index = () => (
     <div>
-        <h1>Welcome to next.js!</h1>
+        <h1>Welcome to martin-fieber.de!</h1>
         <Link href="/legalNotice">
             <a>Legal notice</a>
         </Link>
