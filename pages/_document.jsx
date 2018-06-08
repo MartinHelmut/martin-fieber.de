@@ -1,6 +1,28 @@
 import React from 'react';
 import Document, { Head, Main, NextScript } from 'next/document';
 
+// This is a workaround for the following bug:
+// https://github.com/zeit/next.js/issues/3520
+const globalStyle = {
+    __html: `
+    *,
+    *::before,
+    *::after {
+        box-sizing: border-box;
+    }
+    body {
+        font-family: 'HelveticaNeue-Light',
+            'Helvetica Neue Light', 'Helvetica Neue',
+            Helvetica, Arial, 'Lucida Grande', sans-serif;
+        font-weight: 300;
+        font-size: 1.4rem;
+        line-height: 1.65;
+        padding: 0;
+        margin: 0;
+    }
+`
+};
+
 export default class MyDocument extends Document {
     static async getInitialProps(ctx) {
         const initialProps = await Document.getInitialProps(ctx);
@@ -53,23 +75,7 @@ export default class MyDocument extends Document {
                     />
                     <meta name="theme-color" content="#ffffff" />
                     <link rel="stylesheet" href="/_next/static/style.css" />
-                    <style jsx global>{`
-                        *,
-                        *::before,
-                        *::after {
-                            box-sizing: border-box;
-                        }
-                        body {
-                            font-family: 'HelveticaNeue-Light',
-                                'Helvetica Neue Light', 'Helvetica Neue',
-                                Helvetica, Arial, 'Lucida Grande', sans-serif;
-                            font-weight: 300;
-                            font-size: 1rem;
-                            line-height: 1.65;
-                            padding: 0;
-                            margin: 0;
-                        }
-                    `}</style>
+                    <style dangerouslySetInnerHTML={globalStyle} />
                     <title>martin-fieber.de</title>
                 </Head>
                 <body>
