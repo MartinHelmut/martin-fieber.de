@@ -1,26 +1,41 @@
 import React from 'react';
-import Link from 'next/link';
+import RouteLink from 'next/link';
+
+import StyleContext from '../style-context';
+import Header from '../header';
+import Title from '../title';
+import Text from '../text';
+import Link from '../link';
+import Footer from '../footer';
 
 import styles from './index.css';
 
 const Page = ({ children }) => (
-    <div className={styles.page}>
-        <header>
-            <Link href="/">
-                <h1>Martin Helmut Fieber</h1>
-            </Link>
-        </header>
+    <StyleContext className={styles.page}>
+        <Header>
+            <RouteLink href="/" passHref>
+                <Link title="Take my back to start!">
+                    <Title>Martin Helmut Fieber</Title>
+                </Link>
+            </RouteLink>
+        </Header>
         <main>{children}</main>
-        <footer>
-            <Link href="/legal-notice">
-                <a>Legal notice</a>
-            </Link>
-            {' | '}
-            <Link href="/privacy-policy">
-                <a>Privacy policy</a>
-            </Link>
-        </footer>
-    </div>
+        <Footer>
+            <Text>
+                <RouteLink href="/legal-notice" passHref prefetch>
+                    <Link title="Legal notice page includes address and contact information">
+                        Legal notice
+                    </Link>
+                </RouteLink>
+                {' | '}
+                <RouteLink href="/privacy-policy" passHref prefetch>
+                    <Link title="Privacy policy includes cookie information, but there are no cookies">
+                        Privacy policy
+                    </Link>
+                </RouteLink>
+            </Text>
+        </Footer>
+    </StyleContext>
 );
 
 export default Page;
