@@ -4,7 +4,7 @@ module.exports = withCSS({
     cssModules: true,
     exportPathMap: () => ({
         '/': { page: '/' },
-        '/legal-notice': { page: '/legalNotice' },
-        '/privacy-policy': { page: '/privacyPolicy' }
+        '/legal-notice': { page: '/legal-notice' },
+        '/privacy-policy': { page: '/privacy-policy' }
     })
 });
