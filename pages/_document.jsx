@@ -11,12 +11,6 @@ const globalStyle = {
         box-sizing: border-box;
     }
     body {
-        font-family: 'HelveticaNeue-Light',
-            'Helvetica Neue Light', 'Helvetica Neue',
-            Helvetica, Arial, 'Lucida Grande', sans-serif;
-        font-weight: 300;
-        font-size: 1.4rem;
-        line-height: 1.65;
         padding: 0;
         margin: 0;
     }

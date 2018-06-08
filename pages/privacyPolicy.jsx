@@ -1,10 +1,15 @@
 import React from 'react';
+
 import Page from '../patterns/page';
+import Headline from '../patterns/headline';
+import SubHeadline from '../patterns/sub-headline';
+import Text from '../patterns/text';
+import Image from '../patterns/image';
 
 const PrivacyPolicy = () => (
     <Page>
-        <h2>Privacy notice</h2>
-        <p>
+        <Headline>Privacy notice</Headline>
+        <Text>
             My website may be used without entering personal information.
             Different rules may apply to certain services on my site, however,
             and are explained separately below. Information is considered
@@ -14,25 +19,26 @@ const PrivacyPolicy = () => (
             (TMG). The provisions below serve to provide information as to the
             manner, extent and purpose for collecting, using and processing
             personal information.
-        </p>
-        <p>
+        </Text>
+        <Text>
             Please be aware that data transfer via the internet is subject to
             security risks and, therefore, complete protection against
             third-party access to transferred data cannot be ensured.
-        </p>
-        <h3>Cookies</h3>
-        <img
+        </Text>
+        <SubHeadline>Cookies</SubHeadline>
+        <Image
             src="/static/images/cookies.jpg"
             alt="It shows the cookie monster with the subline: ain't no cookies here"
-            width="612"
-            height="440"
+            width={612}
+            height={440}
+            caption="A sad cookie monster caused by abstinence of cookies"
         />
-        <p>
+        <Text>
             There are no cookies here. Seriously, not even any analytics script
             is used.
-        </p>
-        <h3>Information/Cancellation/Deletion</h3>
-        <p>
+        </Text>
+        <SubHeadline>Information/Cancellation/Deletion</SubHeadline>
+        <Text>
             On the basis of the Federal Data Protection Act, you may contact my
             at no cost if you have questions relating to the collection,
             processing or use of your personal information, if you wish to
@@ -41,7 +47,7 @@ const PrivacyPolicy = () => (
             the right to have incorrect data corrected or to have personal data
             deleted, where such claim is not barred by any legal obligation to
             retain this data.
-        </p>
+        </Text>
     </Page>
 );
 
