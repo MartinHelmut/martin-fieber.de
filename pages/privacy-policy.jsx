@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Page from '../patterns/page';
+import Page from '../components/page';
 import Headline from '../patterns/headline';
 import SubHeadline from '../patterns/sub-headline';
 import Text from '../patterns/text';

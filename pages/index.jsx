@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Page from '../patterns/page';
+import Page from '../components/page';
 import Text from '../patterns/text';
 import Link from '../patterns/link';
 
