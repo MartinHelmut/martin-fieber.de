@@ -55,8 +55,8 @@
     "@zeit/next-css": "0.2.0",
     "classnames": "2.2.6",
     "next": "6.0.3",
-    "react": "16.4.0",
-    "react-dom": "16.4.0"
+    "react": "16.4.1",
+    "react-dom": "16.4.1"
   },
   "devDependencies": {
     "babel-jest": "23.0.1",
@@ -73,7 +73,7 @@
     "jest": "23.1.0",
     "lint-staged": "7.2.0",
     "prettier": "1.13.5",
-    "react-test-renderer": "16.4.0",
+    "react-test-renderer": "16.4.1",
     "standard-version": "4.4.0",
     "stylelint": "9.2.1",
     "stylelint-config-prettier": "3.2.0",
