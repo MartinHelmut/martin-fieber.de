@@ -52,7 +52,7 @@
   },
   "homepage": "https://martin-fieber.de/",
   "dependencies": {
-    "@zeit/next-css": "0.2.0",
+    "@zeit/next-css": "1.0.1",
     "classnames": "2.2.6",
     "next": "6.1.2",
     "react": "16.5.0",
