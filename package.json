@@ -59,7 +59,7 @@
     "react-dom": "16.6.0"
   },
   "devDependencies": {
-    "@babel/preset-env": "7.1.0",
+    "@babel/preset-env": "7.1.5",
     "@babel/preset-react": "7.0.0",
     "babel-jest": "23.6.0",
     "commitizen": "3.0.4",
