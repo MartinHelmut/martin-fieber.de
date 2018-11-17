@@ -71,7 +71,7 @@
     "eslint-plugin-react": "7.11.1",
     "husky": "1.1.4",
     "jest": "23.6.0",
-    "lint-staged": "7.3.0",
+    "lint-staged": "8.0.5",
     "prettier": "1.15.2",
     "react-test-renderer": "16.6.3",
     "standard-version": "4.4.0",
