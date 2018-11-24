@@ -1,9 +1,9 @@
-import React from 'react';
+import styled from 'styled-components';
 
-import styles from './index.css';
-
-const Footer = ({ children }) => (
-    <footer className={styles.footer}>{children}</footer>
-);
+const Footer = styled.footer`
+    border-top: var(--size-100) solid #aaa;
+    margin: var(--size-700) 0 0 0;
+    padding: var(--size-400) 0 0 0;
+`;
 
 export default Footer;

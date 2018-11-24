@@ -1,5 +1,6 @@
 import React from 'react';
-import Document, { Head, Main, NextScript } from 'next/document';
+import App, { Container } from 'next/app';
+import Head from 'next/head';
 
 // This is a workaround for the following bug:
 // https://github.com/zeit/next.js/issues/3520
@@ -17,15 +18,20 @@ const globalStyle = {
 `
 };
 
-export default class MyDocument extends Document {
-    static async getInitialProps(ctx) {
-        const initialProps = await Document.getInitialProps(ctx);
-        return { ...initialProps };
+export default class MyApp extends App {
+    static async getInitialProps({ Component, router, ctx }) {
+        if (Component.getInitialProps) {
+            return await Component.getInitialProps(ctx);
+        }
+
+        return {};
     }
 
     render() {
+        const { Component, pageProps } = this.props;
+
         return (
-            <html>
+            <Container>
                 <Head>
                     <meta charSet="utf-8" />
                     <meta
@@ -68,15 +74,11 @@ export default class MyDocument extends Document {
                         content="/static/browserconfig.xml"
                     />
                     <meta name="theme-color" content="#ffffff" />
-                    <link rel="stylesheet" href="/_next/static/style.css" />
                     <style dangerouslySetInnerHTML={globalStyle} />
                     <title>martin-fieber.de</title>
                 </Head>
-                <body>
-                    <Main />
-                    <NextScript />
-                </body>
-            </html>
+                <Component {...pageProps} />
+            </Container>
         );
     }
 }

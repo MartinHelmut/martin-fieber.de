@@ -1,7 +1,7 @@
 {
     "root": true,
     "extends": ["eslint:recommended", "plugin:react/recommended", "prettier"],
-    "plugins": ["jsx-a11y", "import"],
+    "plugins": ["jsx-a11y", "import", "react"],
     "parserOptions": {
         "ecmaVersion": 2018,
         "sourceType": "module",
@@ -10,11 +10,12 @@
         }
     },
     "env": {
+        "browser": true,
         "node": true,
         "jest": true,
         "es6": true
     },
     "rules": {
-        "react/prop-types": false
+        "react/prop-types": "off"
     }
 }

@@ -1,9 +1,12 @@
-import React from 'react';
+import styled from 'styled-components';
 
-import styles from './index.css';
-
-const TextHeading = ({ children }) => (
-    <h4 className={styles.textHeading}>{children}</h4>
-);
+const TextHeading = styled.h4`
+    font-family: var(--base-font);
+    font-size: 1.33em;
+    font-weight: bold;
+    line-height: 1.65;
+    margin: 0 0 var(--size-500) 0;
+    padding: 0;
+`;
 
 export default TextHeading;

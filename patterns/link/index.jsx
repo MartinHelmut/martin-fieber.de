@@ -1,11 +1,13 @@
-import React from 'react';
+import styled from 'styled-components';
 
-import styles from './index.css';
+const Link = styled.a`
+    color: #09f;
+    cursor: pointer;
+    text-decoration: none;
 
-const Link = ({ children, href, title }) => (
-    <a className={styles.link} href={href} title={title}>
-        {children}
-    </a>
-);
+    &:hover {
+        text-decoration: underline;
+    }
+`;
 
 export default Link;

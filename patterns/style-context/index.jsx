@@ -1,12 +1,20 @@
-import React from 'react';
-import classnames from 'classnames';
+import styled from 'styled-components';
 
-import styles from './index.css';
+const StyleContext = styled.div`
+    /* Typography */
+    --base-font: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue',
+        Helvetica, Arial, 'Lucida Grande', sans-serif;
 
-const StyleContext = ({ children, className, context = 'website' }) => {
-    const classNames = classnames(styles[context], className);
-
-    return <div className={classNames}>{children}</div>;
-};
+    /* Sizes */
+    --size-100: 1px;
+    --size-200: 2px;
+    --size-300: 5px;
+    --size-400: 10px;
+    --size-500: 20px;
+    --size-600: 30px;
+    --size-700: 40px;
+    --size-800: 60px;
+    --size-900: 80px;
+`;
 
 export default StyleContext;
