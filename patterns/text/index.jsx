@@ -1,7 +1,12 @@
-import React from 'react';
+import styled from 'styled-components';
 
-import styles from './index.css';
-
-const Text = ({ children }) => <p className={styles.text}>{children}</p>;
+const Text = styled.p`
+    font-family: var(--base-font);
+    font-size: 1.4rem;
+    font-weight: 300;
+    line-height: 1.65;
+    margin: 0 0 var(--size-500) 0;
+    padding: 0;
+`;
 
 export default Text;

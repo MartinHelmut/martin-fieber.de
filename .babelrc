@@ -1,4 +1,5 @@
 {
+    "plugins": ["styled-components"],
     "env": {
         "development": {
             "presets": ["next/babel"]

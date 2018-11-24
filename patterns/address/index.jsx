@@ -1,13 +1,16 @@
 import React from 'react';
+import styled from 'styled-components';
 
 import Text from '../text';
 
-import styles from './index.css';
+const StyledAddress = styled.address`
+    font-style: italic;
+`;
 
 const Address = ({ children }) => (
-    <address className={styles.address}>
+    <StyledAddress>
         <Text>{children}</Text>
-    </address>
+    </StyledAddress>
 );
 
 export default Address;
