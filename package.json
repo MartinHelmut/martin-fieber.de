@@ -52,16 +52,16 @@
   },
   "homepage": "https://martin-fieber.de/",
   "dependencies": {
-    "@zeit/next-css": "1.0.1",
-    "classnames": "2.2.6",
     "next": "7.0.2",
     "react": "16.6.3",
-    "react-dom": "16.6.3"
+    "react-dom": "16.6.3",
+    "styled-components": "4.1.1"
   },
   "devDependencies": {
     "@babel/preset-env": "7.1.6",
     "@babel/preset-react": "7.0.0",
     "babel-jest": "23.6.0",
+    "babel-plugin-styled-components": "1.8.0",
     "commitizen": "3.0.4",
     "cz-conventional-changelog": "2.1.0",
     "eslint": "5.9.0",
@@ -72,11 +72,14 @@
     "husky": "1.2.0",
     "jest": "23.6.0",
     "lint-staged": "8.1.0",
+    "postcss": "7.0.6",
     "prettier": "1.15.2",
     "react-test-renderer": "16.6.3",
     "standard-version": "4.4.0",
     "stylelint": "9.8.0",
     "stylelint-config-prettier": "4.0.0",
-    "stylelint-config-standard": "18.2.0"
+    "stylelint-config-standard": "18.2.0",
+    "stylelint-config-styled-components": "0.1.1",
+    "stylelint-processor-styled-components": "1.5.1"
   }
 }

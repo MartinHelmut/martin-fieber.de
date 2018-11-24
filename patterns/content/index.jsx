@@ -1,9 +1,9 @@
-import React from 'react';
+import styled from 'styled-components';
 
-import styles from './index.css';
-
-const Content = ({ children }) => (
-    <div className={styles.content}>{children}</div>
-);
+const Content = styled.div`
+    margin: 0 auto;
+    max-width: 660px;
+    padding: 20px;
+`;
 
 export default Content;
