@@ -13,7 +13,7 @@ const Media = styled.img`
 `;
 
 const Caption = styled.figcaption`
-    color: #aaa;
+    color: var(--color-grey-500);
     font-family: var(--base-font);
     font-size: 0.8rem;
     font-weight: 300;

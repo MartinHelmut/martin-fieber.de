@@ -15,6 +15,15 @@ const StyleContext = styled.div`
     --size-700: 40px;
     --size-800: 60px;
     --size-900: 80px;
+
+    /* Colors */
+    --color-blue-300: #69c9ff;
+    --color-blue-500: #0099ff;
+    --color-blue-700: #006ccb;
+
+    --color-grey-300: #dcdcdc;
+    --color-grey-500: #aaaaaa;
+    --color-grey-700: #7b7b7b;
 `;
 
 export default StyleContext;
