@@ -1,16 +1,18 @@
 {
-    "plugins": ["styled-components"],
     "env": {
         "development": {
-            "presets": ["next/babel"]
+            "presets": ["next/babel"],
+            "plugins": ["styled-components"]
         },
         "production": {
-            "presets": ["next/babel"]
+            "presets": ["next/babel"],
+            "plugins": ["styled-components"]
         },
         "test": {
             "presets": [
                 ["next/babel", { "preset-env": { "modules": "commonjs" } }]
-            ]
+            ],
+            "plugins": ["styled-components"]
         }
     }
 }
