@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 const Link = styled.a`
-    color: #09f;
+    color: var(--color-blue-500);
     cursor: pointer;
     text-decoration: none;
 
