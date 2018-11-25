@@ -16,13 +16,20 @@ const Intro = () => (
                 title="Website of SinnerSchrader"
             >
                 @sinnerschrader
-            </Link>{' '}
-            and hobby coder at{' '}
+            </Link>
+            , part-time project maintainer at{' '}
             <Link
                 href="https://github.com/MartinHelmut"
                 title="Link to my profile on Github."
             >
                 Github
+            </Link>{' '}
+            and sometimes visible at{' '}
+            <Link
+                href="https://twitter.com/MartinFieber"
+                title="My twitter profile"
+            >
+                Twitter
             </Link>
             .
         </Text>
