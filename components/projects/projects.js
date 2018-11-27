@@ -31,7 +31,7 @@ export const projects = [
     {
         name: 'strex-lang',
         description:
-            'The "Strange expression language" is only used to train regular expressions and parser design for JavaScript in a hopefully not so boring way. It is a project where a mentor and trainee can also work together in a predefined environment.',
+            'The "Strange expression language" is only used to train regular expressions and parser design for JavaScript in a hopefully not so boring way. It is a project where a mentor and trainee can work together in a predefined environment.',
         link: {
             href: 'https://github.com/MartinHelmut/strex-lang',
             title: 'This is the StrexLang project page on Github.'
