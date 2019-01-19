@@ -6,6 +6,7 @@
   "scripts": {
     "start": "next start",
     "build": "next build && next export -o public",
+    "postbuild": "cp deployment/_redirects public/_redirects",
     "dev": "next",
     "test": "jest",
     "precommit": "lint-staged",
