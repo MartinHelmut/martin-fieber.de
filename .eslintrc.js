@@ -1,23 +1,17 @@
+"use strict";
+
 module.exports = {
-    env: {
-        browser: true,
-        node: true,
-        es6: true,
-        jest: true
-    },
-    extends: 'eslint:recommended',
-    parserOptions: {
-        ecmaFeatures: {
-            jsx: true
-        },
-        ecmaVersion: 2018,
-        sourceType: 'module'
-    },
-    plugins: ['react'],
-    rules: {
-        indent: ['error', 4],
-        'linebreak-style': ['error', 'unix'],
-        quotes: ['error', 'single'],
-        semi: ['error', 'always']
-    }
+  root: true,
+  extends: ["eslint:recommended", "plugin:react/recommended", "prettier"],
+  plugins: ["jsx-a11y", "import"],
+  parserOptions: {
+    ecmaVersion: 8,
+    sourceType: "module"
+  },
+  env: {
+    node: true,
+    browser: true,
+    jest: true,
+    es6: true
+  }
 };
