@@ -1,11 +1,9 @@
 language: node_js
 node_js:
-  - 'node'
+  - "node"
   - 10
   - 8
 install:
   - npm install
 script:
-  - npm run fmt:check
-  - npm run lint
-  - npm test
+  - npm run ci
