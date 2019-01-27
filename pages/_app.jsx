@@ -68,6 +68,10 @@ export default class MyApp extends App {
             content="/static/browserconfig.xml"
           />
           <meta name="theme-color" content="#ffffff" />
+          <meta
+            name="google-site-verification"
+            content="pXBMFUxwvr8ZPU6AfU6XNt3rCCRtOC5bMe1N3REDrjI"
+          />
           <style dangerouslySetInnerHTML={globalStyle} />
           <meta
             name="description"
