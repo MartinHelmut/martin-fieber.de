@@ -8,7 +8,7 @@ import Text from "../patterns/text";
 import Address from "../patterns/address";
 
 const LegalNotice = () => (
-  <Page>
+  <Page title="legal notice">
     <Headline>Legal notice</Headline>
     <Text>Information in accordance with section 5 TMG</Text>
     <Address>

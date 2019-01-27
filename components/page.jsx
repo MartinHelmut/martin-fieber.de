@@ -1,5 +1,6 @@
 import React from "react";
 import RouteLink from "next/link";
+import Head from "next/head";
 
 import StyleContext from "../patterns/style-context";
 import Content from "../patterns/content";
@@ -8,8 +9,12 @@ import Title from "../patterns/title";
 import Link from "../patterns/link";
 import Footer from "../patterns/footer";
 
-const Page = ({ children }) => (
+const Page = ({ children, title = "", description = "" }) => (
   <StyleContext>
+    <Head>
+      <title>martin-fieber.de{title ? ` | ${title}` : ""}</title>
+      {description && <meta type="description" content={description} />}
+    </Head>
     <Content>
       <Header>
         <RouteLink href="/" passHref>
