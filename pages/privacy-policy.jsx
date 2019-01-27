@@ -7,7 +7,7 @@ import Text from "../patterns/text";
 import Image from "../patterns/image";
 
 const PrivacyPolicy = () => (
-  <Page>
+  <Page title="privacy policy">
     <Headline>Privacy notice</Headline>
     <Text>
       My website may be used without entering personal information. Different
