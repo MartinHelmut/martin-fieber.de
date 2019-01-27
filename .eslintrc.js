@@ -13,5 +13,10 @@ module.exports = {
     browser: true,
     jest: true,
     es6: true
+  },
+  settings: {
+    react: {
+      version: "detect"
+    }
   }
 };
