@@ -1,5 +1,7 @@
+"use strict";
+
 module.exports = {
-    testEnvironment: 'jsdom',
-    testURL: 'http://localhost/',
-    testPathIgnorePatterns: ['/node_modules/', '/.next/', '/public/']
+  collectCoverage: true,
+  coverageReporters: ["text"],
+  modulePathIgnorePatterns: ["/.next/", "/public/"]
 };
