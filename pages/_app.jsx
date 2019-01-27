@@ -70,6 +70,10 @@ export default class MyApp extends App {
           <meta name="theme-color" content="#ffffff" />
           <style dangerouslySetInnerHTML={globalStyle} />
           <title>martin-fieber.de</title>
+          <meta
+            name="description"
+            content="My personal homepage including projects, things I do, and where I work. Also some social media where I am active."
+          />
         </Head>
         <Component {...pageProps} />
       </Container>
