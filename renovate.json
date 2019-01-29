@@ -9,5 +9,32 @@
     "semanticCommitScope": ""
   },
   "semanticPrefix": "chore:",
-  "semanticCommitScope": ""
+  "semanticCommitScope": "",
+  "packageRules": [
+    {
+      "packagePatterns": ["^@babel/"],
+      "groupName": "Babel packages",
+      "automerge": true
+    },
+    {
+      "packagePatterns": ["^eslint"],
+      "groupName": "ESlint packages",
+      "automerge": true
+    },
+    {
+      "packagePatterns": ["^stylelint"],
+      "groupName": "StyleLint packages",
+      "automerge": true
+    },
+    {
+      "packageNames": [
+        "babel-jest",
+        "babel-plugin-styled-components",
+        "jest",
+        "prettier",
+        "react-test-renderer"
+      ],
+      "automerge": true
+    }
+  ]
 }
