@@ -19,11 +19,6 @@
     "node": ">=10",
     "npm": ">=6"
   },
-  "config": {
-    "commitizen": {
-      "path": "cz-conventional-changelog"
-    }
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/MartinHelmut/martin-fieber.de.git"
