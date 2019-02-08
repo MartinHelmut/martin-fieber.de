@@ -1,10 +1,10 @@
 import React from "react";
 
-import Page from "../components/page";
 import Headline from "../patterns/headline";
+import Image from "../patterns/image";
+import Page from "../components/page";
 import SubHeadline from "../patterns/sub-headline";
 import Text from "../patterns/text";
-import Image from "../patterns/image";
 
 const PrivacyPolicy = () => (
   <Page title="privacy policy">
@@ -24,7 +24,7 @@ const PrivacyPolicy = () => (
       risks and, therefore, complete protection against third-party access to
       transferred data cannot be ensured.
     </Text>
-    <SubHeadline>Cookies</SubHeadline>
+    <SubHeadline id="cookies">Cookies</SubHeadline>
     <Image
       src="/static/images/cookies.jpg"
       alt="It shows the cookie monster with the subline: ain't no cookies here"

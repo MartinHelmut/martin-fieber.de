@@ -1,11 +1,11 @@
 import React from "react";
 
-import Page from "../components/page";
-import Headline from "../patterns/headline";
-import SubHeadline from "../patterns/sub-headline";
-import TextHeading from "../patterns/text-heading";
-import Text from "../patterns/text";
 import Address from "../patterns/address";
+import Headline from "../patterns/headline";
+import Page from "../components/page";
+import SubHeadline from "../patterns/sub-headline";
+import Text from "../patterns/text";
+import TextHeading from "../patterns/text-heading";
 
 const LegalNotice = () => (
   <Page title="legal notice">
@@ -18,7 +18,7 @@ const LegalNotice = () => (
       <br />
       21335 Lüneburg
     </Address>
-    <SubHeadline>Contact</SubHeadline>
+    <SubHeadline id="contact">Contact</SubHeadline>
     <Text>
       Telephone: +49 174 3821210
       <br />
@@ -26,8 +26,10 @@ const LegalNotice = () => (
       <br />
       Website: https://martin-fieber.de
     </Text>
-    <SubHeadline>Disclaimer</SubHeadline>
-    <TextHeading>Accountability for content</TextHeading>
+    <SubHeadline id="disclaimer">Disclaimer</SubHeadline>
+    <TextHeading id="accountability-for-content">
+      Accountability for content
+    </TextHeading>
     <Text>
       The contents of my pages have been created with the utmost care. However,
       I cannot guarantee the contents&apos; accuracy, completeness or
@@ -39,14 +41,16 @@ const LegalNotice = () => (
       block the use of information under generally applicable laws remain
       unaffected by this as per §§ 8 to 10 of the Telemedia Act (TMG).
     </Text>
-    <TextHeading>Accountability for links</TextHeading>
+    <TextHeading id="accountability-for-links">
+      Accountability for links
+    </TextHeading>
     <Text>
       Responsibility for the content of external links (to web pages of third
       parties) lies solely with the operators of the linked pages. No violations
       were evident to my at the time of linking. Should any legal infringement
       become known to my, I will remove the respective link immediately.
     </Text>
-    <TextHeading>Copyright</TextHeading>
+    <TextHeading id="copyright">Copyright</TextHeading>
     <Text>
       My web pages and their contents are subject to German copyright law.
       Unless expressly permitted by law (§ 44a et seq. of the copyright law),
