@@ -1,0 +1,34 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Image should render 1`] = `
+<figure
+  className="image__Figure-lrfufk-0 jCBCVM"
+>
+  <img
+    alt="Alternative text"
+    className="image__Media-lrfufk-1 feNlVn"
+    height={500}
+    src="image.png"
+    width={500}
+  />
+</figure>
+`;
+
+exports[`Image should render with caption 1`] = `
+<figure
+  className="image__Figure-lrfufk-0 jCBCVM"
+>
+  <img
+    alt="Alternative text"
+    className="image__Media-lrfufk-1 feNlVn"
+    height={500}
+    src="image.png"
+    width={500}
+  />
+  <figcaption
+    className="image__Caption-lrfufk-2 kDzRYO"
+  >
+    An image caption
+  </figcaption>
+</figure>
+`;

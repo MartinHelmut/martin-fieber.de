@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Headline should render 1`] = `
+<h2
+  className="headline__Headline-sc-187wqm3-0 jRFxZA"
+>
+  Headline text
+</h2>
+`;

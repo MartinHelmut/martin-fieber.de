@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Image should render 1`] = `
+<a
+  className="link__Link-sc-1yuyujg-0 bfXUFJ"
+  href="#"
+  title="Link title"
+>
+  Click me
+</a>
+`;

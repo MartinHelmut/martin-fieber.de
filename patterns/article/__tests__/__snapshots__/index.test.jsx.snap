@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Article should render 1`] = `
+<article
+  className="article__Article-sc-16t7s8b-0 gOzHOE"
+>
+  An interesting article
+</article>
+`;

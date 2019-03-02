@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Title should render 1`] = `
+<h1
+  className="title__Title-sc-1ijci5d-0 shcHk"
+>
+  Main page title
+</h1>
+`;
