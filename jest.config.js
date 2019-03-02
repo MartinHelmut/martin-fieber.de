@@ -2,7 +2,8 @@
 
 module.exports = {
   collectCoverage: true,
-  coverageReporters: ["text"],
+  coverageDirectory: "./coverage",
+  coverageReporters: ["text", "lcov"],
   modulePathIgnorePatterns: ["/.next/", "/public/"],
   reporters: ["jest-dot-reporter"],
   verbose: false
