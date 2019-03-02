@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Footer should render 1`] = `
+<p
+  className="text__Text-sc-1ado5hh-0 footer__Footer-sc-5zdu7-0 kDVjiF"
+>
+  Bottom data
+</p>
+`;

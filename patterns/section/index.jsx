@@ -1,7 +1,7 @@
+import React from "react";
 import styled from "styled-components";
 
 import Headline from "../headline";
-import Link from "../link";
 
 const StyledSection = styled.section`
   border-top: 1px solid var(--color-grey-500);

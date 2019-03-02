@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SubHeadline should render 1`] = `
+<h3
+  className="sub-headline__SubHeadline-sc-1gyh0pj-0 iKGZIT"
+>
+  Secondary headline
+</h3>
+`;

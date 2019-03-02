@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Address should render 1`] = `
+<address
+  className="address__StyledAddress-sc-12l9ifm-0 cphSeS"
+>
+  <p
+    className="text__Text-sc-1ado5hh-0 fbhhob"
+  >
+    Home street 1
+  </p>
+</address>
+`;
