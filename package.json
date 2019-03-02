@@ -49,7 +49,7 @@
     "babel-jest": "24.1.0",
     "babel-plugin-styled-components": "1.10.0",
     "commitizen": "3.0.7",
-    "eslint": "5.14.1",
+    "eslint": "5.15.0",
     "eslint-config-prettier": "4.1.0",
     "eslint-plugin-import": "2.16.0",
     "eslint-plugin-jsx-a11y": "6.2.1",
