@@ -9,11 +9,11 @@
     "postbuild": "cp deployment/* public/",
     "dev": "next",
     "test": "jest",
+    "coverage": "jest --coverage && cat ./coverage/lcov.info | coveralls",
     "commit": "git-cz",
     "lint": "eslint '**/*.js' && stylelint '**/*.css'",
     "format": "prettier --write \"**/*.{js,jsx,css,md,json,yml}\"",
-    "format:check": "prettier --list-different \"**/*.{js,jsx,css,md,json,yml}\"",
-    "ci": "npm run lint && npm run format:check && npm test"
+    "format:check": "prettier --list-different \"**/*.{js,jsx,css,md,json,yml}\""
   },
   "engines": {
     "node": ">=10",
@@ -48,6 +48,7 @@
     "babel-jest": "24.1.0",
     "babel-plugin-styled-components": "1.10.0",
     "commitizen": "3.0.7",
+    "coveralls": "3.0.3",
     "eslint": "5.15.0",
     "eslint-config-prettier": "4.1.0",
     "eslint-plugin-import": "2.16.0",
