@@ -38,8 +38,8 @@
   "homepage": "https://martin-fieber.de/",
   "dependencies": {
     "next": "8.0.3",
-    "react": "16.8.4",
-    "react-dom": "16.8.4",
+    "react": "16.8.5",
+    "react-dom": "16.8.5",
     "styled-components": "4.2.0"
   },
   "devDependencies": {
@@ -57,7 +57,7 @@
     "jest": "24.5.0",
     "jest-dot-reporter": "1.0.7",
     "prettier": "1.16.4",
-    "react-test-renderer": "16.8.4",
+    "react-test-renderer": "16.8.5",
     "stylelint": "9.10.1",
     "stylelint-config-standard": "18.2.0",
     "stylelint-config-styled-components": "0.1.1",
