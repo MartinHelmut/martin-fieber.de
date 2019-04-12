@@ -56,7 +56,7 @@
     "eslint-plugin-react": "7.12.4",
     "jest": "24.7.1",
     "jest-dot-reporter": "1.0.7",
-    "prettier": "1.16.4",
+    "prettier": "1.17.0",
     "react-test-renderer": "16.8.6",
     "stylelint": "9.10.1",
     "stylelint-config-standard": "18.2.0",
