@@ -7,9 +7,6 @@ const Article = styled.article`
 
   &:last-child {
     border: 0;
-  }
-
-  &:last-child {
     margin: 0;
   }
 `;

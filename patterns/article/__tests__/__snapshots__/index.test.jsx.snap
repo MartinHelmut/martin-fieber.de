@@ -1,8 +1,19 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Article should render 1`] = `
+.c0 {
+  border-bottom: 1px solid var(--color-grey-500);
+  padding: var(--size-500) 0;
+  margin: 0 0 var(--size-500) 0;
+}
+
+.c0:last-child {
+  border: 0;
+  margin: 0;
+}
+
 <article
-  className="article__Article-sc-16t7s8b-0 gOzHOE"
+  className="c0"
 >
   An interesting article
 </article>

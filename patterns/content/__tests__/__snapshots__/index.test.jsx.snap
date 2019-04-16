@@ -1,8 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Content should render 1`] = `
+.c0 {
+  margin: 0 auto;
+  max-width: 660px;
+  padding: var(--size-500);
+}
+
 <div
-  className="content__Content-sc-1fjjc5a-0 hukOzd"
+  className="c0"
 >
   Much content
 </div>

@@ -1,8 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Title should render 1`] = `
+.c0 {
+  font-family: var(--base-font);
+  font-size: 2em;
+  font-weight: bold;
+  line-height: 1.65;
+  margin: 0;
+  padding: 0;
+}
+
 <h1
-  className="title__Title-sc-1ijci5d-0 shcHk"
+  className="c0"
 >
   Main page title
 </h1>
