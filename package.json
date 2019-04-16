@@ -11,7 +11,7 @@
     "test": "jest",
     "coverage": "jest --coverage && cat ./coverage/lcov.info | coveralls",
     "commit": "git-cz",
-    "lint": "eslint '**/*.js' && stylelint '**/*.css'",
+    "lint": "eslint '**/*.js' && stylelint '**/*.jsx'",
     "format": "prettier --write \"**/*.{js,jsx,css,md,json,yml}\"",
     "format:check": "prettier --list-different \"**/*.{js,jsx,css,md,json,yml}\""
   },
@@ -56,9 +56,10 @@
     "eslint-plugin-react": "7.12.4",
     "jest": "24.7.1",
     "jest-dot-reporter": "1.0.7",
+    "jest-styled-components": "6.3.1",
     "prettier": "1.17.0",
     "react-test-renderer": "16.8.6",
-    "stylelint": "9.10.1",
+    "stylelint": "10.0.1",
     "stylelint-config-standard": "18.3.0",
     "stylelint-config-styled-components": "0.1.1",
     "stylelint-processor-styled-components": "1.6.0"

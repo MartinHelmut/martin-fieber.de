@@ -1,12 +1,23 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Image should render 1`] = `
+.c0 {
+  margin: 0 0 var(--size-500) 0;
+  padding: 0;
+  text-align: center;
+}
+
+.c1 {
+  height: auto;
+  max-width: 100%;
+}
+
 <figure
-  className="image__Figure-lrfufk-0 jCBCVM"
+  className="c0"
 >
   <img
     alt="Alternative text"
-    className="image__Media-lrfufk-1 feNlVn"
+    className="c1"
     height={500}
     src="image.png"
     width={500}
@@ -15,18 +26,40 @@ exports[`Image should render 1`] = `
 `;
 
 exports[`Image should render with caption 1`] = `
+.c0 {
+  margin: 0 0 var(--size-500) 0;
+  padding: 0;
+  text-align: center;
+}
+
+.c1 {
+  height: auto;
+  max-width: 100%;
+}
+
+.c2 {
+  color: var(--color-grey-500);
+  font-family: var(--base-font);
+  font-size: 0.8rem;
+  font-weight: 300;
+  line-height: 1.65;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
 <figure
-  className="image__Figure-lrfufk-0 jCBCVM"
+  className="c0"
 >
   <img
     alt="Alternative text"
-    className="image__Media-lrfufk-1 feNlVn"
+    className="c1"
     height={500}
     src="image.png"
     width={500}
   />
   <figcaption
-    className="image__Caption-lrfufk-2 kDzRYO"
+    className="c2"
   >
     An image caption
   </figcaption>
