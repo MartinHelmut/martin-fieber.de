@@ -19,14 +19,6 @@ const globalStyle = {
 };
 
 export default class MyApp extends App {
-  static async getInitialProps({ Component, router, ctx }) {
-    if (Component.getInitialProps) {
-      return await Component.getInitialProps(ctx);
-    }
-
-    return {};
-  }
-
   render() {
     const { Component, pageProps } = this.props;
 

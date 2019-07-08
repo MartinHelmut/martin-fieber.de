@@ -5,8 +5,8 @@
   "private": true,
   "scripts": {
     "start": "next start",
-    "build": "next build && next export -o public",
-    "postbuild": "cp deployment/* public/",
+    "build": "next build && next export",
+    "postbuild": "cp deployment/* out/",
     "dev": "next",
     "test": "jest",
     "coverage": "jest --coverage && cat ./coverage/lcov.info | coveralls",
@@ -37,7 +37,7 @@
   },
   "homepage": "https://martin-fieber.de/",
   "dependencies": {
-    "next": "8.1.0",
+    "next": "9.0.0",
     "react": "16.8.6",
     "react-dom": "16.8.6",
     "styled-components": "4.3.2"
