@@ -2,7 +2,7 @@ export const projects = [
   {
     name: "number-generator",
     description:
-      "Generate pseudo random numbers with the Alea algorithm and hash numbers with MurmurHash2 and 3.",
+      "Generate repeatable pseudo random numbers and non-cryptographic hash numbers for usage in Node.js and browser environments.",
     link: {
       href: "https://github.com/MartinHelmut/number-generator",
       title: "Visit the Github page for the number-generator project."
@@ -13,22 +13,23 @@ export const projects = [
     }
   },
   {
-    name: "berries",
+    name: "@krieselreihe/natr",
     description:
-      "Helper and tools to speed up and support your developer workflow. Pick your berries! 🍇",
+      "Not another test runner! (natr) But it is, and it is a highly opinionated one that is used for my own projects.",
     link: {
-      href: "https://github.com/MartinHelmut/berries",
-      title: "Visit the Github page for the berries project."
+      href: "https://github.com/krieselreihe/natr",
+      title: "Visit the Github page for the natr project."
     },
     docs: {
-      href: "https://github.com/MartinHelmut/berries/blob/master/README.md",
-      title: "Read about what packages are included in the berries toolchain."
+      href: "https://github.com/krieselreihe/natr/blob/master/README.md",
+      title:
+        "See how you can use natr for your own projects. Important note: The test runner is a MVP."
     }
   },
   {
     name: "strex-lang",
     description:
-      'The "Strange expression language" is only used to train regular expressions and parser design for JavaScript in a hopefully not so boring way. It is a project where a mentor and trainee can work together in a predefined environment.',
+      'The "Strange expression language" is only used to train regular expressions for JavaScript and a bit of parser design in a hopefully not so boring way. It is a project where a mentor and trainee can work together in a predefined environment.',
     link: {
       href: "https://github.com/MartinHelmut/strex-lang",
       title: "This is the StrexLang project page on Github."

@@ -6,16 +6,15 @@ import Link from "../../patterns/link";
 const Intro = () => (
   <React.Fragment>
     <Text>
-      I do JavaScript, TypeScript, Node.js, React, Machine Learning, Python,
-      Reading, Writing or: stuff!
+      I do JavaScript, Node.js, React, C++, Python, Reading, Writing or: stuff!
     </Text>
     <Text>
-      Also Senior Product Engineer{" "}
+      Also Senior Software Engineer{" "}
       <Link
-        href="https://sinnerschrader.com/"
-        title="Website of SinnerSchrader"
+        href="https://www.klarna.com/"
+        title="Website of Klarna Smoooth Payments"
       >
-        @sinnerschrader
+        @Klarna
       </Link>
       , part-time project maintainer at{" "}
       <Link
