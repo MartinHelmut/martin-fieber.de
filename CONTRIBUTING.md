@@ -1,7 +1,6 @@
 # Contributing
 
-You want do something for this repo? Nice and easy! And of course: you
-are the best!
+You want do something for this repo? Nice and easy! And of course: you are the best!
 
 ## Issues
 
@@ -29,44 +28,44 @@ Once you have tried the above, create a GitHub pull request with your changes ch
 
 ### Environment
 
-Tested with Node 8 and NPM 6 and up.
+Tested with Node 8 and Yarn 1.17 and up.
 
 ### Setup
 
 Clone the repo and run an install:
 
-```shell
-$ git clone git@github.com:MartinHelmut/martin-fieber.de.git && cd martin-fieber.de && npm install
+```bash
+git clone git@github.com:MartinHelmut/martin-fieber.de.git && cd martin-fieber.de && yarn
 ```
 
 ### Build
 
 To create a production build of the application:
 
-```shell
-npm run build
+```bash
+yarn build
 ```
 
 ### Tests
 
 Tests are written in [Jest][jturl]. To run all tests execute
 
-```shell
-$ npm test
+```bash
+yarn test
 ```
 
 and to lint all the code:
 
-```shell
-$ npm run lint
+```bash
+yarn lint
 ```
 
 ### Format check
 
 You can also run a prettier verification for all JS files in all packages with:
 
-```shell
-$ npm run fmt:check
+```bash
+yarn fmt:check
 ```
 
 This will list changes that would be made on commit (commit hook is installed with husky).
@@ -77,22 +76,22 @@ This will list changes that would be made on commit (commit hook is installed wi
 
 Checkout a new branch, e.g.:
 
-```shell
-$ git checkout -b task/do-something
+```bash
+git checkout -b task/do-something
 ```
 
 **There is no specific naming convention for branches.**
 
-Add your changes and run `npm run commit` to start the commitizen cli to create a proper commit message.
+Add your changes and run `yarn commit` to start the commitizen cli to create a proper commit message.
 
 Create a "Pull Request" on Github and be awesome! 😎
 
 ## Recommended workflow for release
 
 1.  Make changes
-2.  Commit those changes with `npm run commit`
+2.  Commit those changes with `yarn commit`
 3.  Make sure all tests turn green
-4.  Create a new release with `npm run release`
+4.  Create a new release with `yarn release`
 5.  Push your release `git push --follow-tags origin master`
 6.  **Done!**
 

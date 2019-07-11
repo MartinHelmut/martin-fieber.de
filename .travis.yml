@@ -1,18 +1,10 @@
 language: node_js
 
 cache:
+  yarn: true
   directories:
     - node_modules
 
-node_js:
-  - 10
-  - 8
+node_js: "10"
 
-install:
-  - npm install
-
-script:
-  - npm run lint
-  - npm run format:check
-  - npm test
-  - npm run coverage
+script: yarn ci
