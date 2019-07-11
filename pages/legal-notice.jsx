@@ -14,9 +14,11 @@ const LegalNotice = () => (
     <Address>
       Martin Helmut Fieber
       <br />
-      Heiligengeiststr. 14
+      Nybergsgatan 10
       <br />
-      21335 Lüneburg
+      11445 Stockholm
+      <br />
+      Sweden
     </Address>
     <SubHeadline id="contact">Contact</SubHeadline>
     <Text>
