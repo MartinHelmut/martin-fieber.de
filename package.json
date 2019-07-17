@@ -47,7 +47,7 @@
     "@babel/preset-react": "7.0.0",
     "babel-jest": "24.8.0",
     "babel-plugin-styled-components": "1.10.6",
-    "commitizen": "3.1.1",
+    "commitizen": "3.1.2",
     "coveralls": "3.0.5",
     "eslint": "6.0.1",
     "eslint-config-prettier": "6.0.0",
