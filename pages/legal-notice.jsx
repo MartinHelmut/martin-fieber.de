@@ -10,7 +10,6 @@ import TextHeading from "../patterns/text-heading";
 const LegalNotice = () => (
   <Page title="legal notice">
     <Headline>Legal notice</Headline>
-    <Text>Information in accordance with section 5 TMG</Text>
     <Address>
       Martin Helmut Fieber
       <br />
@@ -39,9 +38,9 @@ const LegalNotice = () => (
       responsible for my own content on these web pages. In this context, please
       note that I&apos;m accordingly not obliged to monitor merely the
       transmitted or saved information of third parties, or investigate
-      circumstances pointing to illegal activity. Our obligations to remove or
+      circumstances pointing to illegal activity. My obligations to remove or
       block the use of information under generally applicable laws remain
-      unaffected by this as per §§ 8 to 10 of the Telemedia Act (TMG).
+      unaffected by this.
     </Text>
     <TextHeading id="accountability-for-links">
       Accountability for links
@@ -54,14 +53,11 @@ const LegalNotice = () => (
     </Text>
     <TextHeading id="copyright">Copyright</TextHeading>
     <Text>
-      My web pages and their contents are subject to German copyright law.
-      Unless expressly permitted by law (§ 44a et seq. of the copyright law),
-      every form of utilizing, reproducing or processing works subject to
-      copyright protection on my web pages requires the prior consent of the
-      respective owner of the rights. Individual reproductions of a work are
-      allowed only for private use, so must not serve either directly or
-      indirectly for earnings. Unauthorized utilization of copyrighted works is
-      punishable (§ 106 of the copyright law).
+      Unless expressly permitted by law, every form of utilizing, reproducing or
+      processing works subject to copyright protection on my web pages requires
+      the prior consent of the respective owner of the rights. Individual
+      reproductions of a work are allowed only for private use, so must not
+      serve either directly or indirectly for earnings.
     </Text>
   </Page>
 );
