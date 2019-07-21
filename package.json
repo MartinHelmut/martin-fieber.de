@@ -15,7 +15,8 @@
     "format": "prettier --write \"**/*.{js,jsx,css,md,json,yml}\"",
     "format:check": "prettier --list-different \"**/*.{js,jsx,css,md,json,yml}\"",
     "ci": "yarn lint && yarn format:check && yarn test && yarn coverage",
-    "release": "standard-version -a -s"
+    "release": "standard-version -a -s",
+    "preinstall": "node ./scripts/ensure-package-manager.js"
   },
   "engines": {
     "node": ">=10"
