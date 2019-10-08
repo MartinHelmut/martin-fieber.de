@@ -45,9 +45,9 @@
     "styled-components": "4.4.0"
   },
   "devDependencies": {
-    "@babel/core": "7.6.2",
-    "@babel/preset-env": "7.6.2",
-    "@babel/preset-react": "7.0.0",
+    "@babel/core": "7.6.3",
+    "@babel/preset-env": "7.6.3",
+    "@babel/preset-react": "7.6.3",
     "babel-jest": "24.9.0",
     "babel-plugin-styled-components": "1.10.6",
     "commitizen": "3.1.1",
