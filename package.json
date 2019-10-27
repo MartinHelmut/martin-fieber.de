@@ -58,7 +58,7 @@
     "eslint-plugin-jsx-a11y": "6.2.3",
     "eslint-plugin-react": "7.16.0",
     "jest": "24.9.0",
-    "jest-dot-reporter": "1.0.10",
+    "jest-dot-reporter": "1.0.12",
     "jest-styled-components": "6.3.3",
     "prettier": "1.18.2",
     "react-test-renderer": "16.11.0",
