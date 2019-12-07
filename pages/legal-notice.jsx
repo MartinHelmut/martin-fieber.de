@@ -21,7 +21,7 @@ const LegalNotice = () => (
     </Address>
     <SubHeadline id="contact">Contact</SubHeadline>
     <Text>
-      Telephone: +49 174 3821210
+      Telephone: +46 723 996110
       <br />
       E-Mail: info@martin-fieber.de
       <br />

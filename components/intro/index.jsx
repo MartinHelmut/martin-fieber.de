@@ -6,10 +6,10 @@ import Link from "../../patterns/link";
 const Intro = () => (
   <React.Fragment>
     <Text>
-      I do JavaScript, Node.js, React, C++, Python, Reading, Writing or: stuff!
+      I do JavaScript, C++, Python, Node.js, React, Reading, Writing or: stuff!
     </Text>
     <Text>
-      Also Senior Software Engineer{" "}
+      Also Senior Software Developer{" "}
       <Link
         href="https://www.klarna.com/"
         title="Website of Klarna Smoooth Payments"
