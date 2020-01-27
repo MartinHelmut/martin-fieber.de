@@ -25,13 +25,13 @@ const Page = ({ children, title = "", description = "" }) => (
       </Header>
       <main>{children}</main>
       <Footer>
-        <RouteLink href="/legal-notice" passHref prefetch>
+        <RouteLink href="/legal-notice" passHref>
           <Link title="Legal notice page includes address and contact information">
             Legal notice
           </Link>
         </RouteLink>
         {" | "}
-        <RouteLink href="/privacy-policy" passHref prefetch>
+        <RouteLink href="/privacy-policy" passHref>
           <Link title="Privacy policy includes cookie information, but there are no cookies">
             Privacy policy
           </Link>

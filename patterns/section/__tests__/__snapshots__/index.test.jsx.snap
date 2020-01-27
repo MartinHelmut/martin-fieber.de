@@ -35,7 +35,7 @@ exports[`Section should render with headline 1`] = `
   className="c0"
 >
   <h2
-    className="c1"
+    className="headline__Headline-sc-187wqm3-0 c1"
   >
     Section headline
   </h2>

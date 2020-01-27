@@ -23,7 +23,7 @@ const PrivacyPolicy = () => (
     </Text>
     <SubHeadline id="cookies">Cookies</SubHeadline>
     <Image
-      src="/static/images/cookies.jpg"
+      src="/images/cookies.jpg"
       alt="It shows the cookie monster with the subline: ain't no cookies here"
       width={612}
       height={440}

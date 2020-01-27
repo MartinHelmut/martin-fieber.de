@@ -15,7 +15,7 @@ exports[`Footer should render 1`] = `
 }
 
 <p
-  className="c0"
+  className="text__Text-sc-1ado5hh-0 c0"
 >
   Bottom data
 </p>

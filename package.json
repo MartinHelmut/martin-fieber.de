@@ -6,7 +6,6 @@
   "scripts": {
     "start": "next start",
     "build": "next build && next export",
-    "postbuild": "cp deployment/* out/",
     "dev": "next",
     "test": "jest",
     "coverage": "jest --coverage && cat ./coverage/lcov.info | coveralls",
@@ -42,6 +41,7 @@
     "next": "9.2.1",
     "react": "16.12.0",
     "react-dom": "16.12.0",
+    "react-is": "16.12.0",
     "styled-components": "5.0.0"
   },
   "devDependencies": {
@@ -59,7 +59,7 @@
     "eslint-plugin-react": "7.18.0",
     "jest": "25.1.0",
     "jest-dot-reporter": "1.0.14",
-    "jest-styled-components": "6.3.4",
+    "jest-styled-components": "7.0.0",
     "prettier": "1.19.1",
     "react-test-renderer": "16.12.0",
     "standard-version": "7.1.0",
