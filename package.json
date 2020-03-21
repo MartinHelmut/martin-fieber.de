@@ -1,12 +1,11 @@
 {
-  "name": "martin-fieber.de",
+  "name": "martin-fieber.se",
   "version": "1.0.0",
   "description": "My personal website.",
   "private": true,
   "scripts": {
     "start": "next start",
     "build": "next build && next export",
-    "postbuild": "cp deployment/* out/",
     "dev": "next",
     "test": "jest",
     "coverage": "jest --coverage && cat ./coverage/lcov.info | coveralls",
@@ -15,7 +14,6 @@
     "format": "prettier --write \"**/*.{js,jsx,css,md,json,yml}\"",
     "format:check": "prettier --list-different \"**/*.{js,jsx,css,md,json,yml}\"",
     "ci": "yarn lint && yarn format:check && yarn test && yarn coverage",
-    "release": "standard-version -a -s",
     "preinstall": "node ./scripts/ensure-package-manager.js"
   },
   "engines": {
@@ -32,36 +30,37 @@
     "helmut",
     "fieber"
   ],
-  "author": "Martin Helmut Fieber <info@martin-fieber.de> (https://martin-fieber.de)",
+  "author": "Martin Helmut Fieber <info@martin-fieber.se> (https://martin-fieber.se)",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/MartinHelmut/martin-fieber.de/issues"
   },
-  "homepage": "https://martin-fieber.de/",
+  "homepage": "https://martin-fieber.se/",
   "dependencies": {
     "next": "9.3.1",
-    "react": "16.13.0",
-    "react-dom": "16.13.0",
-    "styled-components": "4.4.1"
+    "react": "16.13.1",
+    "react-dom": "16.13.1",
+    "react-is": "16.13.1",
+    "styled-components": "5.0.1"
   },
   "devDependencies": {
     "@babel/core": "7.9.0",
     "@babel/preset-env": "7.9.0",
     "@babel/preset-react": "7.9.1",
     "babel-jest": "25.1.0",
-    "babel-plugin-styled-components": "1.10.6",
+    "babel-plugin-styled-components": "1.10.7",
     "commitizen": "4.0.3",
-    "coveralls": "3.0.9",
+    "coveralls": "3.0.11",
     "eslint": "6.8.0",
     "eslint-config-prettier": "6.10.0",
     "eslint-plugin-import": "2.20.1",
     "eslint-plugin-jsx-a11y": "6.2.3",
     "eslint-plugin-react": "7.19.0",
     "jest": "25.1.0",
-    "jest-dot-reporter": "1.0.14",
-    "jest-styled-components": "6.3.4",
+    "jest-progress-bar-reporter": "1.0.15",
+    "jest-styled-components": "7.0.0",
     "prettier": "1.19.1",
-    "react-test-renderer": "16.13.0",
+    "react-test-renderer": "16.13.1",
     "standard-version": "7.1.0",
     "stylelint": "13.2.1",
     "stylelint-config-standard": "20.0.0",

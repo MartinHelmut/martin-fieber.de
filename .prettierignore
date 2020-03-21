@@ -2,5 +2,5 @@ node_modules/
 CHANGELOG.md
 package-lock.json
 .next/
-public/
 coverage/
+out/

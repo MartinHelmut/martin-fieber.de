@@ -1,15 +1,18 @@
 import React from "react";
 import styled from "styled-components";
 
-import Headline from "../headline";
-
 const StyledSection = styled.section`
   border-top: 1px solid var(--color-grey-500);
   margin: var(--size-700) 0 0 0;
   padding: var(--size-700) 0 0 0;
 `;
 
-const SectionHeadline = styled(Headline)`
+const SectionHeadline = styled.h2`
+  font-family: var(--base-font);
+  font-size: 1.5em;
+  font-weight: bold;
+  line-height: 1.65;
+  padding: 0;
   margin: 0;
 `;
 

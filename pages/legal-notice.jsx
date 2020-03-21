@@ -23,9 +23,9 @@ const LegalNotice = () => (
     <Text>
       Telephone: +46 723 996110
       <br />
-      E-Mail: info@martin-fieber.de
+      E-Mail: info@martin-fieber.se
       <br />
-      Website: https://martin-fieber.de
+      Website: https://martin-fieber.se
     </Text>
     <SubHeadline id="disclaimer">Disclaimer</SubHeadline>
     <TextHeading id="accountability-for-content">
