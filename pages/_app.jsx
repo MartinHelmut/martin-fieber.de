@@ -15,7 +15,7 @@ const globalStyle = {
         padding: 0;
         margin: 0;
     }
-`
+`,
 };
 
 export default class MyApp extends App {

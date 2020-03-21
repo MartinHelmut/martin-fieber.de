@@ -6,5 +6,5 @@ module.exports = {
   coverageReporters: ["text", "lcov"],
   modulePathIgnorePatterns: ["/.next/", "/out/"],
   reporters: ["jest-progress-bar-reporter"],
-  verbose: false
+  verbose: false,
 };

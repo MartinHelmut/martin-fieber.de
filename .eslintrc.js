@@ -6,17 +6,17 @@ module.exports = {
   plugins: ["jsx-a11y", "import"],
   parserOptions: {
     ecmaVersion: 8,
-    sourceType: "module"
+    sourceType: "module",
   },
   env: {
     node: true,
     browser: true,
     jest: true,
-    es6: true
+    es6: true,
   },
   settings: {
     react: {
-      version: "detect"
-    }
-  }
+      version: "detect",
+    },
+  },
 };
