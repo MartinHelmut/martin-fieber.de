@@ -12,7 +12,7 @@ import Footer from "../patterns/footer";
 const Page = ({ children, title = "", description = "" }) => (
   <StyleContext>
     <Head>
-      <title>martin-fieber.de{title ? ` | ${title}` : ""}</title>
+      <title>martin-fieber.se{title ? ` | ${title}` : ""}</title>
       {description && <meta type="description" content={description} />}
     </Head>
     <Content>
@@ -25,13 +25,13 @@ const Page = ({ children, title = "", description = "" }) => (
       </Header>
       <main>{children}</main>
       <Footer>
-        <RouteLink href="/legal-notice" passHref prefetch>
+        <RouteLink href="/legal-notice" passHref>
           <Link title="Legal notice page includes address and contact information">
             Legal notice
           </Link>
         </RouteLink>
         {" | "}
-        <RouteLink href="/privacy-policy" passHref prefetch>
+        <RouteLink href="/privacy-policy" passHref>
           <Link title="Privacy policy includes cookie information, but there are no cookies">
             Privacy policy
           </Link>

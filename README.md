@@ -1,4 +1,4 @@
-# martin-fieber.de
+# martin-fieber.se
 
 My personal site, portfolio, experiments or other stuff I wanted to try 😁
 
