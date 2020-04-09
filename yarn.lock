@@ -6105,10 +6105,10 @@ jest-snapshot@^25.3.0:
     pretty-format "^25.3.0"
     semver "^6.3.0"
 
-jest-styled-components@7.0.1:
-  version "7.0.1"
-  resolved "https://registry.yarnpkg.com/jest-styled-components/-/jest-styled-components-7.0.1.tgz#a4072fbb0d4d0a528ea80fe0a500591670b9f3d2"
-  integrity sha512-/2/aBu6uOqnQQM3lyUA3zwgtLuox9FHwtuEt43sqIY+awOM4eeV9/9VMWbD/r29QXNsbsOdkheagbCL7nZgFvw==
+jest-styled-components@7.0.2:
+  version "7.0.2"
+  resolved "https://registry.yarnpkg.com/jest-styled-components/-/jest-styled-components-7.0.2.tgz#b7711871ea74a04491b12bad123fa35cc65a2a80"
+  integrity sha512-i1Qke8Jfgx0Why31q74ohVj9S2FmMLUE8bNRSoK4DgiurKkXG6HC4NPhcOLAz6VpVd9wXkPn81hOt4aAQedqsA==
   dependencies:
     css "^2.2.4"
 
