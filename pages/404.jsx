@@ -8,7 +8,7 @@ import Text from "../patterns/text";
 
 const Error404 = () => (
   <Page title="page not found">
-    <Headline>This page does not exist!</Headline>
+    <Headline>Page not found!</Headline>
     <Text>Mhh, strange, but it seems like this page does not exist 🤔</Text>
     <Text>
       You could write my what you expected here via my{" "}
