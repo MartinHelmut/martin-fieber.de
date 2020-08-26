@@ -59,7 +59,7 @@
     "jest": "26.4.2",
     "jest-progress-bar-reporter": "1.0.18",
     "jest-styled-components": "7.0.3",
-    "prettier": "2.1.0",
+    "prettier": "2.1.1",
     "react-test-renderer": "16.13.1",
     "standard-version": "9.0.0",
     "stylelint": "13.6.1",
