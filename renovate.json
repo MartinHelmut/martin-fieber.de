@@ -1,5 +1,6 @@
 {
   "extends": ["config:base"],
+  "baseBranches": ["main"],
   "dependencies": {
     "semanticPrefix": "chore:",
     "semanticCommitScope": ""
