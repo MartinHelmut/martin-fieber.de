@@ -6,7 +6,8 @@ import Link from "../../patterns/link";
 const Intro = () => (
   <React.Fragment>
     <Text>
-      I do JavaScript, C++, Python, Node.js, React, Reading, Writing or: stuff!
+      I do JavaScript, C++, Python, Node.js, React, Reading, Writing and a bit
+      of game dev in Unity as a hobby.
     </Text>
     <Text>
       Also Senior Software Developer{" "}

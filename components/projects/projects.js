@@ -13,6 +13,20 @@ export const projects = [
     },
   },
   {
+    name: "Litr",
+    description:
+      "Litr (Language Independent Task Runner) lets you configure and then run any tasks you want for any language.",
+    link: {
+      href: "https://github.com/krieselreihe/litr",
+      title: "Visit the Github page for the Litr project.",
+    },
+    docs: {
+      href: "https://github.com/krieselreihe/litr/wiki",
+      title:
+        "See how Litr will work when implemented. Important note: The tool is a work in progress.",
+    },
+  },
+  {
     name: "@krieselreihe/natr",
     description:
       "Not another test runner! (natr) But it is, and it is a highly opinionated one that is used for my own projects.",
