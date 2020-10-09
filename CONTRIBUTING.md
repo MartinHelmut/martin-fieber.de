@@ -28,13 +28,13 @@ Once you have tried the above, create a GitHub pull request with your changes ch
 
 ### Environment
 
-Tested with Node 8 and Yarn 1.17 and up.
+Tested with Node 10.
 
 ### Setup
 
 Clone the repo and run an install:
 
-```bash
+```shell script
 git clone git@github.com:MartinHelmut/martin-fieber.de.git && cd martin-fieber.de && yarn
 ```
 
@@ -42,7 +42,7 @@ git clone git@github.com:MartinHelmut/martin-fieber.de.git && cd martin-fieber.d
 
 To create a production build of the application:
 
-```bash
+```shell script
 yarn build
 ```
 
@@ -50,13 +50,13 @@ yarn build
 
 Tests are written in [Jest][jturl]. To run all tests execute
 
-```bash
+```shell script
 yarn test
 ```
 
 and to lint all the code:
 
-```bash
+```shell script
 yarn lint
 ```
 
@@ -64,8 +64,8 @@ yarn lint
 
 You can also run a prettier verification for all JS files in all packages with:
 
-```bash
-yarn fmt:check
+```shell script
+yarn format:check
 ```
 
 This will list changes that would be made on commit (commit hook is installed with husky).
@@ -76,7 +76,7 @@ This will list changes that would be made on commit (commit hook is installed wi
 
 Checkout a new branch, e.g.:
 
-```bash
+```shell script
 git checkout -b task/do-something
 ```
 
