@@ -62,6 +62,17 @@ export default class MyApp extends App {
             content="pXBMFUxwvr8ZPU6AfU6XNt3rCCRtOC5bMe1N3REDrjI"
           />
           <style dangerouslySetInnerHTML={globalStyle} />
+          <script
+            async
+            defer
+            data-domain="martin-fieber.de"
+            src="https://analytics.martin-fieber.de/js/index.outbound-links.js"
+          />
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }`,
+            }}
+          />
           <meta
             name="description"
             content="My personal homepage including projects, things I do, and where I work. Also some social media where I am active."

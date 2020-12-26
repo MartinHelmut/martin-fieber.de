@@ -11,13 +11,13 @@
     "coverage": "jest --coverage && cat ./coverage/lcov.info | coveralls",
     "commit": "git-cz",
     "lint": "eslint '**/*.js' && stylelint '**/*.jsx'",
-    "format": "prettier --write \"**/*.{js,jsx,css,md,json,yml}\"",
-    "format:check": "prettier --list-different \"**/*.{js,jsx,css,md,json,yml}\"",
+    "format": "prettier --write .",
+    "format:check": "prettier --list-different .",
     "ci": "yarn lint && yarn format:check && yarn test && yarn coverage",
     "preinstall": "node ./scripts/ensure-package-manager.js"
   },
   "engines": {
-    "node": ">=10"
+    "node": ">=14"
   },
   "repository": {
     "type": "git",
