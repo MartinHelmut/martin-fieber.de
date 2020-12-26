@@ -18,10 +18,14 @@ const Projects = () => (
           <Link href={link.href} title={link.title}>
             Visit project page
           </Link>
-          {" | "}
-          <Link href={docs.href} title={docs.title}>
-            Documentation
-          </Link>
+          {docs && (
+            <>
+              {" | "}
+              <Link href={docs.href} title={docs.title}>
+                Documentation
+              </Link>
+            </>
+          )}
         </Text>
       </Article>
     ))}

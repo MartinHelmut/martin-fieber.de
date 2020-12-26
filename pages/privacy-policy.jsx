@@ -5,6 +5,7 @@ import Image from "../patterns/image";
 import Page from "../components/page";
 import SubHeadline from "../patterns/sub-headline";
 import Text from "../patterns/text";
+import Link from "../patterns/link";
 
 const PrivacyPolicy = () => (
   <Page title="privacy policy">
@@ -24,14 +25,39 @@ const PrivacyPolicy = () => (
     <SubHeadline id="cookies">Cookies</SubHeadline>
     <Image
       src="/images/cookies.jpg"
-      alt="It shows the cookie monster with the subline: ain't no cookies here"
+      alt="It shows the cookie monster with the sub line: ain't no cookies here"
       width={612}
       height={440}
       caption="A sad cookie monster caused by abstinence of cookies"
     />
+    <Text>There are no cookies here. Nothing, zero, nada.</Text>
+    <SubHeadline>Analytics</SubHeadline>
     <Text>
-      There are no cookies here. Seriously, not even any analytics script is
-      used.
+      This website uses{" "}
+      <Link
+        href="https://plausible.io/"
+        title="Website of Plausible Analytics providing cookie-less web analytics without collecting personal data."
+      >
+        Plausible Analytics
+      </Link>
+      , a privacy-friendly, open source web analytics software hosted inside the
+      EU. Plausible Analytics does not track, collect nor store any personal
+      data or personally identifiable information. It is GDPR, CCPA and cookie
+      law compliant. Read more about{" "}
+      <Link
+        href="https://plausible.io/data-policy"
+        title="Link to Plausible data policy site."
+      >
+        Plausible Data Policy
+      </Link>{" "}
+      or have a direct look at the{" "}
+      <Link
+        href="https://plausible.io/martin-fieber.de"
+        title="Public analytics dashboard of martin-fieber.de."
+      >
+        public dashboard of this website
+      </Link>
+      .
     </Text>
     <SubHeadline>Information/Cancellation/Deletion</SubHeadline>
     <Text>

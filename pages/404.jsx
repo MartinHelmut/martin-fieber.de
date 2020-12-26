@@ -1,5 +1,6 @@
 import React from "react";
 import RouteLink from "next/link";
+import Head from "next/head";
 
 import Headline from "../patterns/headline";
 import Link from "../patterns/link";
@@ -8,6 +9,13 @@ import Text from "../patterns/text";
 
 const Error404 = () => (
   <Page title="page not found">
+    <Head>
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `plausible("404", { props: { path: document.location.pathname } });`,
+        }}
+      />
+    </Head>
     <Headline>Page not found!</Headline>
     <Text>Mhh, strange, but it seems like this page does not exist 🤔</Text>
     <Text>

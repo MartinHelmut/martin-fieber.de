@@ -5,7 +5,7 @@ export const projects = [
       "Generate repeatable pseudo random numbers and non-cryptographic hash numbers for usage in Node.js and browser environments.",
     link: {
       href: "https://github.com/MartinHelmut/number-generator",
-      title: "Visit the Github page for the number-generator project.",
+      title: "Visit the GitHub page for the number-generator project.",
     },
     docs: {
       href: "https://github.com/MartinHelmut/number-generator#number-generator",
@@ -18,7 +18,7 @@ export const projects = [
       "Litr (Language Independent Task Runner) lets you configure and then run any tasks you want for any language.",
     link: {
       href: "https://github.com/krieselreihe/litr",
-      title: "Visit the Github page for the Litr project.",
+      title: "Visit the GitHub page for the Litr project.",
     },
     docs: {
       href: "https://github.com/krieselreihe/litr/wiki",
@@ -27,12 +27,12 @@ export const projects = [
     },
   },
   {
-    name: "@krieselreihe/natr",
+    name: "Natr",
     description:
       "Not another test runner! (natr) But it is, and it is a highly opinionated one that is used for my own projects.",
     link: {
       href: "https://github.com/krieselreihe/natr",
-      title: "Visit the Github page for the natr project.",
+      title: "Visit the GitHub page for the natr project.",
     },
     docs: {
       href: "https://github.com/krieselreihe/natr/blob/master/README.md",
@@ -41,18 +41,12 @@ export const projects = [
     },
   },
   {
-    name: "strex-lang",
+    name: "Krieselreihe",
     description:
-      'The "Strange expression language" is used to train regular expressions in JavaScript. Also a bit of parser design in a hopefully not so boring way. It is a project where a mentor and trainee can work together in a predefined environment.',
+      '"Krieselreihe" is the name I do all my hobby game development under. While doing this, a set of tools emerged e.g. Litr and Natr, located under this namespace.',
     link: {
-      href: "https://github.com/MartinHelmut/strex-lang",
-      title: "This is the StrexLang project page on Github.",
-    },
-    docs: {
-      href:
-        "https://github.com/MartinHelmut/strex-lang/blob/master/README.md#strexlang",
-      title:
-        "Getting started with learning how to create a small language by your own.",
+      href: "https://github.com/krieselreihe",
+      title: "The organisation page on GitHub for Krieselreihe.",
     },
   },
 ];
