@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const SubHeadline = styled.h3`
+const SubHeadline = styled.h4`
   font-family: var(--base-font);
   font-size: 1.17em;
   font-weight: bold;

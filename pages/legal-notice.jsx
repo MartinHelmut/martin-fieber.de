@@ -19,7 +19,7 @@ const LegalNotice = () => (
       <br />
       Sweden
     </Address>
-    <SubHeadline id="contact">Contact</SubHeadline>
+    <TextHeading id="contact">Contact</TextHeading>
     <Text>
       Telephone: +46 723 996110
       <br />
@@ -27,10 +27,10 @@ const LegalNotice = () => (
       <br />
       Website: https://martin-fieber.se
     </Text>
-    <SubHeadline id="disclaimer">Disclaimer</SubHeadline>
-    <TextHeading id="accountability-for-content">
+    <TextHeading id="disclaimer">Disclaimer</TextHeading>
+    <SubHeadline id="accountability-for-content">
       Accountability for content
-    </TextHeading>
+    </SubHeadline>
     <Text>
       The contents of my pages have been created with the utmost care. However,
       I cannot guarantee the contents&apos; accuracy, completeness or
@@ -42,16 +42,16 @@ const LegalNotice = () => (
       block the use of information under generally applicable laws remain
       unaffected by this.
     </Text>
-    <TextHeading id="accountability-for-links">
+    <SubHeadline id="accountability-for-links">
       Accountability for links
-    </TextHeading>
+    </SubHeadline>
     <Text>
       Responsibility for the content of external links (to web pages of third
       parties) lies solely with the operators of the linked pages. No violations
       were evident to my at the time of linking. Should any legal infringement
       become known to my, I will remove the respective link immediately.
     </Text>
-    <TextHeading id="copyright">Copyright</TextHeading>
+    <SubHeadline id="copyright">Copyright</SubHeadline>
     <Text>
       Unless expressly permitted by law, every form of utilizing, reproducing or
       processing works subject to copyright protection on my web pages requires

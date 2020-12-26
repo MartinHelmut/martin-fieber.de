@@ -3,7 +3,7 @@ import React from "react";
 import Headline from "../patterns/headline";
 import Image from "../patterns/image";
 import Page from "../components/page";
-import SubHeadline from "../patterns/sub-headline";
+import TextHeading from "../patterns/text-heading";
 import Text from "../patterns/text";
 import Link from "../patterns/link";
 
@@ -22,7 +22,7 @@ const PrivacyPolicy = () => (
       risks and, therefore, complete protection against third-party access to
       transferred data cannot be ensured.
     </Text>
-    <SubHeadline id="cookies">Cookies</SubHeadline>
+    <TextHeading id="cookies">Cookies</TextHeading>
     <Image
       src="/images/cookies.jpg"
       alt="It shows the cookie monster with the sub line: ain't no cookies here"
@@ -31,7 +31,7 @@ const PrivacyPolicy = () => (
       caption="A sad cookie monster caused by abstinence of cookies"
     />
     <Text>There are no cookies here. Nothing, zero, nada.</Text>
-    <SubHeadline>Analytics</SubHeadline>
+    <TextHeading>Analytics</TextHeading>
     <Text>
       This website uses{" "}
       <Link
@@ -59,7 +59,7 @@ const PrivacyPolicy = () => (
       </Link>
       .
     </Text>
-    <SubHeadline>Information/Cancellation/Deletion</SubHeadline>
+    <TextHeading>Information/Cancellation/Deletion</TextHeading>
     <Text>
       You may contact my at no cost if you have questions relating to the
       collection, processing or use of your personal information, if you wish to
