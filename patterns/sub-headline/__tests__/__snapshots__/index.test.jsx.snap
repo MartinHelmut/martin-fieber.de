@@ -10,9 +10,9 @@ exports[`SubHeadline should render 1`] = `
   padding: 0;
 }
 
-<h3
+<h4
   className="c0"
 >
   Secondary headline
-</h3>
+</h4>
 `;

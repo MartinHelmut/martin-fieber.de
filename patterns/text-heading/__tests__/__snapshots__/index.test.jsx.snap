@@ -10,9 +10,9 @@ exports[`TextHeading should render 1`] = `
   padding: 0;
 }
 
-<h4
+<h3
   className="c0"
 >
   Small text heading
-</h4>
+</h3>
 `;
