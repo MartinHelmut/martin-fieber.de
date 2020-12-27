@@ -44,6 +44,10 @@ export const projects = [
     name: "Krieselreihe",
     description:
       '"Krieselreihe" is the name I do all my hobby game development under. While doing this, a set of tools emerged e.g. Litr and Natr, located under this namespace.',
+    website: {
+      href: "https://krieselreihe.com",
+      title: "Krieselreihe Games website",
+    },
     link: {
       href: "https://github.com/krieselreihe",
       title: "The organisation page on GitHub for Krieselreihe.",

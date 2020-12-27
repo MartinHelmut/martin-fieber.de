@@ -59,7 +59,7 @@ const PrivacyPolicy = () => (
       </Link>
       .
     </Text>
-    <TextHeading>Information/Cancellation/Deletion</TextHeading>
+    <TextHeading>Information / Cancellation / Deletion</TextHeading>
     <Text>
       You may contact my at no cost if you have questions relating to the
       collection, processing or use of your personal information, if you wish to

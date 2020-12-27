@@ -10,11 +10,19 @@ import { projects } from "./projects";
 
 const Projects = () => (
   <Section headline="Github Projects">
-    {projects.map(({ name, description, link, docs }) => (
+    {projects.map(({ name, description, website, link, docs }) => (
       <Article key={name}>
         <TextHeading>{name}</TextHeading>
         <Text>{description}</Text>
         <Text>
+          {website && (
+            <>
+              <Link href={website.href} title={website.title}>
+                Website
+              </Link>
+              {" | "}
+            </>
+          )}
           <Link href={link.href} title={link.title}>
             Visit project page
           </Link>
