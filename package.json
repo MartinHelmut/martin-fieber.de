@@ -38,9 +38,9 @@
   "homepage": "https://martin-fieber.se/",
   "dependencies": {
     "next": "10.0.9",
-    "react": "17.0.1",
-    "react-dom": "17.0.1",
-    "react-is": "17.0.1",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "react-is": "17.0.2",
     "styled-components": "5.2.1"
   },
   "devDependencies": {
@@ -60,7 +60,7 @@
     "jest-progress-bar-reporter": "1.0.18",
     "jest-styled-components": "7.0.3",
     "prettier": "2.2.1",
-    "react-test-renderer": "17.0.1",
+    "react-test-renderer": "17.0.2",
     "standard-version": "9.1.1",
     "stylelint": "13.12.0",
     "stylelint-config-standard": "21.0.0",
