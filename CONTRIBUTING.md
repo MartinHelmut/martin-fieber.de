@@ -1,6 +1,6 @@
 # Contributing
 
-You want do something for this repo? Nice and easy! And of course: you are the best!
+You want to do something for this repo? Nice and easy! And of course: you are the best!
 
 ## Issues
 
@@ -35,7 +35,7 @@ Tested with Node 10.
 Clone the repo and run an install:
 
 ```shell script
-git clone git@github.com:MartinHelmut/martin-fieber.de.git && cd martin-fieber.de && yarn
+git clone git@github.com:MartinHelmut/martin-fieber.de.git && cd martin-fieber.de && pnpm install
 ```
 
 ### Build
@@ -43,7 +43,7 @@ git clone git@github.com:MartinHelmut/martin-fieber.de.git && cd martin-fieber.d
 To create a production build of the application:
 
 ```shell script
-yarn build
+pnpm build
 ```
 
 ### Tests
@@ -51,13 +51,13 @@ yarn build
 Tests are written in [Jest][jturl]. To run all tests execute
 
 ```shell script
-yarn test
+pnpm test
 ```
 
 and to lint all the code:
 
 ```shell script
-yarn lint
+pnpm lint
 ```
 
 ### Format check
@@ -65,7 +65,7 @@ yarn lint
 You can also run a prettier verification for all JS files in all packages with:
 
 ```shell script
-yarn format:check
+pnpm format:check
 ```
 
 This will list changes that would be made on commit (commit hook is installed with husky).
@@ -82,16 +82,16 @@ git checkout -b task/do-something
 
 **There is no specific naming convention for branches.**
 
-Add your changes and run `yarn commit` to start the commitizen cli to create a proper commit message.
+Add your changes and run `pnpm commit` to start the commitizen cli to create a proper commit message.
 
 Create a "Pull Request" on Github and be awesome! 😎
 
 ## Recommended workflow for release
 
 1.  Make changes
-2.  Commit those changes with `yarn commit`
+2.  Commit those changes with `pnpm commit`
 3.  Make sure all tests turn green
-4.  Create a new release with `yarn release`
+4.  Create a new release with `pnpm release`
 5.  Push your release `git push --follow-tags origin master`
 6.  **Done!**
 
