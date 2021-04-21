@@ -13,7 +13,7 @@
     "lint": "eslint '**/*.js' && stylelint '**/*.jsx'",
     "format": "prettier --write .",
     "format:check": "prettier --list-different .",
-    "ci": "yarn lint && yarn format:check && yarn test && yarn coverage",
+    "ci": "pnpm run lint && pnpm run format:check && pnpm run test && pnpm run coverage",
     "preinstall": "node ./scripts/ensure-package-manager.js"
   },
   "engines": {
