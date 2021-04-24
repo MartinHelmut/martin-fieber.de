@@ -25,7 +25,7 @@ specifiers:
   standard-version: 9.2.0
   styled-components: 5.2.3
   stylelint: 13.13.0
-  stylelint-config-standard: 21.0.0
+  stylelint-config-standard: 22.0.0
   stylelint-config-styled-components: 0.1.1
   stylelint-processor-styled-components: 1.10.0
 
@@ -56,7 +56,7 @@ devDependencies:
   react-test-renderer: 17.0.2_react@17.0.2
   standard-version: 9.2.0
   stylelint: 13.13.0
-  stylelint-config-standard: 21.0.0_stylelint@13.13.0
+  stylelint-config-standard: 22.0.0_stylelint@13.13.0
   stylelint-config-styled-components: 0.1.1
   stylelint-processor-styled-components: 1.10.0
 
@@ -7881,21 +7881,21 @@ packages:
       stylis-rule-sheet: 0.0.10_stylis@3.5.4
     dev: false
 
-  /stylelint-config-recommended/4.0.0_stylelint@13.13.0:
-    resolution: {integrity: sha512-sgna89Ng+25Hr9kmmaIxpGWt2LStVm1xf1807PdcWasiPDaOTkOHRL61sINw0twky7QMzafCGToGDnHT/kTHtQ==}
+  /stylelint-config-recommended/5.0.0_stylelint@13.13.0:
+    resolution: {integrity: sha512-c8aubuARSu5A3vEHLBeOSJt1udOdS+1iue7BmJDTSXoCBmfEQmmWX+59vYIj3NQdJBY6a/QRv1ozVFpaB9jaqA==}
     peerDependencies:
-      stylelint: ^13.12.0
+      stylelint: ^13.13.0
     dependencies:
       stylelint: 13.13.0
     dev: true
 
-  /stylelint-config-standard/21.0.0_stylelint@13.13.0:
-    resolution: {integrity: sha512-Yf6mx5oYEbQQJxWuW7X3t1gcxqbUx52qC9SMS3saC2ruOVYEyqmr5zSW6k3wXflDjjFrPhar3kp68ugRopmlzg==}
+  /stylelint-config-standard/22.0.0_stylelint@13.13.0:
+    resolution: {integrity: sha512-uQVNi87SHjqTm8+4NIP5NMAyY/arXrBgimaaT7skvRfE9u3JKXRK9KBkbr4pVmeciuCcs64kAdjlxfq6Rur7Hw==}
     peerDependencies:
-      stylelint: ^13.12.0
+      stylelint: ^13.13.0
     dependencies:
       stylelint: 13.13.0
-      stylelint-config-recommended: 4.0.0_stylelint@13.13.0
+      stylelint-config-recommended: 5.0.0_stylelint@13.13.0
     dev: true
 
   /stylelint-config-styled-components/0.1.1:
