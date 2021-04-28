@@ -16,7 +16,7 @@ specifiers:
   jest: 26.6.3
   jest-progress-bar-reporter: 1.0.20
   jest-styled-components: 7.0.4
-  next: 10.1.3
+  next: 10.2.0
   prettier: 2.2.1
   react: 17.0.2
   react-dom: 17.0.2
@@ -30,7 +30,7 @@ specifiers:
   stylelint-processor-styled-components: 1.10.0
 
 dependencies:
-  next: 10.1.3_react-dom@17.0.2+react@17.0.2
+  next: 10.2.0_react-dom@17.0.2+react@17.0.2
   react: 17.0.2
   react-dom: 17.0.2_react@17.0.2
   react-is: 17.0.2
@@ -1452,16 +1452,16 @@ packages:
       chalk: 4.1.1
     dev: true
 
-  /@next/env/10.1.3:
-    resolution: {integrity: sha512-q7z7NvmRs66lCQmVJtKjDxVtMTjSwP6ExVzaH46pbTH60MHgzEJ9H4jXrFLTihPmCIvpAv6Ai04jbS8dcg1ZMQ==}
+  /@next/env/10.2.0:
+    resolution: {integrity: sha512-tsWBsn1Rb6hXRaHc/pWMCpZ4Ipkf3OCbZ54ef5ukgIyEvzzGdGFXQshPP2AF7yb+8yMpunWs7vOMZW3e8oPF6A==}
     dev: false
 
-  /@next/polyfill-module/10.1.3:
-    resolution: {integrity: sha512-1DtUVcuoBJAn5IrxIZQjUG1KTPkiXMYloykPSkRxawimgvG9dRj2kscU+4KGNSFxHoxW9c68VRCb+7MDz5aGGw==}
+  /@next/polyfill-module/10.2.0:
+    resolution: {integrity: sha512-Nl3GexIUXsmuggkUqrRFyE/2k7UI44JaVzSywtXEyHzxpZm2a5bdMaWuC89pgLiFDDOqmbqyLAbtwm5lNxa7Eg==}
     dev: false
 
-  /@next/react-dev-overlay/10.1.3_react-dom@17.0.2+react@17.0.2:
-    resolution: {integrity: sha512-vIgUah3bR9+MKzwU1Ni5ONfYM0VdI42i7jZ+Ei1c0wjwkG9anVnDqhSQ3mVg62GP2nt7ExaaFyf9THbsw5KYXg==}
+  /@next/react-dev-overlay/10.2.0_react-dom@17.0.2+react@17.0.2:
+    resolution: {integrity: sha512-PRIAoWog41hLN4iJ8dChKp4ysOX0Q8yiNQ/cwzyqEd3EjugkDV5OiKl3mumGKaApJaIra1MX6j1wgQRuLhuWMA==}
     peerDependencies:
       react: ^16.9.0 || ^17
       react-dom: ^16.9.0 || ^17
@@ -1481,8 +1481,8 @@ packages:
       strip-ansi: 6.0.0
     dev: false
 
-  /@next/react-refresh-utils/10.1.3_react-refresh@0.8.3:
-    resolution: {integrity: sha512-P4GJZuLKfD/o42JvGZ/xP4Hxg68vd3NeZxOLqIuQKFjjaYgC2IrO+lE5PTwGmRkytjfprJC+9j7Jss/xQAS6QA==}
+  /@next/react-refresh-utils/10.2.0_react-refresh@0.8.3:
+    resolution: {integrity: sha512-3I31K9B4hEQRl7yQ44Umyz+szHtuMJrNdwsgJGhoEnUCXSBRHp5wv5Zv8eDa2NewSbe53b2C0oOpivrzmdBakw==}
     peerDependencies:
       react-refresh: 0.8.3
       webpack: ^4 || ^5
@@ -2949,18 +2949,22 @@ packages:
     hasBin: true
     dev: true
 
-  /cssnano-preset-simple/1.2.2:
-    resolution: {integrity: sha512-gtvrcRSGtP3hA/wS8mFVinFnQdEsEpm3v4I/s/KmNjpdWaThV/4E5EojAzFXxyT5OCSRPLlHR9iQexAqKHlhGQ==}
+  /cssnano-preset-simple/2.0.0_postcss@8.2.13:
+    resolution: {integrity: sha512-HkufSLkaBJbKBFx/7aj5HmCK9Ni/JedRQm0mT2qBzMG/dEuJOLnMt2lK6K1rwOOyV4j9aSY+knbW9WoS7BYpzg==}
+    peerDependencies:
+      postcss: ^8.2.1
     dependencies:
       caniuse-lite: 1.0.30001214
-      postcss: 7.0.35
+      postcss: 8.2.13
     dev: false
 
-  /cssnano-simple/1.2.2:
-    resolution: {integrity: sha512-4slyYc1w4JhSbhVX5xi9G0aQ42JnRyPg+7l7cqoNyoIDzfWx40Rq3JQZnoAWDu60A4AvKVp9ln/YSUOdhDX68g==}
+  /cssnano-simple/2.0.0_postcss@8.2.13:
+    resolution: {integrity: sha512-0G3TXaFxlh/szPEG/o3VcmCwl0N3E60XNb9YZZijew5eIs6fLjJuOPxQd9yEBaX2p/YfJtt49i4vYi38iH6/6w==}
+    peerDependencies:
+      postcss: ^8.2.2
     dependencies:
-      cssnano-preset-simple: 1.2.2
-      postcss: 7.0.35
+      cssnano-preset-simple: 2.0.0_postcss@8.2.13
+      postcss: 8.2.13
     dev: false
 
   /cssom/0.3.8:
@@ -4817,6 +4821,7 @@ packages:
     engines: {node: '>=0.10.0'}
     dependencies:
       isarray: 1.0.0
+    dev: true
 
   /isobject/3.0.1:
     resolution: {integrity: sha1-TkMekrEalzFjaqH5yNHMvP2reN8=}
@@ -5530,13 +5535,6 @@ packages:
       type-check: 0.4.0
     dev: true
 
-  /line-column/1.0.2:
-    resolution: {integrity: sha1-0lryk2tvSEkXKzEuR5LR2Ye8NKI=}
-    dependencies:
-      isarray: 1.0.0
-      isobject: 2.1.0
-    dev: false
-
   /lines-and-columns/1.1.6:
     resolution: {integrity: sha1-HADHQ7QzzQpOgHWPe2SldEDZ/wA=}
     dev: true
@@ -5981,8 +5979,8 @@ packages:
     resolution: {integrity: sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==}
     dev: true
 
-  /next/10.1.3_react-dom@17.0.2+react@17.0.2:
-    resolution: {integrity: sha512-8Jf38F+s0YcXXkJGF5iUxOqSmbHrey0fX5Epc43L0uwDKmN2jK9vhc2ihCwXC1pmu8d2m/8wfTiXRJKGti55yw==}
+  /next/10.2.0_react-dom@17.0.2+react@17.0.2:
+    resolution: {integrity: sha512-PKDKCSF7s82xudu3kQhOEaokxggpbLEWouEUtzP6OqV0YqKYHF+Ff+BFLycEem8ixtTM2M6ElN0VRJcskJfxPQ==}
     engines: {node: '>=10.13.0'}
     hasBin: true
     peerDependencies:
@@ -6001,10 +5999,10 @@ packages:
     dependencies:
       '@babel/runtime': 7.12.5
       '@hapi/accept': 5.0.1
-      '@next/env': 10.1.3
-      '@next/polyfill-module': 10.1.3
-      '@next/react-dev-overlay': 10.1.3_react-dom@17.0.2+react@17.0.2
-      '@next/react-refresh-utils': 10.1.3_react-refresh@0.8.3
+      '@next/env': 10.2.0
+      '@next/polyfill-module': 10.2.0
+      '@next/react-dev-overlay': 10.2.0_react-dom@17.0.2+react@17.0.2
+      '@next/react-refresh-utils': 10.2.0_react-refresh@0.8.3
       '@opentelemetry/api': 0.14.0
       assert: 2.0.0
       ast-types: 0.13.2
@@ -6016,7 +6014,7 @@ packages:
       chokidar: 3.5.1
       constants-browserify: 1.0.0
       crypto-browserify: 3.12.0
-      cssnano-simple: 1.2.2
+      cssnano-simple: 2.0.0_postcss@8.2.13
       domain-browser: 4.19.0
       encoding: 0.1.13
       etag: 1.8.1
@@ -6032,7 +6030,7 @@ packages:
       p-limit: 3.1.0
       path-browserify: 1.0.1
       pnp-webpack-plugin: 1.6.4
-      postcss: 8.1.7
+      postcss: 8.2.13
       process: 0.11.10
       prop-types: 15.7.2
       querystring-es3: 0.2.1
@@ -6690,13 +6688,13 @@ packages:
       chalk: 2.4.2
       source-map: 0.6.1
       supports-color: 6.1.0
+    dev: true
 
-  /postcss/8.1.7:
-    resolution: {integrity: sha512-llCQW1Pz4MOPwbZLmOddGM9eIJ8Bh7SZ2Oj5sxZva77uVaotYDsYTch1WBTNu7fUY0fpWp0fdt7uW40D4sRiiQ==}
+  /postcss/8.2.13:
+    resolution: {integrity: sha512-FCE5xLH+hjbzRdpbRb1IMCvPv9yZx2QnDarBEYSN0N0HYk+TcXsEhwdFcFb+SRWOKzKGErhIEbBK2ogyLdTtfQ==}
     engines: {node: ^10 || ^12 || >=14}
     dependencies:
       colorette: 1.2.2
-      line-column: 1.0.2
       nanoid: 3.1.22
       source-map: 0.6.1
     dev: false
@@ -7999,6 +7997,7 @@ packages:
     engines: {node: '>=6'}
     dependencies:
       has-flag: 3.0.0
+    dev: true
 
   /supports-color/7.2.0:
     resolution: {integrity: sha512-qpCAvRl9stuOHveKsn7HncJRvv501qIacKzQlO/+Lwxc9+0q2wLyv4Dfvt80/DPn2pqOBsJdDiogXGR9+OvwRw==}
