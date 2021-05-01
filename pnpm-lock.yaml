@@ -24,7 +24,7 @@ specifiers:
   react-test-renderer: 17.0.2
   standard-version: 9.2.0
   styled-components: 5.2.3
-  stylelint: 13.13.0
+  stylelint: 13.13.1
   stylelint-config-standard: 22.0.0
   stylelint-config-styled-components: 0.1.1
   stylelint-processor-styled-components: 1.10.0
@@ -55,8 +55,8 @@ devDependencies:
   prettier: 2.2.1
   react-test-renderer: 17.0.2_react@17.0.2
   standard-version: 9.2.0
-  stylelint: 13.13.0
-  stylelint-config-standard: 22.0.0_stylelint@13.13.0
+  stylelint: 13.13.1
+  stylelint-config-standard: 22.0.0_stylelint@13.13.1
   stylelint-config-styled-components: 0.1.1
   stylelint-processor-styled-components: 1.10.0
 
@@ -1815,7 +1815,7 @@ packages:
       postcss: '>=7.0.0'
       postcss-syntax: '>=0.36.2'
     dependencies:
-      '@babel/core': 7.13.16
+      '@babel/core': 7.14.0
       postcss: 7.0.35
       postcss-syntax: 0.36.2_postcss@7.0.35
     transitivePeerDependencies:
@@ -8200,21 +8200,21 @@ packages:
       stylis-rule-sheet: 0.0.10_stylis@3.5.4
     dev: false
 
-  /stylelint-config-recommended/5.0.0_stylelint@13.13.0:
+  /stylelint-config-recommended/5.0.0_stylelint@13.13.1:
     resolution: {integrity: sha512-c8aubuARSu5A3vEHLBeOSJt1udOdS+1iue7BmJDTSXoCBmfEQmmWX+59vYIj3NQdJBY6a/QRv1ozVFpaB9jaqA==}
     peerDependencies:
       stylelint: ^13.13.0
     dependencies:
-      stylelint: 13.13.0
+      stylelint: 13.13.1
     dev: true
 
-  /stylelint-config-standard/22.0.0_stylelint@13.13.0:
+  /stylelint-config-standard/22.0.0_stylelint@13.13.1:
     resolution: {integrity: sha512-uQVNi87SHjqTm8+4NIP5NMAyY/arXrBgimaaT7skvRfE9u3JKXRK9KBkbr4pVmeciuCcs64kAdjlxfq6Rur7Hw==}
     peerDependencies:
       stylelint: ^13.13.0
     dependencies:
-      stylelint: 13.13.0
-      stylelint-config-recommended: 5.0.0_stylelint@13.13.0
+      stylelint: 13.13.1
+      stylelint-config-recommended: 5.0.0_stylelint@13.13.1
     dev: true
 
   /stylelint-config-styled-components/0.1.1:
@@ -8232,8 +8232,8 @@ packages:
       - supports-color
     dev: true
 
-  /stylelint/13.13.0:
-    resolution: {integrity: sha512-jvkM1iuH88vAvjdKPwPm6abiMP2/D/1chbfb+4GVONddOOskHuCXc0loyrLdxO1AwwH6jdnjYskkTKHQD7cXwQ==}
+  /stylelint/13.13.1:
+    resolution: {integrity: sha512-Mv+BQr5XTUrKqAXmpqm6Ddli6Ief+AiPZkRsIrAoUKFuq/ElkUh9ZMYxXD0iQNZ5ADghZKLOWz1h7hTClB7zgQ==}
     engines: {node: '>=10.13.0'}
     hasBin: true
     dependencies:
@@ -8282,7 +8282,7 @@ packages:
       style-search: 0.1.0
       sugarss: 2.0.0
       svg-tags: 1.0.0
-      table: 6.5.1
+      table: 6.6.0
       v8-compile-cache: 2.3.0
       write-file-atomic: 3.0.3
     transitivePeerDependencies:
@@ -8364,8 +8364,8 @@ packages:
       string-width: 4.2.2
     dev: true
 
-  /table/6.5.1:
-    resolution: {integrity: sha512-xGDXWTBJxahkzPQCsn1S9ESHEenU7TbMD5Iv4FeopXv/XwJyWatFjfbor+6ipI10/MNPXBYUamYukOrbPZ9L/w==}
+  /table/6.6.0:
+    resolution: {integrity: sha512-iZMtp5tUvcnAdtHpZTWLPF0M7AgiQsURR2DwmxnJwSy8I3+cY+ozzVvYha3BOLG2TB+L0CqjIz+91htuj6yCXg==}
     engines: {node: '>=10.0.0'}
     dependencies:
       ajv: 8.1.0
