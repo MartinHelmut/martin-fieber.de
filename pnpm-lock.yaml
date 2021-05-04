@@ -22,7 +22,7 @@ specifiers:
   react-dom: 17.0.2
   react-is: 17.0.2
   react-test-renderer: 17.0.2
-  standard-version: 9.2.0
+  standard-version: 9.3.0
   styled-components: 5.2.3
   stylelint: 13.13.1
   stylelint-config-standard: 22.0.0
@@ -54,7 +54,7 @@ devDependencies:
   jest-styled-components: 7.0.4_styled-components@5.2.3
   prettier: 2.2.1
   react-test-renderer: 17.0.2_react@17.0.2
-  standard-version: 9.2.0
+  standard-version: 9.3.0
   stylelint: 13.13.1
   stylelint-config-standard: 22.0.0_stylelint@13.13.1
   stylelint-config-styled-components: 0.1.1
@@ -7927,8 +7927,8 @@ packages:
       type-fest: 0.7.1
     dev: false
 
-  /standard-version/9.2.0:
-    resolution: {integrity: sha512-utJcqjk/wR4sePSwDoRcc5CzJ6S+kec5Hd0+1TJI+j1TRYuuptweAnEUdkkjGf2vYoGab2ezefyVtW065HZ1Uw==}
+  /standard-version/9.3.0:
+    resolution: {integrity: sha512-cYxxKXhYfI3S9+CA84HmrJa9B88H56V5FQ302iFF2TNwJukJCNoU8FgWt+11YtwKFXRkQQFpepC2QOF7aDq2Ow==}
     engines: {node: '>=10'}
     hasBin: true
     dependencies:
