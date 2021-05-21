@@ -7,7 +7,7 @@ const Intro = () => (
   <React.Fragment>
     <Text>
       I do JavaScript, C++, Python, Node.js, React, Reading, Writing and a bit
-      of game dev in Unity as a hobby.
+      of game dev as a hobby.
     </Text>
     <Text>
       Also Senior Software Developer{" "}
