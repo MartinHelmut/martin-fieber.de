@@ -1,18 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Footer should render 1`] = `
-.c0 {
-  font-family: var(--base-font);
-  font-weight: 300;
-  line-height: 1.65;
-  border-top: var(--size-100) solid var(--color-grey-500);
-  margin: var(--size-700) 0 0 0;
-  padding: var(--size-400) 0 0 0;
-  font-size: 1rem;
-}
-
 <footer
-  className="c0"
+  className=""
 >
   Bottom data
 </footer>

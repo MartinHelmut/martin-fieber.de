@@ -1,20 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Image should render 1`] = `
-.c0 {
-  color: var(--color-blue-500);
-  cursor: pointer;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-}
-
-.c0:hover {
-  -webkit-text-decoration: underline;
-  text-decoration: underline;
-}
-
 <a
-  className="c0"
+  className=""
   href="#"
   title="Link title"
 >

@@ -1,17 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`SubHeadline should render 1`] = `
-.c0 {
-  font-family: var(--base-font);
-  font-size: 1.17em;
-  font-weight: bold;
-  line-height: 1.65;
-  margin: 0 0 var(--size-500) 0;
-  padding: 0;
-}
-
 <h4
-  className="c0"
+  className=""
 >
   Secondary headline
 </h4>

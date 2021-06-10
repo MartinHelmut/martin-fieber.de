@@ -1,17 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`TextHeading should render 1`] = `
-.c0 {
-  font-family: var(--base-font);
-  font-size: 1.33em;
-  font-weight: bold;
-  line-height: 1.65;
-  margin: 0 0 var(--size-500) 0;
-  padding: 0;
-}
-
 <h3
-  className="c0"
+  className=""
 >
   Small text heading
 </h3>

@@ -1,24 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Address should render 1`] = `
-.c1 {
-  font-family: var(--base-font);
-  font-size: 1.4rem;
-  font-weight: 300;
-  line-height: 1.65;
-  margin: 0 0 var(--size-500) 0;
-  padding: 0;
-}
-
-.c0 {
-  font-style: italic;
-}
-
 <address
-  className="c0"
+  className=""
 >
   <p
-    className="c1"
+    className=""
   >
     Home street 1
   </p>

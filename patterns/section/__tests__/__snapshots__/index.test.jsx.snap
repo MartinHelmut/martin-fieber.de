@@ -1,40 +1,19 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Section should render 1`] = `
-.c0 {
-  border-top: 1px solid var(--color-grey-500);
-  margin: var(--size-700) 0 0 0;
-  padding: var(--size-700) 0 0 0;
-}
-
 <section
-  className="c0"
+  className=""
 >
   Section content
 </section>
 `;
 
 exports[`Section should render with headline 1`] = `
-.c0 {
-  border-top: 1px solid var(--color-grey-500);
-  margin: var(--size-700) 0 0 0;
-  padding: var(--size-700) 0 0 0;
-}
-
-.c1 {
-  font-family: var(--base-font);
-  font-size: 1.5em;
-  font-weight: bold;
-  line-height: 1.65;
-  padding: 0;
-  margin: 0;
-}
-
 <section
-  className="c0"
+  className=""
 >
   <h2
-    className="c1"
+    className=""
   >
     Section headline
   </h2>
