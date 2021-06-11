@@ -7,13 +7,13 @@
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://martin-fieber.de/legal-notice.html</loc>
+    <loc>https://martin-fieber.de/legal-notice</loc>
     <lastmod>2021-06-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://martin-fieber.de/privacy-policy.html</loc>
+    <loc>https://martin-fieber.de/privacy-policy</loc>
     <lastmod>2021-06-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
