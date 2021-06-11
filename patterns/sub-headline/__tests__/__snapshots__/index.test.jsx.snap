@@ -1,9 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`SubHeadline should render 1`] = `
-<h4
-  className=""
->
-  Secondary headline
-</h4>
-`;

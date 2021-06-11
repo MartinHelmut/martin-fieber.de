@@ -24,7 +24,7 @@ If you want to contribute code, please:
 - Write [good commit messages](http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html), explain what your patch does, and why it is needed. How to is described in the [Commit changes chapter](#commit-changes).
 - Keep it simple: Any patch that changes a lot of code or is difficult to understand should be discussed before you put in the effort.
 
-Once you have tried the above, create a GitHub pull request with your changes changes and feel awesome 🎉.
+Once you have tried the above, create a GitHub pull request with your changes and feel awesome 🎉.
 
 ### Environment
 
@@ -32,29 +32,15 @@ Tested with Node 10.
 
 ### Setup
 
-Clone the repo and run an install:
+Clone the repo and run install:
 
 ```shell script
 git clone git@github.com:MartinHelmut/martin-fieber.de.git && cd martin-fieber.de && pnpm install
 ```
 
-### Build
+### Lint
 
-To create a production build of the application:
-
-```shell script
-pnpm build
-```
-
-### Tests
-
-Tests are written in [Jest][jturl]. To run all tests execute
-
-```shell script
-pnpm test
-```
-
-and to lint all the code:
+To lint the code:
 
 ```shell script
 pnpm lint
@@ -68,11 +54,9 @@ You can also run a prettier verification for all JS files in all packages with:
 pnpm format:check
 ```
 
-This will list changes that would be made on commit (commit hook is installed with husky).
-
 ### Commit changes
 
-**This repo is is Commitizen-friendly!** ([read more][czcli])
+**This repo is Commitizen-friendly!** ([read more][czcli])
 
 Checkout a new branch, e.g.:
 
@@ -84,18 +68,7 @@ git checkout -b task/do-something
 
 Add your changes and run `pnpm commit` to start the commitizen cli to create a proper commit message.
 
-Create a "Pull Request" on Github and be awesome! 😎
-
-## Recommended workflow for release
-
-1.  Make changes
-2.  Commit those changes with `pnpm commit`
-3.  Make sure all tests turn green
-4.  Create a new release with `pnpm release`
-5.  Push your release `git push --follow-tags origin master`
-6.  **Done!**
-
-For more information on building a release see [https://github.com/conventional-changelog/standard-version][sv]
+Create a "Pull Request" on GitHub and be awesome! 😎
 
 ## Be Nice
 

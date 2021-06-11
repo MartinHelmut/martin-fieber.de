@@ -1,6 +1,2 @@
 node_modules/
-CHANGELOG.md
-.next/
-coverage/
-out/
 pnpm-lock.yaml

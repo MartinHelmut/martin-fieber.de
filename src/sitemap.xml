@@ -2,19 +2,19 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://martin-fieber.de</loc>
-    <lastmod>2020-12-26</lastmod>
+    <lastmod>2021-06-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://martin-fieber.de/legal-notice/</loc>
-    <lastmod>2021-02-06</lastmod>
+    <loc>https://martin-fieber.de/legal-notice.html</loc>
+    <lastmod>2021-06-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://martin-fieber.de/privacy-policy/</loc>
-    <lastmod>2020-12-26</lastmod>
+    <loc>https://martin-fieber.de/privacy-policy.html</loc>
+    <lastmod>2021-06-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
