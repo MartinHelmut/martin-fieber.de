@@ -13,11 +13,6 @@
   "semanticCommitScope": "",
   "packageRules": [
     {
-      "packagePatterns": ["^@babel/"],
-      "groupName": "Babel packages",
-      "automerge": true
-    },
-    {
       "packagePatterns": ["^eslint"],
       "groupName": "ESlint packages",
       "automerge": true
@@ -28,13 +23,7 @@
       "automerge": true
     },
     {
-      "packageNames": [
-        "babel-jest",
-        "babel-plugin-styled-components",
-        "jest",
-        "prettier",
-        "react-test-renderer"
-      ],
+      "packageNames": ["prettier"],
       "automerge": true
     }
   ]

@@ -4,16 +4,12 @@
   "description": "My personal site, portfolio, experiments or other stuff I wanted to try.",
   "private": true,
   "scripts": {
-    "start": "next start",
-    "build": "next build && next export",
-    "dev": "next",
-    "test": "jest",
-    "coverage": "jest --coverage && cat ./coverage/lcov.info | coveralls",
+    "start": "serve src",
     "commit": "git-cz",
-    "lint": "eslint '**/*.js' && stylelint '**/*.jsx'",
+    "lint": "eslint '**/*.html' && stylelint '**/*.css'",
     "format": "prettier --write .",
     "format:check": "prettier --list-different .",
-    "ci": "pnpm run lint && pnpm run format:check && pnpm run test && pnpm run coverage",
+    "ci": "pnpm run lint && pnpm run format:check",
     "preinstall": "node ./scripts/ensure-package-manager.js"
   },
   "engines": {
@@ -36,35 +32,15 @@
     "url": "https://github.com/MartinHelmut/martin-fieber.de/issues"
   },
   "homepage": "https://martin-fieber.se/",
-  "dependencies": {
-    "next": "10.2.3",
-    "react": "17.0.2",
-    "react-dom": "17.0.2",
-    "react-is": "17.0.2",
-    "styled-components": "5.3.0"
-  },
+  "dependencies": {},
   "devDependencies": {
-    "@babel/core": "7.14.5",
-    "@babel/preset-env": "7.14.5",
-    "@babel/preset-react": "7.14.5",
-    "babel-jest": "27.0.2",
-    "babel-plugin-styled-components": "1.12.0",
-    "commitizen": "4.2.4",
-    "coveralls": "3.1.0",
-    "eslint": "7.28.0",
-    "eslint-config-prettier": "8.3.0",
-    "eslint-plugin-import": "2.23.4",
-    "eslint-plugin-jsx-a11y": "6.4.1",
-    "eslint-plugin-react": "7.24.0",
-    "jest": "27.0.4",
-    "jest-progress-bar-reporter": "1.0.21",
-    "jest-styled-components": "7.0.4",
-    "prettier": "2.3.1",
-    "react-test-renderer": "17.0.2",
-    "standard-version": "9.3.0",
-    "stylelint": "13.13.1",
-    "stylelint-config-standard": "22.0.0",
-    "stylelint-config-styled-components": "0.1.1",
-    "stylelint-processor-styled-components": "1.10.0"
+    "commitizen": "^4.2.4",
+    "eslint": "^7.28.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-html": "^6.1.2",
+    "prettier": "^2.3.1",
+    "serve": "^12.0.0",
+    "stylelint": "^13.13.1",
+    "stylelint-prettier": "^1.2.0"
   }
 }

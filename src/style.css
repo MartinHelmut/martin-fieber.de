@@ -1,0 +1,148 @@
+:root {
+  /* Typography */
+  --base-font: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue",
+    Helvetica, Arial, "Lucida Grande", sans-serif;
+
+  /* Sizes */
+  --size-100: 1px;
+  --size-200: 2px;
+  --size-300: 5px;
+  --size-400: 10px;
+  --size-500: 20px;
+  --size-600: 30px;
+  --size-700: 40px;
+  --size-800: 60px;
+  --size-900: 80px;
+
+  /* Colors */
+  --color-blue-300: #7232ff;
+  --color-blue-500: #6200ee;
+  --color-blue-700: #5200ac;
+
+  --color-grey-300: #dcdcdc;
+  --color-grey-500: #aaaaaa;
+  --color-grey-700: #7b7b7b;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+}
+
+.content {
+  margin: 0 auto;
+  max-width: 660px;
+  padding: var(--size-500);
+}
+
+header {
+  margin: 0 0 var(--size-600) 0;
+}
+
+footer {
+  font-family: var(--base-font);
+  font-weight: 300;
+  line-height: 1.65;
+  border-top: var(--size-100) solid var(--color-grey-500);
+  margin: var(--size-700) 0 0 0;
+  padding: var(--size-400) 0 0 0;
+  font-size: 1rem;
+}
+
+section {
+  border-top: 1px solid var(--color-grey-500);
+  margin: var(--size-700) 0 0 0;
+  padding: var(--size-700) 0 0 0;
+}
+
+article {
+  border-bottom: 1px solid var(--color-grey-500);
+  padding: var(--size-500) 0;
+  margin: 0 0 var(--size-500) 0;
+}
+
+article:last-child {
+  border: 0;
+  margin: 0;
+}
+
+a {
+  color: var(--color-blue-500);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--base-font);
+  font-weight: bold;
+  line-height: 1.65;
+  padding: 0;
+}
+
+h1 {
+  font-size: 2em;
+  margin: 0;
+}
+
+h2 {
+  font-size: 1.5em;
+  margin: 0 0 var(--size-500) 0;
+}
+
+h3 {
+  font-size: 1.33em;
+  margin: 0 0 var(--size-500) 0;
+}
+
+h4 {
+  font-size: 1.17em;
+  margin: 0 0 var(--size-500) 0;
+}
+
+p {
+  font-family: var(--base-font);
+  font-size: 1.4rem;
+  font-weight: 300;
+  line-height: 1.65;
+  margin: 0 0 var(--size-500) 0;
+  padding: 0;
+}
+
+address {
+  font-style: italic;
+}
+
+figure {
+  margin: 0 0 var(--size-500) 0;
+  padding: 0;
+  text-align: center;
+}
+
+figcaption {
+  color: var(--color-grey-500);
+  font-family: var(--base-font);
+  font-size: 0.8rem;
+  font-weight: 300;
+  line-height: 1.65;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+img {
+  height: auto;
+  max-width: 100%;
+}
