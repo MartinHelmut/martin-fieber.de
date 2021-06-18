@@ -2,7 +2,7 @@ lockfileVersion: 5.3
 
 specifiers:
   commitizen: 4.2.4
-  eslint: 7.28.0
+  eslint: 7.29.0
   eslint-config-prettier: 8.3.0
   eslint-plugin-html: 6.1.2
   prettier: 2.3.1
@@ -12,8 +12,8 @@ specifiers:
 
 devDependencies:
   commitizen: 4.2.4
-  eslint: 7.28.0
-  eslint-config-prettier: 8.3.0_eslint@7.28.0
+  eslint: 7.29.0
+  eslint-config-prettier: 8.3.0_eslint@7.29.0
   eslint-plugin-html: 6.1.2
   prettier: 2.3.1
   serve: 12.0.0
@@ -974,13 +974,13 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  /eslint-config-prettier/8.3.0_eslint@7.28.0:
+  /eslint-config-prettier/8.3.0_eslint@7.29.0:
     resolution: {integrity: sha512-BgZuLUSeKzvlL/VUjx/Yb787VQ26RU3gGjA3iiFvdsp/2bMfVIWUVP7tjxtjS0e+HP409cPlPvNkQloz8C91ew==}
     hasBin: true
     peerDependencies:
       eslint: '>=7.0.0'
     dependencies:
-      eslint: 7.28.0
+      eslint: 7.29.0
     dev: true
 
   /eslint-plugin-html/6.1.2:
@@ -1014,8 +1014,8 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  /eslint/7.28.0:
-    resolution: {integrity: sha512-UMfH0VSjP0G4p3EWirscJEQ/cHqnT/iuH6oNZOB94nBjWbMnhGEPxsZm1eyIW0C/9jLI0Fow4W5DXLjEI7mn1g==}
+  /eslint/7.29.0:
+    resolution: {integrity: sha512-82G/JToB9qIy/ArBzIWG9xvvwL3R86AlCjtGw+A29OMZDqhTybz/MByORSukGxeI+YPCR4coYyITKk8BFH9nDA==}
     engines: {node: ^10.12.0 || >=12.0.0}
     hasBin: true
     dependencies:
