@@ -6,7 +6,7 @@ specifiers:
   eslint-config-prettier: 8.3.0
   eslint-plugin-html: 6.1.2
   prettier: 2.4.0
-  serve: 12.0.0
+  serve: 12.0.1
   stylelint: 13.13.1
   stylelint-prettier: 1.2.0
 
@@ -16,7 +16,7 @@ devDependencies:
   eslint-config-prettier: 8.3.0_eslint@7.32.0
   eslint-plugin-html: 6.1.2
   prettier: 2.4.0
-  serve: 12.0.0
+  serve: 12.0.1
   stylelint: 13.13.1
   stylelint-prettier: 1.2.0_prettier@2.4.0+stylelint@13.13.1
 
@@ -2505,8 +2505,8 @@ packages:
       range-parser: 1.2.0
     dev: true
 
-  /serve/12.0.0:
-    resolution: {integrity: sha512-BkTsETQYynAZ7rXX414kg4X6EvuZQS3UVs1NY0VQYdRHSTYWPYcH38nnDh48D0x6ONuislgjag8uKlU2gTBImA==}
+  /serve/12.0.1:
+    resolution: {integrity: sha512-CQ4ikLpxg/wmNM7yivulpS6fhjRiFG6OjmP8ty3/c1SBnSk23fpKmLAV4HboTA2KrZhkUPlDfjDhnRmAjQ5Phw==}
     hasBin: true
     dependencies:
       '@zeit/schemas': 2.6.0
