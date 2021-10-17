@@ -1,3 +1,5 @@
+/* General */
+
 :root {
   /* Typography */
   --base-font: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue",
@@ -5,14 +7,11 @@
 
   /* Sizes */
   --size-100: 1px;
-  --size-200: 2px;
   --size-300: 5px;
   --size-400: 10px;
   --size-500: 20px;
   --size-600: 30px;
   --size-700: 40px;
-  --size-800: 60px;
-  --size-900: 80px;
 
   /* Colors */
   --color-blue-300: #7232ff;
@@ -21,7 +20,8 @@
 
   --color-grey-300: #dcdcdc;
   --color-grey-500: #aaaaaa;
-  --color-grey-700: #7b7b7b;
+  --color-grey-800: #595959;
+  --color-grey-900: #0f0f0f;
 }
 
 *,
@@ -35,6 +35,8 @@ body {
   margin: 0;
 }
 
+/* Structural */
+
 .content {
   margin: 0 auto;
   max-width: 660px;
@@ -45,7 +47,7 @@ header {
   margin: 0 0 var(--size-600) 0;
 }
 
-footer {
+main + footer {
   font-family: var(--base-font);
   font-weight: 300;
   line-height: 1.65;
@@ -61,16 +63,7 @@ section {
   padding: var(--size-700) 0 0 0;
 }
 
-article {
-  border-bottom: 1px solid var(--color-grey-500);
-  padding: var(--size-500) 0;
-  margin: 0 0 var(--size-500) 0;
-}
-
-article:last-child {
-  border: 0;
-  margin: 0;
-}
+/* Text */
 
 a {
   color: var(--color-blue-500);
@@ -89,21 +82,22 @@ h4 {
   font-family: var(--base-font);
   font-weight: bold;
   line-height: 1.65;
+  color: var(--color-grey-900);
   padding: 0;
 }
 
 h1 {
-  font-size: 2em;
+  font-size: 2rem;
   margin: 0;
 }
 
 h2 {
-  font-size: 1.5em;
+  font-size: 1.5rem;
   margin: 0 0 var(--size-500) 0;
 }
 
 h3 {
-  font-size: 1.33em;
+  font-size: 1.4rem;
   margin: 0 0 var(--size-500) 0;
 }
 
@@ -112,37 +106,118 @@ h4 {
   margin: 0 0 var(--size-500) 0;
 }
 
-p {
+strong {
+  font-weight: bold;
+}
+
+em {
+  font-style: italic;
+}
+
+p,
+blockquote {
   font-family: var(--base-font);
-  font-size: 1.4rem;
+  font-size: 1.3rem;
   font-weight: 300;
+  color: var(--color-grey-900);
   line-height: 1.65;
   margin: 0 0 var(--size-500) 0;
   padding: 0;
+}
+
+blockquote {
+  font-style: italic;
+  margin: 0;
+  border-left: var(--size-300) solid var(--color-grey-300);
+}
+
+blockquote p {
+  margin: 0 0 0 var(--size-500);
+}
+
+ul {
+  margin: 0 0 0 var(--size-500);
+  padding: 0;
+}
+
+ul li {
+  font-family: var(--base-font);
+  font-size: 1.3rem;
+  font-weight: 300;
+  color: var(--color-grey-900);
+  line-height: 1.65;
+  margin: 0;
+  padding: 0;
+}
+
+ul li:last-child {
+  margin: 0 0 var(--size-500) 0;
+}
+
+figure {
+  margin: 0 0 var(--size-500) 0;
+  padding: 0;
+}
+
+figure img {
+  display: block;
+  margin: 0 auto;
+}
+
+figcaption {
+  color: var(--color-grey-800);
+  font-family: var(--base-font);
+  font-size: 1rem;
+  font-weight: 300;
+  line-height: 1.65;
+  margin: 0;
+  padding: 0;
+}
+
+img + figcaption {
+  text-align: center;
+}
+
+blockquote + figcaption {
+  text-align: right;
+}
+
+img {
+  height: auto;
+  max-width: 100%;
 }
 
 address {
   font-style: italic;
 }
 
-figure {
+/* Article */
+
+article {
+  border-bottom: 1px solid var(--color-grey-500);
+  padding: var(--size-500) 0;
   margin: 0 0 var(--size-500) 0;
-  padding: 0;
-  text-align: center;
 }
 
-figcaption {
-  color: var(--color-grey-500);
-  font-family: var(--base-font);
-  font-size: 0.8rem;
-  font-weight: 300;
-  line-height: 1.65;
+article:last-child {
+  border: 0;
   margin: 0;
-  padding: 0;
-  text-align: center;
 }
 
-img {
+article:first-child {
+  padding-top: 0;
+}
+
+article footer {
+  /* Negate size, this will move it closer to the headline by keeping the general spacing. */
+  margin-top: calc(var(--size-500) * -1);
+}
+
+article footer p {
+  font-size: 1rem;
+}
+
+article img {
+  width: 100%;
   height: auto;
-  max-width: 100%;
 }
