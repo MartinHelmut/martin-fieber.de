@@ -1,11 +1,10 @@
 {
   "name": "martin-fieber.se",
   "version": "1.0.0",
-  "description": "My personal site, portfolio, experiments or other stuff I wanted to try.",
+  "description": "My personal site, portfolio, blog, experiments or other things I wanted to try.",
   "private": true,
   "scripts": {
     "start": "serve src",
-    "commit": "git-cz",
     "lint": "eslint '**/*.html' && stylelint '**/*.css'",
     "format": "prettier --write .",
     "format:check": "prettier --list-different .",
@@ -32,9 +31,7 @@
     "url": "https://github.com/MartinHelmut/martin-fieber.de/issues"
   },
   "homepage": "https://martin-fieber.se/",
-  "dependencies": {},
   "devDependencies": {
-    "commitizen": "4.2.4",
     "eslint": "8.6.0",
     "eslint-config-prettier": "8.3.0",
     "eslint-plugin-html": "6.2.0",

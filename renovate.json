@@ -2,29 +2,9 @@
   "extends": ["config:base"],
   "dependencyDashboard": false,
   "baseBranches": ["main"],
-  "dependencies": {
-    "semanticPrefix": "chore:",
-    "semanticCommitScope": ""
-  },
-  "pin": {
-    "semanticPrefix": "chore:",
-    "semanticCommitScope": ""
-  },
-  "semanticPrefix": "chore:",
-  "semanticCommitScope": "",
   "packageRules": [
     {
-      "packagePatterns": ["^eslint"],
-      "groupName": "ESlint packages",
-      "automerge": true
-    },
-    {
-      "packagePatterns": ["^stylelint"],
-      "groupName": "StyleLint packages",
-      "automerge": true
-    },
-    {
-      "packageNames": ["prettier"],
+      "matchDepTypes": ["devDependencies"],
       "automerge": true
     }
   ]
