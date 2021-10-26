@@ -7,7 +7,7 @@ specifiers:
   eslint-plugin-html: 6.2.0
   prettier: 2.4.1
   serve: 12.0.1
-  stylelint: 14.0.0
+  stylelint: 14.0.1
   stylelint-prettier: 1.2.0
 
 devDependencies:
@@ -17,8 +17,8 @@ devDependencies:
   eslint-plugin-html: 6.2.0
   prettier: 2.4.1
   serve: 12.0.1
-  stylelint: 14.0.0
-  stylelint-prettier: 1.2.0_prettier@2.4.1+stylelint@14.0.0
+  stylelint: 14.0.1
+  stylelint-prettier: 1.2.0_prettier@2.4.1+stylelint@14.0.1
 
 packages:
 
@@ -1080,8 +1080,8 @@ packages:
       type-fest: 0.20.2
     dev: true
 
-  /globby/11.0.3:
-    resolution: {integrity: sha512-ffdmosjA807y7+lA1NM0jELARVmYul/715xiILEjo3hBLPTcirgQNnXECn5g3mtR8TOLCVbkfua1Hpen25/Xcg==}
+  /globby/11.0.4:
+    resolution: {integrity: sha512-9O4MVG9ioZJ08ffbcyVYyLOJLk5JQ688pJ4eMGLpdWLHq/Wr1D9BlriLQyL0E+jbkuePVZXYFj47QM/v093wHg==}
     engines: {node: '>=10'}
     dependencies:
       array-union: 2.1.0
@@ -2084,15 +2084,6 @@ packages:
       strip-ansi: 4.0.0
     dev: true
 
-  /string-width/4.2.2:
-    resolution: {integrity: sha512-XBJbT3N4JhVumXE0eoLU9DCjcaF92KLNqTmFCnG1pf8duUxFGwtP6AD6nkjw9a3IdiRtL3E2w3JDiE/xi3vOeA==}
-    engines: {node: '>=8'}
-    dependencies:
-      emoji-regex: 8.0.0
-      is-fullwidth-code-point: 3.0.0
-      strip-ansi: 6.0.1
-    dev: true
-
   /string-width/4.2.3:
     resolution: {integrity: sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==}
     engines: {node: '>=8'}
@@ -2114,13 +2105,6 @@ packages:
     engines: {node: '>=6'}
     dependencies:
       ansi-regex: 4.1.0
-    dev: true
-
-  /strip-ansi/6.0.0:
-    resolution: {integrity: sha512-AuvKTrTfQNYNIctbR1K/YGTR1756GycPsg7b9bdV9Duqur4gv6aKqHXah67Z8ImS7WEz5QVcOtlfW2rZEugt6w==}
-    engines: {node: '>=8'}
-    dependencies:
-      ansi-regex: 5.0.1
     dev: true
 
   /strip-ansi/6.0.1:
@@ -2166,7 +2150,7 @@ packages:
     resolution: {integrity: sha1-eVjHk+R+MuB9K1yv5cC/jhLneQI=}
     dev: true
 
-  /stylelint-prettier/1.2.0_prettier@2.4.1+stylelint@14.0.0:
+  /stylelint-prettier/1.2.0_prettier@2.4.1+stylelint@14.0.1:
     resolution: {integrity: sha512-/MYz6W2CNgKHblPzPtk7cybu8H5dGG3c2GevL64RButERj1uJg4SdBIIat1hMfDOmN6QQpldc6tCc//ZAWh9WQ==}
     engines: {node: '>=6'}
     peerDependencies:
@@ -2175,11 +2159,11 @@ packages:
     dependencies:
       prettier: 2.4.1
       prettier-linter-helpers: 1.0.0
-      stylelint: 14.0.0
+      stylelint: 14.0.1
     dev: true
 
-  /stylelint/14.0.0:
-    resolution: {integrity: sha512-//4Po+WlWImVaro2BiNJZMamBo0Enekb+3fp5cYYN5r08kaPTHlxM8bCi/yvnPl7G+zqyLqjZU+O22vr/SDW0w==}
+  /stylelint/14.0.1:
+    resolution: {integrity: sha512-ZcAkmFLVCultmwkQUjxKzxW/o5+CzNmDk6TPJj/d4Y7ipTGGrewIWmNm+InjdSr04PR5/yynsAJeYJY/wisdMg==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
     hasBin: true
     dependencies:
@@ -2192,7 +2176,7 @@ packages:
       file-entry-cache: 6.0.1
       get-stdin: 8.0.0
       global-modules: 2.0.0
-      globby: 11.0.3
+      globby: 11.0.4
       globjoin: 0.1.4
       html-tags: 3.1.0
       ignore: 5.1.8
@@ -2214,8 +2198,8 @@ packages:
       postcss-value-parser: 4.1.0
       resolve-from: 5.0.0
       specificity: 0.4.1
-      string-width: 4.2.2
-      strip-ansi: 6.0.0
+      string-width: 4.2.3
+      strip-ansi: 6.0.1
       style-search: 0.1.0
       svg-tags: 1.0.0
       table: 6.7.2
