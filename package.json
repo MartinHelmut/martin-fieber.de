@@ -41,6 +41,6 @@
     "prettier": "2.4.1",
     "serve": "13.0.0",
     "stylelint": "14.0.1",
-    "stylelint-prettier": "1.2.0"
+    "stylelint-prettier": "2.0.0"
   }
 }

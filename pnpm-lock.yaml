@@ -8,7 +8,7 @@ specifiers:
   prettier: 2.4.1
   serve: 13.0.0
   stylelint: 14.0.1
-  stylelint-prettier: 1.2.0
+  stylelint-prettier: 2.0.0
 
 devDependencies:
   commitizen: 4.2.4
@@ -18,7 +18,7 @@ devDependencies:
   prettier: 2.4.1
   serve: 13.0.0
   stylelint: 14.0.1
-  stylelint-prettier: 1.2.0_prettier@2.4.1+stylelint@14.0.1
+  stylelint-prettier: 2.0.0_prettier@2.4.1+stylelint@14.0.1
 
 packages:
 
@@ -2150,12 +2150,12 @@ packages:
     resolution: {integrity: sha1-eVjHk+R+MuB9K1yv5cC/jhLneQI=}
     dev: true
 
-  /stylelint-prettier/1.2.0_prettier@2.4.1+stylelint@14.0.1:
-    resolution: {integrity: sha512-/MYz6W2CNgKHblPzPtk7cybu8H5dGG3c2GevL64RButERj1uJg4SdBIIat1hMfDOmN6QQpldc6tCc//ZAWh9WQ==}
-    engines: {node: '>=6'}
+  /stylelint-prettier/2.0.0_prettier@2.4.1+stylelint@14.0.1:
+    resolution: {integrity: sha512-jvT3G+9lopkeB0ARmDPszyfaOnvnIF+30QCjZxyt7E6fynI1T9mOKgYDNb9bXX17M7PXMZaX3j/26wqakjp1tw==}
+    engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     peerDependencies:
-      prettier: '>= 0.11.0'
-      stylelint: '>= 9.2.1'
+      prettier: '>=2.0.0'
+      stylelint: '>=14.0.0'
     dependencies:
       prettier: 2.4.1
       prettier-linter-helpers: 1.0.0
