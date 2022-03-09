@@ -37,7 +37,7 @@
     "eslint-plugin-html": "6.2.0",
     "prettier": "2.5.1",
     "serve": "13.0.2",
-    "stylelint": "14.2.0",
+    "stylelint": "14.5.3",
     "stylelint-prettier": "2.0.0"
   }
 }
