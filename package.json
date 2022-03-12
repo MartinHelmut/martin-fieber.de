@@ -32,7 +32,7 @@
   },
   "homepage": "https://martin-fieber.se/",
   "devDependencies": {
-    "eslint": "8.10.0",
+    "eslint": "8.11.0",
     "eslint-config-prettier": "8.5.0",
     "eslint-plugin-html": "6.2.0",
     "prettier": "2.5.1",
