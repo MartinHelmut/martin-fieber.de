@@ -6,7 +6,7 @@ specifiers:
   eslint-plugin-html: 6.2.0
   prettier: 2.6.2
   serve: 13.0.2
-  stylelint: 14.8.2
+  stylelint: 14.8.3
   stylelint-prettier: 2.0.0
 
 devDependencies:
@@ -15,8 +15,8 @@ devDependencies:
   eslint-plugin-html: 6.2.0
   prettier: 2.6.2
   serve: 13.0.2
-  stylelint: 14.8.2
-  stylelint-prettier: 2.0.0_klul7fkxgs7xgqhknddbdmurpq
+  stylelint: 14.8.3
+  stylelint-prettier: 2.0.0_tva5xomdi6uk2yob64oclqrjgq
 
 packages:
 
@@ -193,7 +193,7 @@ packages:
     dev: true
 
   /arrify/1.0.1:
-    resolution: {integrity: sha1-iYUI2iIm84DfkEcoRWhJwVAaSw0=}
+    resolution: {integrity: sha512-3CYzex9M9FGQjCGMGyi6/31c8GJbgb0qGyrx5HWxPd0aCwh4cB2YjMb2Xf9UuoogrMrlO9cTqnB5rI5GHZTcUA==}
     engines: {node: '>=0.10.0'}
     dev: true
 
@@ -1217,10 +1217,6 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: true
 
-  /normalize-selector/0.2.0:
-    resolution: {integrity: sha1-0LFF62kRicY6eNIB3E/bEpPvDAM=}
-    dev: true
-
   /npm-run-path/2.0.2:
     resolution: {integrity: sha1-NakjLfo11wZ7TLLd8jV7GHFTbF8=}
     engines: {node: '>=4'}
@@ -1687,7 +1683,7 @@ packages:
     resolution: {integrity: sha1-eVjHk+R+MuB9K1yv5cC/jhLneQI=}
     dev: true
 
-  /stylelint-prettier/2.0.0_klul7fkxgs7xgqhknddbdmurpq:
+  /stylelint-prettier/2.0.0_tva5xomdi6uk2yob64oclqrjgq:
     resolution: {integrity: sha512-jvT3G+9lopkeB0ARmDPszyfaOnvnIF+30QCjZxyt7E6fynI1T9mOKgYDNb9bXX17M7PXMZaX3j/26wqakjp1tw==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     peerDependencies:
@@ -1696,11 +1692,11 @@ packages:
     dependencies:
       prettier: 2.6.2
       prettier-linter-helpers: 1.0.0
-      stylelint: 14.8.2
+      stylelint: 14.8.3
     dev: true
 
-  /stylelint/14.8.2:
-    resolution: {integrity: sha512-tjDfexCYfoPdl/xcDJ9Fv+Ko9cvzbDnmdiaqEn3ovXHXasi/hbkt5tSjsiReQ+ENqnz0eltaX/AOO+AlzVdcNA==}
+  /stylelint/14.8.3:
+    resolution: {integrity: sha512-aLpskXwSgFEBYbFRKA/BfuyYMGuXNtn2t5GqoffNPSezvw97x/vVNWcZNF0+cwt+LBjfvyq9/MRE3OjInGRgNA==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
     hasBin: true
     dependencies:
@@ -1727,7 +1723,6 @@ packages:
       meow: 9.0.0
       micromatch: 4.0.5
       normalize-path: 3.0.0
-      normalize-selector: 0.2.0
       picocolors: 1.0.0
       postcss: 8.4.13
       postcss-media-query-parser: 0.2.3
