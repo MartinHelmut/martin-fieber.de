@@ -6,7 +6,7 @@ specifiers:
   eslint-plugin-html: 6.2.0
   prettier: 2.6.2
   serve: 13.0.2
-  stylelint: 14.8.3
+  stylelint: 14.8.4
   stylelint-prettier: 2.0.0
 
 devDependencies:
@@ -15,8 +15,8 @@ devDependencies:
   eslint-plugin-html: 6.2.0
   prettier: 2.6.2
   serve: 13.0.2
-  stylelint: 14.8.3
-  stylelint-prettier: 2.0.0_tva5xomdi6uk2yob64oclqrjgq
+  stylelint: 14.8.4
+  stylelint-prettier: 2.0.0_336nqoouqpru675eziilinvwce
 
 packages:
 
@@ -1342,13 +1342,13 @@ packages:
     resolution: {integrity: sha1-Kcy8fDfe36wwTp//C/FZaz9qDk4=}
     dev: true
 
-  /postcss-safe-parser/6.0.0_postcss@8.4.13:
+  /postcss-safe-parser/6.0.0_postcss@8.4.14:
     resolution: {integrity: sha512-FARHN8pwH+WiS2OPCxJI8FuRJpTVnn6ZNFiqAM2aeW2LwTHWWmWgIyKC6cUo0L8aeKiF/14MNvnpls6R2PBeMQ==}
     engines: {node: '>=12.0'}
     peerDependencies:
       postcss: ^8.3.3
     dependencies:
-      postcss: 8.4.13
+      postcss: 8.4.14
     dev: true
 
   /postcss-selector-parser/6.0.10:
@@ -1363,8 +1363,8 @@ packages:
     resolution: {integrity: sha512-1NNCs6uurfkVbeXG4S8JFT9t19m45ICnif8zWLd5oPSZ50QnwMfK+H3jv408d4jw/7Bttv5axS5IiHoLaVNHeQ==}
     dev: true
 
-  /postcss/8.4.13:
-    resolution: {integrity: sha512-jtL6eTBrza5MPzy8oJLFuUscHDXTV5KcLlqAWHl5q5WYRfnNRGSmOZmOZ1T6Gy7A99mOZfqungmZMpMmCVJ8ZA==}
+  /postcss/8.4.14:
+    resolution: {integrity: sha512-E398TUmfAYFPBSdzgeieK2Y1+1cpdxJx8yXbK/m57nRhKSmk1GB2tO4lbLBtlkfPQTDKfe4Xqv1ASWPpayPEig==}
     engines: {node: ^10 || ^12 || >=14}
     dependencies:
       nanoid: 3.3.4
@@ -1683,7 +1683,7 @@ packages:
     resolution: {integrity: sha1-eVjHk+R+MuB9K1yv5cC/jhLneQI=}
     dev: true
 
-  /stylelint-prettier/2.0.0_tva5xomdi6uk2yob64oclqrjgq:
+  /stylelint-prettier/2.0.0_336nqoouqpru675eziilinvwce:
     resolution: {integrity: sha512-jvT3G+9lopkeB0ARmDPszyfaOnvnIF+30QCjZxyt7E6fynI1T9mOKgYDNb9bXX17M7PXMZaX3j/26wqakjp1tw==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     peerDependencies:
@@ -1692,11 +1692,11 @@ packages:
     dependencies:
       prettier: 2.6.2
       prettier-linter-helpers: 1.0.0
-      stylelint: 14.8.3
+      stylelint: 14.8.4
     dev: true
 
-  /stylelint/14.8.3:
-    resolution: {integrity: sha512-aLpskXwSgFEBYbFRKA/BfuyYMGuXNtn2t5GqoffNPSezvw97x/vVNWcZNF0+cwt+LBjfvyq9/MRE3OjInGRgNA==}
+  /stylelint/14.8.4:
+    resolution: {integrity: sha512-VoyFmif50YNL2R1NC0NxbprTbvnihiqE9tdwb/IAUvlncoS3dEllSSEfvTaQQ6BTCp6iv6daIg5v7ryRSlBdgw==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
     hasBin: true
     dependencies:
@@ -1724,10 +1724,10 @@ packages:
       micromatch: 4.0.5
       normalize-path: 3.0.0
       picocolors: 1.0.0
-      postcss: 8.4.13
+      postcss: 8.4.14
       postcss-media-query-parser: 0.2.3
       postcss-resolve-nested-selector: 0.1.1
-      postcss-safe-parser: 6.0.0_postcss@8.4.13
+      postcss-safe-parser: 6.0.0_postcss@8.4.14
       postcss-selector-parser: 6.0.10
       postcss-value-parser: 4.2.0
       resolve-from: 5.0.0
