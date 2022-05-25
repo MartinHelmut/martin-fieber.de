@@ -6,7 +6,7 @@ specifiers:
   eslint-plugin-html: 6.2.0
   prettier: 2.6.2
   serve: 13.0.2
-  stylelint: 14.8.4
+  stylelint: 14.8.5
   stylelint-prettier: 2.0.0
 
 devDependencies:
@@ -15,8 +15,8 @@ devDependencies:
   eslint-plugin-html: 6.2.0
   prettier: 2.6.2
   serve: 13.0.2
-  stylelint: 14.8.4
-  stylelint-prettier: 2.0.0_336nqoouqpru675eziilinvwce
+  stylelint: 14.8.5
+  stylelint-prettier: 2.0.0_5qhrdhtpq2rnf2xbhb7pigm7yq
 
 packages:
 
@@ -1683,7 +1683,7 @@ packages:
     resolution: {integrity: sha1-eVjHk+R+MuB9K1yv5cC/jhLneQI=}
     dev: true
 
-  /stylelint-prettier/2.0.0_336nqoouqpru675eziilinvwce:
+  /stylelint-prettier/2.0.0_5qhrdhtpq2rnf2xbhb7pigm7yq:
     resolution: {integrity: sha512-jvT3G+9lopkeB0ARmDPszyfaOnvnIF+30QCjZxyt7E6fynI1T9mOKgYDNb9bXX17M7PXMZaX3j/26wqakjp1tw==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     peerDependencies:
@@ -1692,11 +1692,11 @@ packages:
     dependencies:
       prettier: 2.6.2
       prettier-linter-helpers: 1.0.0
-      stylelint: 14.8.4
+      stylelint: 14.8.5
     dev: true
 
-  /stylelint/14.8.4:
-    resolution: {integrity: sha512-VoyFmif50YNL2R1NC0NxbprTbvnihiqE9tdwb/IAUvlncoS3dEllSSEfvTaQQ6BTCp6iv6daIg5v7ryRSlBdgw==}
+  /stylelint/14.8.5:
+    resolution: {integrity: sha512-e3t4H/hlWlspkcNUrkhf44RU3OpPTA7uBOoREGBzSwdEF+2g/+gbZq7WEpMP7BpopcSe/uLaTvDuL+URL7cdnQ==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
     hasBin: true
     dependencies:
