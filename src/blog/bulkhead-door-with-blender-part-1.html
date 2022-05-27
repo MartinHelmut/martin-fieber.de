@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/favicon/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/favicon/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/favicon/favicon-16x16.png"
+    />
+    <link rel="manifest" href="/favicon/site.webmanifest" />
+    <link
+      rel="mask-icon"
+      href="/favicon/safari-pinned-tab.svg"
+      color="#5bbad5"
+    />
+    <link rel="shortcut icon" href="/favicon/favicon.ico" />
+    <link rel="stylesheet" href="../style.css" />
+    <meta name="msapplication-TileColor" content="#6200ee" />
+    <meta name="msapplication-config" content="/favicon/browserconfig.xml" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta
+      name="google-site-verification"
+      content="pXBMFUxwvr8ZPU6AfU6XNt3rCCRtOC5bMe1N3REDrjI"
+    />
+    <meta
+      name="description"
+      content="On my way learning 3D with Blender I try to recreate a bulkhead door from the Alien universe."
+    />
+    <script
+      async
+      defer
+      data-domain="martin-fieber.de"
+      src="https://analytics.martin-fieber.de/js/index.outbound-links.js"
+    ></script>
+    <script>
+      window.plausible =
+        window.plausible ||
+        function () {
+          (window.plausible.q = window.plausible.q || []).push(arguments);
+        };
+    </script>
+    <title>martin-fieber.se | Bulkhead door with Blender, part 1</title>
+  </head>
+  <body>
+    <div class="content">
+      <header>
+        <h1>
+          <a href="/" title="Take my back to start!">Martin Helmut Fieber</a>
+        </h1>
+      </header>
+      <main>
+        <article>
+          <h2>Bulkhead door with Blender, part 1</h2>
+          <footer>
+            <p>
+              Posted on
+              <time datetime="2022-05-27">27th of May, 2022</time>
+            </p>
+          </footer>
+          <h3>Learning more 3D modelling</h3>
+          <p>
+            Do deepen my
+            <a
+              href="/blog/i-started-learning-3d"
+              title="The start of my journey learning 3D with Blender"
+              >3D journey I started</a
+            >
+            I thought I should take on a <em>"little"</em> project going
+            <strong
+              >from Blenders default cube to a finished game ready asset</strong
+            >. Creating the high- and low-poly mesh, UV unwrapping, baking,
+            texturing, rigging, animating and finally having it presentable in a
+            game engine like Unity. I see now that calling this
+            <em>"little"</em> was blind optimism on my end. After spending hours
+            over hours on my model I just finished baking the high-poly mesh
+            onto the low-poly mesh, feeling rather intimidated by the next big
+            step texturing. But, I still think there is a lot to tell so this
+            post will focus on:
+          </p>
+          <ul>
+            <li>Creating the high- and low-poly mesh</li>
+            <li>UV unwrapping</li>
+            <li>Baking in Marmoset</li>
+          </ul>
+          <h3>What I want to create</h3>
+          <p>
+            <a
+              href="/blog/cassette-futurism"
+              title="Some appreciation Alien and the art style Cassette Futurism."
+              >As an Alien fan</a
+            >
+            I thought I could pick something out of the Alien universe I would
+            like to recreate. I also wanted to learn rigging and animating,
+            therefore whatever I pick had to have moving parts. My first thought
+            was that I will recreate the iconic Alien spaceship the
+            <a
+              href="https://avp.fandom.com/wiki/USCSS_Nostromo"
+              title="Read more about the fictional spaceship inside the Alien fan wiki."
+              >USCSS Nostromo</a
+            >.
+          </p>
+          <figure>
+            <img
+              src="/images/blog/bulkhead-door-with-blender/nostromo.png"
+              alt="Final design of the Nostromo by Ron Cobb."
+              width="1024"
+              height="448"
+            />
+            <figcaption>
+              Final design of the USCSS Nostromo by Ron Cobb as seen in his
+              <a
+                href="http://www.roncobb.net/05-Alien.html"
+                title="Ron Cobb's online gallery of Alien art."
+                >Alien website gallery</a
+              >.
+            </figcaption>
+          </figure>
+          <p>
+            Already painting in my head how I recreate the spaceship in the
+            smallest detail, moving parts, lights, walking the interior in first
+            person, ... &#8212; even I knew this is a bit much for me. It needs
+            to be something smaller, and after some research I came across the
+            original drawing of a
+            <a
+              href="http://www.roncobb.net/05-Alien.html"
+              title="Scrolling down a bit on that page is a picture of the Bulkhead door as drawn by Ron Cobb."
+              >Bulkhead door from Ron Cobb</a
+            >.
+          </p>
+          <figure>
+            <img
+              src="/images/blog/bulkhead-door-with-blender/bulkhead-door.png"
+              alt="Design of the Nostromo Bulkhead door by Ron Cobb."
+              width="1024"
+              height="1033"
+              loading="lazy"
+            />
+            <figcaption>
+              Final design of the Nostromo Bulkhead door by Ron Cobb as seen in
+              his
+              <a
+                href="http://www.roncobb.net/05-Alien.html"
+                title="Ron Cobb's online gallery of Alien art."
+                >Alien website gallery</a
+              >.
+            </figcaption>
+          </figure>
+          <p>
+            His drawing differs from what was used in the movie as the movie
+            does not have the red warn lights around the door, as well as some
+            differences at the side barrier doors. What I wanted was to recreate
+            his drawing as good as I could, as close as possible, and this is
+            what I set out to do.
+          </p>
+          <h3>Creating the mesh</h3>
+          <p>
+            Starting to work on the high-poly mesh I thought this step should
+            not take too long. Ohh was I wrong. I started over twice, third time
+            is the charm they say. It was, even though it still took me hours
+            and
+            <strong
+              >I would do so many things differently if I would do it all over
+              again</strong
+            >, but this is what learning feels like, and I will call it a nice
+            feeling.
+          </p>
+          <p>
+            After hours I got the high-poly mesh as ready as I wanted it to be.
+            Here a look at the frame with retracted inner side barrier doors and
+            a view of the closed bulkhead door, both with temporarily applied
+            materials for better visibility.
+          </p>
+          <figure>
+            <img
+              src="/images/blog/bulkhead-door-with-blender/high-poly-mesh-example.png"
+              alt="Image shows the high-poly mesh, on the left the inner barrier doors and on the right the door fully closed."
+              width="1024"
+              height="300"
+              loading="lazy"
+            />
+            <figcaption>
+              On the left: inner barrier doors visible, on the right: fully
+              closed door.
+            </figcaption>
+          </figure>
+          <p>
+            As I was using the AddOns
+            <a
+              href="https://hardops-manual.readthedocs.io/en/latest/hops_official/"
+              title="Homepage of the Hard Ops Blender AddOn."
+              >Hard Ops</a
+            >
+            and
+            <a
+              href="https://boxcutter-manual.readthedocs.io/en/latest/"
+              title="Homepage of the BoxCutter Blender AdOn."
+              >BoxCutter</a
+            >
+            with a non-destructive boolean workflow, making the creation of the
+            low-poly mesh easier by just removing some boolean cuts. Here a
+            front view of the low-poly mesh.
+          </p>
+          <figure>
+            <img
+              src="/images/blog/bulkhead-door-with-blender/low-poly-mesh-example.png"
+              alt="The low-poly mesh of the bulkhead door in front view."
+              width="1024"
+              height="696"
+              loading="lazy"
+            />
+            <figcaption>Front view of the low-poly bulkhead door.</figcaption>
+          </figure>
+          <p>
+            I really liked using those AddOns, even though I want to try a
+            different workflow with e.g.
+            <a
+              href="https://machin3.io/MESHmachine/"
+              title="Homepage of the Blender AddOn MESHmachine."
+              >MESHmachine</a
+            >
+            and
+            <a
+              href="https://machin3.io/MACHIN3tools/"
+              title="Homepage of the MACHIN3tools Blender AddOn."
+              >MACHIN3tools</a
+            >, or additive to the boolean workflow to touch up parts of the mesh
+            after applying modifiers to get even better results. For now though
+            I wanted to restrain myself from using even more tools.
+          </p>
+          <h3>UV unwrapping</h3>
+          <p>
+            Doing the UV unwrapping turned out to be
+            <strong>harder than expected</strong> and also
+            <strong>easier than I thought</strong>, at least after I figured out
+            what my issues were I had. There were two main problems I
+            encountered that I'm sure I can avoid when I tackle my next project.
+            The first one is that I had <em>"flipped normals"</em>.
+          </p>
+          <figure>
+            <img
+              src="/images/blog/bulkhead-door-with-blender/normal-issues.png"
+              alt="The outer frame of the bulkhead door in red and blue, symbolising flipped normals."
+              width="1024"
+              height="667"
+              loading="lazy"
+            />
+            <figcaption>A lot of issues with flipped normals.</figcaption>
+          </figure>
+          <p>
+            All the red you see? Ya, not good. It's kind of an
+            <em>"inside out"</em> problem, aka. a face being in the wrong
+            direction. After some searching I found out I can
+            <em>"recalculate outside"</em>.
+          </p>
+          <figure>
+            <img
+              src="/images/blog/bulkhead-door-with-blender/menu-for-fixing-normals.png"
+              alt="Shows the Blender normals menu, highlighting &#34;Recalculate Outside&#34;"
+              width="1024"
+              height="760"
+              loading="lazy"
+            />
+            <figcaption>
+              Normals menu with the option to &#34;Recalculate Outside&#34;.
+            </figcaption>
+          </figure>
+          <p>
+            Doing that for all my parts that had wrong normals I finally got
+            them the way it should be, all blue.
+          </p>
+          <figure>
+            <img
+              src="/images/blog/bulkhead-door-with-blender/normals-fixed.png"
+              alt="Image showing the bulkhead door in all blue, signalising normals facing the right direction."
+              width="1024"
+              height="960"
+              loading="lazy"
+            />
+            <figcaption>
+              &#34;Recalculate Outside&#34; indeed fixed my flipped normals.
+            </figcaption>
+          </figure>
+          <p>
+            The second issue I had I was not able to fully fix; some vertices
+            seemed <em>"misplaced"</em> when unwrapping the mesh, producing some
+            very strange result in the UV map. You still see some of those
+            artefacts in the final result.
+          </p>
+          <figure>
+            <img
+              src="/images/blog/bulkhead-door-with-blender/uv-unwrapping.png"
+              alt="UV map in Blender with issues I encountered unwrapping my mesh."
+              width="1024"
+              height="588"
+              loading="lazy"
+            />
+            <figcaption>Result of my UV unwrapping.</figcaption>
+          </figure>
+          <p>
+            But all in all I'm quite happy with the result and decided to move
+            on &#8212; <strong>for the sake of time</strong>. Besides, that it
+            did not seem to make any problems the way I had it when I tested the
+            asset later. To avoid this type of issue in the future I would try
+            to take better care when creating the actual mesh. Looking closer at
+            the topology I am producing, hoping that future Martin will figure
+            that out.
+          </p>
+          <p>
+            With this amount of stress, and the feeling I messed up everything,
+            I was still able to have everything properly UV unwrapped.
+          </p>
+          <figure>
+            <img
+              src="/images/blog/bulkhead-door-with-blender/final-uv-unwrap.png"
+              alt="Final UV unwrapped bulkhead door showing the unwrapping via material."
+              width="1024"
+              height="590"
+              loading="lazy"
+            />
+            <figcaption>My final UV unwrapped door.</figcaption>
+          </figure>
+          <h3>Baking in Marmoset</h3>
+          <p>
+            Initially when it came to baking the high-poly mesh onto the
+            low-poly mesh I thought I will use Blender as well. Even though I
+            still plan on learning this in Blender, I decided to go with
+            <a href="https://marmoset.co" title="Website of Marmoset"
+              >Marmoset Toolbag 4</a
+            >. In hindsight, I would call this
+            <em>"a whole new beast to tackle"</em>.
+          </p>
+          <p>
+            Why <strong>Marmoset</strong> and not <strong>Blender</strong> or
+            <a
+              href="https://www.adobe.com/products/substance3d-painter.html"
+              title="Adobe website with more information to Substance Painter."
+              >Adobe Substance Painter</a
+            >? I made the decision as I saw it used not only in a bunch of
+            tutorials, but also due to the support for
+            <a
+              href="https://marmoset.co/toolbag/texturing/"
+              title="Information about texturing with Marmoset Toolbag 4."
+              >Texturing</a
+            >, including the usage of
+            <a
+              href="https://marmoset.co/toolbag/library/"
+              title="Overview of the material library of Marmoset Toolbag 4."
+              >smart materials</a
+            >. It also made the impression of being rather intuitive to use (I
+            was not too wrong with this, I actually was able to figure out a lot
+            of things just on my own). What caught me as well was the pricing,
+            it gives the option to either pay per month as subscription or, my
+            favourite, make <strong>a one time payment</strong> and you own the
+            program. This was <b class="emphasize">the</b> reason for me to not
+            go with Adobe Substance Painter as I dislike the subscription only
+            way Adobe goes with all there products now-days. Not using Blender
+            was just due to reading about poor support for baking and texturing
+            (so far, apparently there is
+            <a
+              href="https://code.blender.org/2022/02/layered-textures-design/"
+              title="Blog post about the work being done in Blender for better texturing support."
+              >work being done</a
+            >).
+          </p>
+          <p>
+            Getting to the actual baking process this was super convenient. This
+            was thanks to the naming convention for meshes, having the high-poly
+            mesh named with <code>_high</code>, and <code>_low</code> for the
+            low-poly mesh, exported in the same way.
+          </p>
+          <figure>
+            <img
+              src="/images/blog/bulkhead-door-with-blender/poly-naming.png"
+              alt="On the left mesh names in Blender, in the middle exported file names and on the right names in Marmoset, all with the postfix _high and _low."
+              width="1024"
+              height="408"
+              loading="lazy"
+            />
+            <figcaption>
+              On the left: mesh names in Blender, in the middle: exported file
+              names, on the right: imported meshes in Marmoset Toolbag 4.
+            </figcaption>
+          </figure>
+          <p>
+            This enabled me to <em>"just hit import"</em> in Marmoset and get a
+            proper setup bake project.
+          </p>
+          <figure>
+            <img
+              src="/images/blog/bulkhead-door-with-blender/marmoset-project.png"
+              alt="Showing my imported project as scene in Marmoset Toolbag 4."
+              width="1024"
+              height="622"
+              loading="lazy"
+            />
+            <figcaption>My mesh imported into Marmoset Toolbag 4.</figcaption>
+          </figure>
+          <p>
+            After tweaking some details for smaller parts on the mesh,
+            specifically painting skew.
+          </p>
+          <figure>
+            <img
+              src="/images/blog/bulkhead-door-with-blender/marmoset-fixes.png"
+              alt="Image showing how I fix skew in Marmoset."
+              width="1024"
+              height="622"
+              loading="lazy"
+            />
+            <figcaption>Fixing my skew and offset issues.</figcaption>
+          </figure>
+          <p>
+            I was able to bake the project and get all the maps I needed (here
+            is the tutorial I worked through to manage this:
+            <a
+              href="https://marmoset.co/posts/toolbag-baking-tutorial/"
+              title="Introductory tutorial to baking with Marmoset Toolbag 4."
+              >The Toolbag Baking Tutorial</a
+            >).
+          </p>
+          <figure>
+            <img
+              src="/images/blog/bulkhead-door-with-blender/result-normals-and-ao.png"
+              alt="Image showing the ambient occlusion map on the left and the normal map on the right."
+              width="1024"
+              height="500"
+              loading="lazy"
+            />
+            <figcaption>
+              Two baked maps. On the left:
+              <a
+                href="https://www.sciencedirect.com/topics/computer-science/ambient-occlusion"
+                title="Extensive overview about ambient occlusion in ScienceDirect."
+                >ambient occlusion</a
+              >
+              map, on the right:
+              <a
+                href="https://en.wikipedia.org/wiki/Normal_mapping"
+                title="Wikipedia article about normal mapping."
+                >normal map</a
+              >.
+            </figcaption>
+          </figure>
+          <h3>What comes next?</h3>
+          <p>
+            As mentioned, this is not the end of my journey creating the
+            Bulkhead door. Next up will be
+          </p>
+          <ul>
+            <li>Texturing with Marmoset,</li>
+            <li>Rigging and</li>
+            <li>Animating</li>
+          </ul>
+          <p>
+            the door in Blender. And finally
+            <strong>having it all in Unity</strong> with some nice lighting as a
+            proper showcase. I started getting my feet wet texturing the door in
+            Marmoset, nothing fancy yet; here a little sneak peek of my first
+            experiments.
+          </p>
+          <figure>
+            <img
+              src="/images/blog/bulkhead-door-with-blender/texturing-preview.png"
+              alt="Sneak peek of my trying to texture the door in Marmoset."
+              width="1024"
+              height="622"
+              loading="lazy"
+            />
+            <figcaption>
+              Slowly learning how to texture the Bulkhead door in Marmoset
+              Toolbag 4.
+            </figcaption>
+          </figure>
+          <p>
+            My goal is to get a <strong>realistic door</strong> with materials
+            <strong>inspired by the movie</strong>, though I think this will
+            still be a long way.
+          </p>
+          <p>
+            That will continue next month with part 2 of this
+            <em>"little"</em>
+            project 👋🏻.
+          </p>
+        </article>
+      </main>
+      <footer>
+        <a
+          href="/legal-notice"
+          title="Legal notice page includes address and contact information"
+        >
+          Legal notice
+        </a>
+        |
+        <a
+          href="/privacy-policy"
+          title="Privacy policy includes cookie information, but there are no cookies"
+        >
+          Privacy policy
+        </a>
+        |
+        <a
+          href="https://github.com/MartinHelmut/martin-fieber.de"
+          title="View the sources of this website on Github"
+        >
+          Website sources
+        </a>
+      </footer>
+    </div>
+  </body>
+</html>
