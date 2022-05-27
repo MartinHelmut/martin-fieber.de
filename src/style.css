@@ -174,7 +174,8 @@ figcaption {
   padding: 0;
 }
 
-img + figcaption {
+img + figcaption,
+picture + figcaption {
   text-align: center;
 }
 

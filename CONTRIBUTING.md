@@ -70,6 +70,19 @@ Add your changes and run `pnpm commit` to start the commitizen cli to create a p
 
 Create a "Pull Request" on GitHub and be awesome! 😎
 
+## Using webP for images
+
+Best is to create a JPEG or PNG first for browsers not supporting webP. After that images can be converted using the [webP tooling](https://developers.google.com/speed/webp).
+
+```shell
+# Example for PNG files. Switch first to the directory containing the files.
+cd into/folder/with/images
+for file in *.png
+do
+cwebp "$file" -o "${file%.png}.webp"
+done
+```
+
 ## Be Nice
 
 Please follow the defined [code of conduct](CODE_OF_CONDUCT.md).
