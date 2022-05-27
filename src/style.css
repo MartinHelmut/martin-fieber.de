@@ -191,6 +191,12 @@ address {
   font-style: italic;
 }
 
+.emphasize {
+  font-style: normal;
+  font-weight: normal;
+  text-transform: uppercase;
+}
+
 /* Article */
 
 article {
