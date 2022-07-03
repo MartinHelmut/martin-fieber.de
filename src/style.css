@@ -5,6 +5,9 @@
   --base-font: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue",
     Helvetica, Arial, "Lucida Grande", sans-serif;
 
+  --font-weight-normal: 300;
+  --font-weight-bold: 700;
+
   /* Sizes */
   --size-100: 1px;
   --size-300: 5px;
@@ -18,6 +21,7 @@
   --color-blue-500: #6200ee;
   --color-blue-700: #5200ac;
 
+  --color-grey-200: #f1f1f1;
   --color-grey-300: #dcdcdc;
   --color-grey-500: #aaaaaa;
   --color-grey-800: #595959;
@@ -49,7 +53,7 @@ header {
 
 main + footer {
   font-family: var(--base-font);
-  font-weight: 300;
+  font-weight: var(--font-weight-normal);
   line-height: 1.65;
   border-top: var(--size-100) solid var(--color-grey-500);
   margin: var(--size-700) 0 0 0;
@@ -80,7 +84,7 @@ h2,
 h3,
 h4 {
   font-family: var(--base-font);
-  font-weight: bold;
+  font-weight: var(--font-weight-bold);
   line-height: 1.65;
   color: var(--color-grey-900);
   padding: 0;
@@ -107,7 +111,7 @@ h4 {
 }
 
 strong {
-  font-weight: bold;
+  font-weight: var(--font-weight-bold);
 }
 
 em {
@@ -118,7 +122,7 @@ p,
 blockquote {
   font-family: var(--base-font);
   font-size: 1.3rem;
-  font-weight: 300;
+  font-weight: var(--font-weight-normal);
   color: var(--color-grey-900);
   line-height: 1.65;
   margin: 0 0 var(--size-500) 0;
@@ -143,7 +147,7 @@ ul {
 ul li {
   font-family: var(--base-font);
   font-size: 1.3rem;
-  font-weight: 300;
+  font-weight: var(--font-weight-normal);
   color: var(--color-grey-900);
   line-height: 1.65;
   margin: 0;
@@ -168,14 +172,15 @@ figcaption {
   color: var(--color-grey-800);
   font-family: var(--base-font);
   font-size: 1rem;
-  font-weight: 300;
+  font-weight: var(--font-weight-normal);
   line-height: 1.65;
   margin: 0;
   padding: 0;
 }
 
 img + figcaption,
-picture + figcaption {
+picture + figcaption,
+pre + figcaption {
   text-align: center;
 }
 
@@ -194,7 +199,7 @@ address {
 
 .emphasize {
   font-style: normal;
-  font-weight: normal;
+  font-weight: var(--font-weight-normal);
   text-transform: uppercase;
 }
 
@@ -227,4 +232,94 @@ article footer p {
 article img {
   width: 100%;
   height: auto;
+}
+
+/* Code block compatible with highlight.js */
+
+p code {
+  font-size: 1rem;
+  padding: 0.05rem;
+  vertical-align: middle;
+  background-color: var(--color-grey-200);
+}
+
+pre code.hljs {
+  font-family: monospace;
+  font-size: 0.8rem;
+  display: block;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  padding: 1rem 0;
+  color: var(--color-grey-800);
+  border-top: 1px solid var(--color-grey-500);
+  border-bottom: 1px solid var(--color-grey-500);
+}
+
+@media (min-width: 660px) {
+  pre code.hljs {
+    padding: 1rem;
+    font-size: 1rem;
+  }
+}
+
+.hljs-comment,
+.hljs-quote {
+  color: #696969;
+}
+
+.hljs-deletion,
+.hljs-name,
+.hljs-regexp,
+.hljs-selector-class,
+.hljs-selector-id,
+.hljs-tag,
+.hljs-template-variable,
+.hljs-variable {
+  color: #d91e18;
+}
+
+.hljs-attribute,
+.hljs-doctag,
+.hljs-keyword,
+.hljs-meta .hljs-keyword,
+.hljs-name,
+.hljs-selector-tag {
+  font-weight: var(--font-weight-bold);
+}
+
+.hljs-attribute,
+.hljs-built_in,
+.hljs-link,
+.hljs-literal,
+.hljs-meta,
+.hljs-number,
+.hljs-params,
+.hljs-type {
+  color: #aa5d00;
+}
+
+.hljs-addition,
+.hljs-bullet,
+.hljs-string,
+.hljs-symbol {
+  color: green;
+}
+
+.hljs-section,
+.hljs-title {
+  color: #007faa;
+  font-weight: var(--font-weight-bold);
+}
+
+.hljs-keyword,
+.hljs-selector-tag {
+  color: #7928a1;
+}
+
+.hljs-emphasis {
+  font-style: italic;
+}
+
+.hljs-strong {
+  font-weight: var(--font-weight-bold);
 }

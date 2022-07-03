@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://martin-fieber.de</loc>
-    <lastmod>2022-05-27</lastmod>
+    <lastmod>2022-06-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
@@ -20,7 +20,13 @@
   </url>
   <url>
     <loc>https://martin-fieber.de/blog</loc>
-    <lastmod>2022-05-27</lastmod>
+    <lastmod>2022-06-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://martin-fieber.de/blog/basic-cpp-setup-with-dependency-management</loc>
+    <lastmod>2022-06-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
