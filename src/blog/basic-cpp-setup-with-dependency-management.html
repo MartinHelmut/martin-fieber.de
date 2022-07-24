@@ -466,6 +466,7 @@ Checks: >
   -cppcoreguidelines-macro-usage,
   -readability-function-cognitive-complexity,
   -misc-non-private-member-variables-in-classes,
+  -clang-analyzer-optin.cplusplus.UninitializedObject,
   -misc-static-assert,
   -modernize-use-trailing-return-type,
   -bugprone-easily-swappable-parameters,
@@ -673,15 +674,15 @@ FetchContent_MakeAvailable(fmt)</code></pre>
 FetchContent_Declare(
   fmt
   GIT_REPOSITORY "https://github.com/fmtlib/fmt.git"
-  GIT_TAG b6f4ceaed0a0a24ccf575fab6c56dd50ccf6f1a9 # 8.1.1
+  GIT_TAG 9.0.0
 )
 add_subdirectory(fmt)</code></pre>
           </figure>
           <p>
             It includes the <code>FetchContent</code> module from CMake, then
             declares a dependency by giving it a name, what Git repository to
-            use and the Git tag (or rather commit hash) to use. At last, it adds
-            the dependency subdirectory.
+            use and the Git tag (or alternatively a commit hash) to use. At
+            last, it adds the dependency subdirectory.
           </p>
           <p>
             With
