@@ -1,5 +1,4 @@
 node_modules/
-assets/
+raw_assets/
 \.DS_Store
 *.log
-assets/
