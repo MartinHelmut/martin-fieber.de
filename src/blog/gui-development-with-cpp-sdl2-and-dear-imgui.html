@@ -1,0 +1,1529 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/favicon/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/favicon/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/favicon/favicon-16x16.png"
+    />
+    <link rel="manifest" href="/favicon/site.webmanifest" />
+    <link
+      rel="mask-icon"
+      href="/favicon/safari-pinned-tab.svg"
+      color="#5bbad5"
+    />
+    <link rel="shortcut icon" href="/favicon/favicon.ico" />
+    <link rel="stylesheet" href="../style.css" />
+    <meta name="msapplication-TileColor" content="#6200ee" />
+    <meta name="msapplication-config" content="/favicon/browserconfig.xml" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta
+      name="google-site-verification"
+      content="pXBMFUxwvr8ZPU6AfU6XNt3rCCRtOC5bMe1N3REDrjI"
+    />
+    <meta
+      name="description"
+      content="Showcasing my personal setup for GUI application development with C++, SDL2, and Dear ImGui."
+    />
+    <script
+      async
+      defer
+      data-domain="martin-fieber.de"
+      src="https://analytics.martin-fieber.de/js/index.outbound-links.js"
+    ></script>
+    <script>
+      window.plausible =
+        window.plausible ||
+        (() => (window.plausible.q = window.plausible.q || []).push(arguments));
+      document.addEventListener("DOMContentLoaded", () => {
+        if (typeof hljs !== "undefined") hljs.highlightAll();
+      });
+    </script>
+    <script defer src="/highlight.min.js"></script>
+    <title>
+      martin-fieber.se | GUI Development with C++, SDL2 and Dear ImGui
+    </title>
+  </head>
+  <body>
+    <div class="content">
+      <header>
+        <h1>
+          <a href="/" title="Take my back to start!">Martin Helmut Fieber</a>
+        </h1>
+      </header>
+      <main>
+        <article>
+          <h2>GUI Development with C++, SDL2, and Dear ImGui</h2>
+          <footer>
+            <p>
+              Posted on
+              <time datetime="2022-07-30">30th of July, 2022</time>
+            </p>
+          </footer>
+          <h3>The many ways of GUI</h3>
+          <p>
+            Looking at all those tools, libraries, and many ways of developing
+            GUIs in C++, it can become easily overwhelming. This at least
+            happened to me; every time I set out to
+            <em>"finally solve how I will create GUIs in C++"</em> I got blasted
+            by all the possibilities. From very simplistic to huge monster like
+            frameworks with own language extensions. In the end I never just
+            <strong>created</strong>.
+          </p>
+          <p>
+            Over time though, I became more and more familiar with
+            <a
+              href="https://github.com/ocornut/imgui"
+              title="GitHub page of Dear ImGui."
+              >Dear ImGui</a
+            >, an immediate mode
+            <em>"GUI for C++ with minimal dependencies"</em>, creating tools for
+            game development. Never taking it serious for
+            <em>"end-user"</em> applications, I've got the final push to try it
+            from
+            <a
+              href="https://youtu.be/vWXrFetSH8w"
+              title="The video of The Cherno that that gave me a push."
+              >a video from Yan Chernikov</a
+            >. Trying ImGui, in combination with
+            <a href="https://www.libsdl.org" title="Homepage for SDL2">SDL2</a>
+            I just started learning, I was pleasantly surprised about the
+            outcome.
+          </p>
+          <p>
+            Here it goes, a basic setup I started using for end-user
+            applications. Of course, as many frameworks there are opinions, and
+            this one is only mine.
+          </p>
+          <h3>Basic setup</h3>
+          <p>
+            For the setup of the application I use my C++ starter template I
+            showed in the last post,
+            <a
+              href="https://martin-fieber.de/blog/basic-cpp-setup-with-dependency-management"
+              title="My post about setting up a C++ dev environment."
+              >Basic C++ setup with dependency management in CMake</a
+            >. The template for this can be found on GitHub:
+            <a
+              href="https://github.com/MartinHelmut/cpp-base-template"
+              title="Template project on GitHub."
+              >github.com/MartinHelmut/cpp-base-template</a
+            >
+            or as a step-by-step explanation in the blog post.
+          </p>
+          <p>
+            The first thing I did was to rename <code>src/some_library</code> to
+            <code>src/core</code>. This then contains the logging and debugging
+            helper, also this is where I will create the <code>Window</code> and
+            <code>Application</code>
+            classes.
+          </p>
+          <h3>SDL2 and Dear ImGui</h3>
+          <p>
+            SDL2 will be added as dependency through
+            <code>FetchContent_Declare</code>, same as the other dependencies in
+            <code>vendor/CMakeLists.txt</code>.
+          </p>
+          <figure>
+            <pre><code class="language-cmake hljs"># vendor/CMakeLists.txt
+FetchContent_Declare(
+  SDL2
+  GIT_REPOSITORY "https://github.com/libsdl-org/SDL.git"
+  GIT_TAG release-2.0.22
+)
+add_subdirectory(sdl)
+
+# Other dependencies ...</code></pre>
+          </figure>
+          <p>
+            The new file <code>vendor/sdl/CMakeLists.txt</code> will just serve
+            to show a message on fetching and make SDL2 available.
+          </p>
+          <figure>
+            <pre><code class="language-cmake hljs"># vendor/sdl/CMakeLists.txt
+message(STATUS "Fetching SDL ...")
+
+FetchContent_MakeAvailable(SDL2)</code></pre>
+          </figure>
+          <p>
+            Adding Dear ImGui as dependency works the same, by adding the
+            content fetching in <code>vendor/CMakeLists.txt</code>. Instead of
+            using a regular release I will use the <em>"docking"</em> branch,
+            enabling a flexible way of moving and docking UI widgets.
+          </p>
+          <figure>
+            <pre><code class="language-cmake hljs"># vendor/CMakeLists.txt
+FetchContent_Declare(
+  imgui
+  GIT_REPOSITORY "https://github.com/ocornut/imgui.git"
+  # docking-latest
+  GIT_TAG cb8ead1f7198924f97e52973d115e1d4eaeda2f3
+)
+add_subdirectory(imgui)
+
+# Other dependencies ...</code></pre>
+          </figure>
+          <p>
+            As ImGui does not support CMake, there needs to be a bit more done
+            inside the new file <code>vendor/imgui/CMakeLists.txt</code>. The
+            whole file will set up ImGui as a library by adding all necessary
+            source files, defining the including directory and linking SDL2 to
+            it.
+          </p>
+          <figure>
+            <pre><code class="language-cmake hljs"># vendor/imgui/CMakeLists.txt
+message(STATUS "Fetching imgui ...")
+
+set(CMAKE_CXX_STANDARD 20)
+
+FetchContent_GetProperties(imgui)
+if (NOT imgui_POPULATED)
+  FetchContent_Populate(imgui)
+endif ()
+
+add_library(imgui
+  ${imgui_SOURCE_DIR}/imgui.cpp
+  ${imgui_SOURCE_DIR}/imgui.h
+  ${imgui_SOURCE_DIR}/imconfig.h
+  ${imgui_SOURCE_DIR}/imgui_demo.cpp
+  ${imgui_SOURCE_DIR}/imgui_draw.cpp
+  ${imgui_SOURCE_DIR}/imgui_internal.h
+  ${imgui_SOURCE_DIR}/imgui_tables.cpp
+  ${imgui_SOURCE_DIR}/imgui_widgets.cpp
+  ${imgui_SOURCE_DIR}/imstb_rectpack.h
+  ${imgui_SOURCE_DIR}/imstb_textedit.h
+  ${imgui_SOURCE_DIR}/imstb_truetype.h
+  ${imgui_SOURCE_DIR}/backends/imgui_impl_sdl.h
+  ${imgui_SOURCE_DIR}/backends/imgui_impl_sdl.cpp
+  ${imgui_SOURCE_DIR}/backends/imgui_impl_sdlrenderer.h
+  ${imgui_SOURCE_DIR}/backends/imgui_impl_sdlrenderer.cpp)
+
+target_include_directories(imgui PUBLIC ${imgui_SOURCE_DIR})
+target_link_libraries(imgui PUBLIC SDL2::SDL2)
+
+FetchContent_MakeAvailable(imgui)</code></pre>
+          </figure>
+          <p>Now, ImGui and SDL need to be added to the Core library.</p>
+          <figure>
+            <pre><code class="language-cmake hljs"># src/core/CMakeLists.txt
+set(NAME "Core")
+
+include(${PROJECT_SOURCE_DIR}/cmake/StaticAnalyzers.cmake)
+
+add_library(${NAME} STATIC
+  Core/Log.cpp Core/Log.hpp Core/Debug/Instrumentor.hpp
+  Core/Application.cpp Core/Application.hpp
+  Core/Window.cpp Core/Window.hpp)
+
+target_include_directories(${NAME}
+  PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_compile_features(${NAME} PRIVATE cxx_std_20)
+target_link_libraries(${NAME}
+  PRIVATE project_warnings
+  # Added SDL2::SDL2 and imgui here.
+  PUBLIC fmt spdlog SDL2::SDL2 imgui)</code></pre>
+          </figure>
+          <h3>Basic application setup</h3>
+          <p>
+            The basic application will run the main loop and handle properly
+            stopping the application on close. There will also be an exit status
+            in case of an issues.
+          </p>
+          <figure>
+            <pre><code class="language-cpp hljs">// src/core/Core/Application.hpp
+#pragma once
+
+#include &lt;SDL.h&gt;
+
+namespace App {
+
+class Application {
+ public:
+  Application();
+  ~Application();
+
+  int run();
+  void stop();
+
+ private:
+  int m_exit_status{0};
+  bool m_running{true};
+};
+
+}  // namespace App</code></pre>
+          </figure>
+          <p>
+            The basic implementation of <code>Application.hpp</code> looks like
+            the following.
+          </p>
+          <figure>
+            <pre><code class="language-cpp hljs">// src/core/Core/Application.cpp
+#include "Application.hpp"
+#include "Core/Log.hpp"
+
+namespace App {
+
+Application::Application() {
+  unsigned int init_flags{
+    SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_GAMECONTROLLER
+  };
+  if (init_flags) != 0) {
+    APP_ERROR("Error: %s\n", SDL_GetError());
+    m_exit_status = 1;
+  }
+}
+
+Application::~Application() {
+  SDL_Quit();
+}
+
+int App::Application::run() {
+  if (m_exit_status == 1) {
+    return m_exit_status;
+  }
+
+  m_running = true;
+  while (m_running) {
+    // ...
+  }
+
+  return m_exit_status;
+}
+
+void App::Application::stop() {
+  m_running = false;
+}
+
+}  // namespace App</code></pre>
+          </figure>
+          <p>
+            Step-by-step, the constructor will initialise SDL2 and catch
+            possible issues on creation. The destructor will only quit SDL2 for
+            now.
+          </p>
+          <figure>
+            <pre><code class="language-cpp hljs">Application::Application() {
+  unsigned int init_flags{
+    SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_GAMECONTROLLER
+  };
+  if (SDL_Init(init_flags) != 0) {
+    APP_ERROR("Error: %s\n", SDL_GetError());
+    m_exit_status = 1;
+  }
+}
+
+Application::~Application() {
+  SDL_Quit();
+}</code></pre>
+          </figure>
+          <p>
+            Inside <code>run</code> will be the main loop and some error
+            handling.
+          </p>
+          <figure>
+            <pre><code class="language-cpp hljs">int App::Application::run() {
+  if (m_exit_status == 1) {
+    return m_exit_status;
+  }
+
+  m_running = true;
+  while (m_running) {
+    // ...
+  }
+
+  return m_exit_status;
+}</code></pre>
+          </figure>
+          <p>
+            Last but not least, calling <code>stop</code> will end the main
+            loop.
+          </p>
+          <figure>
+            <pre><code class="language-cpp hljs">void App::Application::stop() {
+  m_running = false;
+}</code></pre>
+          </figure>
+          <p>
+            To actual run the application it needs to be added to the projects
+            <code>Main.cpp</code> file.
+          </p>
+          <figure>
+            <pre><code class="language-cpp hljs">// src/app/App/Main.cpp
+#include "Core/Application.hpp"
+
+int main() {
+  App::Application app{};
+  return app.run();
+}</code></pre>
+          </figure>
+          <p>
+            Returning the exit status from <code>app.run()</code> will serve as
+            exit code of the application. Last step to make this work is to add
+            the newly created files to CMake.
+          </p>
+          <figure>
+            <pre><code class="language-cmake hljs"># src/core/CMakeLists.txt
+set(NAME "Core")
+
+include(${PROJECT_SOURCE_DIR}/cmake/StaticAnalyzers.cmake)
+
+add_library(${NAME} STATIC
+  Core/Log.cpp Core/Log.hpp Core/Debug/Instrumentor.hpp
+  # Application files here:
+  Core/Application.cpp Core/Application.hpp)
+
+target_include_directories(${NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_compile_features(${NAME} PRIVATE cxx_std_20)
+target_link_libraries(${NAME}
+  PRIVATE project_warnings
+  PUBLIC fmt spdlog SDL2::SDL2 imgui)</code></pre>
+          </figure>
+          <h3>Creating the window</h3>
+          <p>
+            Next is setting up the window for rendering. The
+            <code>Settings</code> struct will define the base size of the window
+            of <code>1280</code> times <code>720</code>, I just picked.
+          </p>
+          <figure>
+            <pre><code class="language-cpp hljs">// src/core/Core/Window.hpp
+#pragma once
+
+#include &lt;string&gt;
+#include "SDL.h"
+
+namespace App {
+
+class Window {
+ public:
+  struct Settings {
+    std::string title;
+    const int width{1280};
+    const int height{720};
+  };
+
+  explicit Window(const Settings& settings);
+  ~Window();
+
+  [[nodiscard]] SDL_Window* get_native_window() const;
+  [[nodiscard]] SDL_Renderer* get_native_renderer() const;
+
+ private:
+  SDL_Window* m_window{nullptr};
+  SDL_Renderer* m_renderer{nullptr};
+};
+
+}  // namespace App</code></pre>
+          </figure>
+          <p>Here the full implementation of <code>Window</code>.</p>
+          <figure>
+            <pre><code class="language-cpp hljs">// src/core/Core/Window.cpp
+#include "Window.hpp"
+#include "Core/Log.hpp"
+
+namespace App {
+
+Window::Window(const Settings& settings) {
+  auto window_flags{
+	static_cast&lt;SDL_WindowFlags&gt;(
+	  SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI
+	)
+  };
+  constexpr int window_center_flag{SDL_WINDOWPOS_CENTERED};
+
+  m_window = SDL_CreateWindow(
+      settings.title.c_str(),
+      window_center_flag,
+      window_center_flag,
+      settings.width,
+      settings.height,
+      window_flags
+  );
+
+  auto renderer_flags{
+    static_cast&lt;SDL_RendererFlags&gt;(
+      SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_ACCELERATED
+    )
+  };
+  m_renderer = SDL_CreateRenderer(
+    m_window, -1, renderer_flags
+  );
+
+  if (m_renderer == nullptr) {
+    APP_ERROR("Error creating SDL_Renderer!");
+    return;
+  }
+}
+
+Window::~Window() {
+  SDL_DestroyRenderer(m_renderer);
+  SDL_DestroyWindow(m_window);
+}
+
+SDL_Window* Window::get_native_window() const {
+  return m_window;
+}
+
+SDL_Renderer* Window::get_native_renderer() const {
+  return m_renderer;
+}
+
+}  // namespace App</code></pre>
+          </figure>
+          <p>One at a time, the biggest part is the constructor.</p>
+          <figure>
+            <pre><code class="language-cpp hljs">Window::Window(const Settings& settings) {
+  auto window_flags{
+	static_cast&lt;SDL_WindowFlags&gt;(
+	  SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI
+	)
+  };
+  constexpr int window_center_flag{SDL_WINDOWPOS_CENTERED};
+
+  m_window = SDL_CreateWindow(
+      settings.title.c_str(),
+      window_center_flag,
+      window_center_flag,
+      settings.width,
+      settings.height,
+      window_flags
+  );
+
+  // ...
+}</code></pre>
+          </figure>
+          <p>
+            First step is to actually create a window &#8212; it should be
+            resizable and work on high DPI displays, like Retina displays.
+            Besides that, the window will be created centered on the screen with
+            the provided settings for size and window title.
+          </p>
+          <p>
+            Besides the window, a renderer is needed to actually draw something
+            into the window.
+          </p>
+          <figure>
+            <pre><code class="language-cpp hljs">Window::Window(const Settings& settings) {
+  // ...
+
+  auto renderer_flags{
+    static_cast&lt;SDL_RendererFlags&gt;(
+      SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_ACCELERATED
+    )
+  };
+  m_renderer = SDL_CreateRenderer(
+    m_window, -1, renderer_flags
+  );
+
+  if (m_renderer == nullptr) {
+    APP_ERROR("Error creating SDL_Renderer!");
+    return;
+  }
+}</code></pre>
+          </figure>
+          <p>
+            The renderer will use VSync and hardware acceleration. Both,
+            renderer and window, will get cleaned up in the destructor.
+          </p>
+          <figure>
+            <pre><code class="language-cpp hljs">Window::~Window() {
+  SDL_DestroyRenderer(m_renderer);
+  SDL_DestroyWindow(m_window);
+}</code></pre>
+          </figure>
+          <p>
+            For the setup of ImGui, <code>Window</code> will also expose the
+            native window and renderer.
+          </p>
+          <figure>
+            <pre><code class="language-cpp hljs">SDL_Window* Window::get_native_window() const {
+  return m_window;
+}
+
+SDL_Renderer* Window::get_native_renderer() const {
+  return m_renderer;
+}</code></pre>
+          </figure>
+          <p>Not forgetting to add those new files to CMake again.</p>
+          <figure>
+            <pre><code class="language-cmake hljs"># src/core/CMakeLists.txt
+set(NAME "Core")
+
+include(${PROJECT_SOURCE_DIR}/cmake/StaticAnalyzers.cmake)
+
+add_library(${NAME} STATIC
+  Core/Log.cpp Core/Log.hpp Core/Debug/Instrumentor.hpp
+  Core/Application.cpp Core/Application.hpp
+  # New Window files
+  Core/Window.cpp Core/Window.hpp)
+
+target_include_directories(${NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_compile_features(${NAME} PRIVATE cxx_std_20)
+target_link_libraries(${NAME}
+  PRIVATE project_warnings
+  PUBLIC fmt spdlog SDL2::SDL2 imgui)</code></pre>
+          </figure>
+          <p>
+            Now, the <code>Application</code> will create and manage the window
+            holding a reference through a <code>unique_ptr</code>.
+          </p>
+          <figure>
+            <pre><code class="language-cpp hljs">// src/core/Core/Application.hpp
+// ...
+  private:
+    int m_exit_status{0};
+    bool m_running{true};
+
+    // Hold reference to window.
+    std::unique_ptr&lt;Window&gt; m_window{nullptr};
+// ...</code></pre>
+          </figure>
+          <p>
+            The window will be created inside the
+            <code>Application</code> constructor.
+          </p>
+          <figure>
+            <pre><code class="language-cpp hljs">// src/core/Core/Application.cpp
+Application::Application() {
+  unsigned int init_flags{
+    SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_GAMECONTROLLER
+  };
+  if (SDL_Init(init_flags) != 0) {
+    APP_ERROR("Error: %s\n", SDL_GetError());
+    m_exit_status = 1;
+  }
+
+  // Create new window with the title "Application".
+  m_window = std::make_unique&lt;Window&gt;(
+    Window::Settings{"Application"}
+  );
+}</code></pre>
+          </figure>
+          <p>
+            The renderer set up inside the main loops <code>run</code> method.
+          </p>
+          <figure>
+            <pre><code class="language-cpp hljs">// src/core/Core/Application.cpp
+
+int App::Application::run() {
+  // ...
+
+  m_running = true;
+  while (m_running) {
+    SDL_SetRenderDrawColor(
+      m_window->get_native_renderer(),
+      // Gray clear color (rgba)
+      100, 100, 100, 255
+    );
+    SDL_RenderClear(m_window->get_native_renderer());
+    SDL_RenderPresent(m_window->get_native_renderer());
+  }
+
+  // ...
+}</code></pre>
+          </figure>
+          <h3>Showing something on the screen</h3>
+          <p>
+            To actually get something on screen, ImGui and the SDL2 ImGui
+            backend and renderer need to be set up. The SDL renderer will,
+            depending on the operating system, pick a different render backend —
+            DirectX 10, 11 or 12 for Windows, Metal for Mac, and so on. You can
+            see for yourself inside the
+            <a
+              href="https://github.com/libsdl-org/SDL/blob/main/src/render/SDL_render.c#L91"
+              title="SDL2 source code handling the rendering backend."
+              >SDL_render.c file</a
+            >
+            if you want.
+          </p>
+          <p>
+            The imports are ImGui, the SDL ImGui implementation, and the ImGui
+            SDL renderer.
+          </p>
+          <figure>
+            <pre><code class="language-cpp hljs">// src/core/Core/Application.cpp
+#include &lt;backends/imgui_impl_sdl.h&gt;
+#include &lt;backends/imgui_impl_sdlrenderer.h&gt;
+#include &lt;imgui.h&gt;
+
+// ...</code></pre>
+          </figure>
+          <p>
+            Now, the <code>run</code> method needs to create the ImGui context,
+            initialise the SDL renderer, poll events, create a new frame and
+            actually render something. But, everything step-by-step.
+          </p>
+          <p>
+            First thing is to create a new ImGui context and set the flags
+            <code>NavEnableKeyboard</code> and <code>ViewportsEnable</code> for
+            enabling keyboard navigation and multiple viewports.
+          </p>
+          <figure>
+            <pre><code class="language-cpp hljs">// src/core/Core/Application.cpp
+int App::Application::run() {
+  if (m_exit_status == 1) {
+    return m_exit_status;
+  }
+
+  // Setup Dear ImGui context
+  IMGUI_CHECKVERSION();
+  ImGui::CreateContext();
+  ImGuiIO& io{ImGui::GetIO()};
+
+  io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
+  io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
+
+  m_running = true;
+  while (m_running) {
+    SDL_SetRenderDrawColor(
+      m_window->get_native_renderer(),
+      100, 100, 100, 255
+    );
+    SDL_RenderClear(m_window->get_native_renderer());
+    SDL_RenderPresent(m_window->get_native_renderer());
+  }
+
+  return m_exit_status;
+}</code></pre>
+          </figure>
+          <p>Next comes the SDL renderer.</p>
+          <figure>
+            <pre><code class="language-cpp hljs">// src/core/Core/Application.cpp
+int App::Application::run() {
+  // ...
+
+  io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
+  io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
+
+  // Setup Platform/Renderer backends
+  ImGui_ImplSDL2_InitForSDLRenderer(
+    m_window->get_native_window(),
+    m_window->get_native_renderer()
+  );
+  ImGui_ImplSDLRenderer_Init(
+    m_window->get_native_renderer()
+  );
+
+  m_running = true;
+  while (m_running) {
+    SDL_SetRenderDrawColor(
+      m_window->get_native_renderer(),
+      100, 100, 100, 255
+    );
+    SDL_RenderClear(m_window->get_native_renderer());
+    SDL_RenderPresent(m_window->get_native_renderer());
+  }
+
+  return m_exit_status;
+}</code></pre>
+          </figure>
+          <p>
+            Inside the main loop will be the event polling &#8212; the
+            <code>SDL_QUIT</code> event will stop the main loop by calling
+            <code>stop()</code> from <code>Application</code>.
+          </p>
+          <figure>
+            <pre><code class="language-cpp hljs">// src/core/Core/Application.cpp
+int App::Application::run() {
+  // ...
+
+  m_running = true;
+  while (m_running) {
+    // Poll SDL events
+    SDL_Event event{};
+    while (SDL_PollEvent(&event) == 1) {
+      ImGui_ImplSDL2_ProcessEvent(&event);
+      // Listen for the quit event to stop the application
+      if (event.type == SDL_QUIT) {
+        stop();
+      }
+    }
+
+    SDL_SetRenderDrawColor(
+      m_window->get_native_renderer(),
+      100, 100, 100, 255
+    );
+    SDL_RenderClear(m_window->get_native_renderer());
+    SDL_RenderPresent(m_window->get_native_renderer());
+  }
+
+  return m_exit_status;
+}</code></pre>
+          </figure>
+          <p>
+            Finally, creating a new frame and calling the ImGui render method.
+          </p>
+          <figure>
+            <pre><code class="language-cpp hljs">// src/core/Core/Application.cpp
+int App::Application::run() {
+  // ...
+
+  m_running = true;
+  while (m_running) {
+    // ...
+
+    // Start the Dear ImGui frame
+    ImGui_ImplSDLRenderer_NewFrame();
+    ImGui_ImplSDL2_NewFrame();
+    ImGui::NewFrame();
+
+    // Rendering
+    ImGui::Render();
+
+    SDL_SetRenderDrawColor(
+      m_window->get_native_renderer(),
+      100, 100, 100, 255
+    );
+    SDL_RenderClear(m_window->get_native_renderer());
+
+    // Render data through the SDL renderer
+    ImGui_ImplSDLRenderer_RenderDrawData(
+      ImGui::GetDrawData()
+    );
+    SDL_RenderPresent(
+      m_window->get_native_renderer()
+    );
+  }
+
+  return m_exit_status;
+}</code></pre>
+          </figure>
+          <p>The whole <code>run</code> method now looks like this:</p>
+          <figure>
+            <pre><code class="language-cpp hljs">// src/core/Core/Application.cpp
+int App::Application::run() {
+  if (m_exit_status == 1) {
+    return m_exit_status;
+  }
+
+  IMGUI_CHECKVERSION();
+  ImGui::CreateContext();
+  ImGuiIO& io{ImGui::GetIO()};
+
+  io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
+  io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
+
+  ImGui_ImplSDL2_InitForSDLRenderer(
+    m_window->get_native_window(),
+    m_window->get_native_renderer()
+  );
+  ImGui_ImplSDLRenderer_Init(
+    m_window->get_native_renderer()
+  );
+
+  m_running = true;
+  while (m_running) {
+    SDL_Event event{};
+    while (SDL_PollEvent(&event) == 1) {
+      ImGui_ImplSDL2_ProcessEvent(&event);
+
+      if (event.type == SDL_QUIT) {
+        stop();
+      }
+    }
+
+    ImGui_ImplSDLRenderer_NewFrame();
+    ImGui_ImplSDL2_NewFrame();
+    ImGui::NewFrame();
+
+    ImGui::Render();
+
+    SDL_SetRenderDrawColor(
+      m_window->get_native_renderer(),
+      100, 100, 100, 255
+    );
+    SDL_RenderClear(m_window->get_native_renderer());
+    ImGui_ImplSDLRenderer_RenderDrawData(
+      ImGui::GetDrawData()
+    );
+    SDL_RenderPresent(
+      m_window->get_native_renderer()
+    );
+  }
+
+  return m_exit_status;
+}</code></pre>
+          </figure>
+          <p>
+            One last important thing, adding some cleanup functions inside the
+            <code>Application</code> destructor.
+          </p>
+          <figure>
+            <pre><code class="language-cpp hljs">// src/core/Core/Application.cpp
+Application::~Application() {
+  ImGui_ImplSDLRenderer_Shutdown();
+  ImGui_ImplSDL2_Shutdown();
+  ImGui::DestroyContext();
+  SDL_Quit();
+}</code></pre>
+          </figure>
+          <p>
+            Using
+            <a
+              href="https://github.com/krieselreihe/litr"
+              title="Litr GitHub page."
+              >Litr</a
+            >, I can build and run the application with
+            <code>litr build,start</code>. Without Litr, the same can be
+            achieved by running CMake and the generated executable.
+          </p>
+          <figure>
+            <pre><code class="language-shell hljs">cmake -DCMAKE_BUILD_TYPE=Debug -B build/debug
+cmake --build build/debug
+cd build/debug/src/app && ./App</code></pre>
+          </figure>
+          <p>This is how it looks like so far.</p>
+          <figure>
+            <picture>
+              <source
+                type="image/webp"
+                srcset="/assets/blog/gui-development-with-cpp/basic-window.webp"
+              />
+              <img
+                src="/assets/blog/gui-development-with-cpp/basic-window.png"
+                alt="A basic application window in gray with a window title of Application."
+                width="1424"
+                height="1080"
+              />
+            </picture>
+            <figcaption>
+              Basic application window, not rendering anything, yet.
+            </figcaption>
+          </figure>
+          <h3>Rendering a widget</h3>
+          <p>
+            Let's get something rendering inside that window. For this I add a
+            private variable to <code>Application</code> holding the information
+            if the new widget should be visible.
+          </p>
+          <figure>
+            <pre><code class="language-cpp hljs">// src/core/Core/Application.hpp
+
+// ...
+
+ private:
+  int m_exit_status{0};
+  bool m_running{true};
+  std::unique_ptr&lt;Window&gt; m_window{nullptr};
+
+  // Show "some panel", let's default to true.
+  bool m_show_some_panel{true};</code></pre>
+          </figure>
+          <p>
+            After creating the ImGui frame, before the ImGui render, the first
+            widget <em>"some panel"</em> will be defined.
+          </p>
+          <figure>
+            <pre><code class="language-cpp hljs">// src/core/Core/Application.cpp
+
+  // ...
+
+  while (m_running) {
+    // ...
+
+    ImGui_ImplSDLRenderer_NewFrame();
+    ImGui_ImplSDL2_NewFrame();
+    ImGui::NewFrame();
+
+    // Render "some panel".
+    if (m_show_some_panel) {
+      ImGui::Begin("Some panel", &m_show_some_panel);
+      ImGui::Text("Hello World");
+      ImGui::End();
+    }
+
+    ImGui::Render();
+
+    // ...
+  }
+
+  // ...</code></pre>
+          </figure>
+          <p>
+            There it is, in all <strong>it's tiny</strong> glory &#8212; looking
+            too small and not reacting to any click of the mouse. The reason for
+            this is that the SDL renderer-scale is not yet adjusted to my Retina
+            display on Mac. Let's fix it next.
+          </p>
+          <figure>
+            <picture>
+              <source
+                type="image/webp"
+                srcset="/assets/blog/gui-development-with-cpp/first-widget.webp"
+              />
+              <img
+                src="/assets/blog/gui-development-with-cpp/first-widget.png"
+                alt="An application window showing a very tiny widget with a blue title bar."
+                width="1424"
+                height="1080"
+              />
+            </picture>
+            <figcaption>Seems like there is a small problem.</figcaption>
+          </figure>
+          <h3>Handling high DPI displays</h3>
+          <p>
+            For high DPI displays, like Apples Retina display, I need to change
+            the renderer scaling. For this I created a new public method
+            <code>get_scale</code> in <code>Window</code>.
+          </p>
+          <figure>
+            <pre><code class="language-cpp hljs">// src/core/Core/Window.hpp
+class Window {
+  // ...
+
+ public:
+  [[nodiscard]] float get_scale() const;
+
+// ...</code></pre>
+          </figure>
+          <p>
+            To implement <code>get_scale</code>, it is necessary to divide the
+            render output size by the window size. The method will return one
+            value, in that case <code>x</code> computed from width, where height
+            is only needed for the computation.
+          </p>
+          <figure>
+            <pre><code class="language-cpp hljs">// src/core/Core/Window.cpp
+float Window::get_scale() const {
+  int window_width{0};
+  int window_height{0};
+  SDL_GetWindowSize(
+    m_window,
+    &window_width, &window_height
+  );
+
+  int render_output_width{0};
+  int render_output_height{0};
+  SDL_GetRendererOutputSize(
+    m_renderer,
+    &render_output_width, &render_output_height
+  );
+
+  const auto scale_x{
+    static_cast&lt;float&gt;(render_output_width) /
+      static_cast&lt;float&gt;(window_width)
+  };
+
+  return scale_x;
+}</code></pre>
+          </figure>
+          <p>
+            The scale is then set up at the end of the
+            <code>Window</code> constructor.
+          </p>
+          <figure>
+            <pre><code class="language-cpp hljs">Window::Window(const Settings& settings) {
+  // ...
+
+  m_renderer = SDL_CreateRenderer(
+    m_window, -1, renderer_flags
+  );
+
+  if (m_renderer == nullptr) {
+    APP_ERROR("Error creating SDL_Renderer!");
+    return;
+  }
+
+  // Set render scale for high DPI displays
+  const float scale{get_scale()};
+  SDL_RenderSetScale(m_renderer, scale, scale);
+}</code></pre>
+          </figure>
+          <p>
+            Building and running the application now shows a way better result
+            then before.
+          </p>
+          <figure>
+            <picture>
+              <source
+                type="image/webp"
+                srcset="
+                  /assets/blog/gui-development-with-cpp/high-dpi-display.webp
+                "
+              />
+              <img
+                src="/assets/blog/gui-development-with-cpp/high-dpi-display.png"
+                alt="An application window showing a good sized widget with a blue title bar saying 'Some Panel'."
+                width="1424"
+                height="1080"
+              />
+            </picture>
+            <figcaption>
+              Problem solved, the widget gets rendered in the right size.
+            </figcaption>
+          </figure>
+          <h3>Dockspace</h3>
+          <p>
+            The basics are up and running, dock spaces will now enable
+            rearranging widgets and docking those to the window and each other,
+            giving a user the option to
+            <strong>freely define the application layout</strong>.
+          </p>
+          <p>
+            For this to work there needs to be a new state holding if the dock
+            space is enabled or not, defined as private field in
+            <code>Application</code>.
+          </p>
+          <figure>
+            <pre><code class="language-cpp hljs">// src/core/Core/Application.hpp
+
+// ...
+
+ private:
+  int m_exit_status{0};
+  bool m_running{true};
+  std::unique_ptr&lt;Window&gt; m_window{nullptr};
+  bool m_show_some_panel{true};
+
+  // Enable dock spaces by default
+  bool m_dock_space_open{true};</code></pre>
+          </figure>
+          <p>
+            In <code>run</code>, the ImGui flag <code>DockingEnable</code> needs
+            to be set.
+          </p>
+          <figure>
+            <pre><code class="language-cpp hljs">// src/core/Core/Application.cpp
+
+int App::Application::run() {
+  // ...
+
+  io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
+  io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
+
+  // Enable docking
+  io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+
+  // ...
+}</code></pre>
+          </figure>
+          <p>
+            Inside the main loop, <strong>after the frame creation</strong>, but
+            before the widget, will the setup for the dock space be placed.
+          </p>
+          <figure>
+            <pre><code class="language-cpp hljs">// src/core/Core/Application.cpp
+
+int App::Application::run() {
+  // ...
+
+  m_running = true;
+  while (m_running) {
+    // ...
+
+    ImGui::NewFrame();
+
+    // Setup main viewport for dockspace
+    ImGuiViewport* viewport{ImGui::GetMainViewport()};
+    ImGui::SetNextWindowPos(viewport->WorkPos);
+    ImGui::SetNextWindowSize(viewport->WorkSize);
+    ImGui::SetNextWindowViewport(viewport->ID);
+
+    // Define window flags for the dock space
+    ImGuiWindowFlags window_flags{
+      ImGuiWindowFlags_MenuBar |
+      ImGuiWindowFlags_NoDocking |
+      ImGuiWindowFlags_NoTitleBar |
+      ImGuiWindowFlags_NoCollapse |
+      ImGuiWindowFlags_NoResize |
+      ImGuiWindowFlags_NoMove |
+      ImGuiWindowFlags_NoBringToFrontOnFocus |
+      ImGuiWindowFlags_NoNavFocus
+    };
+
+    // Remove window padding for a full-screen look
+    ImGui::PushStyleVar(
+      ImGuiStyleVar_WindowPadding, ImVec2(0.0F, 0.0F)
+    );
+
+    // Start the dockspace
+    ImGui::Begin(
+      "AppDockSpace",
+      &m_dock_space_open,
+      window_flags
+    );
+    ImGui::PopStyleVar();
+    ImGui::DockSpace(ImGui::GetID("DockSpace"));
+
+    // The previously created widget
+    if (m_show_some_panel) {
+      ImGui::Begin("Some panel", &m_show_some_panel);
+      ImGui::Text("Hello World");
+      ImGui::End();
+    }
+
+    // End the dockspace
+    ImGui::End();
+
+    // ...
+  }
+}</code></pre>
+          </figure>
+          <p>
+            This will create the viewport needed for the dock space, a lot of
+            window flags to make the main dock space fill the whole window, and
+            start the actual dock space section.
+          </p>
+          <p>
+            Have a look at the following video to see the dock space in action.
+          </p>
+          <figure>
+            <video
+              controls
+              width="1008"
+              height="720"
+              poster="/assets/blog/gui-development-with-cpp/docking-space.png"
+            >
+              <source
+                src="/assets/blog/gui-development-with-cpp/docking-space.webm"
+                type="video/webm"
+              />
+              <source
+                src="/assets/blog/gui-development-with-cpp/docking-space.mp4"
+                type="video/mp4"
+              />
+              It appears your browser doesn't support embedded videos.
+            </video>
+            <figcaption>Video showing how the docking space works.</figcaption>
+          </figure>
+          <h3>Event handling</h3>
+          <p>
+            Customising the event handling from the previous implemented polling
+            is not much more work; setting up a new method in
+            <code>Application</code> called <code>on_event</code>.
+          </p>
+          <figure>
+            <pre><code class="language-cpp hljs">// src/core/Core/Application.hpp
+class Application {
+ public:
+  // ...
+
+  // General event handler
+  void on_event(const SDL_WindowEvent& event);
+
+  // ...
+
+}  // namespace App</code></pre>
+          </figure>
+          <p>
+            The implementation will use a <code>switch</code> statement to
+            handle different events.
+          </p>
+          <figure>
+            <pre><code class="language-cpp hljs">// src/core/Core/Application.cpp
+void Application::on_event(const SDL_WindowEvent& event) {
+  switch (event.event) {
+    // ...
+  }
+}</code></pre>
+          </figure>
+          <p>
+            Furthermore, three specialised events that will be called from the
+            generic event handler. The <code>on_minimize</code> and
+            <code>on_shown</code> handler will set the
+            <code>m_minimized</code> state of the application. This will be used
+            to optimise the application when in idle mode. The
+            <code>on_close</code> event will call <code>stop</code>.
+          </p>
+          <figure>
+            <pre><code class="language-cpp hljs">// src/core/Core/Application.hpp
+class Application {
+ public:
+  // ...
+
+  void on_event(const SDL_WindowEvent& event);
+
+  // Specialised events
+  void on_minimize();
+  void on_shown();
+  void on_close();
+
+  // ...
+
+ private:
+  // ...
+
+  // Keep minimized state
+  bool m_minimized{false};
+
+}  // namespace App</code></pre>
+          </figure>
+          <p>
+            From the generic event handler <code>on_event</code> the three
+            specialised events are called.
+          </p>
+          <figure>
+            <pre><code class="language-cpp hljs">// src/core/Core/Application.cpp
+void Application::on_event(const SDL_WindowEvent& event) {
+  switch (event.event) {
+    case SDL_WINDOWEVENT_CLOSE:
+      return on_close();
+    case SDL_WINDOWEVENT_MINIMIZED:
+      return on_minimize();
+    case SDL_WINDOWEVENT_SHOWN:
+      return on_shown();
+  }
+}
+
+void Application::on_minimize() {
+  m_minimized = true;
+}
+
+void Application::on_shown() {
+  m_minimized = false;
+}
+
+void Application::on_close() {
+  stop();
+}</code></pre>
+          </figure>
+          <p>
+            To get <code>on_event</code> hooked up is by adding it to the
+            current event polling inside the main loop.
+          </p>
+          <figure>
+            <pre><code class="language-cpp hljs">// src/core/Core/Application.cpp
+int App::Application::run() {
+  // ...
+
+  m_running = true;
+  while (m_running) {
+    SDL_Event event{};
+    while (SDL_PollEvent(&event) == 1) {
+      ImGui_ImplSDL2_ProcessEvent(&event);
+
+      if (event.type == SDL_QUIT) {
+        stop();
+      }
+
+      // Capture events inside the window
+      if (
+        event.type == SDL_WINDOWEVENT &&
+        event.window.windowID ==
+          SDL_GetWindowID(m_window->get_native_window())
+      ) {
+        on_event(event.window);
+      }
+    }
+
+    // ...
+  }
+
+  return m_exit_status;
+}</code></pre>
+          </figure>
+          <p>
+            Using the <code>m_minimized</code> state to optimise the application
+            in idle mode by wrapping the viewport and dock space creation, as
+            well as the widget, to not run when minimised.
+          </p>
+          <figure>
+            <pre><code class="language-cpp hljs">// src/core/Core/Application.cpp
+
+int App::Application::run() {
+  // ...
+
+  m_running = true;
+  while (m_running) {
+    // ...
+    ImGui::NewFrame();
+
+    if (!m_minimized) {
+      ImGuiViewport* viewport{ImGui::GetMainViewport()};
+
+      // ...
+
+      // End the dockspace
+      ImGui::End();
+    }
+
+    ImGui::Render();
+    // ...
+  }
+}</code></pre>
+          </figure>
+          <h3>Application menu</h3>
+          <p>
+            Inside the dock space, before the widget setup, is a good place to
+            add the code for the application menu. This will serve to exit the
+            application and show or hide the <em>"some panel"</em> widget.
+          </p>
+          <figure>
+            <pre><code class="language-cpp hljs">// src/core/Core/Application.cpp
+
+// ...
+ImGui::DockSpace(ImGui::GetID("DockSpace"));
+
+if (ImGui::BeginMenuBar()) {
+  if (ImGui::BeginMenu("File")) {
+    if (ImGui::MenuItem("Exit")) {
+      stop();
+    }
+    ImGui::EndMenu();
+  }
+  if (ImGui::BeginMenu("View")) {
+    ImGui::MenuItem(
+      "Some Panel", nullptr, &m_show_some_panel
+    );
+    ImGui::EndMenu();
+  }
+
+  ImGui::EndMenuBar();
+}
+
+if (m_show_some_panel) {
+  // ...
+}
+
+// ...</code></pre>
+          </figure>
+          <p>
+            This will render the menu at the top of the window, enabling some
+            basic application control.
+          </p>
+          <figure>
+            <picture>
+              <source
+                type="image/webp"
+                srcset="/assets/blog/gui-development-with-cpp/app-menu.webp"
+              />
+              <img
+                src="/assets/blog/gui-development-with-cpp/app-menu.png"
+                alt="The application window with the widget to the left, above a menu with 'File' and 'View'."
+                width="1424"
+                height="1080"
+              />
+            </picture>
+            <figcaption>
+              The application with the menu to exit the application or toggle
+              the widget visibility.
+            </figcaption>
+          </figure>
+          <h3>Custom font</h3>
+          <p>
+            Making things look a little less <em>"Debugger UI"</em> like, adding
+            a custom font can go a long way. I will use the amazing Open Source
+            font
+            <a
+              href="https://manropefont.com"
+              title="Homepage of the amazing Manrope font."
+              >Manrope</a
+            >. After downloading it all fonts will be placed relative to
+            <code>src/app/App/Main.cpp</code> file inside a
+            <code>fonts</code> folder. The full path of the folder is
+            <code>src/app/App/fonts</code>.
+          </p>
+          <p>
+            The code for the font is placed inside
+            <code>Application</code> after the <code>ConfigFlags</code>, but
+            before the renderer setup.
+          </p>
+          <figure>
+            <pre><code class="language-cpp hljs">// src/core/Core/Application.cpp
+
+int App::Application::run() {
+  // ...
+  io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+
+  // Get proper display scaling for high DPI displays
+  const float font_scaling_factor{m_window->get_scale()};
+
+  // Font size will be 18pt
+  const float font_size{18.0F * font_scaling_factor};
+
+  // Load font and set as default with proper scaling
+  io.Fonts->AddFontFromFileTTF(
+    "fonts/Manrope.ttf",
+    font_size
+  );
+  io.FontDefault = io.Fonts->AddFontFromFileTTF(
+    "fonts/Manrope.ttf",
+    font_size
+  );
+  io.FontGlobalScale = 1.0F / font_scaling_factor;
+
+  ImGui_ImplSDL2_InitForSDLRenderer(
+    m_window->get_native_window(),
+    m_window->get_native_renderer()
+  );
+
+  // ...
+}</code></pre>
+          </figure>
+          <p>
+            A final look at the application now shows the amazing new font,
+            everything coming together and starting to look like an end-user
+            application.
+          </p>
+          <figure>
+            <video
+              controls
+              width="1424"
+              height="1080"
+              poster="/assets/blog/gui-development-with-cpp/custom-font.png"
+            >
+              <source
+                src="/assets/blog/gui-development-with-cpp/final-demo.webm"
+                type="video/webm"
+              />
+              <source
+                src="/assets/blog/gui-development-with-cpp/final-demo.mp4"
+                type="video/mp4"
+              />
+              It appears your browser doesn't support embedded videos.
+            </video>
+            <figcaption>Video showing the final result.</figcaption>
+          </figure>
+          <h3>Epilogue</h3>
+          <p>
+            And that is that! A base to continue when creating GUIs in C++ for
+            me. And again, there is a more extended version of this on GitHub.
+          </p>
+          <p>
+            GitHub template:
+            <a
+              href="https://github.com/MartinHelmut/cpp-gui-template-sdl2"
+              title="GitHub page for the GUI template shown in this post."
+              >github.com/MartinHelmut/cpp-gui-template-sdl2</a
+            >
+          </p>
+        </article>
+      </main>
+      <footer>
+        <a
+          href="/legal-notice"
+          title="Legal notice page includes address and contact information"
+        >
+          Legal notice
+        </a>
+        |
+        <a
+          href="/privacy-policy"
+          title="Privacy policy includes cookie information, but there are no cookies"
+        >
+          Privacy policy
+        </a>
+        |
+        <a
+          href="https://github.com/MartinHelmut/martin-fieber.de"
+          title="View the sources of this website on GitHub"
+        >
+          Website sources
+        </a>
+      </footer>
+    </div>
+  </body>
+</html>

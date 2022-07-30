@@ -24,6 +24,7 @@
   --color-grey-200: #f1f1f1;
   --color-grey-300: #dcdcdc;
   --color-grey-500: #aaaaaa;
+  --color-grey-700: #767676;
   --color-grey-800: #595959;
   --color-grey-900: #0f0f0f;
 }
@@ -180,7 +181,8 @@ figcaption {
 
 img + figcaption,
 picture + figcaption,
-pre + figcaption {
+pre + figcaption,
+video + figcaption {
   text-align: center;
 }
 
@@ -188,7 +190,8 @@ blockquote + figcaption {
   text-align: right;
 }
 
-img {
+img,
+video {
   height: auto;
   max-width: 100%;
 }
@@ -250,7 +253,7 @@ pre code.hljs {
   overflow-x: auto;
   white-space: pre-wrap;
   padding: 1rem 0;
-  color: var(--color-grey-800);
+  color: var(--color-grey-900);
   border-top: 1px solid var(--color-grey-500);
   border-bottom: 1px solid var(--color-grey-500);
 }
@@ -264,7 +267,7 @@ pre code.hljs {
 
 .hljs-comment,
 .hljs-quote {
-  color: #696969;
+  color: var(--color-grey-700);
 }
 
 .hljs-deletion,
