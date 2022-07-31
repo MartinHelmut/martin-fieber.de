@@ -40,6 +40,7 @@
       content="Showcasing my personal setup for GUI application development with C++, SDL2, and Dear ImGui."
     />
     <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:creator" content="@MartinFieber" />
     <meta
       property="twitter:url"
       content="/blog/gui-development-with-cpp-sdl2-and-dear-imgui"
@@ -54,7 +55,7 @@
     />
     <meta
       property="twitter:image"
-      content="https://martin-fieber.de/assets/blog/gui-development-with-cpp/twitter.png"
+      content="/assets/blog/gui-development-with-cpp/title-card.png"
     />
     <meta
       property="twitter:image:alt"
@@ -75,7 +76,7 @@
     />
     <meta
       property="og:image"
-      content="https://martin-fieber.de/assets/blog/gui-development-with-cpp/twitter.png"
+      content="/assets/blog/gui-development-with-cpp/title-card.png"
     />
     <meta
       property="og:image:alt "
@@ -209,8 +210,8 @@ add_subdirectory(sdl)
 # Other dependencies ...</code></pre>
           </figure>
           <p>
-            The new file <code>vendor/sdl/CMakeLists.txt</code> will just serve
-            to show a message on fetching and make SDL2 available.
+            The new file <code>vendor/sdl/CMakeLists.txt</code> will serve to
+            show a message on fetching and make SDL2 available.
           </p>
           <figure>
             <pre><code class="language-cmake hljs"># vendor/sdl/CMakeLists.txt
@@ -455,7 +456,7 @@ target_link_libraries(${NAME}
           <p>
             Next is setting up the window for rendering. The
             <code>Settings</code> struct will define the base size of the window
-            of <code>1280</code> times <code>720</code>, I just picked.
+            of <code>1280</code> times <code>720</code>, I decided to pick.
           </p>
           <figure>
             <pre><code class="language-cpp hljs">// src/core/Core/Window.hpp

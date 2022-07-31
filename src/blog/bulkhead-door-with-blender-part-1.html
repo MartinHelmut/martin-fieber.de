@@ -39,6 +39,43 @@
       name="description"
       content="On my way learning 3D with Blender I try to recreate a bulkhead door from the Alien universe."
     />
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:creator" content="@MartinFieber" />
+    <meta
+      property="twitter:url"
+      content="/blog/bulkhead-door-with-blender-part-1"
+    />
+    <meta
+      property="twitter:title"
+      content="Bulkhead door with Blender, part 1"
+    />
+    <meta
+      property="twitter:description"
+      content="On my way learning 3D with Blender I try to recreate a bulkhead door from the Alien universe."
+    />
+    <meta
+      property="twitter:image"
+      content="/assets/blog/bulkhead-door-with-blender/title-card.png"
+    />
+    <meta
+      property="twitter:image:alt"
+      content="Image showing an open heavy door inside the spaceship Nostromo from the movie Alien from 1979."
+    />
+    <meta property="og:title" content="Bulkhead door with Blender, part 1" />
+    <meta
+      property="og:description"
+      content="On my way learning 3D with Blender I try to recreate a bulkhead door from the Alien universe."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="/blog/bulkhead-door-with-blender-part-1" />
+    <meta
+      property="og:image"
+      content="/assets/blog/bulkhead-door-with-blender/title-card.png"
+    />
+    <meta
+      property="og:image:alt "
+      content="Image showing an open heavy door inside the spaceship Nostromo from the movie Alien from 1979."
+    />
     <script
       async
       defer
@@ -75,18 +112,17 @@
               href="/blog/i-started-learning-3d"
               title="The start of my journey learning 3D with Blender"
               >3D journey I started</a
-            >
-            I thought I should take on a <em>"little"</em> project going
+            >, I thought I should take on a <em>"little"</em> project going
             <strong
-              >from Blenders default cube to a finished game ready asset</strong
+              >from Blenders default cube to a finished and game ready
+              asset</strong
             >. Creating the high- and low-poly mesh, UV unwrapping, baking,
             texturing, rigging, animating and finally having it presentable in a
-            game engine like Unity. I see now that calling this
-            <em>"little"</em> was blind optimism on my end. After spending hours
-            over hours on my model I just finished baking the high-poly mesh
-            onto the low-poly mesh, feeling rather intimidated by the next big
-            step texturing. But, I still think there is a lot to tell so this
-            post will focus on:
+            game engine. I see now that calling this <em>"little"</em> was blind
+            optimism on my end. After spending hours over hours on my model I
+            only finished baking the high-poly mesh onto the low-poly mesh,
+            feeling rather intimidated by the next big step; texturing. But, I
+            still think there is a lot to tell, so this post will focus on:
           </p>
           <ul>
             <li>Creating the high- and low-poly mesh</li>
@@ -103,7 +139,7 @@
             I thought I could pick something out of the Alien universe I would
             like to recreate. I also wanted to learn rigging and animating,
             therefore whatever I pick had to have moving parts. My first thought
-            was that I will recreate the iconic Alien spaceship the
+            was that I will recreate the iconic Alien spaceship, the
             <a
               href="https://avp.fandom.com/wiki/USCSS_Nostromo"
               title="Read more about the fictional spaceship inside the Alien fan wiki."
@@ -133,11 +169,11 @@
             </figcaption>
           </figure>
           <p>
-            Already painting in my head how I recreate the spaceship in the
+            In my head already painting how I recreate the spaceship in the
             smallest detail, moving parts, lights, walking the interior in first
-            person, ... &#8212; even I knew this is a bit much for me. It needs
-            to be something smaller, and after some research I came across the
-            original drawing of a
+            person, ... &#8212; even I knew this will be too much for me. It
+            needs to be something smaller, and after some research I came across
+            the original drawing of a
             <a
               href="http://www.roncobb.net/05-Alien.html"
               title="Scrolling down a bit on that page is a picture of the Bulkhead door as drawn by Ron Cobb."
@@ -173,18 +209,18 @@
           <p>
             His drawing differs from what was used in the movie as the movie
             does not have the red warn lights around the door, as well as some
-            differences at the side barrier doors. What I wanted was to recreate
-            his drawing as good as I could, as close as possible, and this is
-            what I set out to do.
+            differences at the side barrier doors, namely form and color. What I
+            wanted was to recreate his drawing as good as I could, as close as
+            possible, and this is what I set out to do.
           </p>
           <h3>Creating the mesh</h3>
           <p>
-            Starting to work on the high-poly mesh I thought this step should
-            not take too long. Ohh was I wrong. I started over twice, third time
-            is the charm they say. It was, even though it still took me hours
-            and
+            Starting to work on the high-poly mesh, I thought this step should
+            not take too long. I was very wrong. I started over twice, third
+            time is the charm they say. It was, even though it still took me
+            hours and
             <strong
-              >I would do so many things differently if I would do it all over
+              >I would do so many things different if I would do it all over
               again</strong
             >, but this is what learning feels like, and I will call it a nice
             feeling.
@@ -230,8 +266,7 @@
               >BoxCutter</a
             >
             with a non-destructive boolean workflow, making the creation of the
-            low-poly mesh easier by just removing some boolean cuts. Here a
-            front view of the low-poly mesh.
+            low-poly mesh easier by removing some boolean cuts.
           </p>
           <figure>
             <picture>
@@ -266,16 +301,16 @@
               >MACHIN3tools</a
             >, or additive to the boolean workflow to touch up parts of the mesh
             after applying modifiers to get even better results. For now though
-            I wanted to restrain myself from using even more tools.
+            I wanted to restrain myself from using too many tools.
           </p>
           <h3>UV unwrapping</h3>
           <p>
-            Doing the UV unwrapping turned out to be
-            <strong>harder than expected</strong> and also
-            <strong>easier than I thought</strong>, at least after I figured out
-            what my issues were I had. There were two main problems I
-            encountered that I'm sure I can avoid when I tackle my next project.
-            The first one is that I had <em>"flipped normals"</em>.
+            The UV unwrapping turned out to be
+            <strong>harder than expected</strong>. It got easier, at least after
+            I figured out what my issues were I had on my first tries. There
+            were two main problems I encountered that I'm sure I can avoid when
+            I tackle my next project. The first one is that I had
+            <em>"flipped normals"</em>.
           </p>
           <figure>
             <picture>
@@ -298,8 +333,8 @@
           <p>
             All the red you see? Ya, not good. It's kind of an
             <em>"inside out"</em> problem, aka. a face being in the wrong
-            direction. After some searching I found out I can
-            <em>"recalculate outside"</em>.
+            direction. After some searching I found out I can use a function
+            called <em>"recalculate outside"</em>.
           </p>
           <figure>
             <picture>
@@ -322,8 +357,8 @@
             </figcaption>
           </figure>
           <p>
-            Doing that for all my parts that had wrong normals I finally got
-            them the way it should be, all blue.
+            Doing that for all my parts that had wrong normals, I finally got
+            them the way it should be &#8212; all blue.
           </p>
           <figure>
             <picture>
@@ -342,14 +377,14 @@
               />
             </picture>
             <figcaption>
-              &#34;Recalculate Outside&#34; indeed fixed my flipped normals.
+              &#34;Recalculate Outside&#34; fixed my flipped normals.
             </figcaption>
           </figure>
           <p>
             The second issue I had I was not able to fully fix; some vertices
             seemed <em>"misplaced"</em> when unwrapping the mesh, producing some
-            very strange result in the UV map. You still see some of those
-            artefacts in the final result.
+            strange result in the UV map. You still see some of those artefacts
+            in the final result.
           </p>
           <figure>
             <picture>
@@ -370,12 +405,12 @@
             <figcaption>Result of my UV unwrapping.</figcaption>
           </figure>
           <p>
-            But all in all I'm quite happy with the result and decided to move
-            on &#8212; <strong>for the sake of time</strong>. Besides, that it
+            All in all I'm still quite happy with the result and decided to move
+            on &#8212; <strong>for the sake of time</strong>. Besides that it
             did not seem to make any problems the way I had it when I tested the
             asset later. To avoid this type of issue in the future I would try
-            to take better care when creating the actual mesh. Looking closer at
-            the topology I am producing, hoping that future Martin will figure
+            to take better care when working on a mesh. Having a better look at
+            the topology I'm creating, hoping that future Martin will figure
             that out.
           </p>
           <p>
@@ -402,9 +437,9 @@
           </figure>
           <h3>Baking in Marmoset</h3>
           <p>
-            Initially when it came to baking the high-poly mesh onto the
-            low-poly mesh I thought I will use Blender as well. Even though I
-            still plan on learning this in Blender, I decided to go with
+            Initially, when it came to baking the high-poly mesh onto the
+            low-poly mesh I thought I will use Blender. Even though I still plan
+            on learning this in Blender, I decided to go with
             <a href="https://marmoset.co" title="Website of Marmoset"
               >Marmoset Toolbag 4</a
             >. In hindsight, I would call this
@@ -428,15 +463,15 @@
               title="Overview of the material library of Marmoset Toolbag 4."
               >smart materials</a
             >. It also made the impression of being rather intuitive to use (I
-            was not too wrong with this, I actually was able to figure out a lot
-            of things just on my own). What caught me as well was the pricing,
-            it gives the option to either pay per month as subscription or, my
-            favourite, make <strong>a one time payment</strong> and you own the
-            program. This was <b class="emphasize">the</b> reason for me to not
-            go with Adobe Substance Painter as I dislike the subscription only
-            way Adobe goes with all there products now-days. Not using Blender
-            was just due to reading about poor support for baking and texturing
-            (so far, apparently there is
+            was not wrong, I actually was able to figure out a lot of things on
+            my own). What got me as well was the pricing, it gives the option to
+            either pay per month as subscription or, my favourite, make
+            <strong>a one time payment</strong> and you own the program. This
+            was <b class="emphasize">the</b> reason for me to not use Adobe
+            Substance Painter, as I dislike the subscription-only way Adobe goes
+            with all products now-days. Not using Blender was due to reading
+            about poor support for baking and texturing (so far, apparently
+            there is
             <a
               href="https://code.blender.org/2022/02/layered-textures-design/"
               title="Blog post about the work being done in Blender for better texturing support."
@@ -444,10 +479,10 @@
             >).
           </p>
           <p>
-            Getting to the actual baking process this was super convenient. This
-            was thanks to the naming convention for meshes, having the high-poly
-            mesh named with <code>_high</code>, and <code>_low</code> for the
-            low-poly mesh, exported in the same way.
+            Getting to the actual baking process &#8212; a particularly
+            convenient one thanks to the naming convention for meshes. Having
+            the high-poly mesh named with <code>_high</code>, and
+            <code>_low</code> for the low-poly mesh, exported in the same way.
           </p>
           <figure>
             <picture>
@@ -459,7 +494,7 @@
               />
               <img
                 src="/assets/blog/bulkhead-door-with-blender/poly-naming.png"
-                alt="On the left mesh names in Blender, in the middle exported file names and on the right names in Marmoset, all with the postfix _high and _low."
+                alt="On the left mesh names in Blender, in the middle exported file names, and on the right those names in Marmoset, all with the postfix _high and _low."
                 width="1024"
                 height="408"
                 loading="lazy"
@@ -471,8 +506,8 @@
             </figcaption>
           </figure>
           <p>
-            This enabled me to <em>"just hit import"</em> in Marmoset and get a
-            proper setup bake project.
+            This enabled me to <em>"just hit import"</em> in Marmoset and get my
+            bake project set up.
           </p>
           <figure>
             <picture>
@@ -494,7 +529,7 @@
           </figure>
           <p>
             After tweaking some details for smaller parts on the mesh,
-            specifically painting skew.
+            specifically painting skew &hellip;
           </p>
           <figure>
             <picture>
@@ -515,13 +550,14 @@
             <figcaption>Fixing my skew and offset issues.</figcaption>
           </figure>
           <p>
-            I was able to bake the project and get all the maps I needed (here
-            is the tutorial I worked through to manage this:
+            &hellip; I was able to bake the project and get all the maps I
+            needed. The tutorial I worked through to manage this can be found
+            here:
             <a
               href="https://marmoset.co/posts/toolbag-baking-tutorial/"
               title="Introductory tutorial to baking with Marmoset Toolbag 4."
               >The Toolbag Baking Tutorial</a
-            >).
+            >.
           </p>
           <figure>
             <picture>
@@ -561,15 +597,15 @@
           </p>
           <ul>
             <li>Texturing with Marmoset,</li>
-            <li>Rigging and</li>
+            <li>Rigging, and</li>
             <li>Animating</li>
           </ul>
           <p>
             the door in Blender. And finally
-            <strong>having it all in Unity</strong> with some nice lighting as a
-            proper showcase. I started getting my feet wet texturing the door in
-            Marmoset, nothing fancy yet; here a little sneak peek of my first
-            experiments.
+            <strong>having it all in inside a game engine</strong> of my choice,
+            with some nice lighting to showcase the project. Here a little sneak
+            peek of my first texturing experiments in Marmoset, nothing fancy,
+            yet.
           </p>
           <figure>
             <picture>
@@ -593,14 +629,12 @@
             </figcaption>
           </figure>
           <p>
-            My goal is to get a <strong>realistic door</strong> with materials
-            <strong>inspired by the movie</strong>, though I think this will
-            still be a long way.
+            My goal is to get a <strong>realistic door</strong> with PBR
+            materials <strong>inspired by the movie</strong>, though I think
+            this will still be a long way.
           </p>
           <p>
-            That will continue next month with part 2 of this
-            <em>"little"</em>
-            project 👋🏻.
+            That will continue in part 2 of this <em>"little"</em> project 👋🏻.
           </p>
         </article>
       </main>
