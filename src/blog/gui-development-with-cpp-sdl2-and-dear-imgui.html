@@ -1135,27 +1135,8 @@ float Window::get_scale() const {
             <strong>freely define the application layout</strong>.
           </p>
           <p>
-            For this to work there needs to be a new state holding if the dock
-            space is enabled or not, defined as private field in
-            <code>Application</code>.
-          </p>
-          <figure>
-            <pre><code class="language-cpp hljs">// src/core/Core/Application.hpp
-
-// ...
-
- private:
-  int m_exit_status{0};
-  bool m_running{true};
-  std::unique_ptr&lt;Window&gt; m_window{nullptr};
-  bool m_show_some_panel{true};
-
-  // Enable dock spaces by default
-  bool m_dock_space_open{true};</code></pre>
-          </figure>
-          <p>
-            In <code>run</code>, the ImGui flag <code>DockingEnable</code> needs
-            to be set.
+            For this to work the ImGui flag <code>DockingEnable</code> needs to
+            be set in <code>run</code>.
           </p>
           <figure>
             <pre><code class="language-cpp hljs">// src/core/Core/Application.cpp
@@ -1188,37 +1169,8 @@ int App::Application::run() {
 
     ImGui::NewFrame();
 
-    // Setup main viewport for dockspace
-    ImGuiViewport* viewport{ImGui::GetMainViewport()};
-    ImGui::SetNextWindowPos(viewport->WorkPos);
-    ImGui::SetNextWindowSize(viewport->WorkSize);
-    ImGui::SetNextWindowViewport(viewport->ID);
-
-    // Define window flags for the dock space
-    ImGuiWindowFlags window_flags{
-      ImGuiWindowFlags_MenuBar |
-      ImGuiWindowFlags_NoDocking |
-      ImGuiWindowFlags_NoTitleBar |
-      ImGuiWindowFlags_NoCollapse |
-      ImGuiWindowFlags_NoResize |
-      ImGuiWindowFlags_NoMove |
-      ImGuiWindowFlags_NoBringToFrontOnFocus |
-      ImGuiWindowFlags_NoNavFocus
-    };
-
-    // Remove window padding for a full-screen look
-    ImGui::PushStyleVar(
-      ImGuiStyleVar_WindowPadding, ImVec2(0.0F, 0.0F)
-    );
-
-    // Start the dockspace
-    ImGui::Begin(
-      "AppDockSpace",
-      &m_dock_space_open,
-      window_flags
-    );
-    ImGui::PopStyleVar();
-    ImGui::DockSpace(ImGui::GetID("DockSpace"));
+    // This is all that needs to be added for this:
+    ImGui::DockSpaceOverViewport();
 
     // The previously created widget
     if (m_show_some_panel) {
@@ -1227,19 +1179,12 @@ int App::Application::run() {
       ImGui::End();
     }
 
-    // End the dockspace
-    ImGui::End();
-
     // ...
   }
 }</code></pre>
           </figure>
           <p>
-            This will create the viewport needed for the dock space, a lot of
-            window flags to make the main dock space fill the whole window, and
-            start the actual dock space section.
-          </p>
-          <p>
+            This will create a full sized dock space, covering the whole window.
             Have a look at the following video to see the dock space in action.
           </p>
           <figure>
@@ -1404,12 +1349,13 @@ int App::Application::run() {
     ImGui::NewFrame();
 
     if (!m_minimized) {
-      ImGuiViewport* viewport{ImGui::GetMainViewport()};
+      ImGui::DockSpaceOverViewport();
 
       // ...
 
-      // End the dockspace
-      ImGui::End();
+      if (m_show_some_panel) {
+        // ...
+      }
     }
 
     ImGui::Render();
@@ -1429,7 +1375,7 @@ int App::Application::run() {
 // ...
 ImGui::DockSpace(ImGui::GetID("DockSpace"));
 
-if (ImGui::BeginMenuBar()) {
+if (ImGui::BeginMainMenuBar()) {
   if (ImGui::BeginMenu("File")) {
     if (ImGui::MenuItem("Exit")) {
       stop();
@@ -1443,7 +1389,7 @@ if (ImGui::BeginMenuBar()) {
     ImGui::EndMenu();
   }
 
-  ImGui::EndMenuBar();
+  ImGui::EndMainMenuBar();
 }
 
 if (m_show_some_panel) {
