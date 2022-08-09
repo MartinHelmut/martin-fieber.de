@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/favicon/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/favicon/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/favicon/favicon-16x16.png"
+    />
+    <link rel="manifest" href="/favicon/site.webmanifest" />
+    <link
+      rel="mask-icon"
+      href="/favicon/safari-pinned-tab.svg"
+      color="#5bbad5"
+    />
+    <link rel="shortcut icon" href="/favicon/favicon.ico" />
+    <link rel="stylesheet" href="/style.css" />
+    <meta name="msapplication-TileColor" content="#6200ee" />
+    <meta name="msapplication-config" content="/favicon/browserconfig.xml" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta
+      name="google-site-verification"
+      content="3EUDp2p1HY0eouMKX3PBvPSv3Mr6WNL-4sUYA2yNxz8"
+    />
+    <meta name="author" content="{{ site.author }}" />
+    <meta name="description" content="{{ description }}" />
+    <script
+      async
+      defer
+      data-domain="{{ site.name }}"
+      src="https://analytics.martin-fieber.de/js/index.outbound-links.js"
+    ></script>
+    <script>
+      window.plausible =
+        window.plausible ||
+        (() => (window.plausible.q = window.plausible.q || []).push(arguments));
+    </script>
+    <title>{{ site.name }}{{ [" | ", title] | join if title else "" }}</title>
+  </head>
+  <body>
+    <div class="content">
+      <header>
+        <h1>
+          <a href="/" title="Take my back to start!">Martin Helmut Fieber</a>
+        </h1>
+      </header>
+      <main>{{ content | safe }}</main>
+      <footer>
+        <a
+          href="/legal-notice"
+          title="Legal notice page includes address and contact information"
+        >
+          Legal notice
+        </a>
+        |
+        <a
+          href="/privacy-policy"
+          title="Privacy policy includes cookie information, but there are no cookies"
+        >
+          Privacy policy
+        </a>
+        |
+        <a href="/feed.xml" title="Atom RSS feed" target="_blank">RSS feed</a>
+        |
+        <a
+          href="https://github.com/MartinHelmut/martin-fieber.de"
+          title="View the sources of this website on Github"
+        >
+          Website sources
+        </a>
+      </footer>
+    </div>
+  </body>
+</html>

@@ -1,251 +1,35 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-    <link
-      rel="apple-touch-icon"
-      sizes="180x180"
-      href="/favicon/apple-touch-icon.png"
+---
+layout: base
+title: "Blog"
+description: "Find all my latest blog posts about development, 3D, games and my hobbies and interests."
+---
+
+<h2>{{ title }}</h2>
+{%- for post in collections.post | reverse %}
+<article>
+  <h3>
+    <a href="{{ post.url }}" title="{{ post.data.linkTitle }}"
+      >{{ post.data.title }}</a
+    >
+  </h3>
+  <footer>
+    <p>
+      Posted on
+      <time datetime="{{ post.date | htmlDateString }}"
+        >{{ post.date | postDate }}</time
+      >
+    </p>
+  </footer>
+  {% if post.data.banner %}
+  <picture>
+    <source type="image/webp" srcset="{{ post.data.banner }}.webp" />
+    <img
+      src="{{ post.data.banner }}.png"
+      alt="{{ post.data.bannerAlt }}"
+      width="1024"
+      height="300"
     />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="32x32"
-      href="/favicon/favicon-32x32.png"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="16x16"
-      href="/favicon/favicon-16x16.png"
-    />
-    <link rel="manifest" href="/favicon/site.webmanifest" />
-    <link
-      rel="mask-icon"
-      href="/favicon/safari-pinned-tab.svg"
-      color="#5bbad5"
-    />
-    <link rel="shortcut icon" href="/favicon/favicon.ico" />
-    <link rel="stylesheet" href="../style.css" />
-    <meta name="msapplication-TileColor" content="#6200ee" />
-    <meta name="msapplication-config" content="/favicon/browserconfig.xml" />
-    <meta name="theme-color" content="#ffffff" />
-    <meta
-      name="google-site-verification"
-      content="3EUDp2p1HY0eouMKX3PBvPSv3Mr6WNL-4sUYA2yNxz8"
-    />
-    <meta
-      name="description"
-      content="Find all my latest blog posts about development, 3D, games and my hobbies and interests."
-    />
-    <script
-      async
-      defer
-      data-domain="martin-fieber.de"
-      src="https://analytics.martin-fieber.de/js/index.outbound-links.js"
-    ></script>
-    <script>
-      window.plausible =
-        window.plausible ||
-        (() => (window.plausible.q = window.plausible.q || []).push(arguments));
-    </script>
-    <title>martin-fieber.se | Blog</title>
-  </head>
-  <body>
-    <div class="content">
-      <header>
-        <h1>
-          <a href="/" title="Take my back to start!">Martin Helmut Fieber</a>
-        </h1>
-      </header>
-      <main>
-        <h2>Blog</h2>
-        <article>
-          <h3>
-            <a
-              href="/blog/gui-development-with-cpp-sdl2-and-dear-imgui"
-              title="Creating end-user GUI applications with Dear ImGui and SDL2."
-              >GUI Development with C++, SDL2, and Dear ImGui</a
-            >
-          </h3>
-          <footer>
-            <p>
-              Posted on
-              <time datetime="2022-07-30">30th of July, 2022</time>
-            </p>
-          </footer>
-          <picture>
-            <source
-              type="image/webp"
-              srcset="/assets/blog/gui-development-with-cpp/banner.webp"
-            />
-            <img
-              src="/assets/blog/gui-development-with-cpp/banner.png"
-              alt="The final application that will be built in this post."
-              width="1024"
-              height="300"
-            />
-          </picture>
-          <p>
-            Always being overwhelmed creating GUI applications in C++, I finally
-            found a way that works pretty well for me. That opinionated way will
-            be shown in this post.
-          </p>
-        </article>
-        <article>
-          <h3>
-            <a
-              href="/blog/basic-cpp-setup-with-dependency-management"
-              title="I try creating a setup for myself that scales and is flexible enough to met all my needs."
-              >Basic C++ setup with dependency management in CMake</a
-            >
-          </h3>
-          <footer>
-            <p>
-              Posted on
-              <time datetime="2022-06-03">3rd of July, 2022</time>
-            </p>
-          </footer>
-          <p>
-            My biggest problem starting to learn C++ back then was a proper
-            setup that is easy to use and scales. Here is my personal attempt at
-            creating this.
-          </p>
-        </article>
-        <article>
-          <h3>
-            <a
-              href="/blog/bulkhead-door-with-blender-part-1"
-              title="I continue learning 3D by recreating a bulkhead door from the Alien universe."
-              >Bulkhead door with Blender, part 1</a
-            >
-          </h3>
-          <footer>
-            <p>
-              Posted on
-              <time datetime="2022-05-27">27th of May, 2022</time>
-            </p>
-          </footer>
-          <picture>
-            <source
-              type="image/webp"
-              srcset="/assets/blog/bulkhead-door-with-blender/banner.webp"
-            />
-            <img
-              src="/assets/blog/bulkhead-door-with-blender/banner.png"
-              alt="Image showing on the left an open bulkhead door from the movie Alien, on the right Ron Cobb's sketch."
-              width="1024"
-              height="300"
-            />
-          </picture>
-          <p>
-            On my way learning 3D with Blender I try to recreate a bulkhead door
-            from the Alien universe as drawn by the amazing Ron Cobb.
-          </p>
-        </article>
-        <article>
-          <h3>
-            <a
-              href="/blog/i-started-learning-3d"
-              title="A post about my journey learning 3D"
-              >I started learning 3D</a
-            >
-          </h3>
-          <footer>
-            <p>
-              Posted on
-              <time datetime="2022-01-11">11th of January, 2022</time>
-            </p>
-          </footer>
-          <picture>
-            <source
-              type="image/webp"
-              srcset="
-                /assets/blog/i-started-learning-3d/light-studies-header.webp
-              "
-            />
-            <img
-              src="/assets/blog/i-started-learning-3d/light-studies-header.png"
-              alt="Two examples of my Blender studies with light, simple forms and colors."
-              width="1024"
-              height="300"
-            />
-          </picture>
-          <p>
-            Going through many tutorials and creating some small experiments on
-            my own, I started learning 3D with Blender, and I'm in love with it.
-          </p>
-        </article>
-        <article>
-          <h3>
-            <a
-              href="/blog/cassette-futurism"
-              title="Some appreciation about an art style called Cassette Futurism."
-              >Cassette Futurism</a
-            >
-          </h3>
-          <footer>
-            <p>
-              Posted on
-              <time datetime="2022-01-11">11th of January, 2022</time>
-            </p>
-          </footer>
-          <figure>
-            <blockquote
-              cite="https://tvtropes.org/pmwiki/pmwiki.php/Main/CassetteFuturism"
-            >
-              <p>
-                A technological aesthetic reminiscent of late 1960s to early
-                1980s tech (regardless of the real time setting of the media) as
-                codified by early microcomputers ...
-              </p>
-            </blockquote>
-            <figcaption>—TV Tropes, <cite>Cassette Futurism</cite></figcaption>
-          </figure>
-        </article>
-        <article>
-          <h3>
-            <a
-              href="/blog/my-blog"
-              title="Here you can find what to expect in those blog posts of mine."
-              >My blog</a
-            >
-          </h3>
-          <footer>
-            <p>
-              Posted on
-              <time datetime="2022-01-11">11th of January, 2022</time>
-            </p>
-          </footer>
-          <p>
-            What to expect here? Development related articles and projects, 3D,
-            games, keyboards, or whatever I want to try out next.
-          </p>
-        </article>
-      </main>
-      <footer>
-        <a
-          href="/legal-notice"
-          title="Legal notice page includes address and contact information"
-        >
-          Legal notice
-        </a>
-        |
-        <a
-          href="/privacy-policy"
-          title="Privacy policy includes cookie information, but there are no cookies"
-        >
-          Privacy policy
-        </a>
-        |
-        <a
-          href="https://github.com/MartinHelmut/martin-fieber.de"
-          title="View the sources of this website on Github"
-        >
-          Website sources
-        </a>
-      </footer>
-    </div>
-  </body>
-</html>
+  </picture>
+  {% endif %} {{ post.data.summary | safe }}
+</article>
+{%- endfor %}

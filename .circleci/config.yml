@@ -16,6 +16,9 @@ jobs:
           paths:
             - ./node_modules
       - run:
+          name: build
+          command: pnpm build
+      - run:
           name: lint
           command: pnpm lint
       - run:

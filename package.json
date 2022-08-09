@@ -4,7 +4,8 @@
   "description": "My personal site, portfolio, blog, experiments or other things I wanted to try.",
   "private": true,
   "scripts": {
-    "start": "serve src",
+    "start": "eleventy --serve",
+    "build": "eleventy && prettier --write build",
     "lint": "eslint '**/*.html' && stylelint '**/*.css'",
     "format": "prettier --write .",
     "format:check": "prettier --list-different .",
@@ -32,11 +33,13 @@
   },
   "homepage": "https://martin-fieber.se/",
   "devDependencies": {
+    "@11ty/eleventy": "^2.0.0-canary.14",
+    "@11ty/eleventy-plugin-rss": "^1.2.0",
     "eslint": "8.21.0",
     "eslint-config-prettier": "8.5.0",
     "eslint-plugin-html": "7.1.0",
+    "luxon": "^3.0.1",
     "prettier": "2.7.1",
-    "serve": "14.0.1",
     "stylelint": "14.9.1",
     "stylelint-prettier": "2.0.0"
   }

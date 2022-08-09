@@ -206,6 +206,10 @@ address {
   text-transform: uppercase;
 }
 
+.optional {
+  color: var(--color-grey-800);
+}
+
 /* Article */
 
 article {
