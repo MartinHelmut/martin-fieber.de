@@ -1,281 +1,74 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-    <link
-      rel="apple-touch-icon"
-      sizes="180x180"
-      href="/favicon/apple-touch-icon.png"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="32x32"
-      href="/favicon/favicon-32x32.png"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="16x16"
-      href="/favicon/favicon-16x16.png"
-    />
-    <link rel="manifest" href="/favicon/site.webmanifest" />
-    <link
-      rel="mask-icon"
-      href="/favicon/safari-pinned-tab.svg"
-      color="#5bbad5"
-    />
-    <link rel="shortcut icon" href="/favicon/favicon.ico" />
-    <link rel="stylesheet" href="style.css" />
-    <meta name="msapplication-TileColor" content="#6200ee" />
-    <meta name="msapplication-config" content="/favicon/browserconfig.xml" />
-    <meta name="theme-color" content="#ffffff" />
-    <meta
-      name="google-site-verification"
-      content="3EUDp2p1HY0eouMKX3PBvPSv3Mr6WNL-4sUYA2yNxz8"
-    />
-    <meta
-      name="description"
-      content="My personal homepage including projects, things I do, and where I work. Also some social media where I am active."
-    />
-    <script
-      async
-      defer
-      data-domain="martin-fieber.de"
-      src="https://analytics.martin-fieber.de/js/index.outbound-links.js"
-    ></script>
-    <script>
-      window.plausible =
-        window.plausible ||
-        (() => (window.plausible.q = window.plausible.q || []).push(arguments));
-    </script>
-    <title>martin-fieber.se</title>
-  </head>
-  <body>
-    <div class="content">
-      <header>
-        <h1>
-          <a href="/" title="Take my back to start!">Martin Helmut Fieber</a>
-        </h1>
-      </header>
-      <main>
-        <p>
-          I write code for a living, love books, try writing, 3D and a bit of
-          game dev as a hobby.
-        </p>
-        <p>
-          Also a dad, Senior Tools Developer
-          <a href="https://www.king.com" title="Website of King Games">@King</a
-          >, part-time project maintainer at
-          <a
-            href="https://github.com/MartinHelmut"
-            title="Link to my profile on Github."
-            >Github</a
-          >
-          and sometimes visible on
-          <a href="https://twitter.com/MartinFieber" title="My twitter profile"
-            >Twitter</a
-          >.
-        </p>
-        <section>
-          <h2>
-            Latest Posts —
-            <a href="/blog" title="View all my blog posts currently available."
-              >see all</a
-            >
-          </h2>
-          <article>
-            <h3>
-              <a
-                href="/blog/gui-development-with-cpp-sdl2-and-dear-imgui"
-                title="Creating end-user GUI applications with Dear ImGui and SDL2."
-                >GUI Development with C++, SDL2, and Dear ImGui</a
-              >
-            </h3>
-            <footer>
-              <p>
-                Posted on
-                <time datetime="2022-07-30">30th of July, 2022</time>
-              </p>
-            </footer>
-            <picture>
-              <source
-                type="image/webp"
-                srcset="/assets/blog/gui-development-with-cpp/banner.webp"
-              />
-              <img
-                src="/assets/blog/gui-development-with-cpp/banner.png"
-                alt="The final application that will be built in this post."
-                width="1024"
-                height="300"
-              />
-            </picture>
-            <p>
-              Always being overwhelmed creating GUI applications in C++, I
-              finally found a way that works pretty well for me. That
-              opinionated way will be shown in this post.
-            </p>
-          </article>
-          <article>
-            <h3>
-              <a
-                href="/blog/basic-cpp-setup-with-dependency-management"
-                title="I try creating a setup for myself that scales and is flexible enough to met all my needs."
-                >Basic C++ setup with dependency management in CMake</a
-              >
-            </h3>
-            <footer>
-              <p>
-                Posted on
-                <time datetime="2022-06-03">3rd of July, 2022</time>
-              </p>
-            </footer>
-            <p>
-              My biggest problem starting to learn C++ back then was a proper
-              setup that is easy to use and scales. Here is my personal attempt
-              at creating this.
-            </p>
-          </article>
-          <article>
-            <h3>
-              <a
-                href="/blog/bulkhead-door-with-blender-part-1"
-                title="I continue learning 3D by recreating a bulkhead door from the Alien universe."
-                >Bulkhead door with Blender, part 1</a
-              >
-            </h3>
-            <footer>
-              <p>
-                Posted on
-                <time datetime="2022-05-27">27th of May, 2022</time>
-              </p>
-            </footer>
-            <picture>
-              <source
-                type="image/webp"
-                srcset="/assets/blog/bulkhead-door-with-blender/banner.webp"
-              />
-              <img
-                src="/assets/blog/bulkhead-door-with-blender/banner.png"
-                alt="Image showing on the left an open bulkhead door from the movie Alien, on the right Ron Cobb's sketch."
-                width="1024"
-                height="300"
-              />
-            </picture>
-            <p>
-              On my way learning 3D with Blender I try to recreate a bulkhead
-              door from the Alien universe as drawn by the amazing Ron Cobb.
-            </p>
-          </article>
-        </section>
-        <section>
-          <h2 id="projects">Github Projects</h2>
-          <article>
-            <h3>Litr</h3>
-            <p>
-              Litr (Language Independent Task Runner) lets you configure and
-              then run any tasks you want for any language.
-            </p>
-            <p>
-              <a
-                href="https://github.com/krieselreihe/litr"
-                title="Visit the GitHub page for the Litr project."
-                >Visit project page</a
-              >
-              |
-              <a
-                href="https://github.com/krieselreihe/litr/wiki"
-                title="See how Litr will work when implemented. Important note: The tool is a work in progress."
-                >Documentation</a
-              >
-            </p>
-          </article>
-          <article>
-            <h3>Krieselreihe</h3>
-            <p>
-              "Krieselreihe" is the name I do all my hobby game development
-              under. While doing this, a set of tools emerged e.g. Litr and
-              Natr, located under this namespace.
-            </p>
-            <p>
-              <a
-                href="https://krieselreihe.com"
-                title="Krieselreihe Games website"
-                >Website</a
-              >
-              |
-              <a
-                href="https://github.com/krieselreihe"
-                title="The organisation page on GitHub for Krieselreihe."
-                >Visit project page</a
-              >
-            </p>
-          </article>
-          <article>
-            <h3>number-generator</h3>
-            <p>
-              Generate repeatable pseudo random numbers and non-cryptographic
-              hash numbers for usage in Node.js and browser environments.
-            </p>
-            <p>
-              <a
-                href="https://github.com/MartinHelmut/number-generator"
-                title="Visit the GitHub page for the number-generator project."
-                >Visit project page</a
-              >
-              |
-              <a
-                href="https://github.com/MartinHelmut/number-generator#number-generator"
-                title="Read about how to setup and use the number generator."
-                >Documentation</a
-              >
-            </p>
-          </article>
-          <article>
-            <h3>Natr</h3>
-            <p>
-              Not another test runner! (natr) But it is, and it is a highly
-              opinionated one that is used for my own projects.
-            </p>
-            <p>
-              <a
-                href="https://github.com/krieselreihe/natr"
-                title="Visit the GitHub page for the natr project."
-                >Visit project page</a
-              >
-              |
-              <a
-                href="https://github.com/krieselreihe/natr/blob/master/README.md"
-                title="See how you can use natr for your own projects. Important note: The test runner is a MVP."
-                >Documentation</a
-              >
-            </p>
-          </article>
-        </section>
-      </main>
-      <footer>
-        <a
-          href="/legal-notice"
-          title="Legal notice page includes address and contact information"
+---
+layout: base
+description: "My personal homepage including projects, things I do, and where I work. Also some social media where I am active."
+priority: "1.0"
+---
+
+<p>
+  I write code for a living, love books, try writing, 3D and a bit of game dev
+  as a hobby.
+</p>
+<p>
+  Also a dad, Senior Tools Developer
+  <a href="https://www.king.com" title="Website of King Games">@King</a>,
+  part-time project maintainer at
+  <a
+    href="https://github.com/MartinHelmut"
+    title="Link to my profile on Github."
+    >Github</a
+  >
+  and sometimes visible on
+  <a href="https://twitter.com/MartinFieber" title="My twitter profile"
+    >Twitter</a
+  >.
+</p>
+<section>
+  <h2>
+    Latest Posts —
+    <a href="/blog" title="View all my blog posts currently available."
+      >see all</a
+    >
+  </h2>
+  {%- for post in collections.post | reverse %} {% if loop.index0 < 3 %}
+  <article>
+    <h3>
+      <a href="{{ post.url }}" title="{{ post.data.linkTitle }}"
+        >{{ post.data.title }}</a
+      >
+    </h3>
+    <footer>
+      <p>
+        Posted on
+        <time datetime="{{ post.date | htmlDateString }}"
+          >{{ post.date | postDate }}</time
         >
-          Legal notice
-        </a>
-        |
-        <a
-          href="/privacy-policy"
-          title="Privacy policy includes cookie information, but there are no cookies"
-        >
-          Privacy policy
-        </a>
-        |
-        <a
-          href="https://github.com/MartinHelmut/martin-fieber.de"
-          title="View the sources of this website on Github"
-        >
-          Website sources
-        </a>
-      </footer>
-    </div>
-  </body>
-</html>
+      </p>
+    </footer>
+    {%- if post.data.banner %}
+    <picture>
+      <source type="image/webp" srcset="{{ post.data.banner }}.webp" />
+      <img
+        src="{{ post.data.banner }}.png"
+        alt="{{ post.data.bannerAlt }}"
+        width="1024"
+        height="300"
+      />
+    </picture>
+    {% endif %} {{ post.data.summary | safe }}
+  </article>
+  {%- endif -%} {%- endfor %}
+</section>
+<section>
+  <h2 id="projects">Github Projects</h2>
+  {%- for project in projects %}
+  <article>
+    <h3>{{ project.name }}</h3>
+    <p>{{ project.description }}</p>
+    <p>
+      {%- for link in project.links %}
+      <a href="{{ link.href }}" title="{{ link.title }}">{{ link.name }}</a>
+      {%- if not loop.last %} | {%- endif %} {%- endfor %}
+    </p>
+  </article>
+  {%- endfor %}
+</section>

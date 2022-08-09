@@ -1,0 +1,45 @@
+---
+layout: base
+title: "Page not found"
+description: "Whatever you were looking for, it is not here."
+permalink: 404.html
+eleventyExcludeFromCollections: true
+---
+
+<h2>Page not found 💔</h2>
+<p>Whatever you were looking for, it is sadly not here.</p>
+<p>
+  You could go back to
+  <a href="/" title="Bring me back to home">start</a> or have a look at the
+  <a href="/blog" title="Show me all blog posts">blog</a>. Alternatively, here
+  is a good post for you from my blog:
+</p>
+<section>
+  {% set post = collections.post | random %}
+  <article>
+    <h3>
+      <a href="{{ post.url }}" title="{{ post.data.linkTitle }}"
+        >{{ post.data.title }}</a
+      >
+    </h3>
+    <footer>
+      <p>
+        Posted on
+        <time datetime="{{ post.date | htmlDateString }}"
+          >{{ post.date | postDate }}</time
+        >
+      </p>
+    </footer>
+    {%- if post.data.banner %}
+    <picture>
+      <source type="image/webp" srcset="{{ post.data.banner }}.webp" />
+      <img
+        src="{{ post.data.banner }}.png"
+        alt="{{ post.data.bannerAlt }}"
+        width="1024"
+        height="300"
+      />
+    </picture>
+    {% endif %} {{ post.data.summary | safe }}
+  </article>
+</section>

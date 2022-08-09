@@ -1,0 +1,66 @@
+[
+  {
+    "name": "Litr",
+    "description": "Litr (Language Independent Task Runner) lets you configure and then run any tasks you want for any language.",
+    "links": [
+      {
+        "name": "Visit project page",
+        "title": "Visit the GitHub page for the Litr project.",
+        "href": "https://github.com/krieselreihe/litr"
+      },
+      {
+        "name": "Documentation",
+        "title": "See how Litr works. Important note: The tool is a work in progress.",
+        "href": "https://github.com/krieselreihe/litr/wiki"
+      }
+    ]
+  },
+  {
+    "name": "Krieselreihe",
+    "description": "\"Krieselreihe\" is the name I do all my hobby game development under. While doing this, a set of tools emerged e.g. Litr and Natr, located under this namespace.",
+    "links": [
+      {
+        "name": "Website",
+        "title": "Krieselreihe Games website",
+        "href": "https://krieselreihe.com"
+      },
+      {
+        "name": "Visit project page",
+        "title": "The organisation page on GitHub for Krieselreihe.",
+        "href": "https://github.com/krieselreihe"
+      }
+    ]
+  },
+  {
+    "name": "number-generator",
+    "description": "Generate repeatable pseudo random numbers and non-cryptographic hash numbers for usage in Node.js and browser environments.",
+    "links": [
+      {
+        "name": "Visit project page",
+        "title": "Visit the GitHub page for the number-generator project.",
+        "href": "https://github.com/MartinHelmut/number-generator"
+      },
+      {
+        "name": "Documentation",
+        "title": "Read about how to setup and use the number generator.",
+        "href": "https://github.com/MartinHelmut/number-generator#number-generator"
+      }
+    ]
+  },
+  {
+    "name": "Natr",
+    "description": "Not another test runner! (natr) But it is, and it is a highly opinionated one that is used for my own projects.",
+    "links": [
+      {
+        "name": "Visit project page",
+        "title": "Visit the GitHub page for the natr project.",
+        "href": "https://github.com/krieselreihe/natr"
+      },
+      {
+        "name": "Documentation",
+        "title": "See how you can use natr for your own projects. Important note: The test runner is a MVP.",
+        "href": "https://github.com/krieselreihe/natr/blob/master/README.md"
+      }
+    ]
+  }
+]

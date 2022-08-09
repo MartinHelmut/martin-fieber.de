@@ -1,181 +1,82 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-    <link
-      rel="apple-touch-icon"
-      sizes="180x180"
-      href="/favicon/apple-touch-icon.png"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="32x32"
-      href="/favicon/favicon-32x32.png"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="16x16"
-      href="/favicon/favicon-16x16.png"
-    />
-    <link rel="manifest" href="/favicon/site.webmanifest" />
-    <link
-      rel="mask-icon"
-      href="/favicon/safari-pinned-tab.svg"
-      color="#5bbad5"
-    />
-    <link rel="shortcut icon" href="/favicon/favicon.ico" />
-    <link rel="stylesheet" href="../style.css" />
-    <meta name="msapplication-TileColor" content="#6200ee" />
-    <meta name="msapplication-config" content="/favicon/browserconfig.xml" />
-    <meta name="theme-color" content="#ffffff" />
-    <meta
-      name="google-site-verification"
-      content="3EUDp2p1HY0eouMKX3PBvPSv3Mr6WNL-4sUYA2yNxz8"
-    />
-    <meta
-      name="description"
-      content="Setting up a proper C++ environment can be a challenge for a newcomer. This is my try on showing with what I came up with."
-    />
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:creator" content="@MartinFieber" />
-    <meta
-      property="twitter:url"
-      content="/blog/basic-cpp-setup-with-dependency-management"
-    />
-    <meta
-      property="twitter:title"
-      content="Basic C++ setup with dependency management in CMake"
-    />
-    <meta
-      property="twitter:description"
-      content="Setting up a proper C++ environment can be a challenge for a newcomer. This is my try on showing with what I came up with."
-    />
-    <meta
-      property="og:title"
-      content="Basic C++ setup with dependency management in CMake"
-    />
-    <meta
-      property="og:description"
-      content="Setting up a proper C++ environment can be a challenge for a newcomer. This is my try on showing with what I came up with."
-    />
-    <meta property="og:type" content="website" />
-    <meta
-      property="og:url"
-      content="/blog/basic-cpp-setup-with-dependency-management"
-    />
-    <script
-      async
-      defer
-      data-domain="martin-fieber.de"
-      src="https://analytics.martin-fieber.de/js/index.outbound-links.js"
-    ></script>
-    <script>
-      window.plausible =
-        window.plausible ||
-        (() => (window.plausible.q = window.plausible.q || []).push(arguments));
-      document.addEventListener("DOMContentLoaded", () => {
-        if (typeof hljs !== "undefined") hljs.highlightAll();
-      });
-    </script>
-    <script defer src="/highlight.min.js"></script>
-    <title>
-      martin-fieber.se | Basic C++ setup with dependency management in CMake
-    </title>
-  </head>
-  <body>
-    <div class="content">
-      <header>
-        <h1>
-          <a href="/" title="Take my back to start!">Martin Helmut Fieber</a>
-        </h1>
-      </header>
-      <main>
-        <article>
-          <h2>Basic C++ setup with dependency management in CMake</h2>
-          <footer>
-            <p>
-              Posted on
-              <time datetime="2022-07-03">3rd of July, 2022</time>
-            </p>
-          </footer>
-          <h3>Introduction</h3>
-          <p>
-            When I started seriously learning C++ a couple of years ago, I
-            struggled with a proper setup the most. Beginner tutorials often
-            only use the command line, but lack in larger topics like build and
-            dependency management. Where more advanced guides often assume
-            greater knowledge with at least CMake already.
-          </p>
-          <p>
-            Coming from web development, dependency management was one of the
-            easy tasks, as simple as <code>npm install</code>. Nevertheless,
-            building a web project got increasingly difficult over the years,
-            assuming the usage of tools like
-            <a
-              href="https://www.typescriptlang.org"
-              title="The official website for TypeScript"
-              >TypeScript</a
-            >,
-            <a href="https://babeljs.io" title="Babel.js landing page">Babel</a
-            >,
-            <a href="https://webpack.js.org" title="The webpack project website"
-              >webpack</a
-            >
-            and others. Of course there is still the option to not use any and
-            go <em>"vanilla"</em>.
-          </p>
-          <p>
-            As I started writing websites with Internet Explorer 5, I kinda grew
-            up with those tools, naturally, as they emerged over the years. In
-            contrast, coming into the large C++ ecosystem with a lot of tools
-            and practices feels like hitting a wall with high speed. Stepping
-            back, starting without tools, and trying to understand every tool I
-            add first, at least on a basic level; that was the plan. And the
-            tool I wanted to understand first was CMake &#8212; little I knew
-            what a ride that will be.
-          </p>
-          <p>
-            Before I start some words about <strong>platform support</strong>: I
-            regularly work on a M1 Mac, but I also tested this setup with
-            Windows 11 and Linux (Debian).
-          </p>
-          <h3>Learning CMake</h3>
-          <p>
-            I've heard a lot of things about
-            <a href="https://cmake.org" title="Official CMake website">CMake</a
-            >, a lot of those things were bad. Nevertheless, CMake seems to be a
-            very dominant tool in C++ development, and I definitely wanted to
-            understand it, at least good enough to feel comfortable using it.
-          </p>
-          <p>
-            Searching the internet for resources I saw a lot of CMake code,
-            solving the same problem in many ways. Initially I tried to combine
-            what I found to reach my goals, but even with the little
-            understanding of CMake I had this felt wrong. Not fully
-            understanding the tool, I've got the same frustration probably many
-            felt using CMake and its many versions. It was time to extend my
-            CMake knowledge &#8212; I bought
-            <a
-              href="https://crascit.com/professional-cmake/"
-              title="An amazing book tackling CMake as a whole"
-              >Professional CMake: A Practical Guide</a
-            >, that I've heard a lot of good things about. And the book was
-            indeed an amazing source of knowledge. By the way, there is no
-            affiliation, I just genuinely like the book.
-          </p>
-          <p>
-            From here on I will show how I set up my environment for C++
-            development with CMake. It may not be the best, but it proved
-            valuable for me multiple times and is, with my limited experience,
-            my favourite choice developing in C++.
-          </p>
-          <h3>Application setup</h3>
-          <p>The minimal project setup looks like this:</p>
-          <figure>
-            <pre><code class="language-plaintext hljs">build/
+---
+date: 2022-07-03
+lastmod: 2022-07-31
+title: "Basic C++ setup with dependency management in CMake"
+description: "Setting up a proper C++ environment can be a challenge for a newcomer. This is my try on showing with what I came up with."
+linkTitle: "I try creating a setup for myself that scales and is flexible enough to met all my needs."
+summary: "<p>My biggest problem starting to learn C++ back then was a proper setup that is easy to use and scales. Here is my personal attempt at creating this.</p>"
+hasCode: true
+tags: ["post", "cpp"]
+---
+
+<h3>Introduction</h3>
+<p>
+  When I started seriously learning C++ a couple of years ago, I struggled with
+  a proper setup the most. Beginner tutorials often only use the command line,
+  but lack in larger topics like build and dependency management. Where more
+  advanced guides often assume greater knowledge with at least CMake already.
+</p>
+<p>
+  Coming from web development, dependency management was one of the easy tasks,
+  as simple as <code>npm install</code>. Nevertheless, building a web project
+  got increasingly difficult over the years, assuming the usage of tools like
+  <a
+    href="https://www.typescriptlang.org"
+    title="The official website for TypeScript"
+    >TypeScript</a
+  >, <a href="https://babeljs.io" title="Babel.js landing page">Babel</a>,
+  <a href="https://webpack.js.org" title="The webpack project website"
+    >webpack</a
+  >
+  and others. Of course there is still the option to not use any and go
+  <em>"vanilla"</em>.
+</p>
+<p>
+  As I started writing websites with Internet Explorer 5, I kinda grew up with
+  those tools, naturally, as they emerged over the years. In contrast, coming
+  into the large C++ ecosystem with a lot of tools and practices feels like
+  hitting a wall with high speed. Stepping back, starting without tools, and
+  trying to understand every tool I add first, at least on a basic level; that
+  was the plan. And the tool I wanted to understand first was CMake &#8212;
+  little I knew what a ride that will be.
+</p>
+<p>
+  Before I start some words about <strong>platform support</strong>: I regularly
+  work on a M1 Mac, but I also tested this setup with Windows 11 and Linux
+  (Debian).
+</p>
+<h3>Learning CMake</h3>
+<p>
+  I've heard a lot of things about
+  <a href="https://cmake.org" title="Official CMake website">CMake</a>, a lot of
+  those things were bad. Nevertheless, CMake seems to be a very dominant tool in
+  C++ development, and I definitely wanted to understand it, at least good
+  enough to feel comfortable using it.
+</p>
+<p>
+  Searching the internet for resources I saw a lot of CMake code, solving the
+  same problem in many ways. Initially I tried to combine what I found to reach
+  my goals, but even with the little understanding of CMake I had this felt
+  wrong. Not fully understanding the tool, I've got the same frustration
+  probably many felt using CMake and its many versions. It was time to extend my
+  CMake knowledge &#8212; I bought
+  <a
+    href="https://crascit.com/professional-cmake/"
+    title="An amazing book tackling CMake as a whole"
+    >Professional CMake: A Practical Guide</a
+  >, that I've heard a lot of good things about. And the book was indeed an
+  amazing source of knowledge. By the way, there is no affiliation, I just
+  genuinely like the book.
+</p>
+<p>
+  From here on I will show how I set up my environment for C++ development with
+  CMake. It may not be the best, but it proved valuable for me multiple times
+  and is, with my limited experience, my favourite choice developing in C++.
+</p>
+<h3>Application setup</h3>
+<p>The minimal project setup looks like this:</p>
+<figure>
+  <pre><code class="language-plaintext hljs">build/
   debug/
   release/
 cmake/
@@ -192,20 +93,19 @@ src/
     CMakeLists.txt
   CMakeLists.txt
 CMakeLists.txt</code></pre>
-          </figure>
-          <p>
-            Going through it step-by-step; the first folder
-            <code>build</code> is to capture generated project files and the
-            actual application build. The folder is
-            <strong>excluded from source control</strong>. Inside are the
-            different build artefacts for debug and release builds, but can also
-            contain a different, or more granular, structure when building for
-            multiple targets.
-          </p>
-          <h4>CMakeLists.txt</h4>
-          <p>The root <code>CMakeLists.txt</code> looks like this:</p>
-          <figure>
-            <pre><code class="language-cmake hljs"># CMakeLists.txt
+</figure>
+<p>
+  Going through it step-by-step; the first folder
+  <code>build</code> is to capture generated project files and the actual
+  application build. The folder is
+  <strong>excluded from source control</strong>. Inside are the different build
+  artefacts for debug and release builds, but can also contain a different, or
+  more granular, structure when building for multiple targets.
+</p>
+<h4>CMakeLists.txt</h4>
+<p>The root <code>CMakeLists.txt</code> looks like this:</p>
+<figure>
+  <pre><code class="language-cmake hljs"># CMakeLists.txt
 cmake_minimum_required(VERSION 3.22)
 
 include(cmake/UniversalAppleBuild.cmake)
@@ -227,63 +127,59 @@ include(cmake/CompilerWarnings.cmake)
 set_project_warnings(project_warnings)
 
 add_subdirectory(src)</code></pre>
-          </figure>
-          <p>
-            The first line sets the minimum CMake version and can be any version
-            for you, I like to use a rather recent version.
-          </p>
-          <figure>
-            <pre><code class="language-cmake hljs">cmake_minimum_required(VERSION 3.22)</code></pre>
-          </figure>
-          <p>
-            The next line includes a file inside the <code>cmake</code> folder.
-          </p>
-          <figure>
-            <pre><code class="language-cmake hljs">include(cmake/UniversalAppleBuild.cmake)</code></pre>
-          </figure>
-          <p>
-            The file <code>UniversalAppleBuild.cmake</code> is used to generate
-            universal builds for Apple Intel and Silicon. The contents are as
-            follows:
-          </p>
-          <figure>
-            <pre><code class="language-cmake hljs"># cmake/UniversalAppleBuild.cmake
+</figure>
+<p>
+  The first line sets the minimum CMake version and can be any version for you,
+  I like to use a rather recent version.
+</p>
+<figure>
+  <pre><code class="language-cmake hljs">cmake_minimum_required(VERSION 3.22)</code></pre>
+</figure>
+<p>The next line includes a file inside the <code>cmake</code> folder.</p>
+<figure>
+  <pre><code class="language-cmake hljs">include(cmake/UniversalAppleBuild.cmake)</code></pre>
+</figure>
+<p>
+  The file <code>UniversalAppleBuild.cmake</code> is used to generate universal
+  builds for Apple Intel and Silicon. The contents are as follows:
+</p>
+<figure>
+  <pre><code class="language-cmake hljs"># cmake/UniversalAppleBuild.cmake
 
 # Generate universal executable for Apple hardware.
 # This file needs to be included before calling `project`.
 if (APPLE AND RELEASE)
   set(CMAKE_OSX_ARCHITECTURES "arm64;x86_64" CACHE STRING "")
 endif ()</code></pre>
-          </figure>
-          <p>Next the project setup.</p>
-          <figure>
-            <pre><code class="language-cmake hljs">project(
+</figure>
+<p>Next the project setup.</p>
+<figure>
+  <pre><code class="language-cmake hljs">project(
   AppName
   DESCRIPTION "A description about the app."
   LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)</code></pre>
-          </figure>
-          <p>
-            This will define the CMake project, give it a project name, a
-            description and the language used; in this case C++20.
-          </p>
-          <h4>Standard project settings</h4>
-          <p>
-            The next include, <code>StandardProjectSettings.cmake</code>, will
-            define some common settings.
-          </p>
-          <figure>
-            <pre><code class="language-cmake hljs">include(cmake/StandardProjectSettings.cmake)</code></pre>
-          </figure>
-          <p>
-            It is located inside the <code>cmake</code> folder that will hold
-            all CMake source files. In its basic form this files looks like
-            this:
-          </p>
-          <figure>
-            <pre><code class="language-cmake hljs"># cmake/StandardProjectSettings.cmake
+</figure>
+<p>
+  This will define the CMake project, give it a project name, a description and
+  the language used; in this case C++20.
+</p>
+<h4>Standard project settings</h4>
+<p>
+  The next include, <code>StandardProjectSettings.cmake</code>, will define some
+  common settings.
+</p>
+<figure>
+  <pre><code class="language-cmake hljs">include(cmake/StandardProjectSettings.cmake)</code></pre>
+</figure>
+<p>
+  It is located inside the <code>cmake</code> folder that will hold all CMake
+  source files. In its basic form this files looks like this:
+</p>
+<figure>
+  <pre><code class="language-cmake hljs"># cmake/StandardProjectSettings.cmake
 
 # Set a default build type if none was specified
 if (NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
@@ -319,48 +215,47 @@ if (DEBUG OR CMAKE_BUILD_TYPE STREQUAL "Debug")
   add_compile_definitions(
     APP_DEBUG APP_ENABLE_ASSERTS APP_PROFILE)
 endif ()</code></pre>
-          </figure>
-          <p>
-            This will, if a Debug build is enabled, also define three compiler
-            directives; <code>APP_DEBUG</code> to be used to enable debug build
-            only code paths, <code>APP_ENABLE_ASSERTS</code> for assertions and
-            <code>APP_PROFILE</code> for performance profiling. All are prefixed
-            with <code>APP_</code>, representative for a more unique prefix,
-            like your app name or a short form of it.
-          </p>
-          <h4 id="project-warnings">Project warnings</h4>
-          <p>Now comes the code quality part, or at least some of it.</p>
-          <figure>
-            <pre><code class="language-cmake hljs"># Link project_warnings as "library" to use the warnings
+</figure>
+<p>
+  This will, if a Debug build is enabled, also define three compiler directives;
+  <code>APP_DEBUG</code> to be used to enable debug build only code paths,
+  <code>APP_ENABLE_ASSERTS</code> for assertions and
+  <code>APP_PROFILE</code> for performance profiling. All are prefixed with
+  <code>APP_</code>, representative for a more unique prefix, like your app name
+  or a short form of it.
+</p>
+<h4 id="project-warnings">Project warnings</h4>
+<p>Now comes the code quality part, or at least some of it.</p>
+<figure>
+  <pre><code class="language-cmake hljs"># Link project_warnings as "library" to use the warnings
 # specified in CompilerWarnings.cmake.
 add_library(project_warnings INTERFACE)
 include(cmake/CompilerWarnings.cmake)
 set_project_warnings(project_warnings)</code></pre>
-          </figure>
-          <p>
-            This looks like a hack, and it maybe is, but works like a charm. I
-            create an empty interface called
-            <code>project_warnings</code> and include another file,
-            <code>CompilerWarnings.cmake</code>, that will create a function
-            <code>set_project_warnings</code> that takes a
-            <em>"library"</em> name and attaches a set of compiler options to it
-            via CMake's <code>target_compile_options</code>. I then can use this
-            <code>project_warnings</code>
-            interface and link it as a library to my app and libraries I want to
-            build.
-          </p>
-          <p>
-            Here a shortened look inside the
-            <code>CompilerWarnings.cmake</code> file with some added comments
-            for clarification (the long version can be found
-            <a
-              href="https://github.com/MartinHelmut/cpp-base-template/blob/main/cmake/CompilerWarnings.cmake"
-              title="CMake file with compiler warnings"
-              >here</a
-            >).
-          </p>
-          <figure>
-            <pre><code class="language-cmake hljs"># cmake/CompilerWarnings.cmake
+</figure>
+<p>
+  This looks like a hack, and it maybe is, but works like a charm. I create an
+  empty interface called
+  <code>project_warnings</code> and include another file,
+  <code>CompilerWarnings.cmake</code>, that will create a function
+  <code>set_project_warnings</code> that takes a <em>"library"</em> name and
+  attaches a set of compiler options to it via CMake's
+  <code>target_compile_options</code>. I then can use this
+  <code>project_warnings</code>
+  interface and link it as a library to my app and libraries I want to build.
+</p>
+<p>
+  Here a shortened look inside the
+  <code>CompilerWarnings.cmake</code> file with some added comments for
+  clarification (the long version can be found
+  <a
+    href="https://github.com/MartinHelmut/cpp-base-template/blob/main/cmake/CompilerWarnings.cmake"
+    title="CMake file with compiler warnings"
+    >here</a
+  >).
+</p>
+<figure>
+  <pre><code class="language-cmake hljs"># cmake/CompilerWarnings.cmake
 
 # This will define the `set_project_warnings` function
 # that takes the interface name.
@@ -418,33 +313,32 @@ function(set_project_warnings project_name)
   target_compile_options(
     ${project_name} INTERFACE ${PROJECT_WARNINGS})
 endfunction()</code></pre>
-          </figure>
-          <p>
-            The last line inside the root <code>CMakeLists.txt</code> file is to
-            include the source directory.
-          </p>
-          <figure>
-            <pre><code class="language-cmake hljs">add_subdirectory(src)</code></pre>
-          </figure>
-          <h4>Source structure</h4>
-          <p>
-            The <code>CMakeLists.txt</code> inside the <code>src</code> folder
-            contains two lines, one to include the library folder and one for
-            the app. This is dependent on the amount of applications and
-            libraries in your project.
-          </p>
-          <figure>
-            <pre><code class="language-cmake hljs"># src/CMakeLists.txt
+</figure>
+<p>
+  The last line inside the root <code>CMakeLists.txt</code> file is to include
+  the source directory.
+</p>
+<figure>
+  <pre><code class="language-cmake hljs">add_subdirectory(src)</code></pre>
+</figure>
+<h4>Source structure</h4>
+<p>
+  The <code>CMakeLists.txt</code> inside the <code>src</code> folder contains
+  two lines, one to include the library folder and one for the app. This is
+  dependent on the amount of applications and libraries in your project.
+</p>
+<figure>
+  <pre><code class="language-cmake hljs"># src/CMakeLists.txt
 add_subdirectory(some_library)
 add_subdirectory(app)</code></pre>
-          </figure>
-          <h3>Defining a library</h3>
-          <p>
-            Now let's have a look at the
-            <code>src/some_library/CMakeLists.txt</code> file.
-          </p>
-          <figure>
-            <pre><code class="language-cmake hljs"># src/some_library/CMakeLists.txt
+</figure>
+<h3>Defining a library</h3>
+<p>
+  Now let's have a look at the
+  <code>src/some_library/CMakeLists.txt</code> file.
+</p>
+<figure>
+  <pre><code class="language-cmake hljs"># src/some_library/CMakeLists.txt
 set(NAME "SomeLibrary")
 
 include(${PROJECT_SOURCE_DIR}/cmake/StaticAnalyzers.cmake)
@@ -456,37 +350,34 @@ target_include_directories(
   ${NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_compile_features(${NAME} PRIVATE cxx_std_20)
 target_link_libraries(${NAME} PRIVATE project_warnings)</code></pre>
-          </figure>
-          <p>
-            The first line is, for convenience, the definition of the library
-            name.
-          </p>
-          <figure>
-            <pre><code class="language-cmake hljs">set(NAME "SomeLibrary")</code></pre>
-          </figure>
-          <p>
-            Then I include a file I add to every library as well as the app,
-            <code>StaticAnalyzers.cmake</code>.
-          </p>
-          <h4 id="static-analysis">Static analysis</h4>
-          <p>
-            The <code>StaticAnalyzers.cmake</code> file inside the
-            <code>cmake</code> folder enables
-            <a
-              href="https://clang.llvm.org/extra/clang-tidy/index.html"
-              title="More information about clang-tidy"
-              >clang-tidy</a
-            >
-            (if installed) and the
-            <a
-              href="https://clang.llvm.org/docs/AddressSanitizer.html"
-              title="More information about AddressSanitizer"
-              >address sanitizer</a
-            >
-            for debug builds.
-          </p>
-          <figure>
-            <pre><code class="language-cmake hljs"># cmake/StaticAnalyzers.cmake
+</figure>
+<p>The first line is, for convenience, the definition of the library name.</p>
+<figure>
+  <pre><code class="language-cmake hljs">set(NAME "SomeLibrary")</code></pre>
+</figure>
+<p>
+  Then I include a file I add to every library as well as the app,
+  <code>StaticAnalyzers.cmake</code>.
+</p>
+<h4 id="static-analysis">Static analysis</h4>
+<p>
+  The <code>StaticAnalyzers.cmake</code> file inside the
+  <code>cmake</code> folder enables
+  <a
+    href="https://clang.llvm.org/extra/clang-tidy/index.html"
+    title="More information about clang-tidy"
+    >clang-tidy</a
+  >
+  (if installed) and the
+  <a
+    href="https://clang.llvm.org/docs/AddressSanitizer.html"
+    title="More information about AddressSanitizer"
+    >address sanitizer</a
+  >
+  for debug builds.
+</p>
+<figure>
+  <pre><code class="language-cmake hljs"># cmake/StaticAnalyzers.cmake
 if (NOT RELEASE)
   find_program(CLANGTIDY clang-tidy)
   if (CLANGTIDY)
@@ -500,13 +391,13 @@ if (NOT RELEASE)
   set(CMAKE_CXX_FLAGS
     "${CMAKE_CXX_FLAGS} -O0 -fsanitize=address -g")
 endif ()</code></pre>
-          </figure>
-          <p>
-            The clang-tidy options are defined in a
-            <code>.clang-tidy</code> file at the project root.
-          </p>
-          <figure>
-            <pre><code class="language-yaml hljs"># .clang-tidy
+</figure>
+<p>
+  The clang-tidy options are defined in a
+  <code>.clang-tidy</code> file at the project root.
+</p>
+<figure>
+  <pre><code class="language-yaml hljs"># .clang-tidy
 ---
 Checks: >
   *,
@@ -560,53 +451,51 @@ CheckOptions:
     value: 2
   - key: cppcoreguidelines-explicit-virtual-functions.IgnoreDestructors
     value: '1'</code></pre>
-          </figure>
-          <p>
-            As many projects there are options, and this set of options is only
-            mine. You can find a list of
-            <a
-              href="https://clang.llvm.org/extra/clang-tidy/checks/list.html"
-              title="Complete list of checks for clang-tidy"
-              >all checks for clang-tidy here</a
-            >.
-          </p>
-          <h4>Library files and build settings</h4>
-          <p>Next some source files:</p>
-          <figure>
-            <pre><code class="language-cmake hljs">add_library(${NAME} STATIC
+</figure>
+<p>
+  As many projects there are options, and this set of options is only mine. You
+  can find a list of
+  <a
+    href="https://clang.llvm.org/extra/clang-tidy/checks/list.html"
+    title="Complete list of checks for clang-tidy"
+    >all checks for clang-tidy here</a
+  >.
+</p>
+<h4>Library files and build settings</h4>
+<p>Next some source files:</p>
+<figure>
+  <pre><code class="language-cmake hljs">add_library(${NAME} STATIC
   SomeLibrary/SomeFile.cpp SomeLibrary/SomeFile.hpp)</code></pre>
-          </figure>
-          <p>
-            This will add needed source files to create a static library. I like
-            splitting my code into smaller libraries, like <em>"core"</em>,
-            <em>"ui"</em>, <em>"rendering"</em>, etc. to
-            <strong>create logical chunks</strong>, but also
-            <strong>keep build times lower</strong>. This is due to only
-            libraries with changed files need to be rebuilt, otherwise they will
-            only be linked.
-          </p>
-          <p>
-            At last, setting the <em>"include directory"</em>, building with
-            C++20, and linking the <code>project_warnings</code> as mentioned
-            <a
-              href="#project-warnings"
-              title="Have a look at the previously mentioned project warnings."
-              >earlier</a
-            >.
-          </p>
-          <figure>
-            <pre><code class="language-cmake hljs">target_include_directories(${NAME}
+</figure>
+<p>
+  This will add needed source files to create a static library. I like splitting
+  my code into smaller libraries, like <em>"core"</em>, <em>"ui"</em>,
+  <em>"rendering"</em>, etc. to <strong>create logical chunks</strong>, but also
+  <strong>keep build times lower</strong>. This is due to only libraries with
+  changed files need to be rebuilt, otherwise they will only be linked.
+</p>
+<p>
+  At last, setting the <em>"include directory"</em>, building with C++20, and
+  linking the <code>project_warnings</code> as mentioned
+  <a
+    href="#project-warnings"
+    title="Have a look at the previously mentioned project warnings."
+    >earlier</a
+  >.
+</p>
+<figure>
+  <pre><code class="language-cmake hljs">target_include_directories(${NAME}
   PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_compile_features(${NAME} PRIVATE cxx_std_20)
 target_link_libraries(${NAME} PRIVATE project_warnings)</code></pre>
-          </figure>
-          <h3>Defining an application</h3>
-          <p>
-            Alas, a look at the <code>src/app/CMakeLists.txt</code> file and how
-            to define an executable.
-          </p>
-          <figure>
-            <pre><code class="language-cmake hljs"># src/app/CMakeLists.txt
+</figure>
+<h3>Defining an application</h3>
+<p>
+  Alas, a look at the <code>src/app/CMakeLists.txt</code> file and how to define
+  an executable.
+</p>
+<figure>
+  <pre><code class="language-cmake hljs"># src/app/CMakeLists.txt
 set(NAME "App")
 
 include(${PROJECT_SOURCE_DIR}/cmake/StaticAnalyzers.cmake)
@@ -616,82 +505,82 @@ add_executable(${NAME} App/Main.cpp)
 target_include_directories(${NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_compile_features(${NAME} PRIVATE cxx_std_20)
 target_link_libraries(${NAME} PRIVATE project_warnings SomeLibrary)</code></pre>
-          </figure>
-          <p>Same as for the library, it defines a name for convenience.</p>
-          <figure>
-            <pre><code class="language-cmake hljs">set(NAME "App")</code></pre>
-          </figure>
-          <p>
-            Again, adding
-            <a
-              href="#static-analysis"
-              title="Have a look again at the section about static analysis"
-              >static analysers</a
-            >
-            to the app.
-          </p>
-          <figure>
-            <pre><code class="language-cmake hljs">include(${PROJECT_SOURCE_DIR}/cmake/StaticAnalyzers.cmake)</code></pre>
-          </figure>
-          <p>Throw in all app source files.</p>
-          <figure>
-            <pre><code class="language-cmake hljs">add_executable(${NAME} App/Main.cpp)</code></pre>
-          </figure>
-          <p>
-            And define the <em>"include directory"</em> and the C++ standard to
-            build with.
-          </p>
-          <figure>
-            <pre><code class="language-cmake hljs">target_include_directories(${NAME}
+</figure>
+<p>Same as for the library, it defines a name for convenience.</p>
+<figure>
+  <pre><code class="language-cmake hljs">set(NAME "App")</code></pre>
+</figure>
+<p>
+  Again, adding
+  <a
+    href="#static-analysis"
+    title="Have a look again at the section about static analysis"
+    >static analysers</a
+  >
+  to the app.
+</p>
+<figure>
+  <pre><code class="language-cmake hljs">include(${PROJECT_SOURCE_DIR}/cmake/StaticAnalyzers.cmake)</code></pre>
+</figure>
+<p>Throw in all app source files.</p>
+<figure>
+  <pre><code class="language-cmake hljs">add_executable(${NAME} App/Main.cpp)</code></pre>
+</figure>
+<p>
+  And define the <em>"include directory"</em> and the C++ standard to build
+  with.
+</p>
+<figure>
+  <pre><code class="language-cmake hljs">target_include_directories(${NAME}
   PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_compile_features(${NAME} PRIVATE cxx_std_20)</code></pre>
-          </figure>
-          <p>
-            Besides linking the <code>project_warnings</code> as mentioned
-            <a
-              href="#project-warnings"
-              title="Have a look at the general project warninhgs again."
-              >earlier</a
-            >, I also link the libraries I want to use with the application by
-            name; in that case my example <code>SomeLibrary</code>.
-          </p>
-          <figure>
-            <pre><code class="language-cmake hljs">target_link_libraries(${NAME}
+</figure>
+<p>
+  Besides linking the <code>project_warnings</code> as mentioned
+  <a
+    href="#project-warnings"
+    title="Have a look at the general project warninhgs again."
+    >earlier</a
+  >, I also link the libraries I want to use with the application by name; in
+  that case my example <code>SomeLibrary</code>.
+</p>
+<figure>
+  <pre><code class="language-cmake hljs">target_link_libraries(${NAME}
   PRIVATE project_warnings SomeLibrary)</code></pre>
-          </figure>
-          <p>
-            And that's about it to define an application. This setup supports
-            multiple applications sharing the same (or different) libraries.
-            Making this a kind of <strong>mono repository</strong>.
-          </p>
-          <h3>Adding dependencies</h3>
-          <p>
-            How about the big topic dependencies? This was my greatest issue
-            when starting C++, first using Git submodules, directly throwing
-            source files into the project, failing at using
-            <a href="https://conan.io" title="Official Conan website">Conan</a>,
-            and many other attempts. Though, finally I settled on using CMake's
-            <a
-              href="https://cmake.org/cmake/help/latest/module/FetchContent.html"
-              title="CMake documentation about FetchContent"
-              >FetchContent</a
-            >.
-          </p>
-          <h4>Adding fmtlib</h4>
-          <p>
-            The way I structure dependencies is by having a
-            <code>vendor</code> folder in the root of the project containing a
-            <code>CMakeLists.txt</code> and one folder per dependency with
-            another <code>CMakeLists.txt</code>. Adding
-            <a
-              href="https://fmt.dev/latest/index.html"
-              title="Documentation website about fmtlib"
-              >{fmt}</a
-            >
-            to the project structure looks like this:
-          </p>
-          <figure>
-            <pre><code class="language-plaintext hljs">build/
+</figure>
+<p>
+  And that's about it to define an application. This setup supports multiple
+  applications sharing the same (or different) libraries. Making this a kind of
+  <strong>mono repository</strong>.
+</p>
+<h3>Adding dependencies</h3>
+<p>
+  How about the big topic dependencies? This was my greatest issue when starting
+  C++, first using Git submodules, directly throwing source files into the
+  project, failing at using
+  <a href="https://conan.io" title="Official Conan website">Conan</a>, and many
+  other attempts. Though, finally I settled on using CMake's
+  <a
+    href="https://cmake.org/cmake/help/latest/module/FetchContent.html"
+    title="CMake documentation about FetchContent"
+    >FetchContent</a
+  >.
+</p>
+<h4>Adding fmtlib</h4>
+<p>
+  The way I structure dependencies is by having a
+  <code>vendor</code> folder in the root of the project containing a
+  <code>CMakeLists.txt</code> and one folder per dependency with another
+  <code>CMakeLists.txt</code>. Adding
+  <a
+    href="https://fmt.dev/latest/index.html"
+    title="Documentation website about fmtlib"
+    >{fmt}</a
+  >
+  to the project structure looks like this:
+</p>
+<figure>
+  <pre><code class="language-plaintext hljs">build/
 cmake/
 src/
 vendor/
@@ -699,40 +588,40 @@ vendor/
     CMakeLists.txt
   CMakeLists.txt
 CMakeLists.txt</code></pre>
-            <figcaption>Minified view of the folder structure.</figcaption>
-          </figure>
-          <p>
-            First, I include the <code>vendor</code> folder inside the root
-            <code>CMakeLists.txt</code>.
-          </p>
-          <figure>
-            <pre><code class="language-cmake hljs"># CMakeLists.txt
+  <figcaption>Minified view of the folder structure.</figcaption>
+</figure>
+<p>
+  First, I include the <code>vendor</code> folder inside the root
+  <code>CMakeLists.txt</code>.
+</p>
+<figure>
+  <pre><code class="language-cmake hljs"># CMakeLists.txt
 cmake_minimum_required(VERSION 3.22)
 
 # Other CMake code
 
 add_subdirectory(src)
 add_subdirectory(vendor)</code></pre>
-          </figure>
-          <p>
-            The dependency <code>vendor/fmt/CMakeLists.txt</code> file contains
-            a message for fetching the dependency, potential dependency settings
-            and the statement to make the dependency available to the project.
-          </p>
-          <figure>
-            <pre><code class="language-cmake hljs"># vendor/fmt/CMakeLists.txt
+</figure>
+<p>
+  The dependency <code>vendor/fmt/CMakeLists.txt</code> file contains a message
+  for fetching the dependency, potential dependency settings and the statement
+  to make the dependency available to the project.
+</p>
+<figure>
+  <pre><code class="language-cmake hljs"># vendor/fmt/CMakeLists.txt
 message(STATUS "Fetching fmt ...")
 
 # Here you can define build settings for fmt.
 
 FetchContent_MakeAvailable(fmt)</code></pre>
-          </figure>
-          <p>
-            The <code>vendor/CMakeLists.txt</code> file declares the actual
-            dependency and the version to fetch (and from where).
-          </p>
-          <figure>
-            <pre><code class="language-cmake hljs"># vendor/CMakeLists.txt
+</figure>
+<p>
+  The <code>vendor/CMakeLists.txt</code> file declares the actual dependency and
+  the version to fetch (and from where).
+</p>
+<figure>
+  <pre><code class="language-cmake hljs"># vendor/CMakeLists.txt
 include(FetchContent)
 
 FetchContent_Declare(
@@ -741,68 +630,61 @@ FetchContent_Declare(
   GIT_TAG 9.0.0
 )
 add_subdirectory(fmt)</code></pre>
-          </figure>
-          <p>
-            It includes the <code>FetchContent</code> module from CMake, then
-            declares a dependency by giving it a name, what Git repository to
-            use and the Git tag (or alternatively a commit hash). At last, it
-            adds the dependency subdirectory.
-          </p>
-          <p>
-            With
-            <a
-              href="https://cmake.org/cmake/help/latest/module/FetchContent.html#command:fetchcontent_declare"
-              title="CMake documentation about FetchContent_Declare"
-              >FetchContent_Declare</a
-            >
-            not only Git repositories can be used, also SVN or any URL really
-            containing an archive (e.g. a tar.gz file).
-          </p>
-          <p>
-            The benefit with FetchContent is that dependencies are fetched only
-            once on configure time, not on every build as with other solutions.
-          </p>
-          <h3>Build and run</h3>
-          <p>
-            Before building the project, the CMake configuration step needs to
-            be executed, looking like this for the debug setup (using
-            <a
-              href="https://ninja-build.org"
-              title="Official Ninja build website"
-              >Ninja</a
-            >
-            to build the project):
-          </p>
-          <figure>
-            <pre><code class="language-shell hljs">cmake -GNinja -DCMAKE_BUILD_TYPE=Debug -B build/debug</code></pre>
-          </figure>
-          <p>Building the project:</p>
-          <figure>
-            <pre><code class="language-shell hljs">cmake --build build/debug</code></pre>
-          </figure>
-          <p>
-            Alas, running the generated executable (under Mac in that case):
-          </p>
-          <figure>
-            <pre><code class="language-shell hljs">./build/debug/src/app/App</code></pre>
-          </figure>
-          <h3>Project formatting</h3>
-          <p>
-            Being used to
-            <a href="https://prettier.io" title="Official Prettier website"
-              >Prettier</a
-            >
-            I wanted something similar for C++, seeing
-            <a
-              href="https://clang.llvm.org/docs/ClangFormat.html"
-              title="Webpage about the clang-format tooling"
-              >clang-format</a
-            >
-            as a worthy replacement. Adding a <code>.clang-format</code> file to
-            the project root containing some basic formatting options.
-          </p>
-          <figure>
-            <pre><code class="language-yaml hljs"># .clang-format
+</figure>
+<p>
+  It includes the <code>FetchContent</code> module from CMake, then declares a
+  dependency by giving it a name, what Git repository to use and the Git tag (or
+  alternatively a commit hash). At last, it adds the dependency subdirectory.
+</p>
+<p>
+  With
+  <a
+    href="https://cmake.org/cmake/help/latest/module/FetchContent.html#command:fetchcontent_declare"
+    title="CMake documentation about FetchContent_Declare"
+    >FetchContent_Declare</a
+  >
+  not only Git repositories can be used, also SVN or any URL really containing
+  an archive (e.g. a tar.gz file).
+</p>
+<p>
+  The benefit with FetchContent is that dependencies are fetched only once on
+  configure time, not on every build as with other solutions.
+</p>
+<h3>Build and run</h3>
+<p>
+  Before building the project, the CMake configuration step needs to be
+  executed, looking like this for the debug setup (using
+  <a href="https://ninja-build.org" title="Official Ninja build website"
+    >Ninja</a
+  >
+  to build the project):
+</p>
+<figure>
+  <pre><code class="language-shell hljs">cmake -GNinja -DCMAKE_BUILD_TYPE=Debug -B build/debug</code></pre>
+</figure>
+<p>Building the project:</p>
+<figure>
+  <pre><code class="language-shell hljs">cmake --build build/debug</code></pre>
+</figure>
+<p>Alas, running the generated executable (under Mac in that case):</p>
+<figure>
+  <pre><code class="language-shell hljs">./build/debug/src/app/App</code></pre>
+</figure>
+<h3>Project formatting</h3>
+<p>
+  Being used to
+  <a href="https://prettier.io" title="Official Prettier website">Prettier</a>
+  I wanted something similar for C++, seeing
+  <a
+    href="https://clang.llvm.org/docs/ClangFormat.html"
+    title="Webpage about the clang-format tooling"
+    >clang-format</a
+  >
+  as a worthy replacement. Adding a <code>.clang-format</code> file to the
+  project root containing some basic formatting options.
+</p>
+<figure>
+  <pre><code class="language-yaml hljs"># .clang-format
 ---
 Language: Cpp
 BasedOnStyle: Google
@@ -819,36 +701,35 @@ BinPackParameters: false
 ColumnLimit: 100
 
 ...</code></pre>
-          </figure>
-          <p>
-            A list of
-            <a
-              href="https://clang.llvm.org/docs/ClangFormatStyleOptions.html"
-              title="List of all clang-format styling options."
-              >all options can be found here</a
-            >.
-          </p>
-          <p>
-            To format all the project source files, having clang-format
-            installed, run:
-          </p>
-          <figure>
-            <pre><code class="language-shell hljs">find src -iname *.hpp -o -iname *.cpp | xargs clang-format -i</code></pre>
-          </figure>
-          <h3>Bonus: Litr</h3>
-          <p>
-            As biased as I am, of course I use my own project
-            <a
-              href="https://github.com/krieselreihe/litr"
-              title="GitHub page of Litr, the Language Independent Task Runner."
-              >Litr</a
-            >
-            to define some common commands for the project. Adding a
-            <code>litr.toml</code> file in the project root to have quick
-            commands for building, running and formatting the project.
-          </p>
-          <figure>
-            <pre><code class="language-ini hljs"># litr.toml
+</figure>
+<p>
+  A list of
+  <a
+    href="https://clang.llvm.org/docs/ClangFormatStyleOptions.html"
+    title="List of all clang-format styling options."
+    >all options can be found here</a
+  >.
+</p>
+<p>
+  To format all the project source files, having clang-format installed, run:
+</p>
+<figure>
+  <pre><code class="language-shell hljs">find src -iname *.hpp -o -iname *.cpp | xargs clang-format -i</code></pre>
+</figure>
+<h3>Bonus: Litr</h3>
+<p>
+  As biased as I am, of course I use my own project
+  <a
+    href="https://github.com/krieselreihe/litr"
+    title="GitHub page of Litr, the Language Independent Task Runner."
+    >Litr</a
+  >
+  to define some common commands for the project. Adding a
+  <code>litr.toml</code> file in the project root to have quick commands for
+  building, running and formatting the project.
+</p>
+<figure>
+  <pre><code class="language-ini hljs"># litr.toml
 [commands.build]
 script = [
   "cmake -GNinja -DCMAKE_BUILD_TYPE=%{target} -B build/%{target}",
@@ -869,51 +750,23 @@ shortcut = "t"
 description = "Define the application build target."
 type = ["debug", "release"]
 default = "debug"</code></pre>
-          </figure>
-          <h3>Epilogue</h3>
-          <p>
-            That's about it when it comes the base setup. I do actually have a
-            little bit more, namely tests via
-            <a
-              href="https://github.com/doctest/doctest"
-              title="GitHub page for doctest, the unit testing framework."
-              >doctest</a
-            >, but wanted to spare the setup here to keep it short.
-            Nevertheless, this and a full example of the setup can be found on
-            GitHub.
-          </p>
-          <p>
-            Template repository:
-            <a
-              href="https://github.com/MartinHelmut/cpp-base-template"
-              title="The template repository to this article."
-              >https://github.com/MartinHelmut/cpp-base-template</a
-            >
-          </p>
-        </article>
-      </main>
-      <footer>
-        <a
-          href="/legal-notice"
-          title="Legal notice page includes address and contact information"
-        >
-          Legal notice
-        </a>
-        |
-        <a
-          href="/privacy-policy"
-          title="Privacy policy includes cookie information, but there are no cookies"
-        >
-          Privacy policy
-        </a>
-        |
-        <a
-          href="https://github.com/MartinHelmut/martin-fieber.de"
-          title="View the sources of this website on GitHub"
-        >
-          Website sources
-        </a>
-      </footer>
-    </div>
-  </body>
-</html>
+</figure>
+<h3>Epilogue</h3>
+<p>
+  That's about it when it comes the base setup. I do actually have a little
+  more, namely tests via
+  <a
+    href="https://github.com/doctest/doctest"
+    title="GitHub page for doctest, the unit testing framework."
+    >doctest</a
+  >, but wanted to spare the setup here to keep it short. Nevertheless, this and
+  a full example of the setup can be found on GitHub.
+</p>
+<p>
+  Template repository:
+  <a
+    href="https://github.com/MartinHelmut/cpp-base-template"
+    title="The template repository to this article."
+    >https://github.com/MartinHelmut/cpp-base-template</a
+  >
+</p>
