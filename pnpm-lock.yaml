@@ -1,7 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@11ty/eleventy': 2.0.0-canary.14
+  '@11ty/eleventy': 2.0.0-canary.15
   '@11ty/eleventy-plugin-rss': 1.2.0
   eslint: 8.22.0
   eslint-config-prettier: 8.5.0
@@ -12,7 +12,7 @@ specifiers:
   stylelint-prettier: 2.0.0
 
 devDependencies:
-  '@11ty/eleventy': 2.0.0-canary.14
+  '@11ty/eleventy': 2.0.0-canary.15
   '@11ty/eleventy-plugin-rss': 1.2.0
   eslint: 8.22.0
   eslint-config-prettier: 8.5.0_eslint@8.22.0
@@ -28,8 +28,8 @@ packages:
     resolution: {integrity: sha512-5R+DsT9LJ9tXiSQ4y+KLFppCkQyXhzAm1AIuBWE/sbU0hSXY5pkhoqQYEcPJQFg/nglL+wD55iv2j+7O96UAvg==}
     dev: true
 
-  /@11ty/eleventy-dev-server/1.0.0-canary.13:
-    resolution: {integrity: sha512-IKxUdlpoFjOeaDgnkdNWRz/jQicQGHrL76m1aWpZc+6V7NpBNjdPqIui119JKlu0m//aEwhbfWAJQdP7LHHEFg==}
+  /@11ty/eleventy-dev-server/1.0.0-canary.14:
+    resolution: {integrity: sha512-yIPRZCEieqe7943P8h+xG60db/82yp10iOgd8IRKiobLhWw43xDJtro8QnjTF4A9gRkx7UmulwTPkGbD1Lt8xQ==}
     engines: {node: '>=14'}
     hasBin: true
     dependencies:
@@ -67,13 +67,13 @@ packages:
       normalize-path: 3.0.0
     dev: true
 
-  /@11ty/eleventy/2.0.0-canary.14:
-    resolution: {integrity: sha512-D91HKgY5TkIXT1LgbA+tJLOuzq3C2XDeW2n6XxJTL1falSX839u2hcdxLiA70557YoTpd9u0zYPLVrUbZoO1sA==}
+  /@11ty/eleventy/2.0.0-canary.15:
+    resolution: {integrity: sha512-9FghghhTzX3lkT67tAuD/m2n4fRkcQ4raM9SciqoOiZDWMx8B5g9nsxWDl/gSxaamsvANawmD5yvWPbqGA5wSg==}
     engines: {node: '>=14'}
     hasBin: true
     dependencies:
       '@11ty/dependency-tree': 2.0.1
-      '@11ty/eleventy-dev-server': 1.0.0-canary.13
+      '@11ty/eleventy-dev-server': 1.0.0-canary.14
       '@11ty/eleventy-utils': 1.0.1
       '@iarna/toml': 2.2.5
       '@sindresorhus/slugify': 1.1.2
@@ -91,7 +91,7 @@ packages:
       is-glob: 4.0.3
       iso-639-1: 2.1.15
       kleur: 4.1.5
-      liquidjs: 9.39.2
+      liquidjs: 9.40.0
       lodash: 4.17.21
       luxon: 3.0.1
       markdown-it: 13.0.1
@@ -103,6 +103,8 @@ packages:
       nunjucks: 3.2.3_chokidar@3.5.3
       path-to-regexp: 6.2.1
       please-upgrade-node: 3.2.0
+      posthtml: 0.16.6
+      posthtml-urls: 1.0.0
       pug: 3.0.2
       recursive-copy: 2.0.14
       semver: 7.3.7
@@ -1454,8 +1456,8 @@ packages:
       uc.micro: 1.0.6
     dev: true
 
-  /liquidjs/9.39.2:
-    resolution: {integrity: sha512-7fdd8hn7U/FUANGWaBbF41LmsRS40uXj/jFldyddYqgLDGMyZSYJsajOvZIZGkAxJdUYbZksrHRU4Q8kg8sTPg==}
+  /liquidjs/9.40.0:
+    resolution: {integrity: sha512-SFE+HAGVBpfdhM4h7ZovlC0sd7c6b52IHbztIWNaatDPAIsKdKHXSSphHEHk/7qi6NDOZ5BcK65a2YfCOGJrDg==}
     engines: {node: '>=4.8.7'}
     hasBin: true
     dev: true
