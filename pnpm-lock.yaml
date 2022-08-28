@@ -6,7 +6,7 @@ specifiers:
   eslint: 8.23.0
   eslint-config-prettier: 8.5.0
   eslint-plugin-html: 7.1.0
-  luxon: 3.0.1
+  luxon: 3.0.2
   prettier: 2.7.1
   stylelint: 14.11.0
   stylelint-prettier: 2.0.0
@@ -17,7 +17,7 @@ devDependencies:
   eslint: 8.23.0
   eslint-config-prettier: 8.5.0_eslint@8.23.0
   eslint-plugin-html: 7.1.0
-  luxon: 3.0.1
+  luxon: 3.0.2
   prettier: 2.7.1
   stylelint: 14.11.0
   stylelint-prettier: 2.0.0_axejln3sy6yheuebeysph4yz3i
@@ -93,7 +93,7 @@ packages:
       kleur: 4.1.5
       liquidjs: 9.40.0
       lodash: 4.17.21
-      luxon: 3.0.1
+      luxon: 3.0.2
       markdown-it: 13.0.1
       minimist: 1.2.6
       moo: 0.5.1
@@ -1508,8 +1508,8 @@ packages:
       yallist: 4.0.0
     dev: true
 
-  /luxon/3.0.1:
-    resolution: {integrity: sha512-hF3kv0e5gwHQZKz4wtm4c+inDtyc7elkanAsBq+fundaCdUBNJB1dHEGUZIM6SfSBUlbVFduPwEtNjFK8wLtcw==}
+  /luxon/3.0.2:
+    resolution: {integrity: sha512-pfgTG/TMWzVKZ2XC4RBq3jNcidG3wxUt7ztC98Vpo5qy16uUhZrRPx8/AfVfX3LCj6I2YFSpY+vaVVVgWaDkXA==}
     engines: {node: '>=12'}
     dev: true
 
