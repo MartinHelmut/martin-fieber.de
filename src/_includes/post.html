@@ -37,20 +37,20 @@
     />
     <meta name="description" content="{{ description }}" />
     <meta property="twitter:creator" content="@MartinFieber" />
-    <meta property="twitter:url" content="{{ page.url }}" />
+    <meta property="twitter:url" content="{{ site.url }}{{ page.url }}" />
     <meta property="twitter:title" content="{{ title }}" />
     <meta property="twitter:description" content="{{ description }}" />
     {%- if image %}
     <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:image" content="{{ image }}" />
+    <meta property="twitter:image" content="{{ site.url }}{{ image }}" />
     <meta property="twitter:image:alt" content="{{ imageAlt }}" />
     {%- endif %}
     <meta property="og:title" content="{{ title }}" />
     <meta property="og:description" content="{{ description }}" />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="{{ page.url }}" />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="{{ site.url }}{{ page.url }}" />
     {%- if image %}
-    <meta property="og:image" content="{{ image }}" />
+    <meta property="og:image" content="{{ site.url }}{{ image }}" />
     <meta property="og:image:alt" content="{{ imageAlt }}" />
     {%- endif %}
     <script
