@@ -1,6 +1,6 @@
 ---
 date: 2022-07-03
-lastmod: 2022-07-31
+lastmod: 2022-08-30
 title: "Basic C++ setup with dependency management in CMake"
 description: "Setting up a proper C++ environment can be a challenge for a newcomer. This is my try on showing with what I came up with."
 linkTitle: "I try creating a setup for myself that scales and is flexible enough to met all my needs."
@@ -660,15 +660,18 @@ add_subdirectory(fmt)</code></pre>
   to build the project):
 </p>
 <figure>
-  <pre><code class="language-shell hljs">cmake -GNinja -DCMAKE_BUILD_TYPE=Debug -B build/debug</code></pre>
+  <pre><code class="language-shell hljs">$ cmake -GNinja -DCMAKE_BUILD_TYPE=Debug -B build/debug</code></pre>
+  <figcaption>
+    The <code>$</code> is used to show a command will be entered.
+  </figcaption>
 </figure>
 <p>Building the project:</p>
 <figure>
-  <pre><code class="language-shell hljs">cmake --build build/debug</code></pre>
+  <pre><code class="language-shell hljs">$ cmake --build build/debug</code></pre>
 </figure>
 <p>Alas, running the generated executable (under Mac in that case):</p>
 <figure>
-  <pre><code class="language-shell hljs">./build/debug/src/app/App</code></pre>
+  <pre><code class="language-shell hljs">$ ./build/debug/src/app/App</code></pre>
 </figure>
 <h3>Project formatting</h3>
 <p>
@@ -714,7 +717,8 @@ ColumnLimit: 100
   To format all the project source files, having clang-format installed, run:
 </p>
 <figure>
-  <pre><code class="language-shell hljs">find src -iname *.hpp -o -iname *.cpp | xargs clang-format -i</code></pre>
+  <pre><code class="language-shell hljs">$ find src -iname *.hpp -o -iname *.cpp \
+  | xargs clang-format -i</code></pre>
 </figure>
 <h3>Bonus: Litr</h3>
 <p>
@@ -751,6 +755,7 @@ description = "Define the application build target."
 type = ["debug", "release"]
 default = "debug"</code></pre>
 </figure>
+<p>Running one of the commands is as easy as <code>litr build</code>.</p>
 <h3>Epilogue</h3>
 <p>
   That's about it when it comes the base setup. I do actually have a little

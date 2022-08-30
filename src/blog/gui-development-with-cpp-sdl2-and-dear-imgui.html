@@ -1,6 +1,6 @@
 ---
 date: 2022-07-30
-lastmod: 2022-07-31
+lastmod: 2022-08-30
 title: "GUI Development with C++, SDL2, and Dear ImGui"
 description: "Showcasing my personal setup for GUI application development with C++, SDL2, and Dear ImGui."
 image: "/assets/blog/gui-development-with-cpp/title-card.png"
@@ -814,9 +814,12 @@ Application::~Application() {
   executable.
 </p>
 <figure>
-  <pre><code class="language-shell hljs">cmake -DCMAKE_BUILD_TYPE=Debug -B build/debug
-cmake --build build/debug
-cd build/debug/src/app && ./App</code></pre>
+  <pre><code class="language-shell hljs">$ cmake -DCMAKE_BUILD_TYPE=Debug -B build/debug
+$ cmake --build build/debug
+$ cd build/debug/src/app && ./App</code></pre>
+  <figcaption>
+    The <code>$</code> is used to show a command will be entered.
+  </figcaption>
 </figure>
 <p>This is how it looks like so far.</p>
 <figure>
