@@ -42,7 +42,7 @@
     <meta property="twitter:description" content="{{ description }}" />
     {%- if image %}
     <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:image" content="{{ site.url }}{{ image }}" />
+    <meta property="twitter:image:src" content="{{ site.url }}{{ image }}" />
     <meta property="twitter:image:alt" content="{{ imageAlt }}" />
     {%- endif %}
     <meta property="og:title" content="{{ title }}" />
@@ -50,7 +50,7 @@
     <meta property="og:type" content="article" />
     <meta property="og:url" content="{{ site.url }}{{ page.url }}" />
     {%- if image %}
-    <meta property="og:image" content="{{ site.url }}{{ image }}" />
+    <meta property="og:image:src" content="{{ site.url }}{{ image }}" />
     <meta property="og:image:alt" content="{{ imageAlt }}" />
     {%- endif %}
     <script
