@@ -37,6 +37,7 @@
     />
     <meta name="description" content="{{ description }}" />
     <meta property="twitter:creator" content="@MartinFieber" />
+    <meta property="twitter:domain" content="{{ site.name }}" />
     <meta property="twitter:url" content="{{ site.url }}{{ page.url }}" />
     <meta property="twitter:title" content="{{ title }}" />
     <meta property="twitter:description" content="{{ description }}" />
@@ -52,6 +53,9 @@
     {%- if image %}
     <meta property="og:image" content="{{ site.url }}{{ image }}" />
     <meta property="og:image:alt" content="{{ imageAlt }}" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:type" content="image/png" />
     {%- endif %}
     <script
       async
