@@ -6,7 +6,8 @@
     "title": "My blog",
     "subtitle": "Development related articles and projects, 3D and art, games, keyboards, or whatever I try out next. This is going to be a mix of topics, mainly as a knowledge base for myself. So everything from small things I learned, C++, web tech, projects I am working on, ideas, tutorials, hobbies, you name it.",
     "language": "en",
-    "url": "https://martin-fieber.de/blog/",
+    "blogUrl": "https://martin-fieber.de/blog/",
+    "siteUrl": "https://martin-fieber.de/",
     "author": {
       "name": "Martin Helmut Fieber",
       "email": "info@martin-fieber.se"
@@ -15,19 +16,19 @@
 }
 ---
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom" xml:base="{{ metadata.url }}">
+<feed xmlns="http://www.w3.org/2005/Atom" xml:base="{{ metadata.blogUrl }}">
   <title>{{ metadata.title }}</title>
   <subtitle>{{ metadata.subtitle }}</subtitle>
-  <link href="{{ permalink | absoluteUrl(metadata.url) }}" rel="self"/>
-  <link href="{{ metadata.url }}"/>
+  <link href="{{ permalink | absoluteUrl(metadata.siteUrl) }}" rel="self"/>
+  <link href="{{ metadata.blogUrl }}"/>
   <updated>{{ collections.posts | getNewestCollectionItemDate | dateToRfc3339 }}</updated>
-  <id>{{ metadata.url }}</id>
+  <id>{{ metadata.blogUrl }}</id>
   <author>
     <name>{{ metadata.author.name }}</name>
     <email>{{ metadata.author.email }}</email>
   </author>
   {%- for post in collections.post | reverse %}
-  {%- set absolutePostUrl = post.url | absoluteUrl(metadata.url) %}
+  {%- set absolutePostUrl = post.url | absoluteUrl(metadata.blogUrl) %}
   <entry>
     <title>{{ post.data.title }}</title>
     <link href="{{ absolutePostUrl }}"/>
