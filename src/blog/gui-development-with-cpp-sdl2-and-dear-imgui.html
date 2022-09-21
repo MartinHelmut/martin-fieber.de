@@ -1,6 +1,6 @@
 ---
 date: 2022-07-30
-lastmod: 2022-08-30
+lastmod: 2022-09-21
 title: "GUI Development with C++, SDL2, and Dear ImGui"
 description: "Showcasing my personal setup for GUI application development with C++, SDL2, and Dear ImGui."
 image: "/assets/blog/gui-development-with-cpp/title-card.png"
@@ -8,7 +8,7 @@ imageAlt: "Top part of an application window with a menu and a panel named 'Some
 linkTitle: "Creating end-user GUI applications with Dear ImGui and SDL2."
 banner: "/assets/blog/gui-development-with-cpp/banner"
 bannerAlt: "The final application that will be built in this post."
-summary: "<p>Always being overwhelmed creating GUI applications in C++, I finally found a way that works pretty well for me. That opinionated way will be shown in this post.</p>"
+summary: "<p>Always being overwhelmed creating <abbr>GUI</abbr> applications in C++, I finally found a way that works pretty well for me. That opinionated way will be shown in this post.</p>"
 hasCode: true
 tags: ["post", "cpp"]
 ---
@@ -30,28 +30,32 @@ tags: ["post", "cpp"]
     The final application that will be built in this post.
   </figcaption>
 </figure>
-<h3>The many ways of GUI</h3>
+<h3>The many ways of <abbr>GUI</abbr></h3>
 <p>
-  Looking at all those tools, libraries, and many ways of developing GUIs in
-  C++, it can become easily overwhelming. This at least happened to me; every
-  time I set out to
-  <em>"finally solve how I will create GUIs in C++"</em> I got blasted by all
-  the possibilities. From very simplistic to huge monster like frameworks with
-  own language extensions. In the end I never just <strong>created</strong>.
+  Looking at all those tools, libraries, and many ways of developing
+  <abbr>GUI</abbr>s in C++, it can become easily overwhelming. This at least
+  happened to me; every time I set out to
+  <em>"finally solve how I will create <abbr>GUI</abbr>s in C++"</em> I got
+  blasted by all the possibilities. From very simplistic to huge monster like
+  frameworks with own language extensions. In the end I never just
+  <strong>created</strong>.
 </p>
 <p>
   Over time though, I became more and more familiar with
   <a href="https://github.com/ocornut/imgui" title="GitHub page of Dear ImGui."
     >Dear ImGui</a
-  >, an immediate mode <em>"GUI for C++ with minimal dependencies"</em>,
-  creating tools for game development. Never taking it serious for
+  >, an immediate mode
+  <em>"<abbr>GUI</abbr> for C++ with minimal dependencies"</em>, creating tools
+  for game development. Never taking it serious for
   <em>"end-user"</em> applications, I've got the final push to try it from
   <a
     href="https://youtu.be/vWXrFetSH8w"
     title="The video of The Cherno that that gave me a push."
     >a video from Yan Chernikov</a
   >. Trying ImGui, in combination with
-  <a href="https://www.libsdl.org" title="Homepage for SDL2">SDL2</a>
+  <a href="https://www.libsdl.org" title="Homepage for SDL2"
+    ><abbr>SDL2</abbr></a
+  >
   I just started learning, I was pleasantly surprised about the outcome.
 </p>
 <p>
@@ -81,9 +85,9 @@ tags: ["post", "cpp"]
   <code>Application</code>
   classes.
 </p>
-<h3>SDL2 and Dear ImGui</h3>
+<h3><abbr>SDL2</abbr> and Dear ImGui</h3>
 <p>
-  SDL2 will be added as dependency through
+  <abbr>SDL2</abbr> will be added as dependency through
   <code>FetchContent_Declare</code>, same as the other dependencies in
   <code>vendor/CMakeLists.txt</code>.
 </p>
@@ -100,7 +104,7 @@ add_subdirectory(sdl)
 </figure>
 <p>
   The new file <code>vendor/sdl/CMakeLists.txt</code> will serve to show a
-  message on fetching and make SDL2 available.
+  message on fetching and make <abbr>SDL2</abbr> available.
 </p>
 <figure>
   <pre><code class="language-cmake hljs"># vendor/sdl/CMakeLists.txt
@@ -130,7 +134,7 @@ add_subdirectory(imgui)
   As ImGui does not support CMake, there needs to be a bit more done inside the
   new file <code>vendor/imgui/CMakeLists.txt</code>. The whole file will set up
   ImGui as a library by adding all necessary source files, defining the
-  including directory and linking SDL2 to it.
+  including directory and linking <abbr>SDL2</abbr> to it.
 </p>
 <figure>
   <pre><code class="language-cmake hljs"># vendor/imgui/CMakeLists.txt
@@ -165,7 +169,7 @@ target_link_libraries(imgui PUBLIC SDL2::SDL2)
 
 FetchContent_MakeAvailable(imgui)</code></pre>
 </figure>
-<p>Now, ImGui and SDL need to be added to the Core library.</p>
+<p>Now, ImGui and <abbr>SDL2</abbr> need to be added to the Core library.</p>
 <figure>
   <pre><code class="language-cmake hljs"># src/core/CMakeLists.txt
 set(NAME "Core")
@@ -258,8 +262,9 @@ void App::Application::stop() {
 }  // namespace App</code></pre>
 </figure>
 <p>
-  Step-by-step, the constructor will initialise SDL2 and catch possible issues
-  on creation. The destructor will only quit SDL2 for now.
+  Step-by-step, the constructor will initialise <abbr>SDL2</abbr> and catch
+  possible issues on creation. The destructor will only quit
+  <abbr>SDL2</abbr> for now.
 </p>
 <figure>
   <pre><code class="language-cpp hljs">Application::Application() {
@@ -575,10 +580,11 @@ int App::Application::run() {
 </figure>
 <h3>Showing something on the screen</h3>
 <p>
-  To actually get something on screen, ImGui and the SDL2 ImGui backend and
-  renderer need to be set up. The SDL renderer will, depending on the operating
-  system, pick a different render backend — DirectX 10, 11 or 12 for Windows,
-  Metal for Mac, and so on. You can see for yourself inside the
+  To actually get something on screen, ImGui and the <abbr>SDL2</abbr> ImGui
+  backend and renderer need to be set up. The <abbr>SDL2</abbr> renderer will,
+  depending on the operating system, pick a different render backend — DirectX
+  10, 11 or 12 for Windows, Metal for Mac, and so on. You can see for yourself
+  inside the
   <a
     href="https://github.com/libsdl-org/SDL/blob/main/src/render/SDL_render.c#L91"
     title="SDL2 source code handling the rendering backend."
@@ -587,7 +593,8 @@ int App::Application::run() {
   if you want.
 </p>
 <p>
-  The imports are ImGui, the SDL ImGui implementation, and the ImGui SDL
+  The imports are ImGui, the <abbr>SDL2</abbr> ImGui implementation, and the
+  ImGui <abbr>SDL2</abbr>
   renderer.
 </p>
 <figure>
@@ -600,8 +607,8 @@ int App::Application::run() {
 </figure>
 <p>
   Now, the <code>run</code> method needs to create the ImGui context, initialise
-  the SDL renderer, poll events, create a new frame and actually render
-  something. But, everything step-by-step.
+  the <abbr>SDL2</abbr> renderer, poll events, create a new frame and actually
+  render something. But, everything step-by-step.
 </p>
 <p>
   First thing is to create a new ImGui context and set the flags
@@ -636,7 +643,7 @@ int App::Application::run() {
   return m_exit_status;
 }</code></pre>
 </figure>
-<p>Next comes the SDL renderer.</p>
+<p>Next comes the <abbr>SDL2</abbr> renderer.</p>
 <figure>
   <pre><code class="language-cpp hljs">// src/core/Core/Application.cpp
 int App::Application::run() {
@@ -892,8 +899,8 @@ $ cd build/debug/src/app && ./App</code></pre>
 <p>
   There it is, in all <strong>it's tiny</strong> glory &#8212; looking too small
   and not reacting to any click of the mouse. The reason for this is that the
-  SDL renderer-scale is not yet adjusted to my Retina display on Mac. Let's fix
-  it next.
+  <abbr>SDL2</abbr> renderer-scale is not yet adjusted to my Retina display on
+  Mac. Let's fix it next.
 </p>
 <figure>
   <picture>

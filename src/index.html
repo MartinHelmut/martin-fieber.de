@@ -5,8 +5,8 @@ priority: "1.0"
 ---
 
 <p>
-  I write code for a living, love books, gaming, try writing, 3D and a bit of game dev
-  as a hobby.
+  I write code for a living, love books, gaming, try writing, 3D and a bit of
+  game dev as a hobby.
 </p>
 <p>
   Also a dad, Senior Tools Developer
@@ -63,7 +63,7 @@ priority: "1.0"
   {%- for project in projects %}
   <article>
     <h3>{{ project.name }}</h3>
-    <p>{{ project.description }}</p>
+    <p>{{ project.description | safe }}</p>
     <p>
       {%- for link in project.links %}
       <a href="{{ link.href }}" title="{{ link.title }}">{{ link.name }}</a>

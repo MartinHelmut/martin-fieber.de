@@ -26,13 +26,13 @@ tags: ["post", "cpp", "lua"]
 </figure>
 <h3>Lua in the sky</h3>
 <p>
-  NASA is not the only one
+  <abbr>NASA</abbr> is not the only one
   <a href="https://www.nasa.gov/artemis-1" title="Project page of Artemis 1"
     >going to the moon</a
   >
   &#8212; <a href="https://www.lua.org" title="Lua homepage">Lua</a>,
-  (pronounced <strong>LOO-ah</strong>) meaning <em>"Moon"</em> in Portuguese, is
-  a multiple-paradigm scripting language. Created in 1993 by Roberto
+  (pronounced <strong>LOO-ah</strong>) meaning <dfn>"Moon"</dfn> in Portuguese,
+  is a multiple-paradigm scripting language. Created in 1993 by Roberto
   Ierusalimschy, Luiz Henrique de Figueiredo, and Waldemar Celes, members of the
   Computer Graphics Technology Group (Tecgraf) at the
   <a
@@ -88,7 +88,7 @@ Lua 5.4.4  Copyright (C) 1994-2022 Lua.org, PUC-Rio</code></pre>
   <a
     href="https://en.wikipedia.org/wiki/Read–eval–print_loop"
     title="Wikipedia article about the Read–eval–print loop"
-    >REPL</a
+    ><abbr>REPL</abbr></a
   >
   with the <code>lua</code> command.
 </p>
@@ -110,7 +110,7 @@ Hello, reader!</code></pre>
   <pre><code class="language-shell hljs">$ brew install luarocks</code></pre>
 </figure>
 <p>
-  Similar to NPM, I want to keep packages
+  Similar to <abbr>NPM</abbr>, I want to keep packages
   <strong>local and inside the project</strong>, rather than global or in my
   user directory. A global installation is the default, using
   <code>--local</code> will install packages in a folder in the users home
@@ -118,8 +118,8 @@ Hello, reader!</code></pre>
 </p>
 <p>
   I will install all packages inside a <code>lua_modules</code> folder in the
-  root of a project, using the <code>--tree</code> option of the LuaRocks CLI.
-  As an example, installing the
+  root of a project, using the <code>--tree</code> option of the LuaRocks
+  <abbr>CLI</abbr>. As an example, installing the
   <a
     href="https://luarocks.org/modules/kikito/inspect"
     title="LuaRocks page for the inspect module."
@@ -134,7 +134,7 @@ Hello, reader!</code></pre>
   For Lua to find any local package on require, the search paths need to be set.
   This can be done by defining a setup module (can have any name), that will be
   loaded when executing a script through the <code>-l</code> option of the Lua
-  CLI.
+  <abbr>CLI</abbr>.
 </p>
 <figure>
   <pre><code class="language-lua hljs">-- setup.lua
@@ -193,7 +193,7 @@ print(inspect(a))</code></pre>
   <a
     href="https://testanything.org"
     title="Website for TAP, the Test Anything Protocol."
-    >TAP (Test Anything Protocol)</a
+    ><dfn><abbr>TAP</abbr> (Test Anything Protocol)</dfn></a
   >
   as output format, an amazing output format I also use in
   <a
@@ -277,7 +277,8 @@ Total: 0 warnings / 0 errors in 2 files</code></pre>
 </figure>
 <p>
   For the checker I will use a small set of custom options, defined in a
-  <code>.lua-format</code> file (the format is YAML), in the project root.
+  <code>.lua-format</code> file (the format is <abbr>YAML</abbr>), in the
+  project root.
 </p>
 <figure>
   <pre><code class="language-yaml hljs"># .lua-format
