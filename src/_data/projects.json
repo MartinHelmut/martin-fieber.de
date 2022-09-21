@@ -1,7 +1,7 @@
 [
   {
     "name": "Litr",
-    "description": "Litr (Language Independent Task Runner) lets you configure and then run any tasks you want for any language.",
+    "description": "<dfn><abbr>Litr</abbr> (Language Independent Task Runner)</dfn> lets you configure and then run any tasks you want for any language.",
     "links": [
       {
         "name": "Visit project page",
@@ -17,7 +17,7 @@
   },
   {
     "name": "Krieselreihe",
-    "description": "\"Krieselreihe\" is the name I do all my hobby game development under. While doing this, a set of tools emerged e.g. Litr and Natr, located under this namespace.",
+    "description": "<dfn>\"Krieselreihe\"</dfn> is the name I do all my hobby game development under. While doing this, a set of tools emerged e.g. Litr and Natr, located under this namespace.",
     "links": [
       {
         "name": "Website",
@@ -49,7 +49,7 @@
   },
   {
     "name": "Natr",
-    "description": "Not another test runner! (natr) But it is, and it is a highly opinionated one that is used for my own projects.",
+    "description": "<dfn>Not another test runner! (<abbr>natr</abbr>)</dfn> But it is, and it is a highly opinionated one that is used for my own projects.",
     "links": [
       {
         "name": "Visit project page",

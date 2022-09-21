@@ -469,8 +469,9 @@ CheckOptions:
 </figure>
 <p>
   This will add needed source files to create a static library. I like splitting
-  my code into smaller libraries, like <em>"core"</em>, <em>"ui"</em>,
-  <em>"rendering"</em>, etc. to <strong>create logical chunks</strong>, but also
+  my code into smaller libraries, like <em>"core"</em>,
+  <em>"<abbr>ui</abbr>"</em>, <em>"rendering"</em>, etc. to
+  <strong>create logical chunks</strong>, but also
   <strong>keep build times lower</strong>. This is due to only libraries with
   changed files need to be rebuilt, otherwise they will only be linked.
 </p>
@@ -643,8 +644,8 @@ add_subdirectory(fmt)</code></pre>
     title="CMake documentation about FetchContent_Declare"
     >FetchContent_Declare</a
   >
-  not only Git repositories can be used, also SVN or any URL really containing
-  an archive (e.g. a tar.gz file).
+  not only Git repositories can be used, also <abbr>SVN</abbr> or any
+  <abbr>URL</abbr> really containing an archive (e.g. a tar.gz file).
 </p>
 <p>
   The benefit with FetchContent is that dependencies are fetched only once on
