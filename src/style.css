@@ -44,7 +44,7 @@ body {
 
 .content {
   margin: 0 auto;
-  max-width: 660px;
+  max-width: 720px;
   padding: var(--size-500);
 }
 
@@ -190,6 +190,17 @@ blockquote + figcaption {
   text-align: right;
 }
 
+picture {
+  margin: 0 calc(-1 * var(--size-500));
+  display: block;
+}
+
+@media (min-width: 720px) {
+  picture {
+    margin: 0;
+  }
+}
+
 img,
 video {
   height: auto;
@@ -262,7 +273,7 @@ pre code.hljs {
   border-bottom: 1px solid var(--color-grey-500);
 }
 
-@media (min-width: 660px) {
+@media (min-width: 720px) {
   pre code.hljs {
     padding: 1rem;
     font-size: 1rem;
