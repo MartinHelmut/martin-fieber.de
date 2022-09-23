@@ -1,7 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@11ty/eleventy': 2.0.0-canary.15
+  '@11ty/eleventy': 2.0.0-canary.16
   '@11ty/eleventy-plugin-rss': 1.2.0
   eslint: 8.23.1
   eslint-config-prettier: 8.5.0
@@ -12,7 +12,7 @@ specifiers:
   stylelint-prettier: 2.0.0
 
 devDependencies:
-  '@11ty/eleventy': 2.0.0-canary.15
+  '@11ty/eleventy': 2.0.0-canary.16
   '@11ty/eleventy-plugin-rss': 1.2.0
   eslint: 8.23.1
   eslint-config-prettier: 8.5.0_eslint@8.23.1
@@ -67,8 +67,8 @@ packages:
       normalize-path: 3.0.0
     dev: true
 
-  /@11ty/eleventy/2.0.0-canary.15:
-    resolution: {integrity: sha512-9FghghhTzX3lkT67tAuD/m2n4fRkcQ4raM9SciqoOiZDWMx8B5g9nsxWDl/gSxaamsvANawmD5yvWPbqGA5wSg==}
+  /@11ty/eleventy/2.0.0-canary.16:
+    resolution: {integrity: sha512-6HXaxmzTYDW0ihzasfa3+SbGeHAF6j7FFwgOnx2cjhwvcFAV2Ci9cZk/lQN9pHCilaI6OgcwOThC7hzjpbro1g==}
     engines: {node: '>=14'}
     hasBin: true
     dependencies:
@@ -83,7 +83,7 @@ packages:
       debug: 4.3.4
       dependency-graph: 0.11.0
       ejs: 3.1.8
-      fast-glob: 3.2.11
+      fast-glob: 3.2.12
       graceful-fs: 4.2.10
       gray-matter: 4.0.3
       hamljs: 0.6.2
@@ -91,7 +91,7 @@ packages:
       is-glob: 4.0.3
       iso-639-1: 2.1.15
       kleur: 4.1.5
-      liquidjs: 9.40.0
+      liquidjs: 9.41.0
       lodash: 4.17.21
       luxon: 3.0.3
       markdown-it: 13.0.1
@@ -930,17 +930,6 @@ packages:
     resolution: {integrity: sha512-xJuoT5+L99XlZ8twedaRf6Ax2TgQVxvgZOYoPKqZufmJib0tL2tegPBOZb1pVNgIhlqDlA0eO0c3wBvQcmzx4w==}
     dev: true
 
-  /fast-glob/3.2.11:
-    resolution: {integrity: sha512-xrO3+1bxSo3ZVHAnqzyuewYT6aMFHRAd4Kcs92MAonjwQZLsK9d0SF1IyQ3k5PoirxTW0Oe/RqFgMQ6TcNE5Ew==}
-    engines: {node: '>=8.6.0'}
-    dependencies:
-      '@nodelib/fs.stat': 2.0.5
-      '@nodelib/fs.walk': 1.2.7
-      glob-parent: 5.1.2
-      merge2: 1.4.1
-      micromatch: 4.0.5
-    dev: true
-
   /fast-glob/3.2.12:
     resolution: {integrity: sha512-DVj4CQIYYow0BlaelwK1pHl5n5cRSJfM60UA0zK891sVInoPri2Ekj7+e1CT3/3qxXenpI+nBBmQAcJPJgaj4w==}
     engines: {node: '>=8.6.0'}
@@ -1472,8 +1461,8 @@ packages:
       uc.micro: 1.0.6
     dev: true
 
-  /liquidjs/9.40.0:
-    resolution: {integrity: sha512-SFE+HAGVBpfdhM4h7ZovlC0sd7c6b52IHbztIWNaatDPAIsKdKHXSSphHEHk/7qi6NDOZ5BcK65a2YfCOGJrDg==}
+  /liquidjs/9.41.0:
+    resolution: {integrity: sha512-Q1EfRoVYSFmbaTzEHoz39/dMNjPec8uJGHvQiHyzeMp14M9E40a6pOpmDHW009a6qHcjisZyOH96O6No2+1bBQ==}
     engines: {node: '>=4.8.7'}
     hasBin: true
     dev: true
