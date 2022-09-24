@@ -1,5 +1,6 @@
 ---
 date: 2022-08-30
+lastmod: 2022-09-24
 title: "Goodbye snake, I go to the moon"
 description: "I started using Lua after increasing frustration with Python. Using it now for a while, it became my go-to scripting language."
 image: "/assets/blog/lua/title-card.png"
@@ -34,7 +35,7 @@ tags: ["post", "cpp", "lua"]
   (pronounced <strong>LOO-ah</strong>) meaning <dfn>"Moon"</dfn> in Portuguese,
   is a multiple-paradigm scripting language. Created in 1993 by Roberto
   Ierusalimschy, Luiz Henrique de Figueiredo, and Waldemar Celes, members of the
-  Computer Graphics Technology Group (Tecgraf) at the
+  <dfn>Computer Graphics Technology Group (<abbr>Tecgraf</abbr>)</dfn> at the
   <a
     href="http://www.puc-rio.br/english/"
     title="English website of the Pontifical
@@ -47,11 +48,12 @@ tags: ["post", "cpp", "lua"]
   Initially overlooked by me as <em>"just another scripting language"</em>, it
   caught my eye when I was looking for an
   <strong>alternative for Python</strong>. Having growing frustrations with the
-  Snake for different reasons, I wanted a small and easy to use language. One of
-  my criteria was that I can embed it into a projects build system; making setup
-  and management easier, sparing the need for specific version installations, or
-  handling local installed language environments with one of too many tools.
-  Speed was another factor, neglected far too often with script languages.
+  Snake for different reasons, I wanted a small and simple to use language. One
+  of my criteria was that I can embed it into a projects build system; making
+  setup and management easier, sparing the need for specific version
+  installations, or handling local installed language environments with one of
+  too many tools. Speed was another factor, neglected far too often with script
+  languages.
 </p>
 <p>
   Lua ticked many boxes for me, and grew on to become a favourite of mine, from
@@ -150,7 +152,7 @@ package.cpath = 'lua_modules/lib/lua/'
   .. version ..
   '/?.so;' .. package.cpath</code></pre>
 </figure>
-<p>Creating a script file ...</p>
+<p>Creating a script file &hellip;</p>
 <figure>
   <pre><code class="language-lua hljs">-- script.lua
 local inspect = require "inspect"
@@ -159,7 +161,7 @@ local a = {1, 2}
 print(inspect(a))</code></pre>
 </figure>
 <p>
-  ... and running it with the <code>-l</code> option will find the
+  &hellip; and running it with the <code>-l</code> option will find the
   <code>inspect</code> package from the local folder and execute the script.
 </p>
 <figure>
