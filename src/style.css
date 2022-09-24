@@ -44,7 +44,7 @@ body {
 
 .content {
   margin: 0 auto;
-  max-width: 720px;
+  max-width: 660px;
   padding: var(--size-500);
 }
 
@@ -68,6 +68,37 @@ section {
   padding: var(--size-700) 0 0 0;
 }
 
+.aside-ref {
+  position: relative;
+}
+
+aside {
+  border-top: solid 1px var(--color-grey-300);
+  border-bottom: solid 1px var(--color-grey-300);
+  margin-bottom: var(--size-500);
+  padding: var(--size-400) 0;
+}
+
+/**
+ * The min-width is calculated by the page width (660px)
+ * plus twice the amount of the aside width (240px), as
+ * the page is not centered and the aside "reaches" out
+ * of the page on the right.
+ * There are also 20px added (on both sides) to give the
+ * whole some space. In short: `660 + (20 + 240) * 2`.
+ */
+@media (min-width: 1180px) {
+  aside {
+    --aside-width: 240px;
+
+    top: var(--size-400);
+    position: absolute;
+    right: calc(-1 * (var(--aside-width) + var(--size-500)));
+    width: var(--aside-width);
+    border-bottom: none;
+  }
+}
+
 /* Text */
 
 a {
@@ -87,7 +118,8 @@ a > dfn {
 h1,
 h2,
 h3,
-h4 {
+h4,
+h5 {
   font-family: var(--base-font);
   font-weight: var(--font-weight-bold);
   line-height: 1.65;
@@ -100,19 +132,27 @@ h1 {
   margin: 0;
 }
 
+h2,
+h3,
+h4,
+h5 {
+  margin: 0 0 var(--size-500) 0;
+}
+
 h2 {
   font-size: 1.5rem;
-  margin: 0 0 var(--size-500) 0;
 }
 
 h3 {
   font-size: 1.4rem;
-  margin: 0 0 var(--size-500) 0;
 }
 
 h4 {
-  font-size: 1.17em;
-  margin: 0 0 var(--size-500) 0;
+  font-size: 1.17rem;
+}
+
+h5 {
+  font-size: 1rem;
 }
 
 strong {
@@ -121,6 +161,12 @@ strong {
 
 em {
   font-style: italic;
+}
+
+.emphasize {
+  font-style: normal;
+  font-weight: var(--font-weight-normal);
+  text-transform: uppercase;
 }
 
 p,
@@ -168,12 +214,8 @@ figure {
   padding: 0;
 }
 
-figure img {
-  display: block;
-  margin: 0 auto;
-}
-
-figcaption {
+figcaption,
+aside p {
   color: var(--color-grey-800);
   font-family: var(--base-font);
   font-size: 1rem;
@@ -199,7 +241,7 @@ picture {
   display: block;
 }
 
-@media (min-width: 720px) {
+@media (min-width: 660px) {
   picture {
     margin: 0;
   }
@@ -207,22 +249,14 @@ picture {
 
 img,
 video {
+  display: block;
+  margin: 0 auto;
   height: auto;
   max-width: 100%;
 }
 
 address {
   font-style: italic;
-}
-
-.emphasize {
-  font-style: normal;
-  font-weight: var(--font-weight-normal);
-  text-transform: uppercase;
-}
-
-.optional {
-  color: var(--color-grey-800);
 }
 
 /* Article */
@@ -244,16 +278,15 @@ article:first-child {
 
 article footer {
   /* Negate size, this will move it closer to the headline by keeping the general spacing. */
-  margin-top: calc(var(--size-500) * -1);
+  margin-top: calc(-1 * var(--size-500));
 }
 
 article footer p {
   font-size: 1rem;
 }
 
-article img {
-  width: 100%;
-  height: auto;
+.optional {
+  color: var(--color-grey-800);
 }
 
 /* Code block compatible with highlight.js */
@@ -277,7 +310,7 @@ pre code.hljs {
   border-bottom: 1px solid var(--color-grey-500);
 }
 
-@media (min-width: 720px) {
+@media (min-width: 660px) {
   pre code.hljs {
     padding: 1rem;
     font-size: 1rem;

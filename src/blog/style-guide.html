@@ -1,0 +1,826 @@
+---
+date: 2022-09-24
+title: "Website style guide"
+description: 'The style guide of my website. How components are created, and then used, as simplicity saved me from falling into the hole of "not creating".'
+linkTitle: "This websites style guide including context about the why and how."
+summary: "<p>This post will showcase all available website components, how they are defined with <abbr>CSS</abbr> and <abbr>HTML</abbr>, and finally used to create this website. Also, a bit about what I thought creating them.</p>"
+hasCode: true
+tags: ["post", "general"]
+---
+
+<h3>In the beginning, there was complexity</h3>
+<p>
+  Years ago, when I set out to create my own website,
+  <strong>I did not</strong>, as I was overwhelmed with possibilities. I thought
+  about complex, intriguing designs, with the highest technical fidelity,
+  amazing easter-eggs, and a mind-blowing user experience. Creating a mountain
+  in front of myself, unable to climb, ever-growing.
+</p>
+<p>
+  Back then, creating websites professionally, of course I wanted to have the
+  best of the best of the best. <strong>I did 26 design iterations</strong>,
+  from pure <dfn>Sketch</dfn> designs to full-fledged, complete with pattern
+  libraries and code. Every new prototype more complex than the one before.
+</p>
+<p>
+  I also went through a lot of technologies I could use &#8212; from the
+  well-known to the never-heard-of, including the (in)famous
+  <em>"I will build my own X"</em>. Creating holistic testing strategies, code
+  guidelines, documentation, &hellip; you name it.
+  <em>"Everything a professional does"</em>, so I convinced myself.
+</p>
+
+<h3>Simplicity</h3>
+<p>
+  I deleted it all. What if; just HTML and CSS, no fancy technologies, no
+  pop-ups, no content jumps. Not saying there is a relation between
+  <em>"fancy technologies</em> to <em>"negatives"</em>, just stating what I
+  wanted to reduce. I was creative my whole youth, learned to be a designer and
+  even worked as one for a while. But <strong>I am no designer</strong>, not
+  anymore, and I did not love the time I was; or at least what I was doing back
+  then.
+</p>
+<p>
+  I started working on something I thought will be a
+  <dfn><abbr>WIP</abbr> (work in progress)</dfn>, a simple website, no extras,
+  nothing fancy. Getting something I started to like, I removed everything not
+  necessary. I had a cookie banner, because everyone does &#8212; but why? Do I
+  have cookies, do I need them? I mean, realistically cookies are amazing, the
+  ones to eat, but I had none on my website, so
+  <strong>gone with the cookie banner</strong>.
+</p>
+<p>
+  Looking at what I had, I realised I do like it. It was simple, but functional,
+  covering all my needs for a small website. What was previously meant to be a
+  <abbr>WIP</abbr> became the final result &#8212; no build system, no
+  JavaScript, plain CSS and HTML.
+</p>
+<p>
+  This is <strong>not true anymore today</strong>. While my site grew, I
+  switched to <a href="https://www.11ty.dev" title="Eleventy homepage">11ty</a>,
+  a static site generator that did not lock me into a specific framework. I was
+  able to gradually streamline some parts of maintaining my website, but that
+  was all. Just a bit of help managing the blog, creating a
+  <abbr>RSS</abbr> feed and the sitemap. Everything else still holds true;
+  <em>simplicity</em>.
+</p>
+
+<h3>The style guide</h3>
+<p>
+  The following content is a <strong>living document</strong> of defined styles
+  and components, how to use them, and how they are created. With
+  <dfn>"components"</dfn> I refer to the combination of <abbr>HTML</abbr> and
+  <abbr>CSS</abbr> to create a logical unit for my website.
+</p>
+
+<h4>Variables</h4>
+<p>
+  Not having any build system, I still wanted to have some kind of variables for
+  my CSS &#8212; custom properties to the rescue. With very good
+  <a
+    href="https://caniuse.com/css-variables"
+    title="CSS custom properties browser support on CanIUse."
+    >browser support</a
+  >
+  I hesitated not, using custom properties for fonts, sizes, and colors.
+</p>
+<p>
+  Because I did not want to include custom fonts I use a standard set of
+  sans-serif font families. The variables, defined inside the pseudo-class
+  <code>:root</code>, look as follows.
+</p>
+<figure>
+  <pre><code class="language-css hljs">:root {
+  --base-font: "HelveticaNeue-Light",
+    "Helvetica Neue Light", "Helvetica Neue",
+    Helvetica, Arial, "Lucida Grande", sans-serif;
+
+  --font-weight-normal: 300;
+  --font-weight-bold: 700;
+}</code></pre>
+</figure>
+<p>
+  For consistency of e.g. paddings and margins I define a set of reusable sizes.
+</p>
+<figure>
+  <pre><code class="language-css hljs">:root {
+  /* Other variables ... */
+
+  --size-100: 1px;
+  --size-300: 5px;
+  --size-400: 10px;
+  --size-500: 20px;
+  --size-600: 30px;
+  --size-700: 40px;
+}</code></pre>
+</figure>
+<p>And at last, a set of colors.</p>
+<figure>
+  <pre><code class="language-css hljs">:root {
+  /* Other variables ... */
+
+  --color-blue-300: #7232ff;
+  --color-blue-500: #6200ee;
+  --color-blue-700: #5200ac;
+
+  --color-grey-200: #f1f1f1;
+  --color-grey-300: #dcdcdc;
+  --color-grey-500: #aaaaaa;
+  --color-grey-700: #767676;
+  --color-grey-800: #595959;
+  --color-grey-900: #0f0f0f;
+}</code></pre>
+</figure>
+<p>Here how they look like:</p>
+<style>
+  .color-list {
+    list-style-type: none;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin: 0;
+  }
+  .color-list li {
+    width: calc(50% - var(--size-500) / 2);
+    margin-bottom: var(--size-500);
+  }
+  .color-list li:nth-child(odd) {
+    margin-right: var(--size-500);
+  }
+  .color-list div {
+    font-size: 1rem;
+    color: #fff;
+    padding: var(--size-400);
+  }
+</style>
+<ul class="color-list">
+  <li>
+    <div style="background-color: var(--color-blue-300)">--color-blue-300</div>
+  </li>
+  <li>
+    <div style="background-color: var(--color-blue-500)">--color-blue-500</div>
+  </li>
+  <li>
+    <div style="background-color: var(--color-blue-700)">--color-blue-700</div>
+  </li>
+</ul>
+<ul class="color-list">
+  <li>
+    <div style="background-color: var(--color-grey-200); color: #333">
+      --color-grey-200
+    </div>
+  </li>
+  <li>
+    <div style="background-color: var(--color-grey-300); color: #333">
+      --color-grey-300
+    </div>
+  </li>
+  <li>
+    <div style="background-color: var(--color-grey-500); color: #333">
+      --color-grey-500
+    </div>
+  </li>
+  <li>
+    <div style="background-color: var(--color-grey-700)">--color-grey-700</div>
+  </li>
+  <li>
+    <div style="background-color: var(--color-grey-800)">--color-grey-800</div>
+  </li>
+  <li>
+    <div style="background-color: var(--color-grey-900)">--color-grey-900</div>
+  </li>
+</ul>
+
+<h4>Headlines</h4>
+<p>
+  There are five headlines defined, where <code>h1</code> is reserved for the
+  website title. There is a base set of styles all headings inherit.
+</p>
+<figure>
+  <pre><code class="language-css hljs">h1,
+h2,
+h3,
+h4,
+h5 {
+  font-family: var(--base-font);
+  font-weight: var(--font-weight-bold);
+  line-height: 1.65;
+  color: var(--color-grey-900);
+  padding: 0;
+}</code></pre>
+</figure>
+<p>The font size and margin for headings are defined per heading.</p>
+<figure>
+  <pre><code class="language-css hljs">h1 {
+  font-size: 2rem;
+  margin: 0;
+}
+
+h2,
+h3,
+h4,
+h5 {
+  margin: 0 0 var(--size-500) 0;
+}
+
+h2 {
+  font-size: 1.5rem;
+}
+
+h3 {
+  font-size: 1.4rem;
+}
+
+h4 {
+  font-size: 1.17em;
+}
+
+h5 {
+  font-size: 1rem;
+}</code></pre>
+</figure>
+<h1>.h1 Website title</h1>
+<p>Only used once per page as website title.</p>
+<figure>
+  <pre><code class="language-html hljs">&lt;h1&gt;.h1 Website title&lt;/h1&gt;</code></pre>
+</figure>
+<h2>.h2 Page title</h2>
+<p>
+  This heading size is used for page titles or to separate larger content areas.
+</p>
+<figure>
+  <pre><code class="language-html hljs">&lt;h2&gt;.h2 Page title&lt;/h2&gt;</code></pre>
+</figure>
+<h3>.h3 Section title</h3>
+<p>Used in an article or page.</p>
+<figure>
+  <pre><code class="language-html hljs">&lt;h3&gt;.h3 Section title&lt;/h3&gt;</code></pre>
+</figure>
+<h4>.h4 Sub-section title</h4>
+<p>Further divide content in articles or pages.</p>
+<figure>
+  <pre><code class="language-html hljs">&lt;h4&gt;.h4 Sub-section title&lt;/h4&gt;</code></pre>
+</figure>
+<h5>.h5 Paragraph heading</h5>
+<p>Small additional heading for paragraphs.</p>
+<figure>
+  <pre><code class="language-html hljs">&lt;h5&gt;.h5 Paragraph heading&lt;/h5&gt;</code></pre>
+</figure>
+
+<h4>Text</h4>
+<p>
+  Text styles are kept minimal. What you see all the time here, and right now,
+  is a paragraph.
+</p>
+
+<h5>Paragraphs</h5>
+<p>Seven lines of style declarations are all for paragraphs.</p>
+<figure>
+  <pre><code class="language-css hljs">p {
+  font-family: var(--base-font);
+  font-size: 1.3rem;
+  font-weight: var(--font-weight-normal);
+  color: var(--color-grey-900);
+  line-height: 1.65;
+  margin: 0 0 var(--size-500) 0;
+  padding: 0;
+}</code></pre>
+</figure>
+<p>This is a simple paragraph.</p>
+<figure>
+  <pre><code class="language-html hljs">&lt;p&gt;This is a simple paragraph.&lt;/p&gt;</code></pre>
+</figure>
+
+<h5>Blockquote</h5>
+<p>
+  Blockquote components will inherit all paragraph styles, besides defining own
+  unique styles. There is also some extras for paragraphs inside blockquote
+  elements. All blockquote elements will be inside a
+  <a href="#media" title="The figure component.">figure element</a>.
+</p>
+<figure>
+  <pre><code class="language-css hljs">p,
+blockquote {
+  /* paragraph styles ... */
+}
+
+blockquote {
+  font-style: italic;
+  margin: 0;
+  border-left: var(--size-300) solid var(--color-grey-300);
+}
+
+blockquote p {
+  margin: 0 0 0 var(--size-500);
+}
+
+blockquote + figcaption {
+  text-align: right;
+}</code></pre>
+</figure>
+<figure>
+  <blockquote
+    cite="https://tvtropes.org/pmwiki/pmwiki.php/Main/CassetteFuturism"
+  >
+    <p>
+      A technological aesthetic reminiscent of late 1960s to early 1980s tech
+      (regardless of the real time setting of the media) as codified by early
+      microcomputers &hellip;
+    </p>
+  </blockquote>
+  <figcaption>&#8212;TV Tropes, <cite>Cassette Futurism</cite></figcaption>
+</figure>
+<figure>
+  <pre><code class="language-html hljs">&lt;figure&gt;
+  &lt;blockquote cite="https://link.to/source"&gt;
+    &lt;p&gt;
+      A technological aesthetic reminiscent of late 1960s
+      to early 1980s tech (regardless of the real time
+      setting of the media) as codified by early
+      microcomputers &hellip;
+    &lt;/p&gt;
+  &lt;/blockquote&gt;
+  &lt;figcaption&gt;
+    &#8212;TV Tropes, &lt;cite&gt;Cassette Futurism&lt;/cite&gt;
+  &lt;/figcaption&gt;
+&lt;/figure&gt;</code></pre>
+</figure>
+
+<h5>Strong</h5>
+<p>
+  The <abbr>CSS</abbr> for the <code>strong</code> element is just making it
+  bold.
+</p>
+<figure>
+  <pre><code class="language-css hljs">strong {
+  font-weight: var(--font-weight-bold);
+}</code></pre>
+</figure>
+<p>This is <strong>very strong text</strong>.</p>
+<figure>
+  <pre><code class="language-html hljs">&lt;p&gt;This is &lt;strong&gt;very strong text&lt;/strong&gt;.&lt;/p&gt;</code></pre>
+</figure>
+
+<h5>Emphasis</h5>
+<p>
+  Emphasising text comes in two <em>"flavours"</em>; one is the semantic
+  version, the other is a visual representation only.
+</p>
+<figure>
+  <pre><code class="language-css hljs">em {
+  font-style: italic;
+}
+
+.emphasize {
+  font-style: normal;
+  font-weight: var(--font-weight-normal);
+  text-transform: uppercase;
+}</code></pre>
+</figure>
+<p>This is <em>emphasised</em>.</p>
+<figure>
+  <pre><code class="language-html hljs">&lt;p&gt;This is &lt;em&gt;emphasised&lt;/em&gt;.&lt;/p&gt;</code></pre>
+</figure>
+<p>This is also <b class="emphasize">emphasised</b>, but only visually.</p>
+<figure>
+  <pre><code class="language-html hljs">&lt;p&gt;This is also &lt;b class="emphasize"&gt;emphasised&lt;/b&gt;, ...&lt;/p&gt;</code></pre>
+</figure>
+
+<h5 id="links">Links</h5>
+<p>
+  Links are represented by color and a simple hover effect. There is also a
+  separate style when a definition element <code>dfn</code> is used inside.
+</p>
+<figure>
+  <pre><code class="language-css hljs">a {
+  color: var(--color-blue-500);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+a > dfn {
+  font-style: normal;
+}</code></pre>
+</figure>
+<p>Here is a <a href="#links" title="A link to this section.">link</a>.</p>
+<figure>
+  <pre><code class="language-html hljs">&lt;p&gt;Here is a &lt;a href="#links" title="A link to this section."&gt;link&lt;/a>.&lt;/p&gt;</code></pre>
+</figure>
+<p>
+  Including a
+  <a
+    href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dfn"
+    title="MDN website about the dfn element."
+    ><dfn>definition element</dfn></a
+  >.
+</p>
+<figure>
+  <pre><code class="language-html hljs">&lt;p&gt;Including a &lt;a href="..." title="..."&gt;&lt;dfn&gt;definition element&lt;/dfn&gt;&lt;/a>.&lt;/p&gt;</code></pre>
+</figure>
+<p>Don't forget, every link needs a title.</p>
+
+<h4>Address</h4>
+<p>Address elements get some original italic style.</p>
+<figure>
+  <pre><code class="language-css hljs">address {
+  font-style: italic;
+}</code></pre>
+</figure>
+<address>
+  <p>
+    La Taverna del Brigante
+    <br />
+    Via Aldo Manuzio, 82
+    <br />
+    04010 Bassiano LT
+    <br />
+    Italy
+  </p>
+</address>
+<figure>
+  <pre><code class="language-html hljs">&lt;address&gt;
+  &lt;p&gt;
+    La Taverna del Brigante
+    &lt;br /&gt;
+    Via Aldo Manuzio, 82
+    &lt;br /&gt;
+    04010 Bassiano LT
+    &lt;br /&gt;
+    Italy
+  &lt;/p&gt;
+&lt;/address&gt;</code></pre>
+</figure>
+
+<h4>List</h4>
+<p>So far there is only one type of list, an unordered list.</p>
+<figure>
+  <pre><code class="language-css hljs">ul {
+  margin: 0 0 0 var(--size-500);
+  padding: 0;
+}
+
+ul li {
+  font-family: var(--base-font);
+  font-size: 1.3rem;
+  font-weight: var(--font-weight-normal);
+  color: var(--color-grey-900);
+  line-height: 1.65;
+  margin: 0;
+  padding: 0;
+}
+
+ul li:last-child {
+  margin: 0 0 var(--size-500) 0;
+}</code></pre>
+</figure>
+<ul>
+  <li>This is</li>
+  <li>an unordered list</li>
+</ul>
+<figure>
+  <pre><code class="language-html hljs">&lt;ul&gt;
+  &lt;li&gt;This is&lt;/li&gt;
+  &lt;li&gt;an unordered list&lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+</figure>
+
+<h4>Side notes</h4>
+<p>
+  To show additional information aside I was under the impression I will need
+  JavaScript for proper placement or at least a rather complex structure.
+  Happily this was not the case, all it needed was a container wrapping what
+  will be referenced and the <code>aside</code> absolute placed in relation to
+  it.
+</p>
+<figure>
+  <pre><code class="language-css hljs">.aside-ref {
+  position: relative;
+}
+
+aside {
+  border-top: solid 1px var(--color-grey-300);
+  border-bottom: solid 1px var(--color-grey-300);
+  margin-bottom: var(--size-500);
+  padding: var(--size-400) 0;
+}
+
+aside p {
+  color: var(--color-grey-800);
+  font-family: var(--base-font);
+  font-size: 1rem;
+  font-weight: var(--font-weight-normal);
+  line-height: 1.65;
+  margin: 0;
+  padding: 0;
+}
+
+/**
+ * The min-width is calculated by the page width (660px)
+ * plus twice the amount of the aside width (240px), as
+ * the page is not centered and the aside "reaches" out
+ * of the page on the right.
+ * There are also 20px added (on both sides) to give the
+ * whole some space. In short: `660 + (20 + 240) * 2`.
+ */
+@media (min-width: 1180px) {
+  aside {
+    --aside-width: 240px;
+
+    top: var(--size-400);
+    position: absolute;
+    right: calc(-1 * (var(--aside-width) + var(--size-500)));
+    width: var(--aside-width);
+    border-bottom: none;
+  }
+}</code></pre>
+</figure>
+<div class="aside-ref">
+  <p>
+    Show the aside and how to make that happen. This will only show on the right
+    side of the content on larger screens. Otherwise, it will be part of the
+    content flow.
+  </p>
+  <aside><p>Extra info</p></aside>
+</div>
+<figure>
+  <pre><code class="language-html hljs">&lt;div class="aside-ref"&gt;
+  &lt;p&gt;Show the aside and how to make that happen.&lt;/p&gt;
+  &lt;aside&gt;&lt;p>Extra info&lt;/p&gt;&lt;/aside&gt;
+&lt;/div&gt;</code></pre>
+</figure>
+
+<h4 id="media">Media</h4>
+<p>
+  Media on this site are images and video, but can also be other
+  rich&#8209;content like code blocks. It is placed inside a
+  <code>figure</code> element with caption. Every image will have a
+  <dfn>webp</dfn> version, every video a <dfn>webm</dfn>.
+</p>
+<p>
+  The basic media content style is for the <code>figure</code> and
+  <code>figcaption</code> element.
+</p>
+<figure>
+  <pre><code class="language-css hljs">figure {
+  margin: 0 0 var(--size-500) 0;
+  padding: 0;
+}
+
+figcaption {
+  color: var(--color-grey-800);
+  font-family: var(--base-font);
+  font-size: 1rem;
+  font-weight: var(--font-weight-normal);
+  line-height: 1.65;
+  margin: 0;
+  padding: 0;
+}</code></pre>
+</figure>
+
+<h5>Images</h5>
+<p>
+  Images will always have a <dfn>webp</dfn> version and a caption. They are
+  placed inside the <code>picture</code> element, and will show up larger on
+  mobile devices by using the full device width.
+</p>
+<figure>
+  <pre><code class="language-css hljs">img + figcaption,
+picture + figcaption {
+  text-align: center;
+}
+
+picture {
+  /*
+   * Show pictures in full width by negating the page
+   * margin left and right.
+   */
+  margin: 0 calc(-1 * var(--size-500));
+  display: block;
+}
+
+@media (min-width: 660px) {
+  picture {
+    margin: 0;
+  }
+}
+
+img,
+video {
+  display: block;
+  margin: 0 auto;
+  height: auto;
+  max-width: 100%;
+}</code></pre>
+</figure>
+<figure>
+  <picture>
+    <source type="image/webp" srcset="/assets/blog/style-guide/example.webp" />
+    <img
+      src="/assets/blog/style-guide/example.jpeg"
+      alt="Image showing a close up of a hand in shadow typing on a retro-futuristic keyboard with thick key caps, a scene from the movie Alien."
+      loading="lazy"
+      width="1280"
+      height="524"
+    />
+  </picture>
+  <figcaption>
+    Picture of the movie Alien (1979), copyright by Twentieth Century Fox Home
+    Entertainment, <abbr>LLC</abbr>.
+  </figcaption>
+</figure>
+<p>
+  The <code>loading="lazy"</code> is only used for images below the initial
+  viewport.
+</p>
+<figure>
+  <pre><code class="language-html hljs">&lt;figure&gt;
+  &lt;picture&gt;
+    &lt;source
+      type="image/webp"
+      srcset="/assets/blog/style-guide/example.webp"
+    /&gt;
+    &lt;img
+      src="/assets/blog/style-guide/example.jpeg"
+      alt="Image showing a close up of a hand ..."
+      loading="lazy"
+      width="1280"
+      height="524"
+    /&gt;
+  &lt;/picture&gt;
+  &lt;figcaption&gt;
+    Picture of the movie Alien ...
+  &lt;/figcaption&gt;
+&lt;/figure&gt;</code></pre>
+</figure>
+
+<h5>Video</h5>
+<p>
+  Similar to <dfn>webp</dfn> for images, video will always have a
+  <dfn>webm</dfn> version and a caption. A <em>"poster"</em> will be used to
+  show a preview image of the video.
+</p>
+<figure>
+  <pre><code class="language-css hljs">video {
+  height: auto;
+  max-width: 100%;
+}
+
+video + figcaption {
+  text-align: center;
+}</code></pre>
+</figure>
+<figure>
+  <video
+    controls
+    width="1008"
+    height="720"
+    poster="/assets/blog/gui-development-with-cpp/docking-space.png"
+  >
+    <source
+      src="/assets/blog/gui-development-with-cpp/docking-space.webm"
+      type="video/webm"
+    />
+    <source
+      src="/assets/blog/gui-development-with-cpp/docking-space.mp4"
+      type="video/mp4"
+    />
+    It appears your browser doesn't support embedded videos.
+  </video>
+  <figcaption>
+    Example video from the blog post about
+    <a
+      href="/blog/gui-development-with-cpp-sdl2-and-dear-imgui"
+      title="Article showing how to develop a GUI application."
+      >GUI development with C++ and ImGui</a
+    >.
+  </figcaption>
+</figure>
+<figure>
+  <pre><code class="language-html hljs">&lt;figure&gt;
+  &lt;video
+    controls
+    width="1008"
+    height="720"
+    poster="/path/to/poster.png"
+  &gt;
+    &lt;source
+      src="/path/to/video.webm"
+      type="video/webm"
+    /&gt;
+    &lt;source
+      src="/path/to/video.mp4"
+      type="video/mp4"
+    /&gt;
+    It appears your browser doesn't support embedded videos.
+  &lt;/video&gt;
+  &lt;figcaption&gt;
+    Example video caption ...
+  &lt;/figcaption&gt;
+&lt;/figure&gt;</code></pre>
+</figure>
+
+<h4>Code</h4>
+<p>
+  Code can be used inside paragraphs and as standalone code blocks with syntax
+  highlighting.
+</p>
+
+<h5>Inline code</h5>
+<p>Inside text the <code>code</code> element is used.</p>
+<figure>
+  <pre><code class="language-css hljs">p code {
+  font-size: 1rem;
+  padding: 0.05rem;
+  vertical-align: middle;
+  background-color: var(--color-grey-200);
+}</code></pre>
+</figure>
+<figure>
+  <pre><code class="language-html hljs">&lt;p&gt;Inside text the &lt;code&gt;code&lt;/code&gt; element is used.&lt;/p&gt;</code></pre>
+</figure>
+
+<h5>Code blocks</h5>
+<p>
+  Code blocks are placed inside <code>figure</code> elements and can have
+  <strong>optionally</strong> a <code>figcaption</code>. Syntax highlighting is
+  supported through
+  <a href="https://highlightjs.org" title="Official highlight.js website"
+    >highlight.js</a
+  >
+</p>
+<p>
+  Besides some custom styling, styles are taken from a highlight.js theme
+  represented by <abbr>CSS</abbr> classes prefixed with <code>hljs-</code>.
+</p>
+<figure>
+  <pre><code class="language-css hljs">pre code.hljs {
+  font-family: monospace;
+  font-size: 0.8rem;
+  display: block;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  padding: 1rem 0;
+  color: var(--color-grey-900);
+  border-top: 1px solid var(--color-grey-500);
+  border-bottom: 1px solid var(--color-grey-500);
+}
+
+@media (min-width: 660px) {
+  pre code.hljs {
+    padding: 1rem;
+    font-size: 1rem;
+  }
+}
+
+/*
+ * Syntax styles are from one of the many styles
+ * provided here:
+ *
+ * github.com/highlightjs/highlight.js/tree/main/src/styles
+ */</code></pre>
+</figure>
+<p>
+  There is a range of supported languages, those are: Bash, <abbr>C</abbr>,
+  <abbr>C++</abbr>, <abbr>CSS</abbr>, Diff, <abbr>HTML</abbr>, <abbr>XML</abbr>,
+  <abbr>JSON</abbr>, JavaScript, Lua, Markdown, Python, Rust, <abbr>SQL</abbr>,
+  Shell, <abbr>TOML</abbr>, <abbr>INI</abbr>, TypeScript, <abbr>YAML</abbr>,
+  .properties, Augmented Backus-Naur Form, Backus–Naur Form and CMake.
+</p>
+<p>
+  A different set of supported languages, or even more, can be set up on the
+  <a
+    href="https://highlightjs.org/download/"
+    title="Get a custom highlight.js build."
+    >highlight.js configuration page</a
+  >.
+</p>
+<figure>
+  <pre><code class="language-js hljs">// code example
+const a = 1;</code></pre>
+  <figcaption>Optional caption, JavaScript example.</figcaption>
+</figure>
+<figure>
+  <pre><code class="language-html hljs">&lt;figure&gt;
+  &lt;pre&gt;&lt;code class="language-js hljs"&gt;// code example
+const a = 1;&lt;/code&gt;&lt;/pre&gt;
+  &lt;figcaption&gt;Optional caption&lt;/figcaption&gt;
+&lt;/figure&gt;</code></pre>
+</figure>
+
+<h3>Epilogue</h3>
+<p>
+  This concludes the set of noteworthy components styled through the
+  <a
+    href="/style.css"
+    title="CSS file of this whole website."
+    target="_blank"
+    rel="nofollow noreferrer"
+    >style.css</a
+  >
+  file. Over time this will expand and cover whatever new components I will add.
+  For now, that was it.
+</p>
