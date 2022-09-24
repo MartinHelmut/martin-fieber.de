@@ -1,10 +1,10 @@
 ---
 date: 2022-07-03
-lastmod: 2022-08-30
+lastmod: 2022-09-24
 title: "Basic C++ setup with dependency management in CMake"
 description: "Setting up a proper C++ environment can be a challenge for a newcomer. This is my try on showing with what I came up with."
 linkTitle: "I try creating a setup for myself that scales and is flexible enough to met all my needs."
-summary: "<p>My biggest problem starting to learn C++ back then was a proper setup that is easy to use and scales. Here is my personal attempt at creating this.</p>"
+summary: "<p>My biggest problem starting to learn C++ back then was a proper setup that is straightforward to use and scales. Here is my personal attempt at creating this.</p>"
 hasCode: true
 tags: ["post", "cpp"]
 ---
@@ -17,9 +17,10 @@ tags: ["post", "cpp"]
   advanced guides often assume greater knowledge with at least CMake already.
 </p>
 <p>
-  Coming from web development, dependency management was one of the easy tasks,
-  as simple as <code>npm install</code>. Nevertheless, building a web project
-  got increasingly difficult over the years, assuming the usage of tools like
+  Coming from web development, dependency management was one of the easier
+  tasks, as simple as <code>npm install</code>. Nevertheless, building a web
+  project got increasingly difficult over the years, assuming the usage of tools
+  like
   <a
     href="https://www.typescriptlang.org"
     title="The official website for TypeScript"
@@ -730,7 +731,7 @@ ColumnLimit: 100
     >Litr</a
   >
   to define some common commands for the project. Adding a
-  <code>litr.toml</code> file in the project root to have quick commands for
+  <code>litr.toml</code> file in the project root to have shortcut commands for
   building, running and formatting the project.
 </p>
 <figure>
@@ -756,7 +757,9 @@ description = "Define the application build target."
 type = ["debug", "release"]
 default = "debug"</code></pre>
 </figure>
-<p>Running one of the commands is as easy as <code>litr build</code>.</p>
+<p>
+  Running build and start can now be done via <code>litr build,start</code>.
+</p>
 <h3>Epilogue</h3>
 <p>
   That's about it when it comes the base setup. I do actually have a little
