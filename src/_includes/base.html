@@ -47,6 +47,9 @@
       window.plausible =
         window.plausible ||
         (() => (window.plausible.q = window.plausible.q || []).push(arguments));
+      {%- if plausible %}
+      window.plausible("{{ plausible }}", { props: { path: document.location.pathname } });
+      {%- endif %}
     </script>
     <title>{{ site.name }}{{ [" | ", title] | join if title else "" }}</title>
   </head>
