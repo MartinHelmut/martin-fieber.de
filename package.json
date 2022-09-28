@@ -40,7 +40,7 @@
     "eslint-plugin-html": "7.1.0",
     "luxon": "3.0.4",
     "prettier": "2.7.1",
-    "stylelint": "14.12.1",
+    "stylelint": "14.13.0",
     "stylelint-prettier": "2.0.0"
   }
 }
