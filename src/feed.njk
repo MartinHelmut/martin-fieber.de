@@ -3,7 +3,7 @@
   "permalink": "feed.xml",
   "eleventyExcludeFromCollections": true,
   "metadata": {
-    "title": "My blog",
+    "title": "Martin Fieber's Blog",
     "subtitle": "Development related articles and projects, 3D and art, games, keyboards, or whatever I try out next. This is going to be a mix of topics, mainly as a knowledge base for myself. So everything from small things I learned, C++, web tech, projects I am working on, ideas, tutorials, hobbies, you name it.",
     "language": "en",
     "blogUrl": "https://martin-fieber.de/blog/",
@@ -21,6 +21,8 @@
   <subtitle>{{ metadata.subtitle }}</subtitle>
   <link href="{{ permalink | absoluteUrl(metadata.siteUrl) }}" rel="self"/>
   <link href="{{ metadata.blogUrl }}"/>
+  <icon>{{ metadata.siteUrl }}favicon/favicon.ico</icon>
+  <logo>{{ metadata.siteUrl }}favicon/favicon-32x32.png</logo>
   <updated>{{ collections.posts | getNewestCollectionItemDate | dateToRfc3339 }}</updated>
   <id>{{ metadata.blogUrl }}</id>
   <author>
