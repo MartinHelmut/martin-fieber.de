@@ -285,8 +285,30 @@ article footer p {
   font-size: 1rem;
 }
 
+article.disabled h3,
+article.disabled p {
+  color: var(--color-grey-700);
+}
+
 .optional {
   color: var(--color-grey-800);
+}
+
+.badge {
+  font-size: 1rem;
+  font-family: var(--base-font);
+  font-weight: var(--font-weight-normal);
+  line-height: 1;
+  background: var(--color-blue-500);
+  color: white;
+  display: inline-block;
+  border-radius: 5px;
+  padding: var(--size-300) var(--size-400);
+  margin: 0;
+}
+
+.badge a {
+  color: inherit;
 }
 
 /* Code block compatible with highlight.js */

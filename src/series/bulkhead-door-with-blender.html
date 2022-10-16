@@ -1,0 +1,71 @@
+---
+layout: base
+title: "Series: Ron Cobb's bulkhead door in Blender"
+description: "A series of posts about my journey learning 3D, by creating a bulkhead door as envisioned by Ron Cobb."
+---
+
+<h2>Series: {{ series.bulkhead.title }}</h2>
+<p>
+  Learning 3D I wanted to take on a project going from Blenders
+  <strong>default cube to a game ready asset</strong>. Creating the high and
+  low-poly mesh, <abbr>UV</abbr> unwrapping, baking, texturing, rigging,
+  animating, adding sound, and finally having it presentable in a game engine.
+</p>
+<p>
+  This series of articles is my journey doing this, recreating Ron Cobb's
+  bulkhead door he sketched for the movie Alien (1979).
+</p>
+
+<section>
+  {%- for post in collections.bulkhead %}
+  <article>
+    <h3>
+      <a href="{{ post.url }}" title="{{ post.data.linkTitle }}"
+        >Part {{ post.data.series.part }}: {{ post.data.title }}</a
+      >
+    </h3>
+    <footer>
+      <p>
+        Posted on
+        <time datetime="{{ post.date | htmlDateString }}"
+          >{{ post.date | postDate }}</time
+        >
+      </p>
+    </footer>
+    {%- if post.data.banner %}
+    <picture>
+      <source type="image/webp" srcset="{{ post.data.banner }}.webp" />
+      <img
+        src="{{ post.data.banner }}.png"
+        alt="{{ post.data.bannerAlt }}"
+        width="1024"
+        height="300"
+      />
+    </picture>
+    {% endif %} {{ post.data.summary | safe }}
+  </article>
+  {%- endfor %}
+  <article>
+    <h3>Part 3: Rigging + animation</h3>
+    <footer>
+      <p>Coming soon</p>
+    </footer>
+    <p>
+      Having the bulkhead door modeled and textured, I only have static images
+      so far. It's time for rigging and animating the door, adding life to it in
+      a complete environment.
+    </p>
+  </article>
+  <article class="disabled">
+    <h3>Part 4: Showcase in Game Engine</h3>
+    <footer>
+      <p>Need to wait a bit longer</p>
+    </footer>
+  </article>
+  <article class="disabled">
+    <h3>Part 5: Sound + Final result</h3>
+    <footer>
+      <p>Will take a while</p>
+    </footer>
+  </article>
+</section>

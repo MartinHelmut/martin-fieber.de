@@ -7,6 +7,8 @@ description: "Find all my latest blog posts about development, 3D, games and my 
 <h2>{{ title }}</h2>
 {%- for post in collections.post | reverse %}
 <article>
+  {% from 'components.njk' import badge with context %} {{
+  badge(post.data.series) }}
   <h3>
     <a href="{{ post.url }}" title="{{ post.data.linkTitle }}"
       >{{ post.data.title }}</a

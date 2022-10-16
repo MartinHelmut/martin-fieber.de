@@ -1,11 +1,11 @@
 ---
 layout: base
-description: "My personal homepage including projects, things I do, and where I work. Also some social media where I am active."
+description: "My personal homepage including projects, things I do, and where I work. Also, some social media where I am active."
 priority: "1.0"
 ---
 
 <p>
-  I write code for a living, love books, gaming, try writing, 3D and a bit of
+  I write code for a living, love books, gaming, try writing, 3D, and a bit of
   game dev as a hobby.
 </p>
 <p>
@@ -16,8 +16,7 @@ priority: "1.0"
     href="https://github.com/MartinHelmut"
     title="Link to my profile on Github."
     >Github</a
-  >
-  and sometimes visible on
+  >, and sometimes visible on
   <a href="https://twitter.com/MartinFieber" title="My twitter profile"
     >Twitter</a
   >.
@@ -31,6 +30,8 @@ priority: "1.0"
   </h2>
   {%- for post in collections.post | reverse %} {% if loop.index0 < 3 %}
   <article>
+    {% from 'components.njk' import badge with context %} {{
+    badge(post.data.series) }}
     <h3>
       <a href="{{ post.url }}" title="{{ post.data.linkTitle }}"
         >{{ post.data.title }}</a
