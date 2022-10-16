@@ -1,0 +1,12 @@
+{% macro badge(entry) %}
+  {%- if entry.part %}
+    {% set part = series[entry.name] %}
+    <a
+      class="badge"
+      href="/series/{{ part.link }}"
+      title="Show all parts of the series: {{ part.title }}"
+    >
+      Part {{ entry.part }} of {{ part.total }} &rarr; show all
+    </a>
+    {%- endif -%}
+{% endmacro %}

@@ -35,6 +35,7 @@
       name="google-site-verification"
       content="3EUDp2p1HY0eouMKX3PBvPSv3Mr6WNL-4sUYA2yNxz8"
     />
+    <meta name="author" content="{{ site.author }}" />
     <meta name="description" content="{{ description }}" />
     <meta property="twitter:creator" content="@MartinFieber" />
     <meta property="twitter:domain" content="{{ site.name }}" />
@@ -87,6 +88,7 @@
       </header>
       <main>
         <article>
+          {% from 'components.njk' import badge with context %} {{ badge(series) }}
           <h2>{{ title }}</h2>
           <footer>
             <p>
