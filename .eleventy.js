@@ -11,7 +11,7 @@ function copyStaticFiles(eleventyConfig) {
     "src/assets",
     "src/favicon",
     "src/_redirects",
-    "src/highlight.min.js",
+    "src/scripts",
     "src/style.css",
   ];
 

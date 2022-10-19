@@ -75,7 +75,10 @@
       {%- endif %}
     </script>
     {%- if hasCode %}
-    <script defer src="/highlight.min.js"></script>
+    <script defer src="/scripts/highlight.min.js"></script>
+    {%- endif %}
+    {%- if hasImageCompare %}
+    <script defer src="/scripts/image-compare.min.js"></script>
     {%- endif %}
     <title>{{ site.name }} | {{ title }}</title>
   </head>
@@ -110,7 +113,7 @@
           {{ content | safe }}
         </article>
         <p>
-          <a href="/blog" title="Main blog page">← Back to all posts</a>
+          <a href="/blog" title="Main blog page">← Show all blog posts</a>
         </p>
       </main>
       <footer>

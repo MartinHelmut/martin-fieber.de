@@ -9,8 +9,7 @@
     "lint": "eslint '**/*.html' && stylelint '**/*.css'",
     "format": "prettier --write .",
     "format:check": "prettier --list-different .",
-    "ci": "pnpm run lint && pnpm run format:check",
-    "preinstall": "node ./scripts/ensure-package-manager.js"
+    "ci": "pnpm run lint && pnpm run format:check"
   },
   "engines": {
     "node": ">=14"

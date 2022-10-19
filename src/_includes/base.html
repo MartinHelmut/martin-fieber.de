@@ -76,6 +76,9 @@
       window.plausible("{{ plausible }}", { props: { path: document.location.pathname } });
       {%- endif %}
     </script>
+    {%- if hasImageCompare %}
+    <script defer src="/scripts/image-compare.min.js"></script>
+    {%- endif %}
     <title>{{ site.name }}{{ [" | ", title] | join if title else "" }}</title>
   </head>
   <body>
