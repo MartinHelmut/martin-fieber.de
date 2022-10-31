@@ -326,6 +326,7 @@ article.disabled p {
 
 .no-user-select {
   user-select: none;
+  -webkit-user-select: none;
 }
 
 [data-compare-image] picture {
@@ -403,6 +404,7 @@ article.disabled p {
 
 [data-compare-image] .circle {
   backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
   border: var(--stroke-width) solid white;
   width: var(--circle-size);
   height: var(--circle-size);
