@@ -9,7 +9,7 @@ const pluginRss = require("@11ty/eleventy-plugin-rss");
 function copyStaticFiles(eleventyConfig) {
   const staticResources = [
     "src/assets",
-    "src/favicon",
+    "src/favicon.ico",
     "src/_redirects",
     "src/scripts",
     "src/style.css",
