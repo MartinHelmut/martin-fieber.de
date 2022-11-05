@@ -12,7 +12,7 @@ function copyStaticFiles(eleventyConfig) {
     "src/scripts",
     "src/_redirects",
     "src/favicon.ico",
-    "src/rss.xsl",
+    "src/*.xsl",
     "src/style.css",
   ];
 
