@@ -6,7 +6,7 @@
   <xsl:template match="atom:feed">
     <html xmlns="http://www.w3.org/1999/xhtml">
       <head>
-        <title><xsl:value-of select="atom:title"/> RSS Feed</title>
+        <title><xsl:value-of select="atom:title"/> Feed</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="icon" href="/assets/favicon/icon.svg" type="image/svg+xml" />

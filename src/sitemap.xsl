@@ -58,7 +58,7 @@
               Privacy policy
             </a>
             |
-            <a href="/feed.xml" title="Atom RSS feed">RSS feed</a>
+            <a href="/feed.xml" title="Atom feed">Feed</a>
             |
             <a
               href="/blog/my-blog"
