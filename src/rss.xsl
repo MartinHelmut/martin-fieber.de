@@ -79,6 +79,28 @@
               </article>
             </xsl:for-each>
           </main>
+          <footer>
+            <a
+              href="/legal-notice"
+              title="Legal notice page includes address and contact information"
+            >
+              Legal notice
+            </a>
+            |
+            <a
+              href="/privacy-policy"
+              title="Privacy policy includes cookie information, but there are no cookies"
+            >
+              Privacy policy
+            </a>
+            |
+            <a
+              href="/blog/my-blog"
+              title="Additional information about this website, what to expect and how it was built."
+            >
+              About
+            </a>
+          </footer>
         </div>
       </body>
     </html>
