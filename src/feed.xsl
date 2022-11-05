@@ -42,7 +42,11 @@
             </p>
           </header>
           <main>
-            <h2>Posts</h2>
+            <h2>Feed</h2>
+            <p>
+              A list of all my blog posts in order of publish date, representing my
+              <a href="https://en.wikipedia.org/wiki/Atom_(web_standard)" title="Wikipedia page about Atom feeds.">Atom feed</a>.
+            </p>
             <xsl:for-each select="atom:entry">
               <article>
                 <h3>
