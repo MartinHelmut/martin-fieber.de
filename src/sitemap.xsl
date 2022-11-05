@@ -27,7 +27,7 @@
           <main>
             <h2>Links</h2>
             <p>
-              Sitemap ...
+              This is a list of links to all available pages on my site.
             </p>
             <ul>
             <xsl:for-each select="sitemap:url">
@@ -43,6 +43,30 @@
             </xsl:for-each>
             </ul>
           </main>
+          <footer>
+            <a
+              href="/legal-notice"
+              title="Legal notice page includes address and contact information"
+            >
+              Legal notice
+            </a>
+            |
+            <a
+              href="/privacy-policy"
+              title="Privacy policy includes cookie information, but there are no cookies"
+            >
+              Privacy policy
+            </a>
+            |
+            <a href="/feed.xml" title="Atom RSS feed">RSS feed</a>
+            |
+            <a
+              href="/blog/my-blog"
+              title="Additional information about this website, what to expect and how it was built."
+            >
+              About
+            </a>
+          </footer>
         </div>
       </body>
     </html>
