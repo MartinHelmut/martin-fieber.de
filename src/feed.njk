@@ -3,23 +3,16 @@
   "permalink": "feed.xml",
   "eleventyExcludeFromCollections": true,
   "metadata": {
-    "title": "Martin Fieber's Blog",
-    "subtitle": "Development related articles and projects, 3D and art, games, keyboards, or whatever I try out next. This is going to be a mix of topics, mainly as a knowledge base for myself. So everything from small things I learned, C++, web tech, projects I am working on, ideas, tutorials, hobbies, you name it.",
-    "language": "en",
     "blogUrl": "https://martin-fieber.de/blog/",
-    "siteUrl": "https://martin-fieber.de/",
-    "author": {
-      "name": "Martin Helmut Fieber",
-      "email": "info@martin-fieber.se"
-    }
+    "siteUrl": "https://martin-fieber.de/"
   }
 }
 ---
 <?xml version="1.0" encoding="utf-8"?>
 <?xml-stylesheet href="/feed.xsl" type="text/xsl"?>
 <feed xmlns="http://www.w3.org/2005/Atom" xml:base="{{ metadata.blogUrl }}">
-  <title>{{ metadata.title }}</title>
-  <subtitle>{{ metadata.subtitle }}</subtitle>
+  <title>Martin Fieber's Blog</title>
+  <subtitle>Development related articles and projects, 3D and art, games, keyboards, or whatever I try out next. This is going to be a mix of topics, mainly as a knowledge base for myself. So everything from small things I learned, C++, web tech, projects I am working on, ideas, tutorials, hobbies, you name it.</subtitle>
   <link href="{{ permalink | absoluteUrl(metadata.siteUrl) }}" rel="self"/>
   <link href="{{ metadata.blogUrl }}"/>
   <icon>{{ metadata.siteUrl }}favicon.ico</icon>
@@ -27,8 +20,8 @@
   <updated>{{ collections.posts | getNewestCollectionItemDate | dateToRfc3339 }}</updated>
   <id>{{ metadata.blogUrl }}</id>
   <author>
-    <name>{{ metadata.author.name }}</name>
-    <email>{{ metadata.author.email }}</email>
+    <name>Martin Helmut Fieber</name>
+    <email>info@martin-fieber.se</email>
   </author>
   {%- for post in collections.post | reverse %}
   {%- set absolutePostUrl = post.url | absoluteUrl(metadata.blogUrl) %}
@@ -40,8 +33,8 @@
     <updated>{{ post.data.lastmod | dateToRfc3339 }}</updated>
     {%- endif %}
     <id>{{ absolutePostUrl }}</id>
-    <summary xml:lang="{{ metadata.language }}" type="html">{{ post.data.summary | htmlToAbsoluteUrls(absolutePostUrl) }}</summary>
-    <content xml:lang="{{ metadata.language }}" type="html">{{ post.templateContent | htmlToAbsoluteUrls(absolutePostUrl) }}</content>
+    <summary xml:lang="en" type="html">{{ post.data.summary | htmlToAbsoluteUrls(absolutePostUrl) }}</summary>
+    <content xml:lang="en" type="html">{{ post.templateContent | htmlToAbsoluteUrls(absolutePostUrl) }}</content>
   </entry>
   {%- endfor %}
 </feed>
