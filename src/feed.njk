@@ -29,9 +29,7 @@
     <title>{{ post.data.title }}</title>
     <link href="{{ absolutePostUrl }}"/>
     <published>{{ post.date | dateToRfc3339 }}</published>
-    {%- if post.data.lastmod %}
-    <updated>{{ post.data.lastmod | dateToRfc3339 }}</updated>
-    {%- endif %}
+    <updated>{{ post.data.lastmod | dateToRfc3339 if post.data.lastmod else post.date | dateToRfc3339 }}</updated>
     <id>{{ absolutePostUrl }}</id>
     <summary xml:lang="en" type="html">{{ post.data.summary | htmlToAbsoluteUrls(absolutePostUrl) }}</summary>
     <content xml:lang="en" type="html">{{ post.templateContent | htmlToAbsoluteUrls(absolutePostUrl) }}</content>
