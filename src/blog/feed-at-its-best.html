@@ -1,0 +1,648 @@
+---
+date: 2022-11-07
+title: "Feed at its best"
+description: "In this posy I add an XML feed to my website and give it some style with XSLT."
+image: "/assets/blog/feed-at-its-best/title-card.png"
+imageAlt: "Screenshot of the raw XML of my feed, as typically presented by browsers when opening an XML file."
+linkTitle: "Creating and styling an Atom feed with XML and XSLT."
+summary: "<p>Web feeds are awesome &#8212; getting the content I like directly form the source. This is how I add a feed to my website, including how to style it with <abbr>XSLT</abbr>.</p>"
+hasCode: true
+tags: ["post", "general"]
+---
+
+<h3><abbr>RSS</abbr>, Atom, feed?</h3>
+<p>
+  When it comes to web syndication, many names are floating around, some used
+  synonymously. <abbr>RSS</abbr> is often seen as the name for the functionality
+  of a feed itself, but it is not, it is rather one way of delivering website
+  content in a standardised way. Another one is Atom, going a bit further, being
+  a standard for a feed format and publishing protocol, seen as an alternative
+  to <abbr>RSS</abbr>.
+</p>
+<p>
+  <strong>Both do the same</strong>, in slightly different ways. Without going
+  into too much detail, Atom gives more flexibility and is an excellent web
+  standard; the format I added to my site.
+</p>
+
+<h3>Awesome feed</h3>
+<p>
+  Going under the radar of many, website feeds are amazing for a lot of reasons.
+  For me, it is being able to
+  <strong>subscribe to the exact content I like</strong>. Everything from art,
+  games and game development, programming, books, &hellip; things I actually
+  want to read.
+</p>
+<div class="aside-ref">
+  <p>
+    If a website serves full content via the feed I can even read everything
+    inside my reader app*. Other sites, delivering only headlines and/or
+    summaries, create a content stream for me that I control and can dive deeper
+    into, if I so desire.
+  </p>
+  <aside>
+    <p>
+      *I use
+      <a
+        href="https://reederapp.com"
+        title="Web feed app supporting many formats besides RSS and Atom."
+        >Reeder</a
+      >
+      for Mac and iOS.
+    </p>
+  </aside>
+</div>
+<p>
+  The only thing I would wish for is that those feeds were more easily
+  explorable.
+</p>
+
+<h3>Feed visibility, feed availability</h3>
+<p>
+  I find myself quite often wondering if a website, blog, or portfolio has a
+  feed. Not always is there a link, icon, or reference mentioned. Besides not
+  being visible, <strong>many do not offer any kind of feed</strong>; still,
+  there are way more sites out there that do.
+</p>
+<p>
+  If I am not sure, <strong>I use my reader to find out</strong> &#8212; I paste
+  the link into it and if a feed can be discovered it will tell me. This works
+  surprisingly more often than not. The way this <em>"auto discovery"</em> is
+  done is through a meta-tag in the websites head, linking to the feeds
+  <abbr>XML</abbr> file.
+</p>
+<figure>
+  <pre><code class="language-html hljs">&lt;link
+  rel="alternate"
+  type="application/atom+xml"
+  title="My Blog"
+  href="/feed.xml"
+/&gt;</code></pre>
+  <figcaption>
+    This is the <abbr>HTML</abbr> tag for an Atom feed. For <abbr>RSS</abbr> the
+    <code>type</code> needs to be <code>application/rss+xml</code>.
+  </figcaption>
+</figure>
+
+<h3>My blog as feed</h3>
+<p>
+  As I love using feeds, I for sure needed to serve my blog as feed as well. The
+  base
+  <abbr>XML</abbr> file structure for the Atom feed will look like the
+  following.
+</p>
+<figure>
+  <pre><code class="language-xml hljs">&lt;?xml version="1.0" encoding="utf-8" ?&gt;
+  &lt;feed
+    xmlns="http://www.w3.org/2005/Atom"
+    xml:base="absolute/url/to/blog"&gt;
+  &lt;title&gt;Martin Fieber's Blog&lt;/title&gt;
+  &lt;subtitle&gt;
+    Some extra information ...
+  &lt;/subtitle&gt;
+  &lt;link
+    href="absolute/url/to/feed.xml"
+    rel="self" /&gt;
+  &lt;link href="absolute/url/to/blog" /&gt;
+  &lt;icon&gt;absolute/url/to/favicon.ico&lt;/icon&gt;
+  &lt;logo&gt;absolute/url/to/logo.png&lt;/logo&gt;
+  &lt;updated&gt;2022-11-05T10:10:10Z&lt;/updated&gt;
+  &lt;id&gt;absolute/url/to/blog/&lt;/id&gt;
+  &lt;author&gt;
+    &lt;name&gt;Martin Helmut Fieber&lt;/name&gt;
+    &lt;email&gt;info@martin-fieber.se&lt;/email&gt;
+  &lt;/author&gt;
+  &lt;entry&gt;
+    &lt;title&gt;Post title&lt;/title&gt;
+    &lt;link href="absolute/url/to/post" /&gt;
+    &lt;updated&gt;2022-10-20T00:00:00Z&lt;/updated&gt;
+    &lt;id&gt;absolute/url/to/post&lt;/id&gt;
+    &lt;summary xml:lang="en" type="html"&gt;
+      Content summary
+    &lt;/summary&gt;
+    &lt;content xml:lang="en" type="html"&gt;
+      Full content
+    &lt;/content&gt;
+  &lt;/entry&gt;
+  &lt;!-- more entries ... --&gt;
+&lt;/feed&gt;</code></pre>
+</figure>
+<p>
+  The first tags are setting up the
+  <strong>details of the feed</strong> connected to my blog; title and subtitle,
+  a link to the feed and the blog, icons, last update date, unique identifier,
+  and information about me as author of the blog.
+</p>
+<p>
+  A post is defined through the contents of the <code>entry</code> tag, the base
+  being the title of the post, a link, update date, and unique identifier. The
+  <code>summary</code> and <code>content</code> tags are respectively for a
+  short post summary and the full content of the post &#8212; there can be both,
+  one, or none.
+</p>
+<p>
+  I add both, as I want people to be
+  <strong>able to read the whole post</strong> from any reader app.
+</p>
+<p>
+  As I use
+  <a
+    href="https://www.11ty.dev"
+    title="Static website generator Eleventy website."
+    >Eleventy</a
+  >
+  I will take advantage of it and generate the feed file from my posts, using
+  the
+  <a
+    href="https://www.11ty.dev/docs/plugins/rss/"
+    title="The official Eleventy plugin to support web feeds."
+    >Eleventy <abbr>RSS</abbr> plugin</a
+  >. For this I set up a <code>feed.njk</code> file, using the
+  <a
+    href="https://mozilla.github.io/nunjucks/"
+    title="A JavaScript based templating engine from Mozilla."
+    >Nunjucks template language</a
+  >, with some data defining the target file name <code>feed.xml</code> as well
+  as my site and blog url.
+</p>
+<figure>
+  <pre><code class="language-xml hljs">{% raw %}&lt;!-- /feed.xml --&gt;
+
+---json
+{
+  "permalink": "feed.xml",
+  "eleventyExcludeFromCollections": true,
+  "metadata": {
+    "blogUrl": "https://martin-fieber.de/blog/",
+    "siteUrl": "https://martin-fieber.de/"
+  }
+}
+---
+&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;feed
+    xmlns="http://www.w3.org/2005/Atom"
+    xml:base="{{ metadata.blogUrl }}"&gt;
+  &lt;!-- ... --&gt;
+&lt;/feed&gt;{% endraw %}</code></pre>
+</figure>
+<p>
+  The first section separated by <code>---</code> is
+  <a
+    href="https://www.11ty.dev/docs/data-frontmatter/"
+    title="Information about front matter data from Eleventy."
+    >front matter data</a
+  >
+  as JSON. Inside the feed tags comes the feed title, author, and some more.
+</p>
+<figure>
+  <pre><code class="language-xml hljs">{% raw %}  &lt;title&gt;Martin Fieber's Blog&lt;/title&gt;
+  &lt;subtitle&gt;...&lt;/subtitle&gt;
+  &lt;link
+    href="{{
+      permalink
+        | absoluteUrl(metadata.siteUrl)
+    }}"
+    rel="self"/&gt;
+  &lt;link href="{{ metadata.blogUrl }}"/&gt;
+  &lt;icon&gt;
+    {{ metadata.siteUrl }}favicon.ico
+  &lt;/icon&gt;
+  &lt;logo&gt;
+    {{ metadata.siteUrl }}assets/favicon/icon-192.png
+  &lt;/logo&gt;
+  &lt;updated&gt;
+    {{
+      collections.posts
+        | getNewestCollectionItemDate
+        | dateToRfc3339
+    }}
+  &lt;/updated&gt;
+  &lt;id&gt;{{ metadata.blogUrl }}&lt;/id&gt;
+  &lt;author&gt;
+    &lt;name&gt;Martin Helmut Fieber&lt;/name&gt;
+    &lt;email&gt;info@martin-fieber.se&lt;/email&gt;
+  &lt;/author&gt;{% endraw %}</code></pre>
+</figure>
+<p>
+  To generate the entries for my post, I want to have the
+  <strong>latest post on top</strong>, so I need to reverse the order of my post
+  collection. I also use absolute URLs everywhere.
+</p>
+<figure>
+  <pre><code class="language-xml hljs">{% raw %}  {%-
+    for post in collections.post
+      | reverse
+  %}
+  {%-
+    set absolutePostUrl = post.url
+      | absoluteUrl(metadata.blogUrl)
+  %}
+  &lt;entry&gt;
+    &lt;title&gt;{{ post.data.title }}&lt;/title&gt;
+    &lt;link href="{{ absolutePostUrl }}"/&gt;
+    &lt;published&gt;
+      {{ post.date | dateToRfc3339 }}
+    &lt;/published&gt;
+    &lt;updated&gt;
+      {{
+        post.data.lastmod | dateToRfc3339
+          if post.data.lastmod
+          else post.date | dateToRfc3339
+      }}
+    &lt;/updated&gt;
+    &lt;id&gt;{{ absolutePostUrl }}&lt;/id&gt;
+    &lt;summary xml:lang="en" type="html"&gt;
+      {{
+        post.data.summary
+          | htmlToAbsoluteUrls(absolutePostUrl)
+      }}
+    &lt;/summary&gt;
+    &lt;content xml:lang="en" type="html"&gt;
+      {{
+        post.templateContent
+          | htmlToAbsoluteUrls(absolutePostUrl)
+      }}
+    &lt;/content&gt;
+  &lt;/entry&gt;
+  {%- endfor %}{% endraw %}</code></pre>
+</figure>
+<p>
+  You can have a look at the full Nunjucks template file I use, to generate
+  <a
+    href="https://github.com/MartinHelmut/martin-fieber.de/blob/main/src/feed.njk"
+    title="The whole feed XML file on my GitHub."
+    >my Atom feed, on GitHub</a
+  >.
+</p>
+
+<h3><abbr>XML</abbr> in style</h3>
+<p>
+  Having a <strong>look at my feed</strong> file directly in the browser looks
+  somewhat like the following.
+</p>
+<figure>
+  <picture>
+    <source
+      type="image/webp"
+      srcset="/assets/blog/feed-at-its-best/xml-feed-in-browser.webp"
+    />
+    <img
+      src="/assets/blog/feed-at-its-best/xml-feed-in-browser.png"
+      alt="Screenshot of the raw XML of my feed, as typically presented by browsers when opening an XML file, with a message that there is no associated style information."
+      width="1024"
+      height="528"
+      loading="lazy"
+    />
+  </picture>
+  <figcaption>Not a particular user-friendly view of the feed.</figcaption>
+</figure>
+<p>
+  Even though this is a fairly standard view for <abbr>XML</abbr> on the web, it
+  is not very user-friendly and little useful in general. With this, greet
+  <dfn><abbr>XSLT</abbr> (Extensible Stylesheet Language Transformations)</dfn>,
+  a mouth full of words where <em>"Stylesheet"</em> is the important part for
+  me.
+</p>
+
+<h3><abbr>XSL</abbr> &hellip; T?</h3>
+<p>
+  To keep it short,
+  <a
+    href="https://en.wikipedia.org/wiki/XSLT"
+    title="Wikipedia page about XSLT."
+    ><abbr>XSLT</abbr></a
+  >
+  is an <strong><abbr>XML</abbr> like language</strong> to transform
+  <abbr>XML</abbr> documents. Think of reformatting a document, or in that case,
+  styling a document. Taking the <abbr>XML</abbr> feed and transforming it into
+  an <abbr>HTML</abbr> document, getting the option to use styles I already
+  defined on my website.
+</p>
+<p>
+  When defining a <code>xsl:stylesheet</code> I need to define what namespaces I
+  want to use &#8212; <code>xsl</code> for operations like loops with
+  <code>xsl:for-each</code>, and <code>atom</code>, used to access elements in
+  the feed. Defined are those by referencing the associated schema. I could use
+  any name really, but I stick to <code>xsl</code> and <code>atom</code>.
+</p>
+<figure>
+  <pre><code class="language-xml hljs">&lt;xsl:stylesheet
+  version="3.0"
+  xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+  xmlns:atom="http://www.w3.org/2005/Atom"&gt;</code></pre>
+</figure>
+<p>
+  In my mind I think of those as
+  <em>"imports of elements and functions into a namespace"</em>. A declaration
+  like the one above could correlate to the following pseudocode:
+</p>
+<figure>
+  <pre><code class="language-typescript hljs">import * as xsl from "http://www.w3.org/1999/XSL/Transform";
+import * as atom from "http://www.w3.org/2005/Atom";</code></pre>
+  <figcaption>
+    This is at least how I think about looking at the XSL.
+  </figcaption>
+</figure>
+<p>
+  The general idea then is to output <abbr>HTML</abbr> to view it in the
+  browser. This can be done by setting the <code>xsl:output</code> method to
+  <abbr>HTML</abbr>.
+</p>
+<figure>
+  <pre><code class="language-xml hljs">&lt;xsl:output
+  method="html"
+  version="1.0"
+  encoding="UTF-8"
+  indent="yes"
+/&gt;</code></pre>
+</figure>
+<p>
+  To actually create a transformation template, I need to match an element from
+  my <code>feed.xml</code> file. The root element is the
+  <code>feed</code> element, as it is under the Atom namespace I need to add the
+  <code>atom:</code> prefix to the element I want to select.
+</p>
+<figure>
+  <pre><code class="language-xml hljs">&lt;xsl:template match="atom:feed"&gt;
+  &lt;!-- Here comes the HTML ---&gt;
+&lt;/xsl:template&gt;</code></pre>
+</figure>
+
+<h3>Styling <abbr>XML</abbr></h3>
+<p>
+  To properly set things up, I create a <code>feed.xsl</code> file referenced by
+  my feed.
+</p>
+<figure>
+  <pre><code class="language-xml hljs">&lt;!-- /feed.xml --&gt;
+
+&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;?xml-stylesheet
+    href="/feed.xsl"
+    type="text/xsl"?&gt;
+&lt;feed xmlns="http://www.w3.org/2005/Atom"&gt;
+  &lt;!-- ... --&gt;
+&lt;/feed&gt;</code></pre>
+</figure>
+<p>The important part here is:</p>
+<figure>
+  <pre><code class="language-xml hljs">&lt;?xml-stylesheet
+    href="/feed.xsl"
+    type="text/xsl"?&gt;</code></pre>
+</figure>
+<p>
+  The base of the <code>/feed.xsl</code> looks as follows, setting up the
+  <code>xsl</code> and <code>atom</code> namespace and enabling
+  <abbr>HTML</abbr> output.
+</p>
+<figure>
+  <pre><code class="language-xml hljs">&lt;!-- /feed.xsl --&gt;
+
+&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;xsl:stylesheet
+    version="3.0"
+    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+    xmlns:atom="http://www.w3.org/2005/Atom"&gt;
+  &lt;xsl:output
+    method="html"
+    version="1.0"
+    encoding="UTF-8"
+    indent="yes"
+  /&gt;
+  &lt;xsl:template match="atom:feed"&gt;
+    &lt;!-- nothing here, yet --&gt;
+  &lt;/xsl:template&gt;
+&lt;/xsl:stylesheet&gt;</code></pre>
+</figure>
+<p>
+  The content that goes into <code>xsl:template</code> will be
+  <abbr>HTML</abbr>. The root element being <code>html</code>, having a
+  <code>head</code> and <code>body</code>, and everything else an
+  <abbr>HTML</abbr> document needs.
+</p>
+<p>
+  I use the <strong>same base <abbr>HTML</abbr> structure</strong> I use
+  everywhere for my website, including a link to my <abbr>CSS</abbr> stylesheet,
+  giving the feed the same look and feel as the rest of my site.
+</p>
+<figure>
+  <pre><code class="language-html hljs">&lt;link rel="stylesheet" href="/style.css" /&gt;</code></pre>
+</figure>
+
+<h3>Some <abbr>XSLT</abbr> basics</h3>
+<p>
+  The big question for sure is now how to access the contents of the feed and
+  iterate over entries?
+</p>
+<h4>Accessing values</h4>
+<div class="aside-ref">
+  <p>
+    Value access works through
+    <a
+      href="https://en.wikipedia.org/wiki/XPath"
+      title="Wikipedia page about XPath."
+      >XPath</a
+    >
+    with <code>xsl:value-of</code>. The root of the feed is already selected
+    through the <code>xsl:template</code>, so accessing values inside, like the
+    tittle, does not need to repeat that path*.
+  </p>
+  <aside>
+    <p>* The full path would be <code>atom:feed/atom:title</code>.</p>
+  </aside>
+</div>
+<figure>
+  <pre><code class="language-xml hljs">&lt;xsl:template match="atom:feed"&gt;
+  &lt;title&gt;
+    &lt;xsl:value-of select="atom:title" /&gt; Feed
+  &lt;/title&gt;
+&lt;/xsl:template&gt;</code></pre>
+  <figcaption>
+    Reading the title from the feed and using it as the
+    <abbr>HTML</abbr> document title.
+  </figcaption>
+</figure>
+<h4>Defining attributes</h4>
+<p>
+  Let's say I want to read the blog link from the feed and define it on an
+  <code>a</code> element. This uses the <code>xsl:attribute</code> inside the
+  <code>a</code> tag with the attribute name <code>href</code>.
+</p>
+<figure>
+  <pre><code class="language-xml hljs">&lt;a title="To my blog!"&gt;
+  &lt;xsl:attribute name="href"&gt;
+    &lt;xsl:value-of
+      select="atom:link[2]/@href" /&gt;
+  &lt;/xsl:attribute&gt;
+  &lt;xsl:value-of select="atom:title" /&gt;
+&lt;/a&gt;</code></pre>
+</figure>
+<p>
+  Inside the <code>xsl:attribute</code> the actual value needs to be selected
+  via <code>xsl:value-of</code>, using XPath again. The path
+  <code>atom:link[2]/@href</code> means:
+  <em
+    >"Select the second (<code>[2]</code>) link element, read the value of the
+    <code>href</code> attribute (<code>@</code>)"</em
+  >. Elements of a path are separated by a forward slash <code>/</code>.
+</p>
+<p>
+  Multiple <code>xsl:attribute</code> can be used, as they will all set the
+  defined attribute on the parent node.
+</p>
+<h4><abbr>XSL</abbr> loops</h4>
+<p>
+  Loops work by using <code>xsl:for-each</code>, selecting an element that
+  occurs multiple times. Every post is represented by an
+  <code>entry</code> element inside the feed, therefore
+  <code>atom:entry</code> will be selected.
+</p>
+<figure>
+  <pre><code class="language-xml hljs">&lt;xsl:for-each select="atom:entry"&gt;
+  &lt;!-- for every entry ... --&gt;
+&lt;/xsl:for-each&gt;</code></pre>
+</figure>
+<h4>Conditions</h4>
+<p>
+  Using <code>xsl:if</code> conditions can be created via a XPath expression
+  that can be evaluated to a boolean value, for example testing if an element
+  exists.
+</p>
+<figure>
+  <pre><code class="language-xml hljs">&lt;xsl:if test="atom:updated"&gt;
+  &lt;!-- If `updated` exists, do this ... --&gt;
+&lt;/xsl:if&gt;</code></pre>
+</figure>
+
+<h3>Full example</h3>
+<p>
+  Of course there is so much
+  <a
+    href="https://developer.mozilla.org/en-US/docs/Web/XSLT"
+    title="MDN docs about XSLT."
+    >more <abbr>XSLT</abbr> can do</a
+  >
+  that I cannot cover here (it is a Turing-complete language after all), but
+  those mentioned elements is all I needed for my feed. The full
+  <a
+    href="https://github.com/MartinHelmut/martin-fieber.de/blob/main/src/feed.xsl"
+    title="The full XSLT file for my web feed."
+    ><abbr>XSLT</abbr> stylesheet can be found on GitHub</a
+  >.
+</p>
+<p>
+  Having implemented the stylesheet for my feed,
+  <a href="/feed.xml" title="Link to my web feed."
+    >accessing the <abbr>XML</abbr> file directly in the browser</a
+  >
+  looks way more appealing now, just like the rest of my website, thanks to
+  reusing the existing <abbr>CSS</abbr> file.
+</p>
+<figure>
+  <picture>
+    <source
+      type="image/webp"
+      srcset="/assets/blog/feed-at-its-best/xml-feed-with-style.webp"
+    />
+    <img
+      src="/assets/blog/feed-at-its-best/xml-feed-with-style.png"
+      alt=""
+      width="1024"
+      height="849"
+      loading="lazy"
+    />
+  </picture>
+  <figcaption>
+    This is how an <abbr>XML</abbr> feed can look like? 🔥
+  </figcaption>
+</figure>
+
+<h3>Bonus: Pretty sitemap</h3>
+<p>
+  While I was at it, I also added a base style for
+  <a href="/sitemap.xml" title="Link to my sitemap."
+    >my <abbr>XML</abbr> sitemap</a
+  >. Here a shortened version of it, showing all the important parts. A
+  <a
+    href="https://github.com/MartinHelmut/martin-fieber.de/blob/main/src/sitemap.xsl"
+    title="The full XSLT file for my sitemap on GitHub."
+    >full version of the <abbr>XSLT</abbr> file</a
+  >
+  can again be found on GitHub.
+</p>
+<figure>
+  <pre><code class="language-xml hljs">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;xsl:stylesheet
+    version="3.0"
+    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+    xmlns:sm="http://www.sitemaps.org/schemas/sitemap/0.9"&gt;
+  &lt;xsl:output
+    method="html"
+    version="1.0"
+    encoding="UTF-8"
+    indent="yes"
+  /&gt;
+  &lt;xsl:template match="sm:urlset"&gt;
+    &lt;html xmlns="http://www.w3.org/1999/xhtml"&gt;
+      &lt;head&gt;
+        &lt;title&gt;Martin Fieber's Sitemap&lt;/title&gt;
+        &lt;meta
+          name="viewport"
+          content="initial-scale=1.0, width=device-width" /&gt;
+        &lt;link
+          rel="icon"
+          href="/favicon.ico"
+          sizes="any" /&gt;
+        &lt;link rel="stylesheet" href="/style.css" /&gt;
+      &lt;/head&gt;
+      &lt;body&gt;
+        &lt;div class="content"&gt;
+          &lt;header&gt;
+            &lt;h1&gt;
+              &lt;a
+                  href="/"
+                  title="Take my back to start!"&gt;
+                Martin Helmut Fieber
+              &lt;/a&gt;
+            &lt;/h1&gt;
+          &lt;/header&gt;
+          &lt;main&gt;
+            &lt;h2&gt;Links&lt;/h2&gt;
+            &lt;ul&gt;
+              &lt;xsl:for-each select="sm:url"&gt;
+                &lt;li&gt;
+                  &lt;a&gt;
+                    &lt;xsl:attribute
+                        name="href"&gt;
+                      &lt;xsl:value-of
+                        select="sm:loc" /&gt;
+                    &lt;/xsl:attribute&gt;
+                    &lt;xsl:attribute
+                        name="title"&gt;
+                      Updated:
+                      &lt;xsl:value-of
+                        select="sm:lastmod" /&gt;
+                    &lt;/xsl:attribute&gt;
+                    &lt;xsl:value-of
+                      select="sm:loc" /&gt;
+                  &lt;/a&gt;
+                &lt;/li&gt;
+              &lt;/xsl:for-each&gt;
+            &lt;/ul&gt;
+          &lt;/main&gt;
+        &lt;/div&gt;
+      &lt;/body&gt;
+    &lt;/html&gt;
+  &lt;/xsl:template&gt;
+&lt;/xsl:stylesheet&gt;</code></pre>
+</figure>
+
+<h3>Epilogue</h3>
+<p>
+  <strong>Feeds are awesome</strong>, and if you can, you should consider adding
+  one to your site if you have one. And if you're not already using feeds,
+  consider this as well. Getting the content you really like, directly form the
+  source, through a service or app you want to use, really changed the quality
+  of content I consume.
+</p>
+<p>I certainly don't want to miss feeds anymore. Until then 👋🏻</p>
