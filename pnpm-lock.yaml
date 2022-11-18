@@ -1,7 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@11ty/eleventy': 2.0.0-canary.16
+  '@11ty/eleventy': 2.0.0-canary.17
   '@11ty/eleventy-plugin-rss': 1.2.0
   eslint: 8.27.0
   eslint-config-prettier: 8.5.0
@@ -12,7 +12,7 @@ specifiers:
   stylelint-prettier: 2.0.0
 
 devDependencies:
-  '@11ty/eleventy': 2.0.0-canary.16
+  '@11ty/eleventy': 2.0.0-canary.17
   '@11ty/eleventy-plugin-rss': 1.2.0
   eslint: 8.27.0
   eslint-config-prettier: 8.5.0_eslint@8.27.0
@@ -39,7 +39,7 @@ packages:
       dev-ip: 1.0.1
       finalhandler: 1.2.0
       mime: 3.0.0
-      minimist: 1.2.6
+      minimist: 1.2.7
       morphdom: 2.6.1
       please-upgrade-node: 3.2.0
       ssri: 8.0.1
@@ -67,8 +67,8 @@ packages:
       normalize-path: 3.0.0
     dev: true
 
-  /@11ty/eleventy/2.0.0-canary.16:
-    resolution: {integrity: sha512-6HXaxmzTYDW0ihzasfa3+SbGeHAF6j7FFwgOnx2cjhwvcFAV2Ci9cZk/lQN9pHCilaI6OgcwOThC7hzjpbro1g==}
+  /@11ty/eleventy/2.0.0-canary.17:
+    resolution: {integrity: sha512-BlUp+r3NEk8h6N4J7BSSibFj1k0uVo9yEoJkPccZMlD6D21rq0Lk8G7aAvcz7MeV7RjeglLtQOgtbT/GUfKUfA==}
     engines: {node: '>=14'}
     hasBin: true
     dependencies:
@@ -95,8 +95,8 @@ packages:
       lodash: 4.17.21
       luxon: 3.1.0
       markdown-it: 13.0.1
-      minimist: 1.2.6
-      moo: 0.5.1
+      minimist: 1.2.7
+      moo: 0.5.2
       multimatch: 5.0.0
       mustache: 4.2.0
       normalize-path: 3.0.0
@@ -107,7 +107,7 @@ packages:
       posthtml-urls: 1.0.0
       pug: 3.0.2
       recursive-copy: 2.0.14
-      semver: 7.3.7
+      semver: 7.3.8
       slugify: 1.6.5
     transitivePeerDependencies:
       - bufferutil
@@ -1134,7 +1134,7 @@ packages:
     engines: {node: '>=0.4.7'}
     hasBin: true
     dependencies:
-      minimist: 1.2.6
+      minimist: 1.2.7
       neo-async: 2.6.2
       source-map: 0.6.1
       wordwrap: 1.0.0
@@ -1617,8 +1617,8 @@ packages:
       kind-of: 6.0.3
     dev: true
 
-  /minimist/1.2.6:
-    resolution: {integrity: sha512-Jsjnk4bw3YJqYzbdyBiNsPWHPfO++UGG749Cxs6peCu5Xg4nrena6OVxOYxrQTqww0Jmwt+Ref8rggumkTLz9Q==}
+  /minimist/1.2.7:
+    resolution: {integrity: sha512-bzfL1YUZsP41gmu/qjrEk0Q6i2ix/cVeAhbCbqH9u3zYutS1cLg00qhrD0M2MVdCcx4Sc0UpP2eBWo9rotpq6g==}
     dev: true
 
   /minipass/3.3.4:
@@ -1632,11 +1632,11 @@ packages:
     resolution: {integrity: sha512-FP+p8RB8OWpF3YZBCrP5gtADmtXApB5AMLn+vdyA+PyxCjrCs00mjyUozssO33cwDeT3wNGdLxJ5M//YqtHAJw==}
     hasBin: true
     dependencies:
-      minimist: 1.2.6
+      minimist: 1.2.7
     dev: true
 
-  /moo/0.5.1:
-    resolution: {integrity: sha512-I1mnb5xn4fO80BH9BLcF0yLypy2UKl+Cb01Fu0hJRkJjlCRtxZMWkTdAtDd5ZqCOxtCkhmRwyI57vWT+1iZ67w==}
+  /moo/0.5.2:
+    resolution: {integrity: sha512-iSAJLHYKnX41mKcJKjqvnAN9sf0LMDTXDEvFv+ffuRR9a1MIuXLjMNL6EsnDHSkKLTWNqQQ5uo61P4EbU4NU+Q==}
     dev: true
 
   /morphdom/2.6.1:
@@ -1696,7 +1696,7 @@ packages:
     dependencies:
       hosted-git-info: 4.0.2
       resolve: 1.20.0
-      semver: 7.3.7
+      semver: 7.3.8
       validate-npm-package-license: 3.0.4
     dev: true
 
@@ -2184,8 +2184,8 @@ packages:
     hasBin: true
     dev: true
 
-  /semver/7.3.7:
-    resolution: {integrity: sha512-QlYTucUYOews+WeEujDoEGziz4K6c47V/Bd+LjSSYcA94p+DmINdf7ncaUinThfvZyu13lN9OY1XDxt8C0Tw0g==}
+  /semver/7.3.8:
+    resolution: {integrity: sha512-NB1ctGL5rlHrPJtFDVIVzTyQylMLu9N9VICA6HSFJo8MCGVTMW6gfpicwKmmK/dAjTOrqu5l63JJOpDSrAis3A==}
     engines: {node: '>=10'}
     hasBin: true
     dependencies:
