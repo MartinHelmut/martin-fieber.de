@@ -34,7 +34,7 @@
   "devDependencies": {
     "@11ty/eleventy": "2.0.0-canary.17",
     "@11ty/eleventy-plugin-rss": "1.2.0",
-    "eslint": "8.27.0",
+    "eslint": "8.28.0",
     "eslint-config-prettier": "8.5.0",
     "eslint-plugin-html": "7.1.0",
     "luxon": "3.1.0",
