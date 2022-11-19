@@ -1,7 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@11ty/eleventy': 2.0.0-canary.17
+  '@11ty/eleventy': 2.0.0-canary.18
   '@11ty/eleventy-plugin-rss': 1.2.0
   eslint: 8.28.0
   eslint-config-prettier: 8.5.0
@@ -12,7 +12,7 @@ specifiers:
   stylelint-prettier: 2.0.0
 
 devDependencies:
-  '@11ty/eleventy': 2.0.0-canary.17
+  '@11ty/eleventy': 2.0.0-canary.18
   '@11ty/eleventy-plugin-rss': 1.2.0
   eslint: 8.28.0
   eslint-config-prettier: 8.5.0_eslint@8.28.0
@@ -67,8 +67,8 @@ packages:
       normalize-path: 3.0.0
     dev: true
 
-  /@11ty/eleventy/2.0.0-canary.17:
-    resolution: {integrity: sha512-BlUp+r3NEk8h6N4J7BSSibFj1k0uVo9yEoJkPccZMlD6D21rq0Lk8G7aAvcz7MeV7RjeglLtQOgtbT/GUfKUfA==}
+  /@11ty/eleventy/2.0.0-canary.18:
+    resolution: {integrity: sha512-kolnvYrxYYu1Qgt40MDCImx2o1fVcOJq0plH9urFi+P+Xw+uedJ5gauBrjIG7aBP8RD8CMN6zFz19Bn4o4oG+w==}
     engines: {node: '>=14'}
     hasBin: true
     dependencies:
