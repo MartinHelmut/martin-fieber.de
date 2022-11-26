@@ -242,6 +242,11 @@ picture {
   display: block;
 }
 
+picture + figure,
+picture + p {
+  margin-top: var(--size-500);
+}
+
 @media (min-width: 660px) {
   picture {
     margin: 0;
