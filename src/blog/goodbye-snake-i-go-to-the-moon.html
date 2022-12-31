@@ -1,6 +1,6 @@
 ---
 date: 2022-08-30
-lastmod: 2022-09-24
+lastmod: 2022-12-31
 title: "Goodbye snake, I go to the moon"
 description: "I started using Lua after increasing frustration with Python. Using it now for a while, it became my go-to scripting language."
 image: "/assets/blog/lua/title-card.png"
@@ -90,7 +90,7 @@ Lua 5.4.4  Copyright (C) 1994-2022 Lua.org, PUC-Rio</code></pre>
   <a
     href="https://en.wikipedia.org/wiki/Read–eval–print_loop"
     title="Wikipedia article about the Read–eval–print loop"
-    ><abbr>REPL</abbr></a
+    ><abbr title="Read–eval–print loop">REPL</abbr></a
   >
   with the <code>lua</code> command.
 </p>
@@ -121,7 +121,7 @@ Hello, reader!</code></pre>
 <p>
   I will install all packages inside a <code>lua_modules</code> folder in the
   root of a project, using the <code>--tree</code> option of the LuaRocks
-  <abbr>CLI</abbr>. As an example, installing the
+  <abbr title="command line interface">CLI</abbr>. As an example, installing the
   <a
     href="https://luarocks.org/modules/kikito/inspect"
     title="LuaRocks page for the inspect module."
@@ -136,7 +136,7 @@ Hello, reader!</code></pre>
   For Lua to find any local package on require, the search paths need to be set.
   This can be done by defining a setup module (can have any name), that will be
   loaded when executing a script through the <code>-l</code> option of the Lua
-  <abbr>CLI</abbr>.
+  <abbr title="command line interface">CLI</abbr>.
 </p>
 <figure>
   <pre><code class="language-lua hljs">-- setup.lua

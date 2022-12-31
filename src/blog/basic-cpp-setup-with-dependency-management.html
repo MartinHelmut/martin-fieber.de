@@ -1,6 +1,6 @@
 ---
 date: 2022-07-03
-lastmod: 2022-09-24
+lastmod: 2022-12-31
 title: "Basic C++ setup with dependency management in CMake"
 description: "Setting up a proper C++ environment can be a challenge for a newcomer. This is my try on showing with what I came up with."
 linkTitle: "I try creating a setup for myself that scales and is flexible enough to met all my needs."
@@ -471,8 +471,8 @@ CheckOptions:
 <p>
   This will add needed source files to create a static library. I like splitting
   my code into smaller libraries, like <em>"core"</em>,
-  <em>"<abbr>ui</abbr>"</em>, <em>"rendering"</em>, etc. to
-  <strong>create logical chunks</strong>, but also
+  <em>"<abbr title="user interface">ui</abbr>"</em>, <em>"rendering"</em>, etc.
+  to <strong>create logical chunks</strong>, but also
   <strong>keep build times lower</strong>. This is due to only libraries with
   changed files need to be rebuilt, otherwise they will only be linked.
 </p>
@@ -645,8 +645,9 @@ add_subdirectory(fmt)</code></pre>
     title="CMake documentation about FetchContent_Declare"
     >FetchContent_Declare</a
   >
-  not only Git repositories can be used, also <abbr>SVN</abbr> or any
-  <abbr>URL</abbr> really containing an archive (e.g. a tar.gz file).
+  not only Git repositories can be used, also
+  <abbr title="Apache Subversion">SVN</abbr> or any <abbr>URL</abbr> really
+  containing an archive (e.g. a tar.gz file).
 </p>
 <p>
   The benefit with FetchContent is that dependencies are fetched only once on
