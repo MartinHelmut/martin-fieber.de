@@ -8,7 +8,7 @@ imageAlt: "Top part of an application window with a menu and a panel named 'Some
 linkTitle: "Creating end-user GUI applications with Dear ImGui and SDL2."
 banner: "/assets/blog/gui-development-with-cpp/banner"
 bannerAlt: "The final application that will be built in this post."
-summary: "<p>Always being overwhelmed creating <abbr title="Graphical user interface">GUI</abbr> applications in C++, I finally found a way that works pretty well for me. That opinionated way will be shown in this post.</p>"
+summary: "<p>Always being overwhelmed creating <abbr title='Graphical user interface'>GUI</abbr> applications in C++, I finally found a way that works pretty well for me. That opinionated way will be shown in this post.</p>"
 hasCode: true
 tags: ["post", "cpp"]
 ---
@@ -451,7 +451,7 @@ SDL_Renderer* Window::get_native_renderer() const {
 }</code></pre>
 </figure>
 <p>
-  First step is to actually create a window &#8212; it should be resizable and
+  First step is to actually create a window &mdash; it should be resizable and
   work on high DPI displays, like Retina displays. Besides that, the window will
   be created centered on the screen with the provided settings for size and
   window title.
@@ -675,7 +675,7 @@ int App::Application::run() {
 }</code></pre>
 </figure>
 <p>
-  Inside the main loop will be the event polling &#8212; the
+  Inside the main loop will be the event polling &mdash; the
   <code>SDL_QUIT</code> event will stop the main loop by calling
   <code>stop()</code> from <code>Application</code>.
 </p>
@@ -897,7 +897,7 @@ $ cd build/debug/src/app && ./App</code></pre>
   // ...</code></pre>
 </figure>
 <p>
-  There it is, in all <strong>it's tiny</strong> glory &#8212; looking too small
+  There it is, in all <strong>it's tiny</strong> glory &mdash; looking too small
   and not reacting to any click of the mouse. The reason for this is that the
   <abbr>SDL2</abbr> renderer-scale is not yet adjusted to my Retina display on
   Mac. Let's fix it next.
