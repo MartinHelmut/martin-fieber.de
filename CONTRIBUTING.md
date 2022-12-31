@@ -89,8 +89,8 @@ Using `ffmpeg` videos can be converted to WebM videos in two steps, saving a lot
 
 ```shell
 cd into/folder/with/video
-ffmpeg  -i NAME.mp4  -b:v 0  -crf 30  -pass 1  -an -f webm -y /dev/null
-ffmpeg  -i NAME.mp4  -b:v 0  -crf 30  -pass 2  NAME.webm
+ffmpeg -i NAME.mp4 -b:v 0 -crf 30 -pass 1 -an -f webm -y /dev/null
+ffmpeg -i NAME.mp4 -b:v 0 -crf 30 -pass 2 NAME.webm
 ```
 
 ## Be Nice
