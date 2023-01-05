@@ -1,7 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@11ty/eleventy': 2.0.0-canary.23
+  '@11ty/eleventy': 2.0.0-canary.24
   '@11ty/eleventy-plugin-rss': 1.2.0
   eslint: 8.31.0
   eslint-config-prettier: 8.6.0
@@ -12,7 +12,7 @@ specifiers:
   stylelint-prettier: 2.0.0
 
 devDependencies:
-  '@11ty/eleventy': 2.0.0-canary.23
+  '@11ty/eleventy': 2.0.0-canary.24
   '@11ty/eleventy-plugin-rss': 1.2.0
   eslint: 8.31.0
   eslint-config-prettier: 8.6.0_eslint@8.31.0
@@ -67,8 +67,8 @@ packages:
       normalize-path: 3.0.0
     dev: true
 
-  /@11ty/eleventy/2.0.0-canary.23:
-    resolution: {integrity: sha512-Vl8L/NjBvIgMusE3uBvWFCmUmiNw7OE6k1Dz9vRindqviJY9g77A8AFft7YEVPs7oVilzQFHVqtGeQigOrm6SA==}
+  /@11ty/eleventy/2.0.0-canary.24:
+    resolution: {integrity: sha512-nk2hF4twZCAlGeB5DClzXqMhz8lGGk91kItq8pwDPSY2tFAvNZdeawLhDUDjAQ7z75bn4BlWdHSJQ1mfQcBtAQ==}
     engines: {node: '>=14'}
     hasBin: true
     dependencies:
@@ -91,7 +91,7 @@ packages:
       is-glob: 4.0.3
       iso-639-1: 2.1.15
       kleur: 4.1.5
-      liquidjs: 10.3.3
+      liquidjs: 10.4.0
       lodash.chunk: 4.2.0
       lodash.get: 4.4.2
       lodash.set: 4.3.2
@@ -1465,8 +1465,8 @@ packages:
       uc.micro: 1.0.6
     dev: true
 
-  /liquidjs/10.3.3:
-    resolution: {integrity: sha512-o6s4rOn81x0FlF9SJEQEx3f/j3iL0Iq3zqOsbFEcsoi7Ivn6jEXBEi2Xl5k0oYc7KqYS54uGOa9XC4Ahk7zdFA==}
+  /liquidjs/10.4.0:
+    resolution: {integrity: sha512-4fpR8KFJ96bXkzynK9Yo1jwn7sjOkJfKawSbEXINc39DZfy7r5SYtcAM5T/Ccg5n0xoZf6ap5Gap4VwFCJiQ1g==}
     engines: {node: '>=14'}
     hasBin: true
     dev: true
