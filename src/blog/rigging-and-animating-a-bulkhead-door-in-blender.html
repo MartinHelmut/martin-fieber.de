@@ -1,0 +1,612 @@
+---
+date: 2023-01-24
+title: "Rigging and animating a bulkhead door in Blender"
+description: "Excited learning about rigging and animation in Blender, it feels like it took forever to come here. But a journey well worth for sure."
+image: "/assets/blog/bulkhead-door-part3/title-card.png"
+imageAlt: "A screenshot of Blender, showing a part of the bulkhead door with an armature rendered in front of it. The armature is selected and the Drivers panel is open."
+linkTitle: "On the long journey learning Blender, I will dive into rigging and animation."
+banner: "/assets/blog/bulkhead-door-part3/banner"
+bannerAlt: "A screenshot of Blender, showing a part of the bulkhead door with a selected armature rendered in front of it."
+summary: "<p>Having the bulkhead door modeled and textured, all I have so far are a few static images. Time for rigging and animating the door, finally adding life to it.</p>"
+hasImageCompare: true
+tags: ["post", "3d", "bulkhead"]
+series: { name: bulkhead, part: 3 }
+---
+
+<figure>
+  <picture>
+    <source
+      type="image/webp"
+      srcset="/assets/blog/bulkhead-door-part3/banner.webp"
+    />
+    <img
+      src="/assets/blog/bulkhead-door-part3/banner.png"
+      alt="{{ bannerAlt }}"
+      width="1024"
+      height="300"
+    />
+  </picture>
+  <figcaption>One of the armatures I added to the door.</figcaption>
+</figure>
+
+<h3>I like to move it</h3>
+<p>
+  Move it! By <strong>rigging and animating the door</strong>, or learning how
+  to do it first. After
+  <a
+    href="https://martin-fieber.de/blog/bulkhead-door-with-blender-part-1/"
+    title="Creating the base mesh for the bulkhead door as drawn by Ron Cobb."
+    >part one, creating the mesh</a
+  >; and
+  <a
+    href="https://martin-fieber.de/blog/my-journey-learning-3d-materials-textures/"
+    title="Adding textures to the door and giving it my own spin."
+    >part two, texturing the bulkhead door</a
+  >; I was ready to finally animate the door in Blender. Looking at what I've
+  got so far I've &hellip; wait a second, I did the main door wrong.
+</p>
+<p>
+  On closer inspection of Ron Cobb's sketch, my wife pointed out that the
+  shadows on the door, what I thought are extruded parts, are actually insets.
+</p>
+<figure>
+  <div data-compare-image="#6200ee,53">
+    <picture>
+      <source
+        type="image/webp"
+        srcset="/assets/blog/bulkhead-door-part3/bulkhead-door-reference.webp"
+      />
+      <img
+        src="/assets/blog/bulkhead-door-part3/bulkhead-door-reference.png"
+        alt="Part of the bulkhead door sketch from Ron Cobb. In the middle a part of the outer door is highlighted, showing parts of it inset into the surface."
+        width="1024"
+        height="1024"
+        loading="lazy"
+      />
+    </picture>
+    <picture>
+      <source
+        type="image/webp"
+        srcset="/assets/blog/bulkhead-door-part3/bulkhead-door-my-version.webp"
+      />
+      <img
+        src="/assets/blog/bulkhead-door-part3/bulkhead-door-my-version.png"
+        alt="Part of my bulkhead door model I made in Blender. In the middle, the outer door is highlighted, showing parts of it extruded from the surface."
+        width="1024"
+        height="1024"
+        loading="lazy"
+      />
+    </picture>
+  </div>
+  <figcaption>Comparing the sketch to my mesh I created, again.</figcaption>
+</figure>
+<p>
+  Does that mean I have to redo parts of the door? I didn't think so, at first,
+  but the ever growing <strong>whisper of doubt</strong> crept into my ear. I
+  cannot un-see it, I will always know the mistake I made. In the first part of
+  this article series I wrote:
+</p>
+<figure>
+  <blockquote
+    cite="https://martin-fieber.de/blog/bulkhead-door-with-blender-part-1/"
+  >
+    <p>
+      What I wanted was to recreate his drawing as good as I could, as close as
+      possible, and this is what I set out to do.
+    </p>
+  </blockquote>
+</figure>
+<p>And this is what I will set out to do indeed.</p>
+
+<h3>New year, new &hellip; door?</h3>
+<p>
+  Looking at the drawing again, I found another oversight &mdash; a small inset
+  running around the edge of the main frame of the door. With the extrusions on
+  the door, that are actually insets, this makes two mistakes I have to correct.
+</p>
+<figure>
+  <picture>
+    <source
+      type="image/webp"
+      srcset="/assets/blog/bulkhead-door-part3/bulkhead-missing-rim.webp"
+    />
+    <img
+      src="/assets/blog/bulkhead-door-part3/bulkhead-missing-rim.png"
+      alt="Image showing a comparison between Ron Cobb's sketch and my mesh. Highlighted is the rim around the main door-frame, compared to my model without."
+      width="1024"
+      height="500"
+      loading="lazy"
+    />
+  </picture>
+  <figcaption>
+    My main door-frame misses the inset rim around the entrance.
+  </figcaption>
+</figure>
+<div class="aside-ref">
+  <p>
+    Taking this as an opportunity, and applying
+    <strong>all I learned throughout last year</strong>, I wanted to recreate
+    the main door and change the frame. While on it, I will also rework parts of
+    my topology and fully redo my, as I know now, horrible <abbr>UVs</abbr>*.
+  </p>
+  <aside>
+    <p>
+      *Horrible, among other things, because there were stretches and obvious
+      seams.
+    </p>
+  </aside>
+</div>
+<p>
+  Adding the inset around the main door-frame's edge was quickly done. The
+  actual door I <strong>rebuild from scratch</strong>, this time having inset
+  parts on the surface of the door, similar to the inner barrier doors. I also
+  reduced the segment count on all bevels, decreasing the overall poly-count, as
+  I want to use the door in a game engine.
+</p>
+<figure>
+  <div data-compare-image="#fff,50">
+    <picture>
+      <source
+        type="image/webp"
+        srcset="/assets/blog/bulkhead-door-part3/bulkhead-outer-before.webp"
+      />
+      <img
+        src="/assets/blog/bulkhead-door-part3/bulkhead-outer-before.png"
+        alt="My textured bulkhead door mesh with extruded parts on the surface of the main door."
+        width="1024"
+        height="1024"
+        loading="lazy"
+      />
+    </picture>
+    <picture>
+      <source
+        type="image/webp"
+        srcset="/assets/blog/bulkhead-door-part3/bulkhead-outer-after.webp"
+      />
+      <img
+        src="/assets/blog/bulkhead-door-part3/bulkhead-outer-after.png"
+        alt="My textured bulkhead door mesh with inset parts on the surface of the main door and reworked proportions."
+        width="1024"
+        height="1024"
+        loading="lazy"
+      />
+    </picture>
+  </div>
+  <figcaption>
+    On the left the old version, on the right the new. I also moved some
+    elements and reworked the proportions of the door.
+  </figcaption>
+</figure>
+<p>
+  Here the <strong>final version</strong>, both with extracted barrier doors and
+  the main door closed.
+</p>
+<figure>
+  <div data-compare-image="#fff,50">
+    <picture>
+      <source
+        type="image/webp"
+        srcset="
+          /assets/blog/bulkhead-door-part3/bulkhead-outer-final-final-2.webp
+        "
+      />
+      <img
+        src="/assets/blog/bulkhead-door-part3/bulkhead-outer-final-final-2.png"
+        alt="The textured bulkhead door with closed outer door in its final form. The frame of the door is a dark grey, the main door an off-silver."
+        width="1024"
+        height="1024"
+        loading="lazy"
+      />
+    </picture>
+    <picture>
+      <source
+        type="image/webp"
+        srcset="
+          /assets/blog/bulkhead-door-part3/bulkhead-inner-final-final-2.webp
+        "
+      />
+      <img
+        src="/assets/blog/bulkhead-door-part3/bulkhead-inner-final-final-2.png"
+        alt="The textured bulkhead door with open outer door in its final form. The frame of the door is a dark grey, the inner barrier doors are red with white diagonal warning stripes."
+        width="1024"
+        height="1024"
+        loading="lazy"
+      />
+    </picture>
+  </div>
+  <figcaption>
+    The final form of my door, both with closed and open main door.
+  </figcaption>
+</figure>
+<p>
+  Happy, knowing I did what I could to finally recreate Ron Cobb's drawing as
+  close as possible, I was able to move on, as I already did twice in the
+  previous articles of this series.
+</p>
+
+<h3>Stop! Render time.</h3>
+<p>
+  While texturing the door, even though happy with the workflow provided by
+  <a
+    href="https://www.blendermarket.com/products/fluent-materializer"
+    title="The add-on main page on BlenderMarket."
+    >Fluent: Materializer</a
+  >, there was one thing that kept me worried: my render times.
+  <strong>Every single render</strong> I did from the door
+  <strong>took roughly 15 to 25 minutes</strong> on my machine, an Apple MacBook
+  Air with M1 chip. This was due to the procedural materials and limitations of
+  my system, so I assumed.
+</p>
+<p>
+  A reasonable fix should be by baking the procedural materials to static
+  textures. Even though
+  <a
+    href="https://cgthoughts.com/fluent/materializer/doc/baking_tool/"
+    title="Official add-on documentation website about baking support."
+    >Fluent: Materializer comes with baking support</a
+  >, this <strong>never really worked for me</strong>. The main issue was that I
+  was only able to bake one material at a time. In the end I wanted to have one
+  texture for everything.
+</p>
+<p>
+  One way I could solve that is by baking every material, one at a time, and
+  with some image processing software combine those images into one texture.
+  Thinking about an efficient workflow, this did <strong>not</strong> struck me
+  as a scalable approach.
+</p>
+
+<h3>Simple bake, with SimpleBake</h3>
+<p>
+  The
+  <a
+    href="https://blendermarket.com/products/simplebake---simple-pbr-and-other-baking-in-blender-2"
+    title="Official add-on website for SimpleBake on BlenderMarket."
+    >Blender add-on SimpleBake</a
+  >
+  got my back &mdash; no affiliation, just a happy user. To use it I had to
+  prepare some things. For one, I needed to ensure that my <abbr>UVs</abbr> do
+  not have any overlapping islands; after my last rework this was easy enough
+  and already done.
+</p>
+<figure>
+  <picture>
+    <source
+      type="image/webp"
+      srcset="/assets/blog/bulkhead-door-part3/bulkhead-uv-islands.webp"
+    />
+    <img
+      src="/assets/blog/bulkhead-door-part3/bulkhead-uv-islands.png"
+      alt="Image showing the UV view in Blender, in blue colors the UV islands of the bulkhead door. On the right the settings panel of UVPackmaster 3."
+      width="1024"
+      height="740"
+      loading="lazy"
+    />
+  </picture>
+  <figcaption>
+    Still learning, and <abbr>UVs</abbr> are hard. I acknowledge the empty space
+    could be used better.
+  </figcaption>
+</figure>
+<p>
+  Second and last I needed to <strong>configure SimpleBake</strong>; give it a
+  list of objects to bake, what textures to create, texture resolution, how to
+  export, and if a copy of the objects with the applied textures should be
+  created inside the project.
+</p>
+<figure>
+  <picture>
+    <source
+      type="image/webp"
+      srcset="/assets/blog/bulkhead-door-part3/blender-simplebake-settings.webp"
+    />
+    <img
+      src="/assets/blog/bulkhead-door-part3/blender-simplebake-settings.png"
+      alt="Image shows a run-down of all the settings for SimpleBake I applied, to give an example. The details are not really important here."
+      width="1024"
+      height="843"
+      loading="lazy"
+    />
+  </picture>
+  <figcaption>
+    Quite some settings to adjust, but needs to only happen once.
+  </figcaption>
+</figure>
+<p>
+  After having this set up once for the project, I can
+  <strong>bake and re-bake textures with one click</strong>. The results were
+  amazing &mdash; my render times went
+  <strong>from extremes like 25 minutes to 1 minute max</strong> with the static
+  textures applied.
+</p>
+<figure>
+  <div data-compare-image="#fff,50">
+    <picture>
+      <source
+        type="image/webp"
+        srcset="/assets/blog/bulkhead-door-part3/bulkhead-baked-outer.webp"
+      />
+      <img
+        src="/assets/blog/bulkhead-door-part3/bulkhead-baked-outer.png"
+        alt="The texture-baked bulkhead door with closed outer door in its final form. The frame of the door is a dark grey, the main door an off-silver."
+        width="1024"
+        height="1024"
+        loading="lazy"
+      />
+    </picture>
+    <picture>
+      <source
+        type="image/webp"
+        srcset="/assets/blog/bulkhead-door-part3/bulkhead-baked-inner.webp"
+      />
+      <img
+        src="/assets/blog/bulkhead-door-part3/bulkhead-baked-inner.png"
+        alt="The texture-baked bulkhead door with open outer door in its final form. The frame of the door is a dark grey, the inner barrier doors are red with white diagonal warning stripes."
+        width="1024"
+        height="1024"
+        loading="lazy"
+      />
+    </picture>
+  </div>
+  <figcaption>
+    All textures are baked, the door still looks like before, but renders a lot
+    faster.
+  </figcaption>
+</figure>
+<p>
+  Being now able to quickly render the door, my worries baked away, I could
+  continue with rigging.
+</p>
+
+<h3>Bones and Drivers</h3>
+<p>
+  Before I found the
+  <a
+    href="https://youtube.com/playlist?list=PLbjn7kaP877u1sX4zl081V8jUeSHDY18G"
+    title="YouTube playlist about rigging and drivers in Blender from Level Pixel Level."
+    >Drivers Master Class for Blender</a
+  >
+  video series from
+  <a
+    href="https://www.youtube.com/@LevelPixelLevel"
+    title="YouTube channel of Level Pixel Level."
+    >Level Pixel Level</a
+  >
+  I thought armatures and drivers where pure magic. Now that I went through that
+  playlist, <strong>getting myself familiar with drivers</strong>, it still
+  feels like magic, but right at my fingertips. Applying what I've learned, I
+  threw some bones, or armatures, on my door.
+</p>
+<figure>
+  <picture>
+    <source
+      type="image/webp"
+      srcset="/assets/blog/bulkhead-door-part3/bulkhead-armatures.webp"
+    />
+    <img
+      src="/assets/blog/bulkhead-door-part3/bulkhead-armatures.png"
+      alt="The Blender viewport showing the clay version of the bulkhead door. All added armatures are rendered on top of the door."
+      width="1024"
+      height="790"
+      loading="lazy"
+    />
+  </picture>
+  <figcaption>My doors bones, rendered in front of the mesh.</figcaption>
+</figure>
+<p>
+  The plan then was to <em>"drive"</em> those bones through a
+  <em>controller</em>, keeping everything together by a set of
+  <em>constrains</em>. Starting of by right-clicking on the bones y-location to
+  add a driver.
+</p>
+<figure>
+  <picture>
+    <source
+      type="image/webp"
+      srcset="/assets/blog/bulkhead-door-part3/bulkhead-adding-driver.webp"
+    />
+    <img
+      src="/assets/blog/bulkhead-door-part3/bulkhead-adding-driver.png"
+      alt="The viewport of Blender, showing a part of the bulkhead door with an armature rendered in front of it. The armature is selected and the Drivers- and N-panel is open."
+      width="1024"
+      height="783"
+      loading="lazy"
+    />
+  </picture>
+  <figcaption>
+    Adding a driver to the y-location, highlighted in purple.
+  </figcaption>
+</figure>
+<p>
+  In the <em>Drivers</em> panel I defined the <em>"scripted expression"</em>,
+  connected it to my <em>controller</em>, and added limits to the movement of
+  the bone to drive.
+</p>
+<figure>
+  <picture>
+    <source
+      type="image/webp"
+      srcset="/assets/blog/bulkhead-door-part3/bulkhead-driver-settings.webp"
+    />
+    <img
+      src="/assets/blog/bulkhead-door-part3/bulkhead-driver-settings.png"
+      alt="Image shows two settings panels for the bone driver, setting up the expression on controller on the left, and the limits on the right."
+      width="1024"
+      height="453"
+      loading="lazy"
+    />
+  </picture>
+  <figcaption>Example of the settings for my driver.</figcaption>
+</figure>
+<p>
+  For the <em>controller</em> I created an arrow out of a plane, to which all
+  bones are connected by there respective <em>driver</em>. The arrow also gets
+  an <strong>object constraint</strong> to limit the movement, just for my own
+  convenience.
+</p>
+<figure>
+  <picture>
+    <source
+      type="image/webp"
+      srcset="/assets/blog/bulkhead-door-part3/bulkhead-controller.webp"
+    />
+    <img
+      src="/assets/blog/bulkhead-door-part3/bulkhead-controller.png"
+      alt="Part of the Blender viewport showing a green arrow to control the door and the open constrains panel."
+      width="1024"
+      height="380"
+      loading="lazy"
+    />
+  </picture>
+  <figcaption>The green arrow I will use to control the door.</figcaption>
+</figure>
+<p>
+  Moving the arrow on the y-axis will move all bones of the door, as defined by
+  the driver expression.
+</p>
+<figure>
+  <video
+    controls
+    width="1008"
+    height="720"
+    poster="/assets/blog/bulkhead-door-part3/bulkhead-animation-controller-poster.png"
+  >
+    <source
+      src="/assets/blog/bulkhead-door-part3/bulkhead-animation-controller.webm"
+      type="video/webm"
+    />
+    <source
+      src="/assets/blog/bulkhead-door-part3/bulkhead-animation-controller.mp4"
+      type="video/mp4"
+    />
+    It appears your browser doesn't support embedded videos.
+  </video>
+  <figcaption>
+    Showing the controller in action, driving the bones of the door.
+  </figcaption>
+</figure>
+<p>
+  All in all, drivers felt somewhat natural &mdash; with functions and
+  properties, resembling programming to a degree, giving me a kind of
+  familiarity.
+</p>
+
+<h3>Move it!</h3>
+<p>
+  Having the door-rig ready, I used the controller to drive the animation of the
+  door. I know there are <strong>many ways to do this</strong>, but this way
+  felt like a solid choice for me at the time.
+</p>
+<figure>
+  <video
+    controls
+    width="1008"
+    height="720"
+    poster="/assets/blog/bulkhead-door-part3/bulkhead-animation-setup-poster.png"
+  >
+    <source
+      src="/assets/blog/bulkhead-door-part3/bulkhead-animation-setup.webm"
+      type="video/webm"
+    />
+    <source
+      src="/assets/blog/bulkhead-door-part3/bulkhead-animation-setup.mp4"
+      type="video/mp4"
+    />
+    It appears your browser doesn't support embedded videos.
+  </video>
+  <figcaption>Animating the door through the controller.</figcaption>
+</figure>
+<p>
+  Watching my animation too many times left me feel
+  <strong>somewhat unsatisfied</strong>. I looked at a lot of reference doors,
+  tried to tweak the animation timing, made it that parts of the door animate at
+  different times; all to get a more natural feel of the door moving.
+</p>
+<p>
+  I'm not quite there yet, but will continue nonetheless. Maybe future me has
+  some good ideas improving the animation further.
+</p>
+
+<h3>Final animation</h3>
+<p>
+  Door rigged, animation set up, <strong>time to hit export</strong>. For this I
+  export an image sequence I then combined to a movie through Blenders
+  <em>Video Editing</em> view.
+</p>
+<figure>
+  <picture>
+    <source
+      type="image/webp"
+      srcset="
+        /assets/blog/bulkhead-door-part3/bulkhead-animation-export-settings.webp
+      "
+    />
+    <img
+      src="/assets/blog/bulkhead-door-part3/bulkhead-animation-export-settings.png"
+      alt="Image showing the settings I used in Blender to export my animation as image sequence. As a base it needs the frame rate and range, where to output all the frames, and the file format."
+      width="1024"
+      height="399"
+      loading="lazy"
+    />
+  </picture>
+  <figcaption>The export settings for my animation.</figcaption>
+</figure>
+<p>
+  I took the final movie of the animation into
+  <a
+    href="https://www.blackmagicdesign.com/se/products/davinciresolve/whatsnew"
+    title="Website for DaVinci Resolve from Blackmagic Design."
+    >DaVinci Resolve 18</a
+  >, using it to make some slight color corrections.
+</p>
+<figure>
+  <picture>
+    <source
+      type="image/webp"
+      srcset="/assets/blog/bulkhead-door-part3/davinci-resolve.webp"
+    />
+    <img
+      src="/assets/blog/bulkhead-door-part3/davinci-resolve.png"
+      alt="Image showing the final animation open in the window of DaVinci Resolve 18."
+      width="1024"
+      height="685"
+      loading="lazy"
+    />
+  </picture>
+  <figcaption>
+    Some last corrections of the animation. Mostly because I also wanted to
+    learn a bit of DaVinci Resolve 18.
+  </figcaption>
+</figure>
+<p>
+  And this is it, here is <strong>my final render</strong> of the bulkhead door
+  animation.
+</p>
+<figure>
+  <video
+    controls
+    width="1008"
+    height="720"
+    poster="/assets/blog/bulkhead-door-part3/bulkhead-final-animation-poster.png"
+  >
+    <source
+      src="/assets/blog/bulkhead-door-part3/bulkhead-final-animation.webm"
+      type="video/webm"
+    />
+    <source
+      src="/assets/blog/bulkhead-door-part3/bulkhead-final-animation.mp4"
+      type="video/mp4"
+    />
+    It appears your browser doesn't support embedded videos.
+  </video>
+  <figcaption>It feels strange to me seeing it finally move.</figcaption>
+</figure>
+
+<h3>What comes next?</h3>
+<p>
+  After having the basics of rigging, animation, and drivers covered, I want to
+  deepen that knowledge &mdash; getting more modelling experience can't hurt
+  either. Therefore, my next step will be to
+  <strong>model a hallway</strong> incorporating the door, add some slight
+  <abbr>VFX</abbr>, and animate a camera moving through the environment.
+</p>
+<p>But that will be in part 4 of the project. Until then 👋🏻</p>
