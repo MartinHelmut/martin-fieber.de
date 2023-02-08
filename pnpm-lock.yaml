@@ -7,7 +7,7 @@ specifiers:
   eslint-config-prettier: 8.6.0
   eslint-plugin-html: 7.1.0
   luxon: 3.2.1
-  prettier: 2.8.3
+  prettier: 2.8.4
   stylelint: 14.16.1
   stylelint-prettier: 2.0.0
 
@@ -18,9 +18,9 @@ devDependencies:
   eslint-config-prettier: 8.6.0_eslint@8.33.0
   eslint-plugin-html: 7.1.0
   luxon: 3.2.1
-  prettier: 2.8.3
+  prettier: 2.8.4
   stylelint: 14.16.1
-  stylelint-prettier: 2.0.0_hzc4avq63uavvrxva5ujb3uabe
+  stylelint-prettier: 2.0.0_dolz6rwlo5u24hf4fhkbpcxlqi
 
 packages:
 
@@ -1951,8 +1951,8 @@ packages:
       fast-diff: 1.2.0
     dev: true
 
-  /prettier/2.8.3:
-    resolution: {integrity: sha512-tJ/oJ4amDihPoufT5sM0Z1SKEuKay8LfVAMlbbhnnkvt6BUserZylqo2PN+p9KeljLr0OHa2rXHU1T8reeoTrw==}
+  /prettier/2.8.4:
+    resolution: {integrity: sha512-vIS4Rlc2FNh0BySk3Wkd6xmwxB0FpOndW5fisM5H8hsZSxU2VWVB5CWIkIjWvrHjIhxk2g3bfMKM87zNTrZddw==}
     engines: {node: '>=10.13.0'}
     hasBin: true
     dev: true
@@ -2328,14 +2328,14 @@ packages:
     resolution: {integrity: sha512-Dj1Okke1C3uKKwQcetra4jSuk0DqbzbYtXipzFlFMZtowbF1x7BKJwB9AayVMyFARvU8EDrZdcax4At/452cAg==}
     dev: true
 
-  /stylelint-prettier/2.0.0_hzc4avq63uavvrxva5ujb3uabe:
+  /stylelint-prettier/2.0.0_dolz6rwlo5u24hf4fhkbpcxlqi:
     resolution: {integrity: sha512-jvT3G+9lopkeB0ARmDPszyfaOnvnIF+30QCjZxyt7E6fynI1T9mOKgYDNb9bXX17M7PXMZaX3j/26wqakjp1tw==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     peerDependencies:
       prettier: '>=2.0.0'
       stylelint: '>=14.0.0'
     dependencies:
-      prettier: 2.8.3
+      prettier: 2.8.4
       prettier-linter-helpers: 1.0.0
       stylelint: 14.16.1
     dev: true
