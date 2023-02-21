@@ -118,6 +118,7 @@ tags: ["post", "general"]
   <pre><code class="language-css hljs">:root {
   /* Other variables ... */
 
+  --color-blue-100: #f5f1ff;
   --color-blue-300: #7232ff;
   --color-blue-500: #6200ee;
   --color-blue-700: #5200ac;
@@ -154,6 +155,16 @@ tags: ["post", "general"]
   }
 </style>
 <ul class="color-list">
+  <li>
+    <div
+      style="
+        background-color: var(--color-blue-100);
+        color: var(--color-grey-900);
+      "
+    >
+      --color-blue-100
+    </div>
+  </li>
   <li>
     <div style="background-color: var(--color-blue-300)">--color-blue-300</div>
   </li>
@@ -344,6 +355,35 @@ blockquote + figcaption {
     &mdash;TV Tropes, &lt;cite&gt;Cassette Futurism&lt;/cite&gt;
   &lt;/figcaption&gt;
 &lt;/figure&gt;</code></pre>
+</figure>
+
+<h5>Callout</h5>
+<p>
+  The callout is used to bring focus to important information, most often used
+  in a tutorial or similar knowledge focused articles.
+</p>
+<figure>
+  <pre><code class="language-css hljs">.callout {
+  border: 1px solid var(--color-blue-500);
+  border-radius: var(--size-300);
+  background: var(--color-blue-100);
+  padding: var(--size-400);
+}
+
+.callout h5 {
+  color: var(--color-blue-500);
+  margin-bottom: var(--size-300);
+}</code></pre>
+</figure>
+<aside class="callout">
+  <h5>&#9432; This is a callout</h5>
+  <p>And this is the content of the callout.</p>
+</aside>
+<figure>
+  <pre><code class="language-html hljs">&lt;aside class="callout"&gt;
+  &lt;h5&gt;&#9432; This is a callout&lt;/h5&gt;
+  &lt;p&gt;And this is the content of the callout.&lt;/p&gt;
+&lt;/aside&gt;</code></pre>
 </figure>
 
 <h5>Strong</h5>

@@ -17,6 +17,7 @@
   --size-700: 40px;
 
   /* Colors */
+  --color-blue-100: #f5f1ff;
   --color-blue-300: #7232ff;
   --color-blue-500: #6200ee;
   --color-blue-700: #5200ac;
@@ -77,6 +78,18 @@ aside {
   border-bottom: solid 1px var(--color-grey-300);
   margin-bottom: var(--size-500);
   padding: var(--size-400) 0;
+}
+
+.callout {
+  border: 1px solid var(--color-blue-500);
+  border-radius: var(--size-300);
+  background: var(--color-blue-100);
+  padding: var(--size-400);
+}
+
+.callout h5 {
+  color: var(--color-blue-500);
+  margin-bottom: var(--size-300);
 }
 
 /**
@@ -308,7 +321,7 @@ article.disabled p {
   background: var(--color-blue-500);
   color: white;
   display: inline-block;
-  border-radius: 5px;
+  border-radius: var(--size-300);
   padding: var(--size-300) var(--size-400);
   margin: 0;
 }
