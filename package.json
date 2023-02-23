@@ -40,6 +40,6 @@
     "luxon": "3.2.1",
     "prettier": "2.8.4",
     "stylelint": "15.2.0",
-    "stylelint-prettier": "2.0.0"
+    "stylelint-prettier": "3.0.0"
   }
 }

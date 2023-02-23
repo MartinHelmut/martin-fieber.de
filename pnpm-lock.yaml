@@ -9,7 +9,7 @@ specifiers:
   luxon: 3.2.1
   prettier: 2.8.4
   stylelint: 15.2.0
-  stylelint-prettier: 2.0.0
+  stylelint-prettier: 3.0.0
 
 devDependencies:
   '@11ty/eleventy': 2.0.0
@@ -20,7 +20,7 @@ devDependencies:
   luxon: 3.2.1
   prettier: 2.8.4
   stylelint: 15.2.0
-  stylelint-prettier: 2.0.0_7tfqzuwksfwysdxnjpqifqt36u
+  stylelint-prettier: 3.0.0_7tfqzuwksfwysdxnjpqifqt36u
 
 packages:
 
@@ -2360,9 +2360,9 @@ packages:
     resolution: {integrity: sha512-Dj1Okke1C3uKKwQcetra4jSuk0DqbzbYtXipzFlFMZtowbF1x7BKJwB9AayVMyFARvU8EDrZdcax4At/452cAg==}
     dev: true
 
-  /stylelint-prettier/2.0.0_7tfqzuwksfwysdxnjpqifqt36u:
-    resolution: {integrity: sha512-jvT3G+9lopkeB0ARmDPszyfaOnvnIF+30QCjZxyt7E6fynI1T9mOKgYDNb9bXX17M7PXMZaX3j/26wqakjp1tw==}
-    engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
+  /stylelint-prettier/3.0.0_7tfqzuwksfwysdxnjpqifqt36u:
+    resolution: {integrity: sha512-kIks1xw6np0zElokMT2kP6ar3S4MBoj6vUtPJuND1pFELMpZxVS/0uHPR4HDAVn0WAD3I5oF0IA3qBFxBpMkLg==}
+    engines: {node: ^14.17.0 || >=16.0.0}
     peerDependencies:
       prettier: '>=2.0.0'
       stylelint: '>=14.0.0'
