@@ -46,21 +46,5 @@
         "href": "https://github.com/MartinHelmut/number-generator#number-generator"
       }
     ]
-  },
-  {
-    "name": "Natr",
-    "description": "<dfn>Not another test runner! (<abbr>natr</abbr>)</dfn> But it is, and it is a highly opinionated one that is used for my own projects.",
-    "links": [
-      {
-        "name": "Visit project page",
-        "title": "Visit the GitHub page for the natr project.",
-        "href": "https://github.com/krieselreihe/natr"
-      },
-      {
-        "name": "Documentation",
-        "title": "See how you can use natr for your own projects. Important note: The test runner is a MVP.",
-        "href": "https://github.com/krieselreihe/natr/blob/master/README.md"
-      }
-    ]
   }
 ]
