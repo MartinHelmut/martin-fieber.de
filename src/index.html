@@ -1,6 +1,6 @@
 ---
 layout: base
-lastmod: 2023-01-24
+lastmod: 2023-02-25
 description: "My personal homepage including projects, things I do, and where I work. Also, some social media where I am active."
 priority: "1.0"
 ---
@@ -31,7 +31,7 @@ priority: "1.0"
       >see all</a
     >
   </h2>
-  {%- for post in collections.post | reverse %} {% if loop.index0 < 3 %}
+  {%- for post in collections.post | reverse %} {% if loop.index0 < 4 %}
   <article>
     {% from 'components.njk' import badge with context %} {{
     badge(post.data.series) }}
