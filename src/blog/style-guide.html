@@ -1,5 +1,6 @@
 ---
 date: 2022-09-24
+lastmod: 2023-02-26
 title: "Website style guide"
 description: 'The style guide of my website. How components are created, and then used, as simplicity saved me from falling into the hole of "not creating".'
 linkTitle: "This websites style guide including context about the why and how."
@@ -373,15 +374,30 @@ blockquote + figcaption {
 .callout h5 {
   color: var(--color-blue-500);
   margin-bottom: var(--size-300);
+}
+
+.callout h5::before {
+  content: "\024D8";
+  margin-right: var(--size-300);
+}
+
+.callout p {
+  color: var(--color-grey-800);
+  font-family: var(--base-font);
+  font-size: 1rem;
+  font-weight: var(--font-weight-normal);
+  line-height: 1.65;
+  margin: 0;
+  padding: 0;
 }</code></pre>
 </figure>
 <aside class="callout">
-  <h5>&#9432; This is a callout</h5>
+  <h5>This is a callout</h5>
   <p>And this is the content of the callout.</p>
 </aside>
 <figure>
   <pre><code class="language-html hljs">&lt;aside class="callout"&gt;
-  &lt;h5&gt;&#9432; This is a callout&lt;/h5&gt;
+  &lt;h5&gt;This is a callout&lt;/h5&gt;
   &lt;p&gt;And this is the content of the callout.&lt;/p&gt;
 &lt;/aside&gt;</code></pre>
 </figure>
@@ -537,18 +553,18 @@ ul li:last-child {
   it.
 </p>
 <figure>
-  <pre><code class="language-css hljs">.aside-ref {
+  <pre><code class="language-css hljs">.side-note-ref {
   position: relative;
 }
 
-aside {
+.side-note {
   border-top: solid 1px var(--color-grey-300);
   border-bottom: solid 1px var(--color-grey-300);
   margin-bottom: var(--size-500);
   padding: var(--size-400) 0;
 }
 
-aside p {
+.side-note p {
   color: var(--color-grey-800);
   font-family: var(--base-font);
   font-size: 1rem;
@@ -560,36 +576,38 @@ aside p {
 
 /**
  * The min-width is calculated by the page width (660px)
- * plus twice the amount of the aside width (240px), as
- * the page is not centered and the aside "reaches" out
+ * plus twice the amount of the side note width (240px), as
+ * the page is not centered and the side note "reaches" out
  * of the page on the right.
  * There are also 20px added (on both sides) to give the
  * whole some space. In short: `660 + (20 + 240) * 2`.
  */
 @media (min-width: 1180px) {
-  aside {
-    --aside-width: 240px;
+  .side-note {
+    --side-note-width: 240px;
 
     top: var(--size-400);
     position: absolute;
-    right: calc(-1 * (var(--aside-width) + var(--size-500)));
-    width: var(--aside-width);
+    right: calc(
+      -1 * (var(--side-note-width) + var(--size-500))
+    );
+    width: var(--side-note-width);
     border-bottom: none;
   }
 }</code></pre>
 </figure>
-<div class="aside-ref">
+<div class="side-note-ref">
   <p>
     Show the aside and how to make that happen. This will only show on the right
     side of the content on larger screens. Otherwise, it will be part of the
     content flow.
   </p>
-  <aside><p>Extra info</p></aside>
+  <aside class="side-note"><p>Extra info</p></aside>
 </div>
 <figure>
-  <pre><code class="language-html hljs">&lt;div class="aside-ref"&gt;
+  <pre><code class="language-html hljs">&lt;div class="side-note-ref"&gt;
   &lt;p&gt;Show the aside and how to make that happen.&lt;/p&gt;
-  &lt;aside&gt;&lt;p>Extra info&lt;/p&gt;&lt;/aside&gt;
+  &lt;aside class="side-note"&gt;&lt;p>Extra info&lt;/p&gt;&lt;/aside&gt;
 &lt;/div&gt;</code></pre>
 </figure>
 
