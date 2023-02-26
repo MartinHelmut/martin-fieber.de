@@ -69,11 +69,11 @@ section {
   padding: var(--size-700) 0 0 0;
 }
 
-.aside-ref {
+.side-note-ref {
   position: relative;
 }
 
-aside {
+.side-note {
   border-top: solid 1px var(--color-grey-300);
   border-bottom: solid 1px var(--color-grey-300);
   margin-bottom: var(--size-500);
@@ -84,6 +84,7 @@ aside {
   border: 1px solid var(--color-blue-500);
   border-radius: var(--size-300);
   background: var(--color-blue-100);
+  margin-bottom: var(--size-500);
   padding: var(--size-400);
 }
 
@@ -92,22 +93,27 @@ aside {
   margin-bottom: var(--size-300);
 }
 
+.callout h5::before {
+  content: "\024D8";
+  margin-right: var(--size-300);
+}
+
 /**
  * The min-width is calculated by the page width (660px)
- * plus twice the amount of the aside width (240px), as
- * the page is not centered and the aside "reaches" out
+ * plus twice the amount of the side note width (240px), as
+ * the page is not centered and the side note "reaches" out
  * of the page on the right.
  * There are also 20px added (on both sides) to give the
  * whole some space. In short: `660 + (20 + 240) * 2`.
  */
 @media (min-width: 1180px) {
-  aside {
-    --aside-width: 240px;
+  .side-note {
+    --side-note-width: 240px;
 
     top: var(--size-400);
     position: absolute;
-    right: calc(-1 * (var(--aside-width) + var(--size-500)));
-    width: var(--aside-width);
+    right: calc(-1 * (var(--side-note-width) + var(--size-500)));
+    width: var(--side-note-width);
     border-bottom: none;
   }
 }
@@ -228,7 +234,8 @@ figure {
 }
 
 figcaption,
-aside p {
+.side-note p,
+.callout p {
   color: var(--color-grey-800);
   font-family: var(--base-font);
   font-size: 1rem;
