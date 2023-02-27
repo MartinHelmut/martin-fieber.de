@@ -1,0 +1,180 @@
+---
+layout: base
+title: "Series: Lua"
+description: "A series about different parts of Lua, from dependency management, testing and profiling, to large project setups and C++ integration."
+image: "/assets/blog/lua-series-part-1/title-card.png"
+imageAlt: "Showing a VSCode window in dark mode with an open Lua file and the sidebar on the left, showing the contained project files that get built up in the series."
+---
+
+<h2>Series: {{ series.lua.title }}</h2>
+<p>
+  This series of articles about Lua will cover different aspects of the language
+  and the surrounding ecosystem. Though,
+  <strong>not the language itself</strong>. There are far better resources for
+  this, like the book
+  <a
+    href="http://www.lua.org/pil/"
+    title="Website about the Lua programming book."
+    >Programming in Lua</a
+  >
+  or the
+  <a
+    href="http://lua-users.org/wiki/LuaTutorial"
+    title="A collection of tutorials to learn Lua."
+    >LuaUsers tutorial directory</a
+  >.
+</p>
+<p>
+  The series can be read one after the other, as every article builds on the one
+  before, or jumped directly into a topic as pleased. In either case, the
+  <a
+    href="https://github.com/MartinHelmut/lua-series"
+    title="The main repository holding the code shown in the article series."
+    >companion repository on GitHub</a
+  >
+  will be available to have a look at the whole setup, from the latest commit or
+  on a per article base available as branches.
+</p>
+<p>
+  At
+  <a href="#references" title="Show reference section of useful links."
+    >the end of this page</a
+  >
+  are also some useful links, gathered throughout the article series.
+</p>
+
+<section>
+  {%- for post in collections.lua %}{%- if post.data.series.name == "lua" %}
+  <article>
+    <h3>
+      <a href="{{ post.url }}" title="{{ post.data.linkTitle }}"
+        >Part {{ post.data.series.part }}: {{ post.data.title }}</a
+      >
+    </h3>
+    <footer>
+      <p>
+        Posted on
+        <time datetime="{{ post.date | htmlDateString }}"
+          >{{ post.date | postDate }}</time
+        >
+      </p>
+    </footer>
+    {%- if post.data.banner %}
+    <picture>
+      <source type="image/webp" srcset="{{ post.data.banner }}.webp" />
+      <img
+        src="{{ post.data.banner }}.png"
+        alt="{{ post.data.bannerAlt }}"
+        width="1024"
+        height="300"
+      />
+    </picture>
+    {% endif %} {{ post.data.summary | safe }}
+  </article>
+  {% endif %} {%- endfor %}
+  <article>
+    <h3>Part 2: Create, publish, and integrate dependencies in Lua</h3>
+    <footer>
+      <p>Coming soon</p>
+    </footer>
+    <p>
+      Using LuaRocks to not only manage dependencies from different sources, but
+      create new packages, publish rocks, and practices for version management.
+    </p>
+  </article>
+  <article class="disabled">
+    <h3>Part 3: How to test your Lua</h3>
+    <footer>
+      <p>Need to wait a bit longer</p>
+    </footer>
+    <p>
+      Besides quick iterations on the command line, having a proper setup test
+      suite for Lua will be crucial for any serious project.
+    </p>
+  </article>
+  <article class="disabled">
+    <h3>Part 4: Debugging and profiling Lua</h3>
+    <footer>
+      <p>Will take a while</p>
+    </footer>
+    <p>
+      Even with a good test suite, debugging will be necessary sooner or later.
+      This article will go in depth, also showing how to profile a Lua
+      application.
+    </p>
+  </article>
+  <article class="disabled">
+    <h3>Part 5: CLI applications with Lua</h3>
+    <footer>
+      <p>On the horizon</p>
+    </footer>
+    <p>
+      All about writing an own command line application in Lua, parsing
+      arguments, taking user input, and showing a continues state in the
+      terminal.
+    </p>
+  </article>
+  <article class="disabled">
+    <h3>Part 6: Mono-repo setup with Lua</h3>
+    <footer>
+      <p>Further out</p>
+    </footer>
+    <p>
+      Growing applications have growing needs. This will cover how to manage
+      those, with multiple projects inside one repository.
+    </p>
+  </article>
+  <article class="disabled">
+    <h3>Part 7: Extending C++ applications with Lua</h3>
+    <footer>
+      <p>Behind the moon</p>
+    </footer>
+    <p>
+      Lua being an <em>"extensible extension language"</em>, it is perfect to
+      extend and customize applications. This will go deeper into how in
+      combination with C++.
+    </p>
+  </article>
+</section>
+
+<section id="references">
+  <h3>References</h3>
+  <ul>
+    <li>
+      <a
+        href="http://www.lua.org"
+        title="All about Lua on the official website."
+        >Official Lua website</a
+      >
+    </li>
+    <li>
+      <a
+        href="https://luabinaries.sourceforge.net"
+        title="Libraries and executables for Lua."
+        >LuaBinaries</a
+      >
+      - Distribution of the Lua libraries and executables compiled for several
+      platforms
+    </li>
+    <li>
+      <a
+        href="https://luarocks.org"
+        title="The de facto standard package manager for Lua."
+        >LuaRocks</a
+      >
+      - Lua package manager
+    </li>
+    <li>
+      <a
+        href="https://github.com/LewisJEllis/awesome-lua"
+        title="Amazing resources for Lua on GitHub."
+        >Awesome Lua</a
+      >
+      - A curated list of quality Lua packages and resources.
+    </li>
+  </ul>
+</section>
+
+<p>
+  <a href="/blog" title="Main blog page">← Show all blog posts</a>
+</p>
