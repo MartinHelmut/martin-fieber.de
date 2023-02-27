@@ -88,11 +88,14 @@ section {
   padding: var(--size-400);
 }
 
+.callout h4,
 .callout h5 {
+  font-size: 1rem;
   color: var(--color-blue-500);
   margin-bottom: var(--size-300);
 }
 
+.callout h4::before,
 .callout h5::before {
   content: "\024D8";
   margin-right: var(--size-300);
@@ -214,7 +217,13 @@ ul {
   padding: 0;
 }
 
-ul li {
+ol {
+  margin: 0 0 0 var(--size-600);
+  padding: 0;
+}
+
+ul li,
+ol li {
   font-family: var(--base-font);
   font-size: 1.3rem;
   font-weight: var(--font-weight-normal);
@@ -224,8 +233,16 @@ ul li {
   padding: 0;
 }
 
-ul li:last-child {
+ul li:last-child,
+ol li:last-child {
   margin: 0 0 var(--size-500) 0;
+}
+
+ul ul li:last-child,
+ul ol li:last-child,
+ol ul li:last-child,
+ol ol li:last-child {
+  margin: 0;
 }
 
 figure {
@@ -475,7 +492,8 @@ article.disabled p {
 
 /* Code block compatible with highlight.js */
 
-p code {
+p code,
+li code {
   font-size: 1rem;
   padding: 0.05rem;
   vertical-align: middle;

@@ -1,0 +1,914 @@
+---
+date: 2023-02-27
+title: "Lua project setup with LuaRocks"
+description: "A full guide on setting up a Lua project, including dependency management, code formatting and analysis, and editor setup. Part of a larger series about aspects of Lua."
+image: "/assets/blog/lua-series-part-1/title-card.png"
+imageAlt: "Showing a VSCode window in dark mode with an open Lua file and the sidebar on the left, showing the contained project files that get built up in the series."
+linkTitle: "A setup for lua projects, getting ready to built upon later."
+banner: "/assets/blog/lua-series-part-1/banner"
+bannerAlt: "Showing a VSCode window in dark mode with an open Lua file and the sidebar on the left, showing the contained project files that get built up in the series."
+summary: "<p>Setting up a project with Lua, running code, installing dependencies, code formatting and static analysis, as well as the editor setup.</p>"
+hasCode: true
+tags: ["post", "lua"]
+series: { name: lua, part: 1 }
+---
+
+<figure>
+  <picture>
+    <source
+      type="image/webp"
+      srcset="/assets/blog/lua-series-part-1/banner.webp"
+    />
+    <img
+      src="/assets/blog/lua-series-part-1/banner.png"
+      alt="{{ bannerAlt }}"
+      width="1024"
+      height="300"
+    />
+  </picture>
+  <figcaption>A look at the project setup created in this article.</figcaption>
+</figure>
+<h3>Coming from the moon</h3>
+<p>
+  Even though I already wrote an
+  <a
+    href="/blog/goodbye-snake-i-go-to-the-moon"
+    title="An earlier article focusing on the overall picture."
+    >overview of how to set up a Lua project</a
+  >, this article, part of the longer
+  <a href="/series/lua" title="Overview of the Lua article series."
+    >Lua series</a
+  >, will go into more detail on specific aspects with greater focus. Going
+  through this, the goal is to have a solid foundation to further increment on
+  in later articles of this series, or for any project to come.
+</p>
+<p>
+  Running a first Lua program, using LuaRocks for dependency management, code
+  formatting and linting, and setting up an editor or
+  <abbr title="Integrated Development Environment">IDE</abbr>, to support Lua
+  development as good as possible. <strong>Remark</strong>, this is
+  <strong>how I set up my projects</strong>, maybe not by the books, but the way
+  it works best for me on all environments, repeatedly.
+</p>
+
+<nav>
+  <h3>Table of contents</h3>
+  <ol>
+    <li><a href="#lua-versions">Lua versions</a></li>
+    <li>
+      <a href="#installing-lua">Installing Lua</a>
+      <ul>
+        <li>
+          <a href="#installing-lua-macos">macOS</a>,
+          <a href="#installing-lua-linux">Linux</a>,
+          <a href="#installing-lua-windows">Windows</a>
+        </li>
+      </ul>
+    </li>
+    <li><a href="##hello-world">Hello World</a></li>
+    <li>
+      <a href="#dependency-management-with-luarocks"
+        >Dependency management with LuaRocks</a
+      >
+      <ul>
+        <li>
+          <a href="#dependency-management-with-luarocks-macos">macOS</a>,
+          <a href="#dependency-management-with-luarocks-linux">Linux</a>,
+          <a href="#dependency-management-with-luarocks-windows">Windows</a>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#project-folder-setup">Project folder setup</a></li>
+    <li><a href="#gitignore">.gitignore</a></li>
+    <li><a href="#about-rockspec">About .rockspec</a></li>
+    <li><a href="#install-a-module">Install a module</a></li>
+    <li><a href="#resolve-module-paths">Resolve module paths</a></li>
+    <li><a href="#enable-local-scripts">Enable local scripts</a></li>
+    <li><a href="#auto-format-code">Auto format code</a></li>
+    <li><a href="#static-analysis">Static analysis</a></li>
+    <li>
+      <a href="#editor-setup">Editor setup</a>
+      <ul>
+        <li>
+          <a href="#editor-setup-intellij">IntelliJ</a>,
+          <a href="#editor-setup-visual-studio-code">Visual Studio Code</a>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#what-comes-next">What comes next</a></li>
+  </ol>
+</nav>
+
+<h3 id="lua-versions">Lua versions</h3>
+<p>
+  A note about versions. The latest Lua version as of writing is 5.4 (released
+  <time datetime="2020-05-29">June 2020</time>). Generally everything in this
+  article series will work with Lua 5.1 (released
+  <time datetime="2006-02-21">February 2006</time>) and up. If this is not the
+  case, a callout as the following will signal that a higher version is
+  required.
+</p>
+<aside class="callout">
+  <h4>Example: Lua version required</h4>
+  <p>This feature requires Lua 5.x and up.</p>
+</aside>
+<p>
+  For instance, in a later article I will use the meta-method
+  <code>__close</code>, added in Lua 5.4, for a simple profiling tool.
+</p>
+<p>
+  An overview of the versions and there respective main features can be found on
+  the
+  <a href="https://www.lua.org/versions.html" title="Lua version release log."
+    >official Lua versions history</a
+  >
+  page.
+</p>
+
+<h3 id="installing-lua">Installing Lua</h3>
+<p>
+  First things first, let's check if Lua is already installed on the system, by
+  running Lua's version command <code>lua -v</code> in a terminal.
+</p>
+<figure>
+  <pre><code class="language-shell hljs">$ lua -v
+Lua 5.4.4  Copyright (C) 1994-2022 Lua.org, PUC-Rio</code></pre>
+  <figcaption>
+    The <code>$</code> is used to show a command will be entered.
+  </figcaption>
+</figure>
+<p>
+  If it prints something similar to the above it's already good to go. If not,
+  Lua needs to be installed first.
+</p>
+
+<h4 id="installing-lua-macos">macOS</h4>
+<p>
+  <a href="https://brew.sh" title="Brew homepage">Brew on macOS</a> can be used
+  to install an up-to-date version of Lua.
+</p>
+<figure>
+  <pre><code class="language-shell hljs">$ brew install lua</code></pre>
+</figure>
+
+<h4 id="installing-lua-linux">Linux</h4>
+<p>
+  On Linux, installing Lua is as straight forward as using the
+  <strong>systems package manager</strong>. For example, on Debian, Ubuntu, and
+  Mint:
+</p>
+<figure>
+  <pre><code class="language-shell hljs">$ apt install lua5.3</code></pre>
+</figure>
+<p>
+  Have a look at
+  <a
+    href="http://www.lua.org/manual/5.4/readme.html#install"
+    title="Guide on how to install Lua, alternatively from source."
+    >Lua's installation guide</a
+  >
+  to build a more recent version from source if needed.
+</p>
+
+<h4 id="installing-lua-windows">Windows</h4>
+<p>
+  On Windows there is a list of
+  <a
+    href="https://luabinaries.sourceforge.net"
+    title="Pre-compiled binaries ready to be installed on Windows."
+    >available Lua binaries</a
+  >, offering pre-compiled Lua versions ready to be used. Scrolling down on that
+  page to the <em>History</em> section the latest available pre-compiled
+  versions can be found. Choosing one, for example
+  <a
+    href="https://sourceforge.net/projects/luabinaries/files/5.4.2/"
+    title="Pre-compiled Windows binary for Lua version 5.4.2."
+    >version 5.4.2</a
+  >, will lead to SourceForge, clicking the <em>Tools Executables</em> folder
+  next.
+</p>
+<figure>
+  <picture>
+    <source
+      type="image/webp"
+      srcset="/assets/blog/lua-series-part-1/source-forge-lua-download-1.webp"
+    />
+    <img
+      src="/assets/blog/lua-series-part-1/source-forge-lua-download-1.png"
+      alt="A screenshot of the SourceForge website, showing multiple download entries for Lua, with the 'Tools Executables' entry highlighted."
+      width="1024"
+      height="500"
+    />
+  </picture>
+  <figcaption>
+    The <em>Tools Executables</em> folder is where Lua is to be found.
+  </figcaption>
+</figure>
+<p>
+  Here is the option of picking either the 32-bit or the 64-bit version,
+  depending on the used system.
+</p>
+<figure>
+  <picture>
+    <source
+      type="image/webp"
+      srcset="/assets/blog/lua-series-part-1/source-forge-lua-download-2.webp"
+    />
+    <img
+      src="/assets/blog/lua-series-part-1/source-forge-lua-download-2.png"
+      alt="A screenshot of the SourceForge website, showing a list of Lua downloads for different system versions."
+      width="1024"
+      height="670"
+    />
+  </picture>
+  <figcaption>
+    Select the version matching the <abbr title="Operating System">OS</abbr>.
+  </figcaption>
+</figure>
+<p>
+  After the download, the archive contents can be extracted, finding, depending
+  on the downloaded version, an executable. For version 5.4.x this is called
+  <code>lua54</code>.
+</p>
+<figure>
+  <picture>
+    <source
+      type="image/webp"
+      srcset="/assets/blog/lua-series-part-1/windows-folder-with-lua.webp"
+    />
+    <img
+      src="/assets/blog/lua-series-part-1/windows-folder-with-lua.png"
+      alt="An open Windows Explorer window, the Downloads folder is selected showing the extracted files from the Lua download. The file 'lua54' is highlighted."
+      width="1024"
+      height="400"
+    />
+  </picture>
+  <figcaption>The contents of the extracted archive.</figcaption>
+</figure>
+<p>
+  Double clicking that file will <strong>open a terminal</strong>, from which
+  Lua can be run. Alternatively, this file can be placed in a folder that is
+  part of the PATH variable, or
+  <a
+    href="https://learn.microsoft.com/en-us/previous-versions/office/developer/sharepoint-2010/ee537574(v=office.14)#to-add-a-path-to-the-path-environment-variable"
+    title="Microsoft page about how to edit the PATH variable under Windows."
+    >made available through it</a
+  >.
+</p>
+<figure>
+  <picture>
+    <source
+      type="image/webp"
+      srcset="/assets/blog/lua-series-part-1/windows-lua-terminal.webp"
+    />
+    <img
+      src="/assets/blog/lua-series-part-1/windows-lua-terminal.png"
+      alt="Part of a black windows terminal showing the Lua welcome message when running in interactive mode."
+      width="1024"
+      height="230"
+    />
+  </picture>
+  <figcaption>A terminal ready to run Lua.</figcaption>
+</figure>
+
+<h3 id="#hello-world">Hello World</h3>
+<div class="side-note-ref">
+  <p>
+    With Lua installed, it's time to
+    <strong>create a small test program</strong> to verify everything works as
+    expected. Creating a source file inside the dedicated project folder*,
+    <code>src/main.lua</code>, saying hello to everyone.
+  </p>
+  <aside class="side-note">
+    <p>
+      * All files and folders from the article series will go inside the
+      dedicated project folder.
+    </p>
+  </aside>
+</div>
+<figure>
+  <pre><code class="language-lua hljs">-- src/main.lua
+local greeting = "Hello, reader."
+print(greeting)</code></pre>
+  <figcaption>A simple <em>"Hello World" program in Lua.</em></figcaption>
+</figure>
+<p>
+  Executing that file via the terminal from inside the project directory will
+  print the greeting.
+</p>
+<figure>
+  <pre><code class="language-shell hljs">$ lua src/main.lua
+Hello, reader.</code></pre>
+</figure>
+
+<h3 id="dependency-management-with-luarocks">
+  Dependency management with LuaRocks
+</h3>
+<p>
+  <a href="https://luarocks.org" title="A well known Lua package manager."
+    >LuaRocks, the de facto standard package manager for Lua</a
+  >, will be used to manage project dependencies. First, the LuaRocks command
+  line tool needs to be installed on the system.
+</p>
+
+<h4 id="dependency-management-with-luarocks-macos">macOS</h4>
+<p>
+  Again, using brew on macOS, LuaRocks can be installed with a single command.
+</p>
+<figure>
+  <pre><code class="language-shell hljs">$ brew install luarocks</code></pre>
+</figure>
+
+<h4 id="dependency-management-with-luarocks-linux">Linux</h4>
+<p>
+  Same for Linux, a single command does the job, using the systems package
+  manager.
+</p>
+<figure>
+  <pre><code class="language-shell hljs">$ apt install luarocks</code></pre>
+</figure>
+
+<h4 id="dependency-management-with-luarocks-windows">Windows</h4>
+<p>
+  First the LuaRocks executable needs to be downloaded, either 32-bit or 64-bit.
+  The downloads are at the top of the
+  <a
+    href="https://github.com/luarocks/luarocks/wiki/Download"
+    title="Download a LuaRocks executable on GitHub."
+    >LuaRocks download page</a
+  >
+  on GitHub. After downloading and extracting the files, the
+  <code>luarocks.exe</code> needs to be
+  <a
+    href="https://learn.microsoft.com/en-us/previous-versions/office/developer/sharepoint-2010/ee537574(v=office.14)#to-add-a-path-to-the-path-environment-variable"
+    title="Microsoft page about how to edit the PATH variable under Windows."
+    >added to the PATH</a
+  >
+  to make it available as <code>luarocks</code> command from the terminal.
+</p>
+
+<h3 id="project-folder-setup">Project folder setup</h3>
+<p>
+  With LuaRocks installed, the <code>init</code> command helps to set up a
+  project, including <strong>local dependency management</strong>. This means
+  dependencies will be installed inside the project folder in a
+  <code>lua_modules</code> directory.
+</p>
+<figure>
+  <pre><code class="language-shell hljs">$ luarocks init --lua-versions "5.1,5.2,5.3,5.4"</code></pre>
+  <figcaption>
+    This will mark the projects Lua support for version 5.1 and up.
+  </figcaption>
+</figure>
+<p>
+  The <code>init</code> command will do a couple of things, some of those are:
+</p>
+<ul>
+  <li>
+    Creating the <code>lua_module</code> folder, storing all installed
+    dependencies.
+  </li>
+  <li>
+    Detecting the <code>src/main.lua</code> as main entry point of the program.
+  </li>
+  <li>
+    Add two shortcuts that can be used for executing <code>lua</code> and
+    <code>luarocks</code> from inside the project, though, I won't use them and
+    rather depend on my system installation.
+  </li>
+  <li>
+    Adding a <code>.luarocks</code> folder, containing some configuration files,
+    and marking the directory as root folder for LuaRocks.
+  </li>
+</ul>
+<p>And two more I'll have a more <strong>detailed look at</strong>:</p>
+<ul>
+  <li>Creating or adding to an existing <code>.gitignore</code> file.</li>
+  <li>
+    Creating a <code>.rockspec</code> file with the base project settings and
+    name, taken from the folder name LuaRocks was executed in.
+  </li>
+</ul>
+
+<h3 id="gitignore">.gitignore</h3>
+<p>
+  The <code>luarocks init</code> command auto generates a
+  <code>.gitignore</code>, <strong>if not already present</strong>, or appends
+  its entries to an existing <code>.gitignore</code> file. The following entries
+  are added.
+</p>
+<figure>
+  <pre><code class="language-plaintext hljs">/luarocks
+/lua
+/lua_modules
+/.luarocks</code></pre>
+  <figcaption>.gitignore</figcaption>
+</figure>
+<p>
+  The first two files are local shortcuts to execute <code>lua</code> and
+  <code>luarocks</code> &mdash; I'll remove both entries as I also remove the
+  local shortcuts, using my system installations. Then comes the dependency
+  folder <code>lua_modules</code> and the config folder <code>.luarocks</code>,
+  both entries I'll keep in, to be ignored by git.
+</p>
+
+<h3 id="about-rockspec">About .rockspec</h3>
+<p>
+  The <code>.rockspec</code> file defines the projects properties, like name,
+  version, and used dependencies. A complete list of the supported options can
+  be found on the
+  <a
+    href="https://github.com/luarocks/luarocks/wiki/Rockspec-format#build-rules"
+    title="LuaRocks wiki on GitHub will all available properties for the rockspec file."
+    >official LuaRocks wiki page for build rules</a
+  >.
+</p>
+<figure>
+  <pre><code class="language-lua hljs">-- lua-series-dev-1.rockspec
+package = "lua-series"
+version = "dev-1"
+source = {
+   url = "*** please add URL for source tarball, zip or repository here ***"
+}
+description = {
+   homepage = "*** please enter a project homepage ***",
+   license = "*** please specify a license ***"
+}
+dependencies = {
+   "lua >= 5.1, < 5.5"
+}
+build = {
+   type = "builtin",
+   modules = {
+      main = "src/main.lua"
+   }
+}</code></pre>
+  <figcaption>
+    Some entries are not filled, yet. The file format is technically a Lua file.
+  </figcaption>
+</figure>
+<p>
+  At the top of the file the rockspec format will be defined, indicating the
+  format version, the latest being version 3.
+</p>
+<figure>
+  <pre><code class="language-lua hljs">rockspec_format = "3.0"</code></pre>
+</figure>
+<p>
+  The <code>source.url</code> can be many things, I usually point it to the
+  projects git repository, but it can also be other repository types or
+  <abbr>URL</abbr>s.
+</p>
+<figure>
+  <pre><code class="language-lua hljs">source = {
+   url = "https://github.com/MartinHelmut/lua-series.git"
+}</code></pre>
+  <figcaption>Adding a git repository <abbr>URL</abbr>.</figcaption>
+</figure>
+<p>
+  The <code>description</code> can contain a summary, the project home page, a
+  license and more.
+</p>
+<figure>
+  <pre><code class="language-lua hljs">description = {
+   summary = "Companion repository to the Lua series.",
+   homepage = "https://martin-fieber.de/series/lua/",
+   license = "MIT"
+}</code></pre>
+  <figcaption>Adding some base description items.</figcaption>
+</figure>
+<p>
+  Next comes the list of dependencies. This will hold all necessary project
+  dependencies and one special dependency from the start, <code>lua</code>. Less
+  an actual dependency and more the projects supported Lua versions or version
+  range.
+</p>
+<figure>
+  <pre><code class="language-lua hljs">dependencies = {
+   "lua >= 5.1, < 5.5"
+}</code></pre>
+</figure>
+<p>And at last, the project build settings and modules, not yet utilised.</p>
+<figure>
+  <pre><code class="language-lua hljs">build = {
+   type = "builtin",
+   modules = {
+      main = "src/main.lua"
+   }
+}</code></pre>
+  <figcaption>
+    What is called <code>modules.main</code> here can also be the name of the
+    project, e.g. <code>modules.luaseries</code>.
+  </figcaption>
+</figure>
+<p>
+  To ensure all changes to a <code>.rockspec</code> file are valid the
+  <code>luarocks lint</code>
+  command can be used, giving it the filename to validate.
+</p>
+<figure>
+  <pre><code class="language-shell hljs">$ luarocks lint lua-series-dev-1.rockspec</code></pre>
+  <figcaption>
+    This will indicate if there are problems with the
+    <code>.rockspec</code> file.
+  </figcaption>
+</figure>
+<p>And here the final <code>.rockspec</code> file.</p>
+<figure>
+  <pre><code class="language-lua hljs">-- lua-series-dev-1.rockspec
+rockspec_format = "3.0"
+package = "lua-series"
+version = "dev-1"
+source = {
+   url = "https://github.com/MartinHelmut/lua-series.git"
+}
+description = {
+   summary = "The companion repository to my Lua blog series.",
+   homepage = "https://martin-fieber.de/series/lua/",
+   license = "MIT"
+}
+dependencies = {
+   "lua >= 5.1, < 5.5"
+}
+build = {
+   type = "builtin",
+   modules = {
+      main = "src/main.lua"
+   }
+}</code></pre>
+</figure>
+
+<h3 id="install-a-module">Install a module</h3>
+<p>
+  Let's install something, finally! The
+  <a
+    href="https://github.com/kikito/inspect.lua"
+    title="GitHub page for the LuaRocks module 'inspect'."
+    >inspect</a
+  >
+  module is handy in general, giving an easy way to print any value in Lua for
+  inspection or debugging.
+</p>
+<figure>
+  <pre><code class="language-shell hljs">$ luarocks install inspect</code></pre>
+</figure>
+<p>
+  The new dependency also needs to be added to the <code>.rockspec</code> file
+  to keep it on later installs.
+</p>
+<figure>
+  <pre><code class="language-lua hljs">dependencies = {
+   "lua >= 5.1, < 5.5",
+   "inspect >= 3.1"
+}</code></pre>
+</figure>
+<p>
+  On a fresh checkout of the project this will ensure that
+  <code>inspect</code> is installed again when running
+  <code>luarocks install --deps-only</code> on the <code>.rockspec</code> file.
+</p>
+<figure>
+  <pre><code class="language-shell hljs">$ luarocks install --deps-only lua-series-dev-1.rockspec</code></pre>
+  <figcaption>
+    This will install all dependencies defined from the given
+    <code>.rockspec</code> file inside a project.
+  </figcaption>
+</figure>
+<p>Let's use <code>inspect</code> to print a test table.</p>
+<figure>
+  <pre><code class="language-lua hljs">-- src/main.lua
+local inspect = require("inspect")
+local output = { "Hello, reader.", 42 }
+
+print(inspect(output))</code></pre>
+</figure>
+<p>Oh no, running <strong>this code will give an error</strong>.</p>
+<figure>
+  <pre><code class="language-shell hljs">$ lua src/main.lua
+lua: src/main.lua:1: module 'inspect' not found:
+	no field package.preload['inspect']
+	no file '/opt/homebrew/share/lua/5.4/inspect.lua'
+	no file '/opt/homebrew/share/lua/5.4/inspect/init.lua'
+	no file '/opt/homebrew/lib/lua/5.4/inspect.lua'
+	no file '/opt/homebrew/lib/lua/5.4/inspect/init.lua'
+	no file './inspect.lua'
+	no file './inspect/init.lua'
+	no file '/opt/homebrew/lib/lua/5.4/inspect.so'
+	no file '/opt/homebrew/lib/lua/5.4/loadall.so'
+	no file './inspect.so'
+stack traceback:
+	[C]: in function 'require'
+	src/main.lua:1: in main chunk
+	[C]: in ?</code></pre>
+  <figcaption>Continue reading for the solution.</figcaption>
+</figure>
+
+<h3 id="resolve-module-paths">Resolve module paths</h3>
+<p>
+  Having a way to manage dependencies, Lua still needs to be told
+  <strong>where to find modules</strong> for the project. This is done through
+  the <code>package.path</code> and <code>package.cpath</code> variables. My
+  preferred way is to have a <code>src/setup.lua</code> file defining those.
+</p>
+<p>
+  In that file I can also put other project setup options later, as it will be
+  loaded before running any Lua script.
+</p>
+<figure>
+  <pre><code class="language-lua hljs">-- src/setup.lua
+local version = _VERSION:match("%d+%.%d+")
+
+package.path = 'lua_modules/share/lua/' .. version ..
+    '/?.lua;lua_modules/share/lua/' .. version ..
+    '/?/init.lua;' .. package.path
+package.cpath = 'lua_modules/lib/lua/' .. version ..
+    '/?.so;' .. package.cpath</code></pre>
+  <figcaption>
+    Overriding <code>package.path</code> and <code>package.cpath</code> to add
+    local modules.
+  </figcaption>
+</figure>
+<p>
+  Now, there are two ways using this setup; one is via the
+  <code>-l</code> option of the <code>lua</code> command.
+</p>
+<figure>
+  <pre><code class="language-shell hljs">$ lua -l src/setup src/main.lua</code></pre>
+  <figcaption>
+    Run <code>src/main.lua</code> with required <code>src/setup.lua</code>
+    to find local installed modules.
+  </figcaption>
+</figure>
+<p>
+  Another option is to set the <code>LUA_INIT</code> environment variable. This
+  variable can either execute Lua code before running a script, or load a file
+  when the value starts with <code>@</code>.
+</p>
+<p>
+  By defining the environment variable inside the terminal, Lua can be run
+  without the <code>-l</code> option.
+</p>
+<figure>
+  <pre><code class="language-shell hljs">export LUA_INIT="@src/setup.lua"</code></pre>
+</figure>
+<p>
+  Optionally, to not pollute the environment or re-set the variable every time,
+  I use <a href="https://direnv.net" title="Website for direnv">direnv</a>,
+  defining a <code>.envrc</code> with my projects environment variables that
+  will only be loaded when working inside the respective project folder.
+</p>
+<p>
+  There are
+  <a
+    href="https://github.com/direnv/direnv/releases"
+    title="List of releases for direnv on GitHub."
+    >releases for all platforms</a
+  >, including Windows, and a comprehensive documentation, so I won't go into
+  detail here as this is an <strong>optional setup step</strong>.
+</p>
+<p>
+  Having that done, one way or another, I assume from here the
+  <code>LUA_INIT</code> variable is set, the test script with the
+  <code>inspect</code> module can be run again.
+</p>
+<figure>
+  <pre><code class="language-shell hljs">$ lua src/main.lua
+{ "Hello, reader.", 42 }</code></pre>
+  <figcaption>Success, at last.</figcaption>
+</figure>
+
+<h3 id="enable-local-scripts">Enable local scripts</h3>
+<p>
+  Before continuing adding more tools to the project setup, it is quite handy to
+  enable the execution of local scripts. When installing an executable with
+  LuaRocks those binaries are installed in the
+  <code>lua_modules/bin</code> folder.
+</p>
+<p>To execute a script the full path needs to be used.</p>
+<figure>
+  <pre><code class="language-shell hljs">$ ./lua_modules/bin/some-script --argument ...</code></pre>
+</figure>
+<p>
+  To simplify this, the local bin folder can be added to the system PATH,
+  especially handy when already using
+  <a href="https://direnv.net" title="Website for direnv">direnv</a>.
+</p>
+<figure>
+  <pre><code class="language-shell hljs"># .envrc
+export LUA_INIT="@src/setup.lua"
+export PATH=$PATH:./lua_modules/bin</code></pre>
+  <figcaption>Example <code>.envrc</code> file when using direnv.</figcaption>
+</figure>
+<p>
+  The same example command above then becomes the following when executed inside
+  the project directory.
+</p>
+<figure>
+  <pre><code class="language-shell hljs">$ some-script --argument ...</code></pre>
+  <figcaption>
+    Accessing the local <code>lua_modules/bin</code> folder to find the script
+    named <code>some-script</code>.
+  </figcaption>
+</figure>
+
+<h3 id="auto-format-code">Auto format code</h3>
+<p>
+  I much appreciate <strong>auto code formatting</strong> from other projects
+  and languages, like
+  <a
+    href="https://prettier.io"
+    title="Prettier website, a code formatter for JavaScript and TypeScript."
+    >Prettier</a
+  >
+  for JavaScript and TypeScript or
+  <a
+    href="https://clang.llvm.org/docs/ClangFormat.html"
+    title="Website for clang-format, part of LLVM."
+    >clang-format</a
+  >
+  for C++, I also want auto code formatting for Lua.
+</p>
+<p>
+  <a
+    href="https://github.com/Koihik/LuaFormatter"
+    title="GitHub page of LuaFormatter, Lua code formatter."
+    >LuaFormatter</a
+  >
+  the tool of choice, installed via LuaRocks and afterwards available via the
+  <code>lua_modules/bin</code> folder.
+</p>
+<figure>
+  <pre><code class="language-shell hljs">$ luarocks install \
+    --server=https://luarocks.org/dev luaformatter</code></pre>
+</figure>
+<p>
+  Custom format options can be defined in a <code>.lua-format</code>
+  <abbr>YAML</abbr> file inside the project root. I'll only change a few options
+  for my projects.
+</p>
+<figure>
+  <pre><code class="language-yaml hljs"># .lua-format
+keep_simple_control_block_one_line: false
+keep_simple_function_one_line: false
+column_table_limit: 1</code></pre>
+  <figcaption>
+    <a
+      href="https://github.com/Koihik/LuaFormatter#default-configuration"
+      title="Default configuration page of LuaFormatter on GitHub."
+      >List of default format options for LuaFormatter.</a
+    >
+  </figcaption>
+</figure>
+<p>
+  With the
+  <a
+    href="#enable-local-scripts"
+    title="Section earlier on this page to enable local scripts."
+    >local script setup enabled</a
+  >, or using the path to the executable, the formatter can be run, and all Lua
+  files auto formatted.
+</p>
+<figure>
+  <pre><code class="language-shell hljs">$ lua-format --in-place src/**/*.lua</code></pre>
+  <figcaption>
+    This will format and rewrite all files in <code>src</code>.
+  </figcaption>
+</figure>
+
+<h3 id="static-analysis">Static analysis</h3>
+<p>
+  To lint the project code base
+  <a
+    href="https://github.com/mpeterv/luacheck"
+    title="Luacheck website on GitHub."
+    >Luacheck</a
+  >
+  can be used, an executable installed via LuaRocks into the
+  <code>lua_modules/bin</code>
+  folder.
+</p>
+<figure>
+  <pre><code class="language-shell hljs">$ luarocks install luacheck</code></pre>
+</figure>
+<p>
+  Keeping the default options it can be run on all files inside
+  <code>src</code>. A full list of all options can be found in the
+  <a
+    href="https://luacheck.readthedocs.io/en/stable/warnings.html"
+    title="Documentation about available warnings in Luacheck."
+    >official Luacheck documentation</a
+  >.
+</p>
+<figure>
+  <pre><code class="language-shell hljs">$ luacheck src
+Checking src/main.lua                             OK
+Checking src/setup.lua                            OK
+
+Total: 0 warnings / 0 errors in 2 files</code></pre>
+</figure>
+
+<h3 id="editor-setup">Editor setup</h3>
+<p>
+  No project setup complete without setting up an editor environment. To have
+  some options I picked two well known ones, IntelliJ and VSCode.
+</p>
+
+<h4 id="editor-setup-intellij">IntelliJ</h4>
+<p>
+  Using any IntelliJ product (e.g. CLion) for Lua development, I would use the
+  plugin
+  <a
+    href="https://github.com/Benjamin-Dobell/IntelliJ-Luanalysis"
+    title="GitHub page of the IntelliJ plugin Luanalysis."
+    >Luanalysis</a
+  >, a
+  <a
+    href="https://github.com/EmmyLua/IntelliJ-EmmyLua"
+    title="GitHub page of the IntelliJ plugin EmmyLua."
+    >EmmyLua</a
+  >
+  fork. It comes with Luacheck bundled and offers many convenient functions like
+  <em>Find Usage</em>, <em>Refactor</em>, <em>Go To</em>,
+  <em>Parameter Hints</em>, and <em>Documentation support</em>, to name a few.
+</p>
+<p>
+  I could <strong>not find a way</strong> to auto format code on save with
+  LuaFormatter, though.
+</p>
+
+<h4 id="editor-setup-visual-studio-code">Visual Studio Code</h4>
+<p>
+  For VSCode three plugins do the heavy lifting &mdash; the
+  <a
+    href="https://marketplace.visualstudio.com/items?itemName=sumneko.lua"
+    title="Lua plugin page on VSCode marketplace."
+    >Lua language server plugin</a
+  >, the
+  <a
+    href="https://marketplace.visualstudio.com/items?itemName=rog2.luacheck"
+    title="Luacheck plugin page on VSCode marketplace."
+    >plugin for Luacheck</a
+  >, and another
+  <a
+    href="https://marketplace.visualstudio.com/items?itemName=Koihik.vscode-lua-format"
+    title="LuaFormatter plugin page on VSCode marketplace."
+    >plugin for LuaFormatter</a
+  >.
+</p>
+<p>
+  The only plugin that really needs configuration is the LuaFormatter plugin,
+  setting the path to the LuaFormatter executable and to the
+  <code>.lua-format</code>
+  config file.
+</p>
+<figure>
+  <picture>
+    <source
+      type="image/webp"
+      srcset="/assets/blog/lua-series-part-1/vscode-luaformatter-settings.webp"
+    />
+    <img
+      src="/assets/blog/lua-series-part-1/vscode-luaformatter-settings.png"
+      alt="A screenshot of the settings in VSCode to enable LuaFormatter, showing the binary path and format config path options."
+      width="1024"
+      height="520"
+    />
+  </picture>
+  <figcaption>Both settings need to be provided.</figcaption>
+</figure>
+<p>
+  VSCode's setting <em>"Format on Save"</em> can be used to auto format the
+  code.
+</p>
+<figure>
+  <picture>
+    <source
+      type="image/webp"
+      srcset="/assets/blog/lua-series-part-1/vscode-format-on-save.webp"
+    />
+    <img
+      src="/assets/blog/lua-series-part-1/vscode-format-on-save.png"
+      alt="A screenshot of the settings in VSCode to enable 'format on save'. The checkbox is checked."
+      width="1024"
+      height="385"
+    />
+  </picture>
+  <figcaption>Makes life that much easier.</figcaption>
+</figure>
+
+<h3 id="what-comes-next">What comes next</h3>
+<p>
+  This article was specifically focused on getting a good environment running to
+  develop with Lua. Everything shown here can be found in the
+  <a
+    href="https://github.com/MartinHelmut/lua-series/tree/part-1"
+    title="GitHub page of part 1 of the companion repository for this article series."
+    >companion repository, branch part-1</a
+  >.
+</p>
+<p>
+  The <strong>next article will focus on dependency management</strong>; how to
+  use different LuaRock trees, keeping track of dependencies installed from
+  different sources, but also how to create and publish a package.
+</p>
+<p>Until then 👋🏻</p>

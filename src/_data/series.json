@@ -3,5 +3,10 @@
     "total": 6,
     "title": "Ron Cobb's bulkhead door in Blender",
     "link": "bulkhead-door-with-blender"
+  },
+  "lua": {
+    "total": 7,
+    "title": "Lua",
+    "link": "lua"
   }
 }
