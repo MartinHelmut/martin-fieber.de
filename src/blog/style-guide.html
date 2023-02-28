@@ -368,14 +368,18 @@ blockquote + figcaption {
   border: 1px solid var(--color-blue-500);
   border-radius: var(--size-300);
   background: var(--color-blue-100);
+  margin-bottom: var(--size-500);
   padding: var(--size-400);
 }
 
+.callout h4,
 .callout h5 {
+  font-size: 1rem;
   color: var(--color-blue-500);
   margin-bottom: var(--size-300);
 }
 
+.callout h4::before,
 .callout h5::before {
   content: "\024D8";
   margin-right: var(--size-300);
@@ -392,12 +396,12 @@ blockquote + figcaption {
 }</code></pre>
 </figure>
 <aside class="callout">
-  <h5>This is a callout</h5>
+  <h4>This is a callout</h4>
   <p>And this is the content of the callout.</p>
 </aside>
 <figure>
   <pre><code class="language-html hljs">&lt;aside class="callout"&gt;
-  &lt;h5&gt;This is a callout&lt;/h5&gt;
+  &lt;h4&gt;This is a callout&lt;/h4&gt;
   &lt;p&gt;And this is the content of the callout.&lt;/p&gt;
 &lt;/aside&gt;</code></pre>
 </figure>
