@@ -1,6 +1,6 @@
 ---
 date: 2022-07-03
-lastmod: 2022-12-31
+lastmod: 2023-02-28
 title: "Basic C++ setup with dependency management in CMake"
 description: "Setting up a proper C++ environment can be a challenge for a newcomer. This is my try on showing with what I came up with."
 linkTitle: "I try creating a setup for myself that scales and is flexible enough to met all my needs."
@@ -41,11 +41,13 @@ tags: ["post", "cpp"]
   was the plan. And the tool I wanted to understand first was CMake &mdash;
   little I knew what a ride that will be.
 </p>
-<p>
-  Before I start some words about <strong>platform support</strong>: I regularly
-  work on a M1 Mac, but I also tested this setup with Windows 11 and Linux
-  (Debian).
-</p>
+<aside class="callout">
+  <h4>Platform Support</h4>
+  <p>
+    I most often work on a M1 Mac, but I also tested this setup with Windows 11
+    and on Linux (Debian).
+  </p>
+</aside>
 <h3>Learning CMake</h3>
 <p>
   I've heard a lot of things about
@@ -707,15 +709,15 @@ BinPackParameters: false
 ColumnLimit: 100
 
 ...</code></pre>
+  <figcaption>
+    A list of
+    <a
+      href="https://clang.llvm.org/docs/ClangFormatStyleOptions.html"
+      title="List of all clang-format styling options."
+      >all options can be found here</a
+    >.
+  </figcaption>
 </figure>
-<p>
-  A list of
-  <a
-    href="https://clang.llvm.org/docs/ClangFormatStyleOptions.html"
-    title="List of all clang-format styling options."
-    >all options can be found here</a
-  >.
-</p>
 <p>
   To format all the project source files, having clang-format installed, run:
 </p>
