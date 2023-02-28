@@ -1,5 +1,6 @@
 ---
 date: 2023-02-27
+lastmod: 2023-02-28
 title: "Lua project setup with LuaRocks"
 description: "A full guide on setting up a Lua project, including dependency management, code formatting and analysis, and editor setup. Part of a larger series about aspects of Lua."
 image: "/assets/blog/lua-series-part-1/title-card.png"
@@ -90,7 +91,7 @@ series: { name: lua, part: 1 }
       <a href="#editor-setup">Editor setup</a>
       <ul>
         <li>
-          <a href="#editor-setup-intellij">IntelliJ</a>,
+          <a href="#editor-setup-jetbrains">JetBrains</a>,
           <a href="#editor-setup-visual-studio-code">Visual Studio Code</a>
         </li>
       </ul>
@@ -657,15 +658,23 @@ package.cpath = 'lua_modules/lib/lua/' .. version ..
   defining a <code>.envrc</code> with my projects environment variables that
   will only be loaded when working inside the respective project folder.
 </p>
-<p>
-  There are
-  <a
-    href="https://github.com/direnv/direnv/releases"
-    title="List of releases for direnv on GitHub."
-    >releases for all platforms</a
-  >, including Windows, and a comprehensive documentation, so I won't go into
-  detail here as this is an <strong>optional setup step</strong>.
-</p>
+<div class="side-note-ref">
+  <p>
+    There are
+    <a
+      href="https://github.com/direnv/direnv/releases"
+      title="List of releases for direnv on GitHub."
+      >releases for all platforms</a
+    >, including Windows*, and a comprehensive documentation, so I won't go into
+    detail here as this is an <strong>optional setup step</strong>.
+  </p>
+  <aside class="side-note">
+    <p>
+      * Downloading the binary and adding it to the PATH is the base Windows
+      setup.
+    </p>
+  </aside>
+</div>
 <p>
   Having that done, one way or another, I assume from here the
   <code>LUA_INIT</code> variable is set, the test script with the
@@ -810,13 +819,39 @@ Total: 0 warnings / 0 errors in 2 files</code></pre>
 <h3 id="editor-setup">Editor setup</h3>
 <p>
   No project setup complete without setting up an editor environment. To have
-  some options I picked two well known ones, IntelliJ and VSCode.
+  some options <strong>I picked two</strong> well known ones, IntelliJ IDE from
+  JetBrains (paid) and VSCode from Microsoft (free).
 </p>
 
-<h4 id="editor-setup-intellij">IntelliJ</h4>
+<h4 id="editor-setup-jetbrains">JetBrains</h4>
+<figure>
+  <picture>
+    <source
+      type="image/webp"
+      srcset="/assets/blog/lua-series-part-1/editor-jetbrains-intellij.webp"
+    />
+    <img
+      src="/assets/blog/lua-series-part-1/editor-jetbrains-intellij.png"
+      alt="Screenshot of IntelliJ IDE with the open Lua series project."
+      width="1024"
+      height="600"
+    />
+  </picture>
+  <figcaption>The Lua series project open in IntelliJ IDE.</figcaption>
+</figure>
 <p>
-  Using any IntelliJ product (e.g. CLion) for Lua development, I would use the
-  plugin
+  Using any
+  <a
+    href="https://www.jetbrains.com"
+    title="Website of JetBrains, tools for software development."
+    >JetBrains</a
+  >
+  product (e.g.
+  <a
+    href="https://www.jetbrains.com/clion/"
+    title="JetBrains' CLion landing page, cross-platform IDE for C and C++."
+    >CLion</a
+  >) for Lua development, I use the plugin
   <a
     href="https://github.com/Benjamin-Dobell/IntelliJ-Luanalysis"
     title="GitHub page of the IntelliJ plugin Luanalysis."
@@ -837,8 +872,29 @@ Total: 0 warnings / 0 errors in 2 files</code></pre>
 </p>
 
 <h4 id="editor-setup-visual-studio-code">Visual Studio Code</h4>
+<figure>
+  <picture>
+    <source
+      type="image/webp"
+      srcset="/assets/blog/lua-series-part-1/editor-microsoft-vscode.webp"
+    />
+    <img
+      src="/assets/blog/lua-series-part-1/editor-microsoft-vscode.png"
+      alt="Screenshot of VSCode editor with the open Lua series project."
+      width="1024"
+      height="600"
+    />
+  </picture>
+  <figcaption>The Lua series project open in VSCode.</figcaption>
+</figure>
 <p>
-  For VSCode three plugins do the heavy lifting &mdash; the
+  For
+  <a
+    href="https://code.visualstudio.com"
+    title="Microsoft's Visual Studio Code editor website."
+    >VSCode</a
+  >
+  three plugins do the heavy lifting &mdash; the
   <a
     href="https://marketplace.visualstudio.com/items?itemName=sumneko.lua"
     title="Lua plugin page on VSCode marketplace."
