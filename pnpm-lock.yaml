@@ -6,7 +6,7 @@ specifiers:
   eslint: 8.36.0
   eslint-config-prettier: 8.7.0
   eslint-plugin-html: 7.1.0
-  luxon: 3.2.1
+  luxon: 3.3.0
   prettier: 2.8.4
   stylelint: 15.2.0
   stylelint-prettier: 3.0.0
@@ -17,7 +17,7 @@ devDependencies:
   eslint: 8.36.0
   eslint-config-prettier: 8.7.0_eslint@8.36.0
   eslint-plugin-html: 7.1.0
-  luxon: 3.2.1
+  luxon: 3.3.0
   prettier: 2.8.4
   stylelint: 15.2.0
   stylelint-prettier: 3.0.0_7tfqzuwksfwysdxnjpqifqt36u
@@ -95,7 +95,7 @@ packages:
       lodash.chunk: 4.2.0
       lodash.get: 4.4.2
       lodash.set: 4.3.2
-      luxon: 3.2.1
+      luxon: 3.3.0
       markdown-it: 13.0.1
       micromatch: 4.0.5
       minimist: 1.2.7
@@ -1554,8 +1554,8 @@ packages:
       yallist: 4.0.0
     dev: true
 
-  /luxon/3.2.1:
-    resolution: {integrity: sha512-QrwPArQCNLAKGO/C+ZIilgIuDnEnKx5QYODdDtbFaxzsbZcc/a7WFq7MhsVYgRlwawLtvOUESTlfJ+hc/USqPg==}
+  /luxon/3.3.0:
+    resolution: {integrity: sha512-An0UCfG/rSiqtAIiBPO0Y9/zAnHUZxAMiCpTd5h2smgsj7GGmcenvrvww2cqNA8/4A5ZrD1gJpHN2mIHZQF+Mg==}
     engines: {node: '>=12'}
     dev: true
 
