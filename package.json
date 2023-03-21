@@ -38,7 +38,7 @@
     "eslint-config-prettier": "8.8.0",
     "eslint-plugin-html": "7.1.0",
     "luxon": "3.3.0",
-    "prettier": "2.8.5",
+    "prettier": "2.8.6",
     "stylelint": "15.3.0",
     "stylelint-prettier": "3.0.0"
   }
