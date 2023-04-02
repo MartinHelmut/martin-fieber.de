@@ -1,6 +1,6 @@
 ---
 date: 2023-02-27
-lastmod: 2023-03-31
+lastmod: 2023-04-02
 title: "Lua project setup with LuaRocks"
 description: "A full guide on setting up a Lua project, including dependency management, code formatting and analysis, and editor setup. Part of a larger series about aspects of Lua."
 image: "/assets/blog/lua-series-part-1/title-card.png"
@@ -84,6 +84,7 @@ series: { name: lua, part: 1 }
     <li><a href="#about-rockspec">About .rockspec</a></li>
     <li><a href="#install-a-module">Install a module</a></li>
     <li><a href="#resolve-module-paths">Resolve module paths</a></li>
+    <li><a href="#rock-trees">Rock trees</a></li>
     <li><a href="#enable-local-scripts">Enable local scripts</a></li>
     <li><a href="#auto-format-code">Auto format code</a></li>
     <li><a href="#static-analysis">Static analysis</a></li>
@@ -100,6 +101,8 @@ series: { name: lua, part: 1 }
     <li><a href="#what-comes-next">What comes next</a></li>
   </ol>
 </nav>
+
+<hr />
 
 <h3 id="lua-versions">Lua versions</h3>
 <p>
@@ -689,6 +692,33 @@ package.cpath = 'lua_modules/lib/lua/' .. version ..
   <pre><code class="language-shell hljs">$ lua src/main.lua
 { "Hello, reader.", 42 }</code></pre>
   <figcaption>Success, at last.</figcaption>
+</figure>
+
+<h3 id="rock-trees">Rock trees</h3>
+<p>
+  It is important to note where packages are installed when using LuaRocks. So
+  far, having the project set up via <code>luarocks init</code>, all packages
+  were installed locally, inside the project folder. This is only the case due
+  to the presence of the <code>.luarocks</code> and
+  <code>lua_modules</code> folder. When this is not the case packages are
+  installed <strong>globally by default</strong> when a config file is not
+  present.
+</p>
+<p>
+  Another option when not in a project is using the <code>--local</code> flag.
+  <strong>Be aware:</strong> this does not mean local as in
+  <em>"local folder"</em>, this means local as in
+  <em>"the users home directory"</em>. To really get a local installation, for
+  example inside the current working directory, the
+  <code>--tree</code>
+  flag needs to be used passing the path to a folder.
+</p>
+<figure>
+  <pre><code class="language-shell hljs">$ luarocks install --tree=lua_modules inspect</code></pre>
+  <figcaption>
+    Install <code>inspect</code> inside in <code>lua_modules</code> inside the
+    current working directory.
+  </figcaption>
 </figure>
 
 <h3 id="enable-local-scripts">Enable local scripts</h3>
