@@ -1,5 +1,6 @@
 ---
 date: 2023-03-31
+lastmod: 2023-04-02
 title: "Create, build, and publish modules for Lua"
 description: "Going through creating new packages with LuaRocks, and preparing them for publish into the official LuaRocks registry. On top: how to manage new versions, include documentation, and configure platform support."
 image: "/assets/blog/lua-series-part-2/title-card.png"
@@ -7,7 +8,7 @@ imageAlt: "Showing a VSCode window in dark mode, a rockspec file open with a set
 linkTitle: "Creating packages ready to be published to LuaRocks."
 banner: "/assets/blog/lua-series-part-2/banner"
 bannerAlt: "Showing a VSCode window in dark mode, a rockspec file open with a set of configurations, and the sidebar on the left, showing the contained project files that get built in this part of the series."
-summary: "<p>Using LuaRocks to create and build new packages to then publish them to the official LuaRocks registry, and how to manage new versions.</p>"
+summary: "<p>Using LuaRocks to create and build new packages, to then publish them to the official LuaRocks registry, and how to manage new versions.</p>"
 hasCode: true
 tags: ["post", "lua"]
 series: { name: lua, part: 2 }
@@ -49,7 +50,7 @@ series: { name: lua, part: 2 }
   This article will focus on how to
   <strong>create, build, and publish</strong> a Lua package, as well as
   documentation and version management. If you just want a quick summary you can
-  also jump down to the <a href="#tldr">TL;DR at the end</a> of the page.
+  jump down to the <a href="#tldr">TL;DR at the end</a> of the page.
 </p>
 
 <nav>
@@ -76,6 +77,12 @@ series: { name: lua, part: 2 }
           >
         </li>
       </ul>
+    </li>
+    <li><a href="#install-from-git-or-url">Install from git or url</a></li>
+    <li>
+      <a href="#cross-server-dependency-tracking"
+        >Cross-server dependency tracking</a
+      >
     </li>
     <li><a href="#documentation">Documentation</a></li>
     <li>
@@ -109,9 +116,12 @@ series: { name: lua, part: 2 }
   </ol>
 </nav>
 
+<hr />
+
 <h3 id="prerequisites">Prerequisites</h3>
 <p>
-  At least Lua and LuaRocks will be needed for this article to follow along. The
+  At least Lua and LuaRocks will be required for this article to follow along.
+  The
   <a
     href="/blog/lua-project-setup-with-luarocks/"
     title="The first article, focusing on a solid project setup."
@@ -126,14 +136,14 @@ series: { name: lua, part: 2 }
   is a convenient way of setting up a project, using locally installed
   dependencies. The <code>init</code> command will create some reasonable
   defaults, but it is recommended to
-  <strong>at least specify the packages supported Lua versions</strong>.
+  <strong>at least specify the supported Lua versions</strong>.
 </p>
 <p>
   If not defined, the project name will be taken from the folder name the
-  command is called from, the default version will be <code>dev-1</code>. Giving
-  at least those three options; the supported Lua versions, a project name, and
-  a project start version; the command to initialise a package will look like
-  the following.
+  command is called from, the default version will be <code>dev-1</code>.
+  Providing at least those three options; the supported Lua versions, a project
+  name, and a project start version; the command to initialise a package will
+  look like the following.
 </p>
 <figure>
   <pre><code class="language-shell hljs">$ luarocks init \
@@ -152,14 +162,14 @@ series: { name: lua, part: 2 }
 <p>
   Two executables are created as well, <code>./lua</code> and
   <code>./luarocks</code>, offering a way to run both commands for the local
-  project, configured for the local dependency tree. And a default
+  project, configured for the local dependency tree, and a default
   <code>.gitignore</code> file, containing both folders and the two local
   commands. If a <code>.gitignore</code> file is already present the four
   entries will be appended to it.
 </p>
 <p>
   One file not to be ignored is the generated <code>.rockspec</code> file. It
-  holistically describes a package and how to handle it.
+  holistically describes a package and how it is handled.
 </p>
 
 <h3 id="short-note-about-the-project-structure">
@@ -167,7 +177,7 @@ series: { name: lua, part: 2 }
 </h3>
 <div class="side-note-ref">
   <p>
-    With the predefined files and folders through LuaRocks, I
+    With the files and folders predefined through LuaRocks, I
     <strong>personally</strong> like to have all the code I write in a
     <code>src</code> (source) folder, including tests. I do not use a dedicated
     test folder, as I keep tests close to the source files*. Another folder in
@@ -191,8 +201,8 @@ series: { name: lua, part: 2 }
 
 <h3 id="rockspec-deep-dive">Rockspec deep-dive</h3>
 <p>
-  The <code>.rockspec</code> is at its core a Lua file, though without access to
-  any Lua functions. When editing the file it is good practice to check it being
+  The <code>.rockspec</code> is a Lua file, though without access to any Lua
+  functions. When editing the file it is good practice to check it being
   well-formed by running the LuaRocks <code>lint</code> command often.
 </p>
 <figure>
@@ -208,20 +218,20 @@ series: { name: lua, part: 2 }
     title="LuaRocks documentation about the Rockspec file format."
     >the official documentation</a
   >, I think it is worth to look at the spec-file in more detail &mdash;
-  specifically the general metadata, dependencies, and build rules.
+  specifically the general metadata, dependencies, and package source rules.
 </p>
 
 <h4 id="package-metadata">Package metadata</h4>
 <p>
   The project metadata is the base of the package description. There are only
-  <strong>two mandatory fields</strong> on that section,
+  <strong>two mandatory fields</strong> for that section,
   <code>package</code> being the package name, and <code>version</code>. Though,
-  being able to fill in more is better, providing the best help for package
-  users that can be &mdash; even if that is just future me.
+  being able to fill in more is better, providing solid help for package users
+  &mdash; even if that is just future me.
 </p>
 <p>
-  Another crucial field in my opinion is the <code>rockspec_format</code>, often
-  seen using the oldest format <code>1.0</code>. To get the most out of a
+  Another crucial field is the <code>rockspec_format</code>, with many packages
+  using the oldest format <code>1.0</code>. To get the most out of a
   <code>.rockspec</code> file version <code>3.0</code> is recommended, giving
   the greatest range of options to describe a package.
 </p>
@@ -256,17 +266,20 @@ version = "1.0.0-1"</code></pre>
   means that if the package is published as archive to the official LuaRocks
   registry the URL needs to point to a publicly available source. If the package
   is only used locally, for example while development, the
-  <code>file://</code> protocol can be used utilising the local filesystem.
+  <code>file://</code> protocol can be used, utilising the local filesystem.
 </p>
 <p>
   A very common use-case is
   <strong>pointing to a Git repository</strong> combined with a specific branch
-  or release tag. Assuming that releases are done via version tagging, e.g.
-  version 1.1.0 being the Git tag <code>v1.1.0</code>, this is how the
-  configuration for this looks like.
+  or release tag. Assuming that releases are done via version tags, e.g. version
+  1.1.0 being the Git tag <code>v1.1.0</code>, this is how the configuration for
+  this looks.
 </p>
 <figure>
-  <pre><code class="language-lua hljs">source = {
+  <pre><code class="language-lua hljs">-- my-package-1.0.0-1.rockspec
+-- earlier options ...
+
+source = {
   url = "git+https://github.com/MartinHelmut/lua-series",
   tag = "v1.1.0"
 }</code></pre>
@@ -285,12 +298,12 @@ version = "1.0.0-1"</code></pre>
 <p>
   In case the package is only supported on a few platform, the
   <code>supported_platforms</code> property can be used to signal this. It's an
-  array of strings with the following <strong>full list</strong> defined
-  platform names: <em>"unix"</em>, <em>"bsd"</em>, <em>"solaris"</em>,
-  <em>"netbsd"</em>, <em>"openbsd"</em>, <em>"freebsd"</em>,
-  <em>"dragonfly"</em>, <em>"linux"</em>, <em>"macosx"</em>, <em>"cygwin"</em>,
-  <em>"msys"</em>, <em>"haiku"</em>, <em>"windows"</em>, <em>"win32"</em>,
-  <em>"mingw"</em>, <em>"mingw32"</em>, <em>"msys2_mingw_w64"</em>.
+  array of strings with the following <strong>full list</strong> of platform
+  names: <em>"unix"</em>, <em>"bsd"</em>, <em>"solaris"</em>, <em>"netbsd"</em>,
+  <em>"openbsd"</em>, <em>"freebsd"</em>, <em>"dragonfly"</em>,
+  <em>"linux"</em>, <em>"macosx"</em>, <em>"cygwin"</em>, <em>"msys"</em>,
+  <em>"haiku"</em>, <em>"windows"</em>, <em>"win32"</em>, <em>"mingw"</em>,
+  <em>"mingw32"</em>, <em>"msys2_mingw_w64"</em>.
 </p>
 <p>
   With this, a platform can be excluded that is not supported, using the
@@ -315,16 +328,21 @@ version = "1.0.0-1"</code></pre>
 <p>
   The next larger chunk is the <code>description</code> table, containing a
   short and long description, the package license, links and maintainer
-  information, and the option to add categories to the package.
+  information, and the option to add categories or labels to the package.
 </p>
 <figure>
-  <pre><code class="language-lua hljs">description = {
+  <pre><code class="language-lua hljs">-- my-package-1.0.0-1.rockspec
+-- earlier options ...
+
+description = {
   summary = "This is a Lua series package.",
   detailed = "This package is for educational purposes ...",
   license = "MIT",
   homepage = "https://github.com/MartinHelmut/lua-series",
-  issues_url = "https://github.com/MartinHelmut/lua-series/issues",
-  maintainer = "Martin Helmut Fieber &lt;info@martin-fieber.se&gt;",
+  issues_url
+    = "https://github.com/MartinHelmut/lua-series/issues",
+  maintainer
+    = "Martin Helmut Fieber &lt;info@martin-fieber.se&gt;",
   labels = { "lua-series", "educational" }
 }</code></pre>
   <figcaption>
@@ -333,7 +351,7 @@ version = "1.0.0-1"</code></pre>
   </figcaption>
 </figure>
 <p>
-  When defining the <code>description.homepage</code> field, a package user can
+  If the <code>description.homepage</code> field is defined, a package user can
   open the homepage through LuaRocks by using the <code>doc</code> command.
 </p>
 <figure>
@@ -344,7 +362,8 @@ version = "1.0.0-1"</code></pre>
 <h4 id="dependencies">Dependencies</h4>
 <p>
   Declaring dependencies in the project, no matter what kind, is via a list of
-  strings containing the dependency name and what version it uses.
+  strings containing the dependency name and what version it uses. Those names
+  will be looked up in the LuaRocks package registry on installation
 </p>
 <p>
   Versions can be specified in a variety of ways, all documented in the official
@@ -354,7 +373,7 @@ version = "1.0.0-1"</code></pre>
     >LuaRocks documentation about dependencies</a
   >. The most common way to specify versions is via the operators
   <code>==</code>, <code>~=</code>, <code><</code>, <code>></code>,
-  <code><=</code>, and <code>>=</code>; or via a comma <code>,</code> separated
+  <code><=</code>, and <code>>=</code>; and via a comma <code>,</code> separated
   range.
 </p>
 <figure>
@@ -372,10 +391,11 @@ version = "1.0.0-1"</code></pre>
   <figcaption>A few examples how to specify a version.</figcaption>
 </figure>
 <p>
-  Let's look at the three properties most often used to declare dependencies,
-  starting with <code>dependencies</code>. This is what you generally use to
-  declare what dependencies the project will include and depends upon. Having
-  run the <code>init</code>
+  Let's look at the three properties most often used to
+  <strong>declare dependencies</strong>, starting with
+  <code>dependencies</code>. This is what you generally use to declare what
+  dependencies the project will include and depends upon. Having run the
+  <code>init</code>
   command this will already contain a special dependency, Lua, defining what
   versions of Lua the package supports.
 </p>
@@ -389,7 +409,7 @@ version = "1.0.0-1"</code></pre>
 </figure>
 <p>
   When setting up a project, all dependencies in that list can easily be
-  installed via LuaRocks install command.
+  installed via the LuaRocks install command.
 </p>
 <figure>
   <pre><code class="language-shell hljs">$ ./luarocks install --deps-only my-package-1.0.0-1.rockspec</code></pre>
@@ -454,12 +474,54 @@ test_dependencies = {
   </figcaption>
 </figure>
 
+<h3 id="install-from-git-or-url">Install from git or url</h3>
+<p>
+  With LuaRocks it is also possible to install package from source control or
+  <abbr>URL</abbr> directly. The way this works is by pointing to a remote
+  <code>.rockspec</code> file, for example in a Git repository. As seen in a
+  <a href="#old-package-versions">later example</a>.
+</p>
+<figure>
+  <pre><code class="language-shell hljs">$ ./luarocks install \
+    https://raw.github.com/MartinHelmut/lua-series/v1.0.0/lua-series-1.0.0-1.rockspec</code></pre>
+</figure>
+<p>
+  Be aware, dependencies installed like this
+  <strong>can not be added</strong> to <code>dependencies</code>,
+  <code>build_dependencies</code>, nor <code>test_dependencies</code> in the
+  projects <code>.rockspec</code> file.
+</p>
+
+<h3 id="cross-server-dependency-tracking">Cross-server dependency tracking</h3>
+<p>
+  If it is planned to install dependencies from other registries than the
+  default LuaRocks, a
+  <a
+    href="https://github.com/luarocks/luarocks/wiki/Config-file-format"
+    title="LuaRock documentation about it's config file."
+    >LuaRocks config file</a
+  >
+  can be used to define multiple <em>"rock servers"</em>.
+</p>
+<p>
+  Thanks to the local setup this can be done per project inside the
+  <code>.luarocks/config.lua</code> file. Usually this file is generated with a
+  specific version, like <code>.luarocks/config-5.4.lua</code>, when using Lua
+  5.4.
+</p>
+<figure>
+  <pre><code class="language-lua hljs">rocks_servers = {
+  "http://luarocks.org/repositories/rocks"
+}</code></pre>
+  <figcaption>The default registry when installing dependencies.</figcaption>
+</figure>
+
 <h3 id="documentation">Documentation</h3>
 <p>
-  LuaRocks supports including documentation about the package inside the package
+  LuaRocks supports bundling documentation about the package inside the package
   itself. The idea is to use <code>build.copy_directories</code> in the
   <code>.rockspec</code> file to include a <code>doc</code> folder. The
-  <strong>folder name is special</strong>, as it will be the one looked for when
+  <strong>folder name is special</strong>, as it will be the one used for when
   calling <code>luarocks doc</code>.
 </p>
 <figure>
@@ -467,7 +529,7 @@ test_dependencies = {
 
 -- other options ...
 build = {
-  copy_directories = {"doc"}
+  copy_directories = { "doc" }
 }</code></pre>
   <figcaption>
     Copying the <code>doc</code> folder on <code>luarocks build</code>.
@@ -488,8 +550,8 @@ Documentation files for my-package 1.0.0-1
         Usage.md</code></pre>
 </figure>
 <p>
-  The <code>doc</code> command has two more options to it, one is calling it
-  with <code>--home</code> to open the projects home page defined through
+  The <code>doc</code> command has two more options, one is calling it with
+  <code>--home</code> to open the projects home page defined through
   <code>description.homepage</code> in the default browser.
 </p>
 <figure>
@@ -522,14 +584,14 @@ Documentation files for my-package 1.0.0-1
 <h4 id="source-rock">Source-rock</h4>
 <p>
   A <strong>source-rock</strong> is a package that
-  <strong>does need to be compiled</strong> on installation. It can contain a
-  variety of files, build steps, and can even have platform dependent code. This
-  is a common package type to be found.
+  <strong>probably needs to be compiled</strong> on installation. It can contain
+  a variety of files, build steps, and can even have platform dependent code.
+  This is a common package type to be found.
 </p>
 
 <h4 id="binary-rock">Binary-rock</h4>
 <p>
-  And at last the <strong>binary-rock</strong>, most often containing
+  At last the <strong>binary-rock</strong>, most often containing
   <strong>platform specific compiled</strong> C-code, but can also contain Lua
   files. This package type also contains a
   <a
@@ -553,25 +615,25 @@ Documentation files for my-package 1.0.0-1
 </p>
 <p>
   Binary-rocks have some other requirements setting them apart, most notably
-  containing at least one executable.
+  containing at least one executable and a manifest file.
 </p>
 
 <h3 id="building-a-module">Building a module</h3>
 <p>
   Knowing what rock types exist, building a
-  <strong>binary-rock will not be part of this article</strong>. A later article
-  in the series will cover C-rocks specifically.
+  <strong>binary-rock will not be part of this article</strong>, and a later
+  article in the series will cover C-rocks specifically.
 </p>
 <p>
-  To build a project written in Lua, LuaRocks needs to know where all the Lua
+  To build a project written in Lua, LuaRocks needs to know where all Lua
   modules are located, and how to build them. The <em>"builtin"</em> build type
   will suffice. To configure this, the <code>.rockspec</code> file will get a
   <code>build</code> table.
 </p>
 <figure>
   <pre><code class="language-lua hljs">-- my-package-1.0.0-1.rockspec
+-- earlier options ...
 
--- other options ...
 build = {
   type = "builtin",
   modules = {}
@@ -585,8 +647,8 @@ build = {
 </p>
 <figure>
   <pre><code class="language-lua hljs">-- my-package-1.0.0-1.rockspec
+-- earlier options ...
 
--- other options ...
 build = {
   type = "builtin",
   modules = {
@@ -650,7 +712,7 @@ build = {
   tag = "v1.0.0"
 }</code></pre>
 </figure>
-<p>And, to complete the example, here how to create and push a Git tag.</p>
+<p>To complete the example, here how to create and push a Git tag.</p>
 <figure>
   <pre><code class="language-shell hljs">$ git tag v1.0.0 && git push --tags</code></pre>
 </figure>
@@ -658,7 +720,7 @@ build = {
   When eventually packing and submitting the rock, this will be used to pack the
   sources, so that
   <strong>users won't need the respective source control system</strong>
-  installed. Though, it is advised to use a stable <abbr>URL</abbr>.
+  installed. Though, it is advised to use a stable <abbr>URL</abbr> nonetheless.
 </p>
 
 <h4 id="using-an-archive">Using an archive</h4>
@@ -688,7 +750,7 @@ build = {
 </div>
 <figure>
   <pre><code class="language-lua hljs">source = {
-  url = "https://some-stable.url/my-package/my-package-1.0.0.tar.gz"
+  url = "https://stable.tld/my-package/my-package-1.0.0.tar.gz"
 }</code></pre>
 </figure>
 
@@ -711,11 +773,12 @@ build = {
 </p>
 <figure>
   <pre><code class="language-shell hljs">$ ./luarocks build --pack-binary-rock</code></pre>
+  <figcaption>Build with local files only.</figcaption>
 </figure>
 
 <h4 id="ship-it">Ship it!</h4>
 <p>
-  After the project is build, to actually publish the rock, an account at
+  After the project is built, to actually publish the rock, an account at
   <a href="https://luarocks.org" title="Official LuaRocks website."
     >luarocks.org</a
   >
@@ -751,7 +814,7 @@ build = {
 <aside class="callout">
   <h4>Git tag</h4>
   <p>
-    It is important to remember that the Git tag needs to be already created and
+    It is important to remember that a Git tag needs to already be created and
     pushed for the <code>pack</code> command to work. LuaRocks will try to fetch
     from it.
   </p>
@@ -798,7 +861,13 @@ build = {
     />
   </picture>
   <figcaption>
-    This is how a published package looks like on LuaRocks.
+    This is how
+    <a
+      href="https://luarocks.org/modules/martinhelmut/lua-series"
+      title="The lua-series package, used for the Lua article series."
+      >a published package</a
+    >
+    looks like on LuaRocks.
   </figcaption>
 </figure>
 
@@ -832,11 +901,12 @@ source = {
 <p>
   Remark, <strong>this will not create a new Git tag</strong>. The newly created
   <code>.rockspec</code>
-  file needs to be committed first, and a new Git tag created manually.
+  file needs to be committed first, and a new Git tag created manually
+  afterwards.
 </p>
 <p>
-  After having the new <code>.rockspec</code> file, and a pushed Git tag, the
-  latest version can again be published by using the <code>pack</code> and
+  Having the new <code>.rockspec</code> file, and a pushed Git tag, the latest
+  version can be published by using the <code>pack</code> and
   <code>upload</code> command.
 </p>
 <figure>
@@ -851,7 +921,8 @@ $ ./luarocks upload my-package-1.1.0-1.rockspec \
   <code>.rockspec</code> version files around inside a
   <code>.rockspec</code> folder in the project.
   <strong>I do not do this</strong> &mdash; it is always possible to point to
-  older versions with source control management systems.
+  older versions with source control management systems, so I just remove the
+  old <code>.rockspec</code> file.
 </p>
 <p>
   For example pointing to a specific tag, with a package on GitHub, using the
@@ -860,6 +931,7 @@ $ ./luarocks upload my-package-1.1.0-1.rockspec \
 <figure>
   <pre><code class="language-shell hljs">$ ./luarocks install \
     https://raw.github.com/MartinHelmut/lua-series/v1.0.0/lua-series-1.0.0-1.rockspec</code></pre>
+  <figcaption>Installing an older package version from GitHub.</figcaption>
 </figure>
 
 <h3 id="tldr">TL;DR</h3>
@@ -938,12 +1010,12 @@ $ ./luarocks upload my-package-1.0.0-1.rockspec \
   <a
     href="https://github.com/MartinHelmut/lua-series/tree/part-2"
     title="Branch part-2 of the companion repository on GitHub."
-    >companion repository, branch part-2</a
+    >companion repository, branch <em>"part-2"</em></a
   >
   on GitHub.
 </p>
 <p>
-  The next article will dive deep into testing Lua code &mdash; from first small
-  iterations, unit testing, creating mocks, and running continuous integrating.
-  Until then 👋🏻
+  The next article will be a deep-dive into
+  <strong>testing Lua code</strong> &mdash; from first small iterations, unit
+  testing, creating mocks, and running continuous integrating. Until then 👋🏻
 </p>
