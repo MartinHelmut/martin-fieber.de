@@ -101,6 +101,10 @@ section {
   margin-right: var(--size-300);
 }
 
+.callout code {
+  background-color: #fff;
+}
+
 /**
  * The min-width is calculated by the page width (660px)
  * plus twice the amount of the side note width (240px), as
