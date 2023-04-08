@@ -34,7 +34,7 @@
   "devDependencies": {
     "@11ty/eleventy": "2.0.1",
     "@11ty/eleventy-plugin-rss": "1.2.0",
-    "eslint": "8.37.0",
+    "eslint": "8.38.0",
     "eslint-config-prettier": "8.8.0",
     "eslint-plugin-html": "7.1.0",
     "luxon": "3.3.0",
