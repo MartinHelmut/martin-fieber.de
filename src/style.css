@@ -306,6 +306,13 @@ address {
   font-style: italic;
 }
 
+hr {
+  margin: var(--size-500) 0;
+  height: 0;
+  border: none;
+  border-bottom: 1px solid var(--color-grey-500);
+}
+
 /* Article */
 
 article {

@@ -1,0 +1,667 @@
+---
+date: 2023-04-26
+title: "Building awesome internal tools"
+description: "Sharing 13 guidelines and ideas that worked for me, creating the best internal tools with love and care for the user."
+image: "/assets/blog/awesome-internal-tools/title-card.png"
+imageAlt: "A screenshot of one of my internal tools to manage content on my websites. The design is my own retro-pixel UI I love looking at; a dark base with bright blue, red, and green accents."
+linkTitle: "Good enough is just not good. Building better internal tools for everyone."
+banner: "/assets/blog/awesome-internal-tools/banner"
+bannerAlt: "A screenshot of the start screen one of my internal tools to manage content on my websites. The design is my own retro-pixel UI I love looking at; a dark base with bright blue, red, and green accents."
+summary: "<p>Internal tools often don't get the love and care they deserve. Here I'll share 13 general guidelines to build better internal tools that helped me in the past.</p>"
+tags: ["post", "general"]
+---
+
+<figure>
+  <picture>
+    <source
+      type="image/webp"
+      srcset="/assets/blog/awesome-internal-tools/banner.webp"
+    />
+    <img
+      src="/assets/blog/awesome-internal-tools/banner.png"
+      alt="{{ bannerAlt }}"
+      width="1024"
+      height="300"
+    />
+  </picture>
+</figure>
+
+<h3 id="my-blog-my-opinions">My blog, my opinions</h3>
+<p>
+  As this is <strong>my personal</strong> blog I sure hope every reader knows
+  that my opinions will be part of it. Nevertheless, I want to emphasise this,
+  especially for this article, that I put together based on my time in software
+  development, with what I experienced and what worked well.
+</p>
+<p>
+  Still, it always depends on different factors and the given context &mdash; am
+  I my own user, work for a small team, a large company, hobby, professional,
+  budget, and many more. Having this out of the way, let's go.
+</p>
+<hr />
+
+<h3 id="not-only-good">It's not only good, &hellip;</h3>
+<p>
+  Internal facing tools can be a lot of things; large and small
+  <abbr>GUI</abbr> applications, code libraries, script tools,
+  <abbr>APIs</abbr>, or even workflows for teams. Quite often, in my past, those
+  tools were rather technical.
+</p>
+<p>
+  Configuration through <abbr>JSON</abbr>, <abbr>YAML</abbr>, or
+  <abbr>XML</abbr>; run through Jenkins, GitHub Actions, or a command line
+  script. A search that is based on regular expressions, a
+  <dfn>Domain Specific Language (<abbr>DSL</abbr>)</dfn>, a release job used by
+  non-technical people triggered through a cURL call, or a <abbr>REST</abbr>
+  <abbr>API</abbr> so good, it <em>"documents itself"</em>.
+</p>
+
+<h3 id="good-enough">&hellip; it's good enough!</h3>
+<p>
+  I wrote this just for myself, or my colleagues &mdash; I know, and they can
+  ask me. Those designers just need to learn Git, my manager how to use
+  <abbr>cURL</abbr>, they will manage. I will remember. In the end, I wrote the
+  tool, what more?
+</p>
+
+<h3 id="no">No!</h3>
+<div class="side-note-ref">
+  <p>
+    <strong>This cannot be it.</strong> I am a user, my future self will not
+    remember, and no, those designers should absolutely not be forced to learn
+    Git*.
+  </p>
+  <aside class="side-note">
+    <p>
+      * I've heard this now so often that this really starts to rub me all the
+      wrong ways.
+    </p>
+  </aside>
+</div>
+<p>
+  Internal tools often get kind of a different status assigned, may it be from
+  ourselves to us, or in a larger context of a company. Bugs get accepted,
+  complexities sold as necessities, documentation is pointing to a chat thread,
+  calling it a day.
+</p>
+<p>
+  I say no! <strong>Good enough, is just not good.</strong> I should treat
+  myself better, my future self, my colleagues, and those that come after.
+  Caring about internal tools and those users should be as natural as,
+  hopefully, the care given to external users or anyone else.
+</p>
+
+<h3 id="but-why">But why?</h3>
+<p>
+  Better internal tools will result in <strong>less errors</strong>,
+  <strong>save time</strong>, and <strong>reduce cost</strong>. Removing
+  friction is another reason to even create internal tools in the first place,
+  so why only go half way?
+</p>
+<p>
+  A good and comprehensive documentation reduces time searching for answers and
+  help. Fewer bugs lead to less frustration, and less time spend working around
+  those issues. Happy users are more productive users, if that is me or hundreds
+  of others makes no difference.
+</p>
+<p>
+  All this, increasing confidence in a tool, therefore confidence in my own
+  abilities, or the ones of my team. Reducing maintenance costs, increasing
+  reusability, and getting easier buy-ins later from users, management, or the
+  infamous future self.
+</p>
+
+<h3 id="expectations">Expectations</h3>
+<p>
+  I'll try to be constructive, not only talking about high level concepts, but
+  where possible providing specific examples on how to
+  <strong>create and improve internal tools</strong>. All of it should work from
+  being a single person creating something amazing, to a team working in a
+  company, and I'll see to explain how this applies for those cases.
+</p>
+<p>
+  But be aware, this is not an exhaustive list, nor a set of rules. More like
+  guiding on what worked for me in the past, from private projects to the years
+  of development in companies, small and large. I did not eat wisdom with a
+  spoon, though I'm passionate about tool development and want us all to build
+  great software and workflows. On top of that, many of the points I'll bring up
+  work for general software development as well.
+</p>
+<p>With that being said, let's build awesome internal tools.</p>
+
+<nav>
+  <h3 id="table-of-contents">Table of contents</h3>
+  <ol>
+    <li>
+      <a href="#me-user-colleague"
+        >Me, user, colleague &mdash; what's the difference?</a
+      >
+    </li>
+    <li>
+      <a href="#ask-and-listen-never-assume">Ask and listen, never assume</a>
+    </li>
+    <li><a href="#watch-them-work">Watch them work</a></li>
+    <li><a href="#the-time-in-between">The time in-between</a></li>
+    <li><a href="#looks-do-matter">Looks do matter</a></li>
+    <li>
+      <a href="#documentation-driven-development"
+        >Documentation Driven Development</a
+      >
+    </li>
+    <li>
+      <a href="#prototype-iterate-implement">Prototype, iterate, implement</a>
+    </li>
+    <li><a href="#imagine-going-public">Imagine going public</a></li>
+    <li><a href="#monitor">Monitor</a></li>
+    <li>
+      <a href="#how-to-replace-existing-tools"
+        >How to replace existing tools?</a
+      >
+    </li>
+    <li><a href="#a-new-release">A new release</a></li>
+    <li><a href="#you-are-never-really-done">You're never really done</a></li>
+    <li><a href="#above-and-beyond">Above and Beyond</a></li>
+  </ol>
+</nav>
+
+<h3 id="me-user-colleague">
+  1. Me, user, colleague &mdash; what's the difference?
+</h3>
+<p>
+  Developing internal tools means, generally speaking, developing for
+  colleagues, yourself, or both. Users should not be treated differently because
+  of that, though this is often the case. Talking about those tools, starting
+  sentences with <em>"This is just for &hellip;"</em>. <strong>Just</strong> for
+  whom? The fundamental key in this endeavour, the person or group that will
+  work with the tool.
+</p>
+<p>
+  The mindset is important. How we speak, is important. This is not
+  <em>just</em>; this is for my amazing users, for my capable colleagues, this
+  is for the magnificent me, now and future; always remember.
+</p>
+
+<h3 id="ask-and-listen-never-assume">2. Ask and listen, never assume</h3>
+<p>
+  Too often I see tools developed purely based on assumptions. Assuming how
+  something should work, how people work together, what the current process
+  looks like. Sometimes going ahead with a great idea, releasing it, not once
+  having the actual user had a look at it before.
+  <em>Assumptions Driven Development</em>.
+</p>
+<p>
+  This is a problem that can easily be resolved. Even with the greatest of
+  ideas, <strong>ask and listen first</strong>. What is really wanted? Where is
+  the current problem or friction? What needs to be automated? Planning goes a
+  long way, and planning also means getting all the requirements right first, by
+  talking to the target audience.
+</p>
+<p>
+  What if this is <em>just</em> me? There it is again, <em>just</em>. Even for
+  myself I try to nail down what I really want. Do I need to automate those two
+  clicks here? Do I always want to write regular expressions for my most
+  powerful search, yet? When I want to extend this software later, is this
+  exhaustive plugin system really the right solution? I'm a technical person,
+  but is a technical solution what I want?
+</p>
+<p>
+  It may seem obvious reading this, but reality shows it is not.
+  <strong>Never assume</strong>, get all requirements, involve users early.
+  <em>Just</em> one benefit of internal tool development and reachable users.
+</p>
+<p>
+  Besides, involving users is letting them collaborate early, shaping the future
+  of what they will use (probably) daily, increasing the emotional value
+  attached to it, and therefore often being more forgiving on bugs or small
+  issues.
+</p>
+
+<h3 id="watch-them-work">3. Watch them work</h3>
+<p>
+  Ask and listen is nice, but like a picture says more than 1000 words, watching
+  someone work with a tool, workflow, or library can give more insight than any
+  question could. Quite often what others see as
+  <em>"not worthy to mention"</em> when talking about a workflow can offer great
+  potential for optimisation. Important here is to capture this session in any
+  capacity, e.g.: written down, pictures taken, a video captured.
+</p>
+<p>
+  Too often I had a colleague skip over the fact they use two different tools
+  for almost the same task, for some reason that resulted in saying
+  <em>"this is how we always did this"</em>. There is
+  <strong>no blame</strong> to the user in this, as
+  <strong>long time usage often leads to blind spots</strong>.
+</p>
+<p>
+  Now, how do I watch myself work, creating tools for my own needs? Observe via
+  screen recording! Starting a recording and letting it run for a duration of
+  time, doing the usual tasks, test a new tool, work on integrating it into an
+  existing workflow. And then review the recording. This will help identify
+  barriers and reveal blind spots, giving a different perspective.
+</p>
+
+<h3 id="the-time-in-between">4. The time in-between</h3>
+<p>
+  From experience, automation and optimisation of existing workflows and tools
+  is not always what brings the biggest benefit. Looking at a day of work, where
+  is all the time spend? Is it actually inside a tool, worth the effort to
+  reduce four clicks to one, or is it context switching between different tools?
+</p>
+<div class="side-note-ref">
+  <p>
+    Often the second, context switching, or glue-work*. If this is the case,
+    this is where effort should be spent.
+  </p>
+  <aside class="side-note">
+    <p>* Make one thing work with another.</p>
+  </aside>
+</div>
+<p>
+  Removing time in-between can mean changing the tool landscape or composition.
+  Where an old process is three different tools to solve a given task, it can
+  become clear that two of those tools are always used together. This offers the
+  potential for unification, changing the composition, to
+  <strong>remove lost time in context switching</strong>.
+</p>
+<p>
+  If tools cannot be unified, it is worth looking into other ways to reduce
+  time. There could be a specific feature needed from one tool that can be
+  transferred to another. Even if this means duplication, it can be worth it.
+</p>
+<p>
+  What if inside my tool landscape one tool is owned by another team or person?
+  Talk to them, listen, show them the problem and, in the best case, ideas how
+  to solve it. Or try working with them on solving the issue. If this is for any
+  reason not feasible, or they can or will not help, try a different way.
+  Feature duplication, contribute to an external codebase, get creative.
+</p>
+<p>
+  And sometimes, accept what is given. Create documentation about the issue and
+  what was tried and discussed, and move on, spending your valuable time
+  elsewhere.
+</p>
+
+<h3 id="looks-do-matter">5. Looks do matter</h3>
+<p>
+  There once was a documentation tool from a well-known company. It offered all
+  one can dream of; editing without technical knowledge, a visual editor,
+  rich-media support, integrations into other tools, even sharing documents with
+  external users, and many features more. Yet, no one wanted to use it. People
+  even reacted with disgust, calling it a graveyard and worse. Why?, one might
+  ask. <strong>It was not sexy.</strong>
+</p>
+<p>
+  Even if a bit exaggerated, more often than not, looks can be the reason a
+  totally capable tool is not accepted by users. What counts as good-looking is
+  of course very subjective. The peak of beauty for one, can be jarring for
+  others.
+</p>
+<p>
+  When working alone, creating tools for myself, it can be whatever I like most.
+  Personally I love a retro futuristic style,
+  <a
+    href="/blog/cassette-futurism"
+    title="My article on what I love about cassette futurism."
+    >cassette futurism</a
+  >, so I developed a theme and corresponding libraries I can use for all my
+  tools. It is a retro pixel style, dark but with brightly coloured accents, and
+  otherwise kept very simple. The image of this article shows the exact theme in
+  question. I love looking at it, love using my tools.
+</p>
+<p>
+  In a company, for many different users, it can be best to get someone who has
+  knowledge forming the <strong>user experience</strong> with design background
+  (<abbr title="User Interface Design">UI</abbr>/<abbr
+    title="User Experience Design"
+    >UX</abbr
+  >). Much can be learned and taught, but a professional is a professional
+  &mdash; and best utilised from the beginning if available.
+</p>
+<p>
+  If that's no option, there is <strong>no shame in copying</strong> the style
+  of others. One of the powers of developing an internal tool is freedom, also
+  the freedom to copy. There are many great examples out there that can be
+  adapted to your use-case. Alternatively, a theme library can be another
+  option.
+</p>
+<p>
+  For the commonly used operating systems, Apple offers a list of great
+  <a
+    href="https://developer.apple.com/design/human-interface-guidelines/guidelines/overview/"
+    title="Apple website about human interface design."
+    >resources for human interface guidelines</a
+  >, Microsoft provides resources on
+  <a
+    href="https://learn.microsoft.com/en-gb/windows/apps/design/"
+    title="Microsoft website about Windows design and code guidelines."
+    >how to design and code apps for Windows</a
+  >, and there is even a
+  <a
+    href="https://developer.gnome.org/hig/"
+    title="GNOME website about GTK+ human interface design."
+    >GTK+ list of human interface design</a
+  >
+  guidelines. For Dear ImGUI, there is a great GitHub issue with lots of
+  comments about
+  <a
+    href="https://github.com/ocornut/imgui/issues/707"
+    title="Design, themes, and colors for Dear ImGUI."
+    >designs and themes</a
+  >.
+</p>
+<p>
+  The <abbr title="World Wide Web Consortium">W3C</abbr>'s community group
+  <a href="https://open-ui.org" title="W3C community group's Open UI website."
+    >Open UI</a
+  >
+  offers some great
+  <a
+    href="https://open-ui.org/design-systems/"
+    title="Open UI resources for web design systems."
+    >resources for web-based design systems</a
+  >. The
+  <a
+    href="https://designsystemsrepo.com"
+    title="Design System Repo website with general articles and resources for user interface design."
+    >Design System Repo</a
+  >
+  is another great choice with examples, articles, and tools.
+</p>
+<p>
+  Looks are <strong>not restricted to GUI applications</strong>. A terminal UI
+  is UI, too; a CLI can look nice; help text printed via
+  <code>--help</code> formatted to be more readable. Even further, error
+  messages should <em>"look good"</em>, aka. be very readable by a human.
+</p>
+<p>
+  Instead of directly printing an error, the thought should always be
+  <em>"what error message actually helps"</em>. Only showing what is a direct
+  help to resolve the problem. There can also be an error code, or an additional
+  tool to get further guidance on a problem. And if the user cannot do anything,
+  how about not showing an error at all? Try to tell the user what will happen
+  next, run a recovery, in the worst case restart, but
+  <strong>be transparent</strong>.
+</p>
+
+<h3 id="documentation-driven-development">
+  6. Documentation Driven Development
+</h3>
+<p>
+  Test driven development is nice, but have you ever tried documentation driven
+  development? It is the simple concept of
+  <strong>writing the documentation first</strong>, before anything else.
+  Specifying how a library is used, a program should work, an API look, a
+  <abbr>CLI</abbr> behave &mdash; for the user.
+</p>
+<p>
+  This way of starting a project made the biggest change for my work, to the (a
+  lot) better. Usually I started right with writing code, sometimes tests first,
+  sometimes not. <strong>Documentation came always later</strong>, always;
+  sometimes never.
+</p>
+<p>
+  From the day I started working documentation driven, my tools got better,
+  <abbr>APIs</abbr>
+  more usable, extendable, and readable. This may sound like an exaggeration,
+  but it is not. This really changed how I approach any tool since then.
+</p>
+<p>
+  This works on any scale, too. Creating a new repository, a readme should be
+  the first file, filled in and final. How to use the code, or library, in
+  detail, for all that is planned. It can also be applied to a single new
+  feature for a bigger codebase, or the next iteration of an application.
+</p>
+<p>
+  It makes me really think how I want something to be
+  <strong>used in the best possible way</strong> on a detailed level. Being the
+  best version of myself, I implement tests next, including all code examples
+  from the documentation, if present. Not because someone said this is how I
+  should do it, but because it solves my next set of problems, the
+  technicalities.
+</p>
+<p>
+  At that point, I have documentation, tests, and a big smile on my face,
+  hopefully. No matter how my implementation now looks, it is tested and can be
+  used, with an <abbr>API</abbr> I'm actually happy with.
+</p>
+
+<h3 id="prototype-iterate-implement">7. Prototype, iterate, implement</h3>
+<p>
+  Even on internal tooling, tackling a large new application or feature by
+  starting of with a prototype is crucial to a successful adoption. A prototype
+  in that context can be many things, a dummy created with a design tool,
+  screens of what to expect, documentation explaining what will be available,
+  going back to the
+  <a href="#documentation-driven-development">documentation driven approach</a>.
+</p>
+<p>
+  Important is not what the prototype is, but that it exists, and can be used to
+  iterate on, <strong>together with users</strong>. If future users are already
+  happy on that stage, they will look forward to actually work with the new tool
+  they get, well knowing what to expect.
+</p>
+<p>
+  What if they're not happy? Iterate! Until the point they are. This can feel
+  sometimes tedious, is often hard, and can take quite some time. But this
+  initial time spend is well worth it, avoiding late conceptual changes and
+  bigger refactors.
+</p>
+<p>
+  Some great tools to create visual prototypes are
+  <a
+    href="https://penpot.app"
+    title="Open-source, free, design and prototype tool."
+    >Penpot</a
+  >, free, open-source, and can even be self-hosted;
+  <a href="https://www.figma.com" title="Design and prototype tool.">Figma</a>,
+  offering a free tier or a subscription based price; and
+  <a href="https://www.sketch.com" title="Design and prototype tool.">Sketch</a
+  >, paid with either a monthly subscription or a one time payment, also
+  offering free tiers for education.
+</p>
+
+<h3 id="interlude">Interlude</h3>
+<p>
+  At this point, looking at all the previous guiding: The problem space is fully
+  understood, the documentation already written, a prototype approved by happy
+  users, who look forward on getting a new shiny toy, tests maybe implemented as
+  well, giving the tool implementer the highest confidence to actually go into
+  development.
+</p>
+<p>
+  This may sound like an unreachable scenario, and as context is everything, it
+  sometimes is, but it is a scenario to strive for. In the end, as guidelines
+  go, it is all about picking what works best for a given situation.
+</p>
+
+<h3 id="imagine-going-public">8. Imagine going public</h3>
+<p>
+  A small mental exercise, look at an existing <strong>internal tool</strong>,
+  and think about what would need to be done to <strong>go-public</strong>. Is
+  it a lot? Usual candidates are missing documentation, a user experience to be
+  improved, or no way to monitor if everything actually works.
+</p>
+<p>
+  This is <strong>not about actually going public</strong>, as a lot of internal
+  tools cover company internal processes or are integrated into systems that can
+  not be disclosed for any reason. This is purely about the <em>what-if</em>,
+  from a user perspective, and the therefore emerging question of <em>Why?</em>
+</p>
+<p>
+  Can my colleagues not get the best experience &mdash; can I? Why is that?
+  Thinking about what is necessary to go-public can be a valuable exercise to
+  harden and improve a tool. One of those, often neglected, is monitoring.
+</p>
+
+<h3 id="monitor">9. Monitor</h3>
+<p>
+  Why should I monitor a tool used by a few? They will <em>just</em> write me
+  when something does not work, won't they? Often not. For every user that wrote
+  a bug ticket or in a chat, even more did not. Sometimes they find creative
+  solutions, working around a problem or limitation of a tool, in the end
+  spending more time over all.
+</p>
+<p>
+  <strong>Monitoring will help</strong> catch this, early. Having a central
+  place for where your logs go, observing application performance, receiving
+  alerts on errors, recording user sessions when problems keep them stuck. There
+  are many aspects of monitoring, and it all depends on the needs and goals set.
+</p>
+<p>
+  It is valuable to gather information, to help the users, to solve problems
+  quicker, and catch errors early. The more robust and hardened the software,
+  the smaller the maintenance cost, saving time for everyone.
+</p>
+<p>
+  In my past I had some great experience with
+  <a href="https://www.datadoghq.com" title="Datadog monitoring and alerting."
+    >Datadog</a
+  >
+  and
+  <a
+    href="https://sentry.io/"
+    title="Sentry website, a tool for monitoring software."
+    >Sentry</a
+  >, both great tools to support different monitoring needs. To be fair, always
+  in a context of multiple users, not when I worked on my own.
+</p>
+
+<h3 id="how-to-replace-existing-tools">10. How to replace existing tools?</h3>
+<p>
+  This is the tricky one, and quite often the hardest requirement. Creating a
+  new tool, to replace one or more in existence. There can be many reasons why a
+  full replacement is needed, and before even considering there should always be
+  evaluated if one or more tools can be refactored or improved instead, but when
+  the decision is made, a big task lures ahead.
+</p>
+<p>
+  An often very optimistic view is that a subset of features on a new tool will
+  be enough to start replacing the existing one. This is not true, a new tool
+  will need <strong>feature parity to get user acceptance</strong>. If this is
+  not the case, users will, when having the option, continue using the old tool
+  and workflow.
+</p>
+<p>
+  It is possible to bring users over to a not yet fully feature complete
+  replacement, when providing a clear benefit that makes it worth it with a
+  subset of the functionality. Nevertheless, all previous tasks need to be
+  solvable in some capacity, with the old tool, a temporary alternative, or a
+  new minimal version of what already is in place.
+</p>
+<p>
+  What does help while developing the replacement in parallel is a
+  <strong>feature freeze on the old tool</strong>. It is also well worth to
+  reuse what possible, enabling a faster go-to-user. Reusing not only means code
+  or design, it can also be a data format. Being able to run new and old in
+  parallel is a huge benefit in this transition period.
+</p>
+<p>
+  Regardless of approach, the main goal needs to be that the new tool does
+  provide a clear benefit, not just recreating what already existed (<a
+    href="#watch-them-work"
+    >see point 3</a
+  >), with a <strong>100% adoption rate</strong>. Not planning to sunset the old
+  tool is a mistake that will increase maintenance cost.
+</p>
+
+<h3 id="a-new-release">11. A new release</h3>
+<p>
+  Rolling out a new release should be done with
+  <strong>confidence and transparency</strong>. Confidence in having a setup
+  that allows easy rollouts of new features to all users and being transparent
+  in what will be released by announcing the changes. A good changelog will make
+  a difference.
+</p>
+<p>
+  Changelog generation is a very common practice, by taking commit messages and
+  packing them into a list of changes. Often done with tools like
+  <a
+    href="https://commitizen-tools.github.io/commitizen/"
+    title="Commitizen is release management tool designed for teams."
+    >Commitizen</a
+  >, where commit message rules define change log categories and content.
+  <strong>I would not use this</strong> targeting users.
+</p>
+<p>
+  This kind of generated changelog is very technical, may be useful for
+  developers working on a tool, but <strong>not the end user</strong>. A good
+  user changelog is human-readable, with focus on explaining or even showing new
+  features, and what user reported issues were fixed.
+</p>
+<p>
+  It doesn't even need to be complicated, or a lot of text &mdash; images or a
+  recordings go even further. Anything that helps your user understand what is
+  new and how it works, maybe even making them excited to try out the new
+  release.
+</p>
+
+<h3 id="you-are-never-really-done">12. You're never really done</h3>
+<p>
+  Ever heard <em>"When we finish this tool we build the next"</em>? You're never
+  done. Every new tool is a new responsibility. Fixing bugs, supporting new
+  operating systems, adding features. Saying one is done equals abandonment.
+</p>
+<p>
+  This is not a problem, but an opportunity &mdash; instead of creating a new
+  tool, an existing one can be extended. Alternatively, maybe there is something
+  <em>"off the shelf"</em>. Before creating new, all options need to be
+  considered.
+</p>
+<p>
+  Now, when creating a new tool and keeping future responsibility in mind,
+  extensibility should be considered. Giving the user methods to extend the
+  tool, write plugins, create visual extensions, support admin roles that can
+  configure aspects for others. Generally, making it possible for users to solve
+  new problems with what is given.
+</p>
+
+<h3 id="above-and-beyond">13. Above and Beyond</h3>
+<p>
+  <strong>Going the extra mile is worth it.</strong> As said in the beginning:
+  <em>Good enough, is just not good</em>. Of course this is not always the case,
+  but we should all challenge ourselves to really go above and beyond.
+</p>
+<div class="side-note-ref">
+  <p>
+    Thinking from the users perspective; fixing bugs, for example with
+    reoccurring bug squashing days; getting regular feedback, this could be done
+    by sending out short user surveys*; removing friction by looking at the time
+    spend between tools; collaborating with others, not stopping at team
+    borders.
+  </p>
+  <aside class="side-note">
+    <p>
+      * Surveys work best when they are <strong>short</strong>. A scale from 1
+      to 5 for how happy and a text input for general feedback can be enough to
+      get a feel for what users think.
+    </p>
+  </aside>
+</div>
+<p>
+  In the end, it shouldn't even be <em>going the extra mile</em>, it should
+  never be <em>good enough</em>. It should be
+  <strong>going all the way</strong>, treating the target audience with
+  <strong>respect and care</strong>,
+  <strong>creating amazing internal tools</strong>.
+</p>
+
+<hr />
+
+<h3 id="epilogue">Epilogue</h3>
+<p>
+  It turned out I had more to say about tool development as I initially
+  expected. Even though I numbered every part, there is no associated order; I
+  rather tried to tell a coherent story. Like I initially said, context will
+  decide what is important, sometimes I do a few, sometimes everything.
+</p>
+<p>
+  As guidelines go, I pick, mix, and match, as I please. Though, if there is one
+  thing to remember, between tool creator and user, and as the great
+  <a
+    href="https://en.wikipedia.org/wiki/Bill_%26_Ted%27s_Excellent_Adventure"
+    title="Wikipedia page about Bill and Ted's Excellent Adventure."
+    >Bill and Ted</a
+  >
+  said, <em>"Be excellent to each other"</em>.
+</p>
+<p>Until then 👋🏻</p>
