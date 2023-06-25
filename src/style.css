@@ -105,6 +105,43 @@ section {
   background-color: #fff;
 }
 
+.list figcaption {
+  font-size: 1.3rem;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-grey-900);
+  display: inline-block;
+}
+
+.list ul,
+.list ul li,
+.list ul li:last-child {
+  display: inline-block;
+  padding: 0;
+  margin: 0 0 0 var(--size-300);
+}
+
+.flag {
+  display: flex;
+  align-items: flex-start;
+}
+
+.flag-media {
+  padding-top: var(--size-300);
+}
+
+.flag-media img {
+  border: 1px solid var(--color-grey-500);
+  border-radius: var(--size-400);
+}
+
+.flag-media + .flag-content {
+  margin-left: var(--size-400);
+}
+
+.flag-content + .flag-media {
+  margin-right: var(--size-400);
+}
+
 /**
  * The min-width is calculated by the page width (660px)
  * plus twice the amount of the side note width (240px), as
@@ -216,13 +253,9 @@ blockquote p {
   margin: 0 0 0 var(--size-500);
 }
 
-ul {
-  margin: 0 0 0 var(--size-500);
-  padding: 0;
-}
-
+ul,
 ol {
-  margin: 0 0 0 var(--size-600);
+  margin: 0 0 0 var(--size-500);
   padding: 0;
 }
 
