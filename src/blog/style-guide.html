@@ -1,6 +1,6 @@
 ---
 date: 2022-09-24
-lastmod: 2023-02-26
+lastmod: 2023-06-25
 title: "Website style guide"
 description: 'The style guide of my website. How components are created, and then used, as simplicity saved me from falling into the hole of "not creating".'
 linkTitle: "This websites style guide including context about the why and how."
@@ -73,7 +73,54 @@ tags: ["post", "general"]
   <abbr>CSS</abbr> to create a logical unit for my website.
 </p>
 
-<h4>Variables</h4>
+<nav>
+  <h3 id="table-of-contents">Table of contents</h3>
+  <ul>
+    <li><a href="#variables">Variables</a></li>
+    <li><a href="#headlines">Headlines</a></li>
+    <li>
+      <a href="#text">Text</a>
+      <ul>
+        <li><a href="#paragraphs">Paragraphs</a></li>
+        <li><a href="#blockquote">Blockquote</a></li>
+        <li><a href="#strong">Strong</a></li>
+        <li><a href="#emphasis">Emphasis</a></li>
+        <li><a href="#links">Links</a></li>
+      </ul>
+    </li>
+    <li><a href="#address">Address</a></li>
+    <li><a href="#callout">Callout</a></li>
+    <li><a href="#flag-object">Flag Object</a></li>
+    <li>
+      <a href="#lists">Lists</a>
+      <ul>
+        <li>
+          <a href="#order-and-unordered-list">Order and Unordered list</a>
+        </li>
+        <li><a href="#horizontal-text-list">Horizontal text list</a></li>
+      </ul>
+    </li>
+    <li><a href="#side-notes">Side notes</a></li>
+    <li>
+      <a href="#media">Media</a>
+      <ul>
+        <li><a href="#images">Images</a></li>
+        <li><a href="#video">Video</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#code">Code</a>
+      <ul>
+        <li><a href="#inline-code">Inline code</a></li>
+        <li><a href="#code-blocks">Code blocks</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+<hr />
+
+<h4 id="variables">Variables</h4>
 <p>
   Not having any build system, I still wanted to have some kind of variables for
   my CSS &mdash; custom properties to the rescue. With very good
@@ -203,7 +250,7 @@ tags: ["post", "general"]
   </li>
 </ul>
 
-<h4>Headlines</h4>
+<h4 id="headlines">Headlines</h4>
 <p>
   There are five headlines defined, where <code>h1</code> is reserved for the
   website title. There is a base set of styles all headings inherit.
@@ -279,13 +326,13 @@ h5 {
   <pre><code class="language-html hljs">&lt;h5&gt;.h5 Paragraph heading&lt;/h5&gt;</code></pre>
 </figure>
 
-<h4>Text</h4>
+<h4 id="text">Text</h4>
 <p>
   Text styles are kept minimal. What you see all the time here, and right now,
   is a paragraph.
 </p>
 
-<h5>Paragraphs</h5>
+<h5 id="paragraphs">Paragraphs</h5>
 <p>Seven lines of style declarations are all for paragraphs.</p>
 <figure>
   <pre><code class="language-css hljs">p {
@@ -303,7 +350,7 @@ h5 {
   <pre><code class="language-html hljs">&lt;p&gt;This is a simple paragraph.&lt;/p&gt;</code></pre>
 </figure>
 
-<h5>Blockquote</h5>
+<h5 id="blockquote">Blockquote</h5>
 <p>
   Blockquote components will inherit all paragraph styles, besides defining own
   unique styles. There is also some extras for paragraphs inside blockquote
@@ -358,55 +405,7 @@ blockquote + figcaption {
 &lt;/figure&gt;</code></pre>
 </figure>
 
-<h5>Callout</h5>
-<p>
-  The callout is used to bring focus to important information, most often used
-  in a tutorial or similar knowledge focused articles.
-</p>
-<figure>
-  <pre><code class="language-css hljs">.callout {
-  border: 1px solid var(--color-blue-500);
-  border-radius: var(--size-300);
-  background: var(--color-blue-100);
-  margin-bottom: var(--size-500);
-  padding: var(--size-400);
-}
-
-.callout h4,
-.callout h5 {
-  font-size: 1rem;
-  color: var(--color-blue-500);
-  margin-bottom: var(--size-300);
-}
-
-.callout h4::before,
-.callout h5::before {
-  content: "\024D8";
-  margin-right: var(--size-300);
-}
-
-.callout p {
-  color: var(--color-grey-800);
-  font-family: var(--base-font);
-  font-size: 1rem;
-  font-weight: var(--font-weight-normal);
-  line-height: 1.65;
-  margin: 0;
-  padding: 0;
-}</code></pre>
-</figure>
-<aside class="callout">
-  <h4>This is a callout</h4>
-  <p>And this is the content of the callout.</p>
-</aside>
-<figure>
-  <pre><code class="language-html hljs">&lt;aside class="callout"&gt;
-  &lt;h4&gt;This is a callout&lt;/h4&gt;
-  &lt;p&gt;And this is the content of the callout.&lt;/p&gt;
-&lt;/aside&gt;</code></pre>
-</figure>
-
-<h5>Strong</h5>
+<h5 id="strong">Strong</h5>
 <p>
   The <abbr>CSS</abbr> for the <code>strong</code> element is just making it
   bold.
@@ -421,7 +420,7 @@ blockquote + figcaption {
   <pre><code class="language-html hljs">&lt;p&gt;This is &lt;strong&gt;very strong text&lt;/strong&gt;.&lt;/p&gt;</code></pre>
 </figure>
 
-<h5>Emphasis</h5>
+<h5 id="emphasis">Emphasis</h5>
 <p>
   Emphasising text comes in two <em>"flavours"</em>; one is the semantic
   version, the other is a visual representation only.
@@ -483,7 +482,7 @@ a > dfn {
 </figure>
 <p>Don't forget, every link needs a title.</p>
 
-<h4>Address</h4>
+<h4 id="address">Address</h4>
 <p>Address elements get some original italic style.</p>
 <figure>
   <pre><code class="language-css hljs">address {
@@ -515,15 +514,132 @@ a > dfn {
 &lt;/address&gt;</code></pre>
 </figure>
 
-<h4>List</h4>
-<p>So far there is only one type of list, an unordered list.</p>
+<h4 id="callout">Callout</h4>
+<p>
+  The callout is used to bring focus to important information, most often used
+  in a tutorial or similar knowledge focused articles.
+</p>
 <figure>
-  <pre><code class="language-css hljs">ul {
+  <pre><code class="language-css hljs">.callout {
+  border: 1px solid var(--color-blue-500);
+  border-radius: var(--size-300);
+  background: var(--color-blue-100);
+  margin-bottom: var(--size-500);
+  padding: var(--size-400);
+}
+
+.callout h4,
+.callout h5 {
+  font-size: 1rem;
+  color: var(--color-blue-500);
+  margin-bottom: var(--size-300);
+}
+
+.callout h4::before,
+.callout h5::before {
+  content: "\024D8";
+  margin-right: var(--size-300);
+}
+
+.callout p {
+  color: var(--color-grey-800);
+  font-family: var(--base-font);
+  font-size: 1rem;
+  font-weight: var(--font-weight-normal);
+  line-height: 1.65;
+  margin: 0;
+  padding: 0;
+}</code></pre>
+</figure>
+<aside class="callout">
+  <h4>This is a callout</h4>
+  <p>And this is the content of the callout.</p>
+</aside>
+<figure>
+  <pre><code class="language-html hljs">&lt;aside class="callout"&gt;
+  &lt;h4&gt;This is a callout&lt;/h4&gt;
+  &lt;p&gt;And this is the content of the callout.&lt;/p&gt;
+&lt;/aside&gt;</code></pre>
+</figure>
+
+<h4 id="flag-object">Flag object</h4>
+<p>
+  The <em>"flag object"</em> is a combination of a fixed size media element with
+  dynamic content to the side. The media element can be located left or right.
+</p>
+<figure>
+  <pre><code class="language-css hljs">.flag {
+  display: flex;
+  align-items: flex-start;
+}
+
+.flag-media {
+  padding-top: var(--size-300);
+}
+
+.flag-media img {
+  border: 1px solid var(--color-grey-500);
+  border-radius: var(--size-400);
+}
+
+.flag-media + .flag-content {
+  margin-left: var(--size-400);
+}
+
+.flag-content + .flag-media {
+  margin-right: var(--size-400);
+}</code></pre>
+</figure>
+<div class="flag">
+  <div class="flag-media">
+    <img
+      src="/assets/placeholder_60x60.png"
+      alt="A placeholder image to showcase the flag object."
+      width="60"
+      height="60"
+    />
+  </div>
+  <div class="flag-content">
+    <h3>This is a headline</h3>
+    <footer>
+      <p>And how about some text?</p>
+    </footer>
+  </div>
+</div>
+<figure>
+  <pre><code class="language-html hljs">&lt;div class="flag"&gt;
+  &lt;div class="flag-media"&gt;
+    &lt;img
+      src="/assets/placeholder_60x60.png"
+      alt="..."
+      width="60"
+      height="60"
+    /&gt;
+  &lt;/div&gt;
+  &lt;div class="flag-content"&gt;
+    &lt;h3&gt;This is a headline&lt;/h3&gt;
+    &lt;footer&gt;
+      &lt;p&gt;And how about some text?&lt;/p&gt;
+    &lt;/footer&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+</figure>
+
+<h4 id="lists">Lists</h4>
+<p>
+  There are three types of lists. Ordered, unordered, and horizontal text lists.
+</p>
+
+<h5 id="order-and-unordered-list">Order and Unordered list</h5>
+<figure>
+  <pre><code class="language-css hljs">ul,
+ol {
   margin: 0 0 0 var(--size-500);
   padding: 0;
 }
 
-ul li {
+ul li,
+ol li {
   font-family: var(--base-font);
   font-size: 1.3rem;
   font-weight: var(--font-weight-normal);
@@ -533,22 +649,77 @@ ul li {
   padding: 0;
 }
 
-ul li:last-child {
+ul li:last-child,
+ol li:last-child {
   margin: 0 0 var(--size-500) 0;
+}
+
+ul ul li:last-child,
+ul ol li:last-child,
+ol ul li:last-child,
+ol ol li:last-child {
+  margin: 0;
 }</code></pre>
 </figure>
 <ul>
   <li>This is</li>
   <li>an unordered list</li>
 </ul>
+<ol>
+  <li>This is</li>
+  <li>an ordered list</li>
+</ol>
 <figure>
   <pre><code class="language-html hljs">&lt;ul&gt;
   &lt;li&gt;This is&lt;/li&gt;
   &lt;li&gt;an unordered list&lt;/li&gt;
 &lt;/ul&gt;</code></pre>
 </figure>
+<figure>
+  <pre><code class="language-html hljs">&lt;ol&gt;
+  &lt;li&gt;This is&lt;/li&gt;
+  &lt;li&gt;an ordered list&lt;/li&gt;
+&lt;/ol&gt;</code></pre>
+</figure>
 
-<h4>Side notes</h4>
+<h5 id="horizontal-text-list">Horizontal text list</h5>
+<p>A simple list with a title to show items horizontally.</p>
+<figure>
+  <pre><code class="language-css hljs">.list figcaption {
+  font-size: 1.3rem;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-grey-900);
+  display: inline-block;
+}
+
+.list ul,
+.list ul li,
+.list ul li:last-child {
+  display: inline-block;
+  padding: 0;
+  margin: 0 0 0 var(--size-300);
+}</code></pre>
+</figure>
+<figure class="list">
+  <figcaption>Title:</figcaption>
+  <ul>
+    <li>One item,</li>
+    <li>Another item,</li>
+    <li>Last item</li>
+  </ul>
+</figure>
+<figure>
+  <pre><code class="language-html hljs">&lt;figure class="list"&gt;
+  &lt;figcaption&gt;Title:&lt;/figcaption&gt;
+  &lt;ul&gt;
+    &lt;li&gt;One item,&lt;/li&gt;
+    &lt;li&gt;Another item,&lt;/li&gt;
+    &lt;li&gt;Last item&lt;/li&gt;
+    &lt;/ul&gt;
+&lt;/figure&gt;</code></pre>
+</figure>
+
+<h4 id="side-notes">Side notes</h4>
 <p>
   To show additional information aside I was under the impression I will need
   JavaScript for proper placement or at least a rather complex structure.
@@ -643,7 +814,7 @@ figcaption {
 }</code></pre>
 </figure>
 
-<h5>Images</h5>
+<h5 id="images">Images</h5>
 <p>
   Images will always have a <dfn>webp</dfn> version and a caption. They are
   placed inside the <code>picture</code> element, and will show up larger on
@@ -719,7 +890,7 @@ video {
 &lt;/figure&gt;</code></pre>
 </figure>
 
-<h5>Video</h5>
+<h5 id="video">Video</h5>
 <p>
   Similar to <dfn>webp</dfn> for images, video will always have a
   <dfn>webm</dfn> version and a caption. A <em>"poster"</em> will be used to
@@ -785,13 +956,13 @@ video + figcaption {
 &lt;/figure&gt;</code></pre>
 </figure>
 
-<h4>Code</h4>
+<h4 id="code">Code</h4>
 <p>
   Code can be used inside paragraphs and as standalone code blocks with syntax
   highlighting.
 </p>
 
-<h5>Inline code</h5>
+<h5 id="inline-code">Inline code</h5>
 <p>Inside text the <code>code</code> element is used.</p>
 <figure>
   <pre><code class="language-css hljs">p code {
@@ -805,7 +976,7 @@ video + figcaption {
   <pre><code class="language-html hljs">&lt;p&gt;Inside text the &lt;code&gt;code&lt;/code&gt; element is used.&lt;/p&gt;</code></pre>
 </figure>
 
-<h5>Code blocks</h5>
+<h5 id="code-blocks">Code blocks</h5>
 <p>
   Code blocks are placed inside <code>figure</code> elements and can have
   <strong>optionally</strong> a <code>figcaption</code>. Syntax highlighting is
