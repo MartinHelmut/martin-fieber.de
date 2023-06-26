@@ -14,6 +14,7 @@ function copyStaticFiles(eleventyConfig) {
     "src/favicon.ico",
     "src/*.xsl",
     "src/style.css",
+    "src/print.css",
   ];
 
   staticResources.forEach((resource) =>

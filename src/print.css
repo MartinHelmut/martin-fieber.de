@@ -1,0 +1,50 @@
+@page {
+  size: A4 portrait;
+}
+
+h1 {
+  font-size: 20pt;
+}
+
+h2 {
+  font-size: 18pt;
+}
+
+h3 {
+  font-size: 16pt;
+}
+
+h4 {
+  font-size: 14pt;
+}
+
+h5 {
+  font-size: 12pt;
+}
+
+p,
+blockquote,
+ul li,
+ol li,
+figcaption,
+.side-note p,
+.callout p,
+.list figcaption {
+  font-size: 12pt;
+}
+
+.content {
+  max-width: none;
+}
+
+article:first-child {
+  page-break-inside: auto;
+}
+
+article {
+  page-break-inside: avoid;
+}
+
+main + footer {
+  display: none;
+}
