@@ -1,5 +1,21 @@
 [
   {
+    "name": "GUI project template with SDL2",
+    "description": "<abbr>C++</abbr> <abbr>GUI</abbr> project template with <abbr>SDL2</abbr> and Dear ImGUI via CMake. Includes creating distribution packages with CPack for macOS, Linux, and Windows.",
+    "links": [
+      {
+        "name": "Visit project page",
+        "title": "Visit the GitHub page for the GUI project template.",
+        "href": "https://github.com/MartinHelmut/cpp-gui-template-sdl2"
+      },
+      {
+        "name": "User Guide",
+        "title": "See how the template can be used and customized.",
+        "href": "https://github.com/MartinHelmut/cpp-gui-template-sdl2/blob/main/docs/README.md"
+      }
+    ]
+  },
+  {
     "name": "Litr",
     "description": "<dfn><abbr>Litr</abbr> (Language Independent Task Runner)</dfn> lets you configure and then run any tasks you want for any language.",
     "links": [
@@ -17,7 +33,7 @@
   },
   {
     "name": "Krieselreihe",
-    "description": "<dfn>\"Krieselreihe\"</dfn> is the name I do all my hobby game development under. While doing this, a set of tools emerged e.g. Litr and Natr, located under this namespace.",
+    "description": "<dfn>\"Krieselreihe\"</dfn> is the name under I do all my hobby game-dev. While doing this, a set of tools emerged e.g. Litr and Natr, located under this namespace.",
     "links": [
       {
         "name": "Website",
@@ -33,7 +49,7 @@
   },
   {
     "name": "number-generator",
-    "description": "Generate repeatable pseudo random numbers and non-cryptographic hash numbers for usage in Node.js and browser environments.",
+    "description": "Generate repeatable pseudo random numbers and non-cryptographic hash numbers with JavaScript for usage in Node.js and browser environments.",
     "links": [
       {
         "name": "Visit project page",
