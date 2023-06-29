@@ -1,6 +1,6 @@
 ---
 date: 2022-07-03
-lastmod: 2023-02-28
+lastmod: 2023-06-29
 title: "Basic C++ setup with dependency management in CMake"
 description: "Setting up a proper C++ environment can be a challenge for a newcomer. This is my try on showing with what I came up with."
 linkTitle: "I try creating a setup for myself that scales and is flexible enough to met all my needs."
@@ -45,9 +45,10 @@ tags: ["post", "cpp"]
   <h4>Platform Support</h4>
   <p>
     I most often work on a M1 Mac, but I also tested this setup with Windows 11
-    and on Linux (Debian).
+    and on Linux (Debian 12).
   </p>
 </aside>
+
 <h3>Learning CMake</h3>
 <p>
   I've heard a lot of things about
@@ -76,7 +77,49 @@ tags: ["post", "cpp"]
   CMake. It may not be the best, but it proved valuable for me multiple times
   and is, with my limited experience, my favourite choice developing in C++.
 </p>
-<h3>Application setup</h3>
+
+<nav>
+  <h3>Table of contents</h3>
+  <ol>
+    <li>
+      <a href="#application-setup">Application setup</a>
+      <ul>
+        <li><a href="#cmakelists-txt">CMakeLists.txt</a></li>
+        <li>
+          <a href="#standard-project-settings">Standard project settings</a>
+        </li>
+        <li><a href="#project-warnings">Project warnings</a></li>
+        <li><a href="#source-structure">Source structure</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#defining-a-library">Defining a library</a>
+      <ul>
+        <li><a href="#static-analysis">Static analysis</a></li>
+        <li>
+          <a href="#library-files-and-build-settings"
+            >Library files and build settings</a
+          >
+        </li>
+      </ul>
+    </li>
+    <li><a href="#defining-an-application">Defining an application</a></li>
+    <li>
+      <a href="#adding-dependencies">Adding dependencies</a>
+      <ul>
+        <li><a href="#adding-fmtlib">Adding fmtlib</a></li>
+      </ul>
+    </li>
+    <li><a href="#build-and-run">Build and run</a></li>
+    <li><a href="#project-formatting">Project formatting</a></li>
+    <li><a href="#bonus-litr">Bonus: Litr</a></li>
+    <li><a href="#epilogue">Epilogue</a></li>
+  </ol>
+</nav>
+
+<hr />
+
+<h3 id="application-setup">Application setup</h3>
 <p>The minimal project setup looks like this:</p>
 <figure>
   <pre><code class="language-plaintext hljs">build/
@@ -105,7 +148,7 @@ CMakeLists.txt</code></pre>
   artefacts for debug and release builds, but can also contain a different, or
   more granular, structure when building for multiple targets.
 </p>
-<h4>CMakeLists.txt</h4>
+<h4 id="cmakelists-txt">CMakeLists.txt</h4>
 <p>The root <code>CMakeLists.txt</code> looks like this:</p>
 <figure>
   <pre><code class="language-cmake hljs"># CMakeLists.txt
@@ -169,7 +212,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)</code></pre>
   This will define the CMake project, give it a project name, a description and
   the language used; in this case C++20.
 </p>
-<h4>Standard project settings</h4>
+<h4 id="standard-project-settings">Standard project settings</h4>
 <p>
   The next include, <code>StandardProjectSettings.cmake</code>, will define some
   common settings.
@@ -324,7 +367,7 @@ endfunction()</code></pre>
 <figure>
   <pre><code class="language-cmake hljs">add_subdirectory(src)</code></pre>
 </figure>
-<h4>Source structure</h4>
+<h4 id="source-structure">Source structure</h4>
 <p>
   The <code>CMakeLists.txt</code> inside the <code>src</code> folder contains
   two lines, one to include the library folder and one for the app. This is
@@ -335,7 +378,8 @@ endfunction()</code></pre>
 add_subdirectory(some_library)
 add_subdirectory(app)</code></pre>
 </figure>
-<h3>Defining a library</h3>
+
+<h3 id="defining-a-library">Defining a library</h3>
 <p>
   Now let's have a look at the
   <code>src/some_library/CMakeLists.txt</code> file.
@@ -464,7 +508,7 @@ CheckOptions:
     >all checks for clang-tidy here</a
   >.
 </p>
-<h4>Library files and build settings</h4>
+<h4 id="library-files-and-build-settings">Library files and build settings</h4>
 <p>Next some source files:</p>
 <figure>
   <pre><code class="language-cmake hljs">add_library(${NAME} STATIC
@@ -493,7 +537,8 @@ CheckOptions:
 target_compile_features(${NAME} PRIVATE cxx_std_20)
 target_link_libraries(${NAME} PRIVATE project_warnings)</code></pre>
 </figure>
-<h3>Defining an application</h3>
+
+<h3 id="defining-an-application">Defining an application</h3>
 <p>
   Alas, a look at the <code>src/app/CMakeLists.txt</code> file and how to define
   an executable.
@@ -557,7 +602,8 @@ target_compile_features(${NAME} PRIVATE cxx_std_20)</code></pre>
   applications sharing the same (or different) libraries. Making this a kind of
   <strong>mono repository</strong>.
 </p>
-<h3>Adding dependencies</h3>
+
+<h3 id="adding-dependencies">Adding dependencies</h3>
 <p>
   How about the big topic dependencies? This was my greatest issue when starting
   C++, first using Git submodules, directly throwing source files into the
@@ -570,7 +616,7 @@ target_compile_features(${NAME} PRIVATE cxx_std_20)</code></pre>
     >FetchContent</a
   >.
 </p>
-<h4>Adding fmtlib</h4>
+<h4 id="adding-fmtlib">Adding fmtlib</h4>
 <p>
   The way I structure dependencies is by having a
   <code>vendor</code> folder in the root of the project containing a
@@ -655,7 +701,8 @@ add_subdirectory(fmt)</code></pre>
   The benefit with FetchContent is that dependencies are fetched only once on
   configure time, not on every build as with other solutions.
 </p>
-<h3>Build and run</h3>
+
+<h3 id="build-and-run">Build and run</h3>
 <p>
   Before building the project, the CMake configuration step needs to be
   executed, looking like this for the debug setup (using
@@ -678,7 +725,8 @@ add_subdirectory(fmt)</code></pre>
 <figure>
   <pre><code class="language-shell hljs">$ ./build/debug/src/app/App</code></pre>
 </figure>
-<h3>Project formatting</h3>
+
+<h3 id="project-formatting">Project formatting</h3>
 <p>
   Being used to
   <a href="https://prettier.io" title="Official Prettier website">Prettier</a>
@@ -725,7 +773,8 @@ ColumnLimit: 100
   <pre><code class="language-shell hljs">$ find src -iname *.hpp -o -iname *.cpp \
   | xargs clang-format -i</code></pre>
 </figure>
-<h3>Bonus: Litr</h3>
+
+<h3 id="bonus-litr">Bonus: Litr</h3>
 <p>
   As biased as I am, of course I use my own project
   <a
@@ -763,7 +812,8 @@ default = "debug"</code></pre>
 <p>
   Running build and start can now be done via <code>litr build,start</code>.
 </p>
-<h3>Epilogue</h3>
+
+<h3 id="epilogue">Epilogue</h3>
 <p>
   That's about it when it comes the base setup. I do actually have a little
   more, namely tests via
