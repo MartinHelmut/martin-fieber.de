@@ -1,6 +1,6 @@
 ---
 date: 2022-07-30
-lastmod: 2022-12-31
+lastmod: 2023-06-29
 title: "GUI Development with C++, SDL2, and Dear ImGui"
 description: "Showcasing my personal setup for GUI application development with C++, SDL2, and Dear ImGui."
 image: "/assets/blog/gui-development-with-cpp/title-card.png"
@@ -30,6 +30,7 @@ tags: ["post", "cpp"]
     The final application that will be built in this post.
   </figcaption>
 </figure>
+
 <h3>The many ways of <abbr title="Graphical user interface">GUI</abbr></h3>
 <p>
   Looking at all those tools, libraries, and many ways of developing
@@ -62,7 +63,36 @@ tags: ["post", "cpp"]
   Here it goes, a basic setup I started using for end-user applications. Of
   course, as many frameworks there are opinions, and this one is only mine.
 </p>
-<h3>Basic setup</h3>
+
+<nav>
+  <h3>Table of contents</h3>
+  <ol>
+    <li><a href="#basic-setup">Basic setup</a></li>
+    <li>
+      <a href="#sdl2-and-dear-imgui"><abbr>SDL2</abbr> and Dear ImGui</a>
+    </li>
+    <li><a href="#basic-application-setup">Basic application setup</a></li>
+    <li><a href="#creating-the-window">Creating the window</a></li>
+    <li>
+      <a href="#showing-something-on-the-screen"
+        >Showing something on the screen</a
+      >
+    </li>
+    <li><a href="#rendering-a-widget">Rendering a widget</a></li>
+    <li>
+      <a href="#handling-high-dpi-displays">Handling high DPI displays</a>
+    </li>
+    <li><a href="#dockspace">Dockspace</a></li>
+    <li><a href="#event-handling">Event handling</a></li>
+    <li><a href="#application-menu">Application menu</a></li>
+    <li><a href="#custom-font">Custom font</a></li>
+    <li><a href="#epilogue">Epilogue</a></li>
+  </ol>
+</nav>
+
+<hr />
+
+<h3 id="basic-setup">Basic setup</h3>
 <p>
   For the setup of the application I use my C++ starter template I showed in the
   last post,
@@ -85,7 +115,8 @@ tags: ["post", "cpp"]
   <code>Application</code>
   classes.
 </p>
-<h3><abbr>SDL2</abbr> and Dear ImGui</h3>
+
+<h3 id="sdl2-and-dear-imgui"><abbr>SDL2</abbr> and Dear ImGui</h3>
 <p>
   <abbr>SDL2</abbr> will be added as dependency through
   <code>FetchContent_Declare</code>, same as the other dependencies in
@@ -189,7 +220,8 @@ target_link_libraries(${NAME}
   # Added SDL2::SDL2 and imgui here.
   PUBLIC fmt spdlog SDL2::SDL2 imgui)</code></pre>
 </figure>
-<h3>Basic application setup</h3>
+
+<h3 id="basic-application-setup">Basic application setup</h3>
 <p>
   The basic application will run the main loop and handle properly stopping the
   application on close. There will also be an exit status in case of an issues.
@@ -337,7 +369,8 @@ target_link_libraries(${NAME}
   PRIVATE project_warnings
   PUBLIC fmt spdlog SDL2::SDL2 imgui)</code></pre>
 </figure>
-<h3>Creating the window</h3>
+
+<h3 id="creating-the-window">Creating the window</h3>
 <p>
   Next is setting up the window for rendering. The
   <code>Settings</code> struct will define the base size of the window of
@@ -578,7 +611,8 @@ int App::Application::run() {
   // ...
 }</code></pre>
 </figure>
-<h3>Showing something on the screen</h3>
+
+<h3 id="showing-something-on-the-screen">Showing something on the screen</h3>
 <p>
   To actually get something on screen, ImGui and the <abbr>SDL2</abbr> ImGui
   backend and renderer need to be set up. The <abbr>SDL2</abbr> renderer will,
@@ -847,7 +881,8 @@ $ cd build/debug/src/app && ./App</code></pre>
     Basic application window, not rendering anything, yet.
   </figcaption>
 </figure>
-<h3>Rendering a widget</h3>
+
+<h3 id="rendering-a-widget">Rendering a widget</h3>
 <p>
   Let's get something rendering inside that window. For this I add a private
   variable to <code>Application</code> holding the information if the new widget
@@ -918,7 +953,8 @@ $ cd build/debug/src/app && ./App</code></pre>
   </picture>
   <figcaption>Seems like there is a small problem.</figcaption>
 </figure>
-<h3>Handling high DPI displays</h3>
+
+<h3 id="handling-high-dpi-displays">Handling high DPI displays</h3>
 <p>
   For high DPI displays, like Apples Retina display, I need to change the
   renderer scaling. For this I created a new public method
@@ -1009,7 +1045,8 @@ float Window::get_scale() const {
     Problem solved, the widget gets rendered in the right size.
   </figcaption>
 </figure>
-<h3>Dockspace</h3>
+
+<h3 id="dockspace">Dockspace</h3>
 <p>
   The basics are up and running, dock spaces will now enable rearranging widgets
   and docking those to the window and each other, giving a user the option to
@@ -1087,7 +1124,8 @@ int App::Application::run() {
   </video>
   <figcaption>Video showing how the docking space works.</figcaption>
 </figure>
-<h3>Event handling</h3>
+
+<h3 id="event-handling">Event handling</h3>
 <p>
   Customising the event handling from the previous implemented polling is not
   much more work; setting up a new method in
@@ -1243,7 +1281,8 @@ int App::Application::run() {
   }
 }</code></pre>
 </figure>
-<h3>Application menu</h3>
+
+<h3 id="application-menu">Application menu</h3>
 <p>
   Inside the dock space, before the widget setup, is a good place to add the
   code for the application menu. This will serve to exit the application and
@@ -1301,7 +1340,8 @@ if (m_show_some_panel) {
     visibility.
   </figcaption>
 </figure>
-<h3>Custom font</h3>
+
+<h3 id="custom-font">Custom font</h3>
 <p>
   Making things look a little less <em>"Debugger UI"</em> like, adding a custom
   font can go a long way. I will use the amazing Open Source font
@@ -1373,7 +1413,8 @@ int App::Application::run() {
   </video>
   <figcaption>Video showing the final result.</figcaption>
 </figure>
-<h3>Epilogue</h3>
+
+<h3 id="epilogue">Epilogue</h3>
 <p>
   And that is that! A base to continue when creating GUIs in C++ for me. And
   again, there is a more extended version of this on GitHub.
