@@ -350,6 +350,10 @@ hr {
   border-bottom: 1px solid var(--color-grey-500);
 }
 
+.ipa {
+  border-bottom: 1px dotted var(--color-blue-500);
+}
+
 /* Article */
 
 article {
