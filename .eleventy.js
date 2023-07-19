@@ -18,7 +18,7 @@ function copyStaticFiles(eleventyConfig) {
   ];
 
   staticResources.forEach((resource) =>
-    eleventyConfig.addPassthroughCopy(resource)
+    eleventyConfig.addPassthroughCopy(resource),
   );
 }
 
@@ -27,12 +27,12 @@ function copyStaticFiles(eleventyConfig) {
  */
 function addDateFormatFilter(eleventyConfig) {
   eleventyConfig.addFilter("postDate", (dateObj) =>
-    DateTime.fromJSDate(dateObj).toLocaleString(DateTime.DATE_FULL)
+    DateTime.fromJSDate(dateObj).toLocaleString(DateTime.DATE_FULL),
   );
 
   // https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#valid-date-string
   eleventyConfig.addFilter("htmlDateString", (dateObj) =>
-    DateTime.fromJSDate(dateObj).toFormat("yyyy-LL-dd")
+    DateTime.fromJSDate(dateObj).toFormat("yyyy-LL-dd"),
   );
 }
 
@@ -42,7 +42,7 @@ function addDateFormatFilter(eleventyConfig) {
 function addRandomItemFilter(eleventyConfig) {
   eleventyConfig.addFilter(
     "random",
-    (items) => items[Math.floor(Math.random() * items.length)]
+    (items) => items[Math.floor(Math.random() * items.length)],
   );
 }
 
