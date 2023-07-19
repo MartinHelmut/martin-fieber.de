@@ -128,7 +128,7 @@ SOFTWARE.
           window
             .getComputedStyle(document.body)
             .getPropertyValue("padding-right"),
-          10
+          10,
         );
         previousBodyPaddingRight = document.body.style.paddingRight;
         document.body.style.paddingRight =
@@ -215,7 +215,7 @@ SOFTWARE.
 
   // https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollHeight#Problems_and_solutions
   var isTargetElementTotallyScrolled = function isTargetElementTotallyScrolled(
-    targetElement
+    targetElement,
   ) {
     return targetElement
       ? targetElement.scrollHeight - targetElement.scrollTop <=
@@ -250,7 +250,7 @@ SOFTWARE.
       if (!targetElement) {
         // eslint-disable-next-line no-console
         console.error(
-          "disableBodyScroll unsuccessful - targetElement must be provided when calling disableBodyScroll on IOS devices."
+          "disableBodyScroll unsuccessful - targetElement must be provided when calling disableBodyScroll on IOS devices.",
         );
         return;
       }
@@ -295,7 +295,7 @@ SOFTWARE.
           document.addEventListener(
             "touchmove",
             preventDefault,
-            hasPassiveEvents ? { passive: false } : undefined
+            hasPassiveEvents ? { passive: false } : undefined,
           );
           documentListenerAdded = true;
         }
@@ -315,7 +315,7 @@ SOFTWARE.
           document.removeEventListener(
             "touchmove",
             preventDefault,
-            hasPassiveEvents ? { passive: false } : undefined
+            hasPassiveEvents ? { passive: false } : undefined,
           );
           documentListenerAdded = false;
         }
@@ -334,12 +334,12 @@ SOFTWARE.
     });
 
   var enableBodyScroll = (exports.enableBodyScroll = function enableBodyScroll(
-    targetElement
+    targetElement,
   ) {
     if (!targetElement) {
       // eslint-disable-next-line no-console
       console.error(
-        "enableBodyScroll unsuccessful - targetElement must be provided when calling enableBodyScroll on IOS devices."
+        "enableBodyScroll unsuccessful - targetElement must be provided when calling enableBodyScroll on IOS devices.",
       );
       return;
     }
@@ -356,7 +356,7 @@ SOFTWARE.
         document.removeEventListener(
           "touchmove",
           preventDefault,
-          hasPassiveEvents ? { passive: false } : undefined
+          hasPassiveEvents ? { passive: false } : undefined,
         );
         documentListenerAdded = false;
       }
