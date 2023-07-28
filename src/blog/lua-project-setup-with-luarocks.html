@@ -1,6 +1,6 @@
 ---
 date: 2023-02-27
-lastmod: 2023-04-02
+lastmod: 2023-07-28
 title: "Lua project setup with LuaRocks"
 description: "A full guide on setting up a Lua project, including dependency management, code formatting and analysis, and editor setup. Part of a larger series about aspects of Lua."
 image: "/assets/blog/lua-series-part-1/title-card.png"
@@ -692,6 +692,24 @@ package.cpath = 'lua_modules/lib/lua/' .. version ..
   <pre><code class="language-shell hljs">$ lua src/main.lua
 { "Hello, reader.", 42 }</code></pre>
   <figcaption>Success, at last.</figcaption>
+</figure>
+<p>
+  <strong>Remark:</strong> The <code>package.path</code> variable can also be
+  used to solve inner project module resolution. Let's say all files will be
+  located inside a <code>src/</code> folder, adding <code>'src/?.lua'</code> at
+  the end will enable looking up modules from that directory.
+</p>
+<figure>
+  <pre><code class="language-lua hljs">-- src/setup.lua
+-- ...
+
+package.path = 'lua_modules/share/lua/' .. version ..
+    '/?.lua;lua_modules/share/lua/' .. version ..
+    '/?/init.lua;' .. package.path .. ';src/?.lua'</code></pre>
+  <figcaption>
+    Adding <code>.. ';src/?.lua'</code> at the end to tell Lua to search for
+    modules in <code>src/</code>.
+  </figcaption>
 </figure>
 
 <h3 id="rock-trees">Rock trees</h3>
