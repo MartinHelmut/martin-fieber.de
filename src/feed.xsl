@@ -13,7 +13,7 @@
         <link rel="apple-touch-icon" href="/assets/favicon/apple-touch-icon.png" />
         <link rel="manifest" href="/assets/favicon/site.webmanifest" />
         <link rel="stylesheet" href="/style.css" />
-        <meta name="theme-color" content="#ffffff" />
+        <meta name="theme-color" content="#6200ee" />
         <script
           async="async"
           defer="defer"
