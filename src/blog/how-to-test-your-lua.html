@@ -138,7 +138,7 @@ series: { name: lua, part: 3 }
   >.
 </p>
 <p>
-  With the setup done, running the following command inside a project folder
+  With both installed, running the following command inside a project folder
   will create a new LuaRocks projects.
 </p>
 <figure>
@@ -173,16 +173,10 @@ series: { name: lua, part: 3 }
 
 <h3 id="running-tests">Running tests</h3>
 <p>
-  With this setup it is now possible to run <code>./luarocks test</code>.
-  Without any further parameters, this will run a project root
-  <code>test.lua</code> file <strong>if found</strong> &mdash; it will be the
-  entry point for all tests going forward.
+  With the project setup done, it is now possible to run
+  <code>./luarocks test</code>. Without further parameters, this will run a
+  <code>test.lua</code> file from the project root <strong>if found</strong>.
 </p>
-<p>For now this file will only print that no tests are defined.</p>
-<figure>
-  <pre><code class="language-lua hljs">-- test.lua
-print("No tests defined, yet.")</code></pre>
-</figure>
 <p>
   Alternatively, the <code>test</code> property of the project
   <code>.rockspec</code> file can be used to define a different location or file
@@ -210,12 +204,17 @@ test = {
   command = "lua src/test.lua"
 }</code></pre>
 </figure>
+<p>For now the test entry file will only print that no tests are defined.</p>
+<figure>
+  <pre><code class="language-lua hljs">-- src/test.lua
+print("No tests defined, yet.")</code></pre>
+</figure>
 <p>
-  All options can be found at the
+  All options for setting up the test command can be found at the
   <a
     href="https://github.com/luarocks/luarocks/wiki/Rockspec-format#test-rules"
-    title=""
-    >LuaRocks GitHub wiki with the test command specification</a
+    title="Test rules for rockspec files with LuaRocks."
+    >test command specification of the LuaRocks GitHub wiki</a
   >.
 </p>
 
@@ -226,12 +225,12 @@ test = {
   LuaRocks or even tests &mdash; running and verifying the code manually.
 </p>
 <p>
-  I'm absolutely in favour of test automation, but for small scripts and tests
-  manually testing as with Lua's interactive mode can be a viable way for quick
-  iterations.
+  I'm absolutely in favour of test automation, but for small scripts and
+  snippets manually testing as with Lua's interactive mode can be a viable way
+  for quick iterations.
 </p>
 <p>
-  Running the <code>lua</code> CLI without any argument will enter the
+  Running the <code>lua</code> CLI without any arguments will enter the
   interactive mode.
 </p>
 <figure>
@@ -248,12 +247,11 @@ Lua 5.4.6  Copyright (C) 1994-2023 Lua.org, PUC-Rio
   </figcaption>
 </figure>
 <p>
-  This small piece of code, called
+  To test how to iterate on code, the following small piece of code, called
   <a href="https://www.lua.org/pil/1.1.html" title="What is a Lua chunk?"
     >chunk</a
   >
-  in Lua, defined inside a file <code>factorial.lua</code> can be quickly tested
-  using the <code>dofile</code> function.
+  in Lua, will be defined inside a new file <code>factorial.lua</code>.
 </p>
 <figure>
   <pre><code class="language-lua hljs">-- factorial.lua
@@ -268,6 +266,7 @@ end
 print(factorial(4))  --> 24</code></pre>
   <figcaption>A Lua file with code to test.</figcaption>
 </figure>
+<p>The idea is to use the <code>dofile</code> function for quick tests.</p>
 <figure>
   <pre><code class="language-shell hljs">$ lua
 Lua 5.4.6  Copyright (C) 1994-2023 Lua.org, PUC-Rio
@@ -278,7 +277,7 @@ Lua 5.4.6  Copyright (C) 1994-2023 Lua.org, PUC-Rio
 <p>
   After making changes to the code, <code>dofile</code> can be executed again
   from the console to re-run the code. Using this approach will enable quick
-  iterations on small chunks.
+  iterations on small chunks through the command line.
 </p>
 
 <h3 id="unit-testing-via-assert">Unit testing via <code>assert</code></h3>
@@ -294,8 +293,8 @@ Lua 5.4.6  Copyright (C) 1994-2023 Lua.org, PUC-Rio
     href="https://www.lua.org/manual/5.4/manual.html#2.3"
     title="Lua reference manual about the pcall function."
     >pcall</a
-  >. To keep the setup minimal all that is needed is a small
-  <code>test</code> function.
+  >. To keep the setup minimal all that is needed is a <code>test</code> helper
+  function.
 </p>
 <figure>
   <pre><code class="language-lua hljs">-- src/examples/assert.lua
@@ -309,7 +308,7 @@ end</code></pre>
 </figure>
 <p>
   The function will take an anonymous function as argument, call it via
-  <code>pcall</code>, and in case of an error print it.
+  <code>pcall</code>, and in case of an error print the result.
 </p>
 <p>
   Using this approach, tests for the <code>factorial</code> function could look
@@ -363,7 +362,7 @@ return Runner</code></pre>
   <figcaption>A minimal test runner example.</figcaption>
 </figure>
 <p>
-  This will use the same <code>test</code> function but set a property
+  This will use the same <code>test</code> function, but set a property
   <code>hasErrors</code> when a test fails. Via the
   <code>evaluate</code> function, called after all tests, a proper exit code and
   status message can be emitted.
@@ -395,6 +394,12 @@ tr:evaluate()</code></pre>
   Used as a base, one can already get quite far with this simple test runner,
   that can even be further extended.
 </p>
+<p>
+  For example, instead of directly calling defined test functions gathering all
+  and running them when calling <code>evaluate</code>. This would then enable to
+  <strong>pretty print the test output</strong>, or even
+  <strong>shuffle tests</strong> to ensure test isolation.
+</p>
 
 <h3 id="unit-testing-via-luaunit">Unit testing via LuaUnit</h3>
 <p>
@@ -402,9 +407,8 @@ tr:evaluate()</code></pre>
   <a href="https://github.com/bluebird75/luaunit" title="LuaUnit on GitHub"
     >LuaUnit</a
   >
-  module installed via LuaRocks is a very popular unit testing framework for
-  Lua. It comes packed with features while still being very easy to set up and
-  use.
+  module installed via LuaRocks is a very popular unit testing framework for Lua
+  that comes packed with features.
 </p>
 
 <h4 id="setup-luaunit">Setup LuaUnit</h4>
@@ -451,15 +455,14 @@ test = {
 <h4 id="test-conventions">Test conventions</h4>
 <p>
   For LuaUnit <strong>tests are functions or tables of functions</strong> that
-  all start with the word <code>test</code> or <code>Test</code>. Every test
-  file needs to at least require <code>luaunit</code> as a module, the root test
-  file then execute those.
+  all start with the word <code>test</code> or <code>Test</code>, that get
+  executed through the root test file.
 </p>
 <figure>
   <pre><code class="language-lua hljs">-- src/test.lua
 local lu = require("luaunit")
 
--- Require tests ...
+-- Define tests ...
 
 os.exit(lu.LuaUnit.run())</code></pre>
   <figcaption>Basic test structure setup.</figcaption>
@@ -468,7 +471,7 @@ os.exit(lu.LuaUnit.run())</code></pre>
 <h4 id="a-single-test">A single test</h4>
 <p>
   Taking the <a href="#iterative-work">example function from earlier</a>, a
-  single test case for it can be created by defining a function starting with
+  single test case can be created by defining a function starting with
   <code>Test</code>.
 </p>
 <figure>
@@ -499,8 +502,9 @@ os.exit(lu.LuaUnit.run())</code></pre>
 
 <h4 id="group-tests">Group tests</h4>
 <p>
-  Multiple test cases should be organised inside a table for grouping. This will
-  increase readability when running the tests.
+  Multiple test cases can be organised or
+  <strong>grouped inside a table</strong>. This will increase readability when
+  running the tests.
 </p>
 <figure>
   <pre><code class="language-lua hljs">-- src/test.lua
@@ -526,10 +530,10 @@ os.exit(lu.LuaUnit.run())</code></pre>
 
 <h4 id="multiple-files">Multiple files</h4>
 <p>
-  A growing test suite needs to be organised for better maintainability.
-  Splitting tests in multiple files can be one way. To enable this pattern a
-  test unit needs to return the defined tests, the entry test file will then
-  require all defined tests for execution.
+  A growing test suite needs to be organised for better maintainability &mdash;
+  splitting tests in multiple files can be one way. To enable this pattern a
+  test module needs to return the defined test table, the entry test file will
+  then require all defined tests and execute them.
 </p>
 <p>To showcase this a new example function will be created.</p>
 <figure>
@@ -542,8 +546,8 @@ end
 return round</code></pre>
 </figure>
 <p>
-  The tests for this new example function will be in a separate file, returning
-  the local table with the test cases.
+  The tests for this new example will be in a separate file, returning the local
+  table with the test cases.
 </p>
 <figure>
   <pre><code class="language-lua hljs">-- src/examples/round-test.lua
@@ -563,9 +567,9 @@ end
 return TestRound</code></pre>
 </figure>
 <p>
-  The same goes for the
-  <a href="#group-tests">tests for the <code>factorial</code> function</a>,
-  moving them into a separate file.
+  Same for the
+  <a href="#group-tests"><code>factorial</code> tests</a>, moving them into a
+  separate file and exporting the test table.
 </p>
 <figure>
   <pre><code class="language-lua hljs">-- src/examples/factorial-test.lua
@@ -584,16 +588,14 @@ return TestFactorial</code></pre>
 </figure>
 <p>
   I like keeping <strong>tests close to the implementation</strong>, that's why
-  all tests for a file are in a file with the same name and the postfix
-  <code>-test</code>
-  before the file extension in the same folder &mdash; having a
-  <code>factorial-test.lua</code> test file for the
-  <code>factorial.lua</code> implementation. Mind, this is just a personal
+  tests are in a file with the same name and the postfix <code>-test</code> in
+  the same folder &mdash; having a <code>factorial-test.lua</code> test file for
+  the <code>factorial.lua</code> implementation. Mind, this is my personal
   preference. Another typical pattern is having a single test folder containing
   all test files.
 </p>
 <p>
-  Now with the dedicated test files, the
+  Now with dedicated test files, the
   <strong>entry file will require all tests</strong> and run LuaUnit.
 </p>
 <figure>
@@ -605,7 +607,7 @@ local lu = require("luaunit")
 os.exit(lu.LuaUnit.run())</code></pre>
   <figcaption>The entry file will list all tests to run.</figcaption>
 </figure>
-<p>Running <code>./luarocks test</code> will then execute the test suite.</p>
+<p>Running <code>./luarocks test</code> will execute the test suite.</p>
 <figure>
   <pre><code class="language-shell hljs">$ ./luarocks test
 
@@ -682,7 +684,7 @@ return TestLogger</code></pre>
   <a
     href="https://luaunit.readthedocs.io/en/#using-the-command-line"
     title="LuaUnit's documentation about command line arguments."
-    >LuaUnit's pattern option to select tests to run</a
+    >LuaUnit's pattern option to select a subset of tests to run</a
   >.
 </p>
 <figure>
@@ -696,9 +698,9 @@ return TestLogger</code></pre>
 <p>
   There are many ways to <strong>isolate code</strong> and
   <strong>replace external dependencies</strong>
-  for testing, called mocking. In my time using Lua there was sadly no test-mock
-  library that won my heart, instead I use a combination of different techniques
-  to mock code for testing.
+  for testing, called mocking. In my time using Lua I found no test-mock library
+  that won my heart, instead I use a combination of different techniques to mock
+  code for testing.
 </p>
 
 <h4 id="testability-of-code">Testability of code</h4>
@@ -761,12 +763,11 @@ p2:say("Hello")  --> "Mocked"</code></pre>
 
 <h4 id="basic-mock">Basic mock</h4>
 <p>
-  A basic mock can be an empty structure that
-  <strong>replaces a dependency</strong> for a different chunk of code. What
-  this structure does or how it is shaped depends on the goal of the test
-  &mdash; e.g. an empty function can be passed to skip or remove a call,
-  checking if a method actually got called, or simulating values on a table to
-  fully run a function.
+  A basic mock can be any value <strong>replacing a dependency</strong> for a
+  chunk of code. What this value does or how it is shaped depends on the goal of
+  the test &mdash; e.g. an empty function can be passed to skip or remove a
+  call, checking if a method actually got called, or simulating values on a
+  table to fully isolate a test.
 </p>
 <p>
   To showcase this, the following <code>createUser</code> function will be
@@ -779,9 +780,9 @@ p2:say("Hello")  --> "Mocked"</code></pre>
 end</code></pre>
 </figure>
 <p>
-  The goal here is to test if the user gets created successfully, therefore an
-  empty callback function is of no use. Only if the callback gets called the
-  user got created.
+  The goal is to test if the user gets created successfully, therefore an empty
+  callback function is of no use. Only if the callback gets called the user got
+  created.
 </p>
 <p>
   One way to test this is to create a mock function that
@@ -806,7 +807,7 @@ os.exit(lu.LuaUnit.run())</code></pre>
   Mock exported functions and values
 </h4>
 <p>
-  Mocking a function exported by a module is best done inside LuaUnit's
+  Mocking a function or value exported by a module is best done inside LuaUnit's
   <a href="#setup-and-teardown"
     ><code>setUp</code> and <code>tearDown</code> functions</a
   >. The exported function or value gets replaced with a mock in
@@ -854,7 +855,7 @@ os.exit(lu.LuaUnit.run())</code></pre>
 </p>
 <p>
   Do demonstrate this, the goal for the next example is to mock the
-  <code>print</code> function and test if it has been called.
+  <code>print</code> function and test if it has been called at least once.
 </p>
 <figure>
   <pre><code class="language-lua hljs">function log(text)
@@ -890,7 +891,7 @@ end</code></pre>
   lu.assertTrue(hasBeenCalled)
 end</code></pre>
 </figure>
-<p>The whole example looks as following.</p>
+<p>This is how the whole example looks.</p>
 <figure>
   <pre><code class="language-lua hljs">-- src/examples/mock-global-test.lua
 local lu = require("luaunit")
@@ -950,8 +951,9 @@ end
 return Assets</code></pre>
 </figure>
 <p>
-  The function <code>getPath</code> should now be tested, mocking
-  <code>path.user_home</code> and <code>path.DIR_SEP</code>.
+  The function <code>getPath</code> needs to be tested, the values
+  <code>path.user_home</code> and <code>path.DIR_SEP</code> mocked, to isolate
+  the test from the user environment.
 </p>
 <p>
   As <code>require</code> is a global function, it can be
@@ -971,8 +973,9 @@ end</code></pre>
 </figure>
 <p>
   Inside <code>setUp</code> the global <code>require</code> can be overridden,
-  listening for the dependency to be mocked, and returning a mocked value. The
-  actual require is used to get any non-mocked module.
+  listening for the dependency to be mocked, and
+  <strong>returning a mocked value</strong> in place. The actual require is used
+  to get any non-mocked module.
 </p>
 <figure>
   <pre><code class="language-lua hljs">-- src/examples/mock-module/assets-test.lua
@@ -984,7 +987,9 @@ function TestModule:setUp()
     if modname == "path" then
       -- Return mocked version of "path".
       return {
-        user_home = function () return "" end,
+        user_home = function ()
+          return ""
+        end,
         DIR_SEP = "/"
       }
     else
@@ -994,7 +999,7 @@ function TestModule:setUp()
   end
 end</code></pre>
 </figure>
-<p>The module to test then will be required inside the test unit.</p>
+<p>The to be tested module will be required inside the test unit.</p>
 <figure>
   <pre><code class="language-lua hljs">-- src/examples/mock-module/assets-test.lua
 
@@ -1007,7 +1012,7 @@ function TestAssets:test1()
 end</code></pre>
 </figure>
 <p>
-  Requiring the code to be tested inside the actual test needs to be done to
+  Requiring the code for testing inside the actual test needs to be done to
   ensure the <code>require</code> function is mocked first in
   <code>setUp</code>.
 </p>
@@ -1023,7 +1028,9 @@ function TestAssets:setUp()
   _G.require = function (modname)
     if modname == "path" then
       return {
-        user_home = function () return "" end,
+        user_home = function ()
+          return ""
+        end,
         DIR_SEP = "/"
       }
     else
@@ -1047,9 +1054,8 @@ return TestAssets</code></pre>
 
 <h3 id="continuous-integration">Continuous integration</h3>
 <p>
-  <strong>Tests should be run often</strong>, not only on a local machine.
-  Naturally adding continuous integration will help spot issues with code. With
-  a repository on GitHub,
+  <strong>Tests should be run often</strong>, and adding continuous integration
+  will help spot issues early. With a repository on GitHub,
   <a
     href="https://github.com/features/actions"
     title="Landing page for GitHub Actions."
@@ -1093,8 +1099,7 @@ jobs:
       - uses: leafo/gh-actions-luarocks@v4</code></pre>
 </figure>
 <p>
-  Two steps are now important to run,
-  <strong>installing all dependencies</strong> with LuaRocks and
+  Finally, <strong>installing all dependencies</strong> with LuaRocks and
   <strong>running the test suite</strong>. To run all tests the environment
   variable <code>LUA_INIT</code> needs to be set with the path to the setup
   file, letting Lua know where to find modules installed with LuaRocks.
