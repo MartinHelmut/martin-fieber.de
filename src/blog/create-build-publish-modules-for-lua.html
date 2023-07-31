@@ -1,6 +1,6 @@
 ---
 date: 2023-03-31
-lastmod: 2023-04-02
+lastmod: 2023-07-31
 title: "Create, build, and publish modules for Lua"
 description: "Going through creating new packages with LuaRocks, and preparing them for publish into the official LuaRocks registry. On top: how to manage new versions, include documentation, and configure platform support."
 image: "/assets/blog/lua-series-part-2/title-card.png"
@@ -476,7 +476,7 @@ test_dependencies = {
 
 <h3 id="install-from-git-or-url">Install from git or url</h3>
 <p>
-  With LuaRocks it is also possible to install package from source control or
+  With LuaRocks, it is also possible to install package from source control or
   <abbr>URL</abbr> directly. The way this works is by pointing to a remote
   <code>.rockspec</code> file, for example in a Git repository. As seen in a
   <a href="#old-package-versions">later example</a>.
@@ -662,7 +662,7 @@ build = {
   all containing files will be considered for build, as if every file had an
   entry in <code>build.modules</code>.
 </p>
-<p>With the setup done, the project can be build.</p>
+<p>With the setup done, the project can be built.</p>
 <figure>
   <pre><code class="language-shell hljs">$ ./luarocks make</code></pre>
   <figcaption>
@@ -765,7 +765,7 @@ build = {
   <pre><code class="language-shell hljs">$ ./luarocks build</code></pre>
 </figure>
 <p>
-  By default this will build the package provided by the
+  By default, this will build the package provided by the
   <code>.rockspec</code> file. In case of a Git repository it will be
   <strong>cloned locally</strong>, and build from there. If this is not desired,
   a local only build can be created via the flag
@@ -1017,5 +1017,6 @@ $ ./luarocks upload my-package-1.0.0-1.rockspec \
 <p>
   The next article will be a deep-dive into
   <strong>testing Lua code</strong> &mdash; from first small iterations, unit
-  testing, creating mocks, and running continuous integrating. Until then 👋🏻
+  testing, creating mocks, and running continuous integrating.
 </p>
+<p>Until then 👋🏻</p>
