@@ -1,34 +1,34 @@
 ---
 date: 2023-05-26
-lastmod: 2023-06-29
+lastmod: 2023-08-02
 title: "TAP — Test Anything Protocol"
-description: "A little love letter to TAP, the Test Anything Protocol. Showing what it is, how to emit it in different setups, and consume the produced output."
+description: "A little love letter to TAP, the Test Anything Protocol. Showing what it is, how to emit it in different setups, and how to consume the produced output."
 linkTitle: "What is TAP, how to produce, and consume it."
-summary: "<p>What is <abbr>TAP</abbr> and why do I love using it? I'll tell, and show how to emit and consume it in different setups and languages, like C++, Lua, JavaScript, or even PostgreSQL.</p>"
+summary: "<p>What is <abbr>TAP</abbr>, and why do I love using it? I'll show and tell how to emit and consume it in different setups and languages, like C++, Lua, JavaScript, or even PostgreSQL.</p>"
 hasCode: true
 tags: ["post", "general"]
 ---
 
 <h3 id="making-contact">Making contact</h3>
 <p>
-  Years back, when I first heard about the
-  <dfn>Test Anything Protocol (<abbr>TAP</abbr>)</dfn>, I gave it not much
-  thought. I wrote tests, I'd run them, and I saw if they all pass, or not.
+  Years ago, when I first heard about the
+  <dfn>Test Anything Protocol (<abbr>TAP</abbr>)</dfn>, I gave it little
+  thought. I wrote tests, I ran them, and I saw if they all passed or not.
   Whatever programming language I used, the testing harness &mdash; test runner,
-  framework, data, the tests and surrounding tools &mdash; usually produce some
-  result that could be easily interpreted, by human and machine, most of the
+  framework, data, the tests and surrounding tools &mdash; usually produced some
+  result that could be easily interpreted by humans and machines, most of the
   time. For all I wanted from my tests back then, it was enough.
 </p>
 <p>
-  Over time different needs and expectations arose. Using many test frameworks,
-  switching between languages, create tooling that works on-top of the test
-  runner output; a lot can change with
+  Over time, different needs and expectations arose. Using many test frameworks,
+  switching between languages, and creating tooling that works on top of the
+  test runner output; a lot can change with
   <strong>projects maintained over a long period of time</strong>.
 </p>
 <p>
   And with that ever-changing landscape came the longing for
-  <strong>stability and reusability</strong>. To not again write a tool for the
-  next test runner, not reinterpreting test output, or being able to get the
+  <strong>stability and reusability</strong> &mdash; to not again write a tool
+  for the next test runner, not reinterpret test output, or be able to get the
   same output format for tests written in different languages.
 </p>
 <p>
@@ -41,26 +41,26 @@ tags: ["post", "general"]
 <h3 id="tap-it"><abbr>TAP</abbr> it!</h3>
 <p>
   <abbr>TAP</abbr> is a <strong>text-based interface</strong>, offering a
-  unified way of not only reporting test results, but how tools should handle
-  the output, <strong>as a stream</strong>, describing the communication from a
-  <abbr>TAP</abbr> producer to a <abbr>TAP</abbr> consumer. This decouples the
-  test reporting from the presentation and further processing.
+  unified way of not only reporting test results but also how tools should
+  handle the output, <strong>as a stream</strong>, describing the communication
+  from a <abbr>TAP</abbr> producer to a <abbr>TAP</abbr> consumer. This
+  decouples the test reporting from the presentation and further processing.
 </p>
 <p>
   <a
     href="https://testanything.org/producers.html#frameworks"
     title="Official TAP website about TAP producers."
-    ><abbr>TAP</abbr> producer</a
+    ><abbr>TAP</abbr> producers</a
   >
-  can be many things, from unit and integration testing frameworks, visual
+  can be many things, from unit and integration testing frameworks to visual
   testing software, lint tooling, build systems, etc. Support exists in many
-  languages, but there are also language agnostic tools.
+  languages, but there are also language-agnostic tools.
 </p>
 <p>
   <a
     href="https://testanything.org/consumers.html"
     title="Official TAP website about TAP consumer."
-    ><abbr>TAP</abbr> consumer</a
+    ><abbr>TAP</abbr> consumers</a
   >
   are programs that take the input and transform, process, or format it. This
   can range from adding color, full reformatting, transforming to different
@@ -72,13 +72,13 @@ tags: ["post", "general"]
 </p>
 <p>
   A core philosophy is to not wait for the full output, but rather process the
-  data line by line, or data chunk by chunk, as stream. The reason for the
+  data line by line, or chunk by chunk, as a stream. The reason for the
   <em>"data chunks"</em> is that
   <a
     href="https://testanything.org/tap-version-14-specification.html#tap14-format"
     title="TAP documentation about YAML support."
     ><abbr>TAP</abbr> can contain YAML blocks</a
-  >, that can potentially make only sense as a whole block.
+  >, that can potentially only make sense as a whole block.
 </p>
 
 <nav>
@@ -114,14 +114,14 @@ tags: ["post", "general"]
 
 <h3 id="specification">Specification</h3>
 <p>
-  The full specification for the current version <abbr>TAP14</abbr> can be found
-  on the
+  The full specification for the current version, <abbr>TAP14</abbr>, can be
+  found on the
   <a
     href="https://testanything.org/tap-version-14-specification.html"
     title="Official TAP website with the specification for version 14."
     >official <abbr>TAP</abbr> website</a
-  >. Taken from this website, this is an example how a test output can look like
-  for four tests, where two pass and two don't.
+  >. Taken from this website, this is an example of what a test output can look
+  like for four tests, where two pass and two don't.
 </p>
 <figure>
   <pre><code class="language-tap hljs">TAP version 14
@@ -146,33 +146,33 @@ not ok 4 - Summarized correctly # TODO Not written yet
   </figcaption>
 </figure>
 <p>
-  The specification also describes how consumer should handle new versions, with
-  the goal of being <strong>forward compatible</strong>.
+  The specification also describes how consumers should handle new versions,
+  with the goal of being <strong>forward-compatible</strong>.
 </p>
 <p>
-  In general the
+  In general, the
   <a href="https://testanything.org" title="Official TAP website"
     >official website</a
   >
   is very readable and holistically describes <abbr>TAP</abbr>, how to implement
   the protocol, how to upgrade one <abbr>TAP</abbr> version to another, the
-  ideas behind it, language and tooling support, and much more. Well worth a
-  read if the usage of <abbr>TAP</abbr> is considered.
+  ideas behind it, language and tooling support, and much more. It is well worth
+  a read if the use of <abbr>TAP</abbr> is considered.
 </p>
 
 <h3 id="getting-giddy-about-a-protocol">Getting giddy about a protocol</h3>
 <p>
-  In a full test harness, none of the producer, nor consumer, need to be written
+  In a full test harness, neither the producer nor consumer need to be written
   in the same language. Tooling from one context can be used in another,
-  resulting in different projects sharing more tooling, and me spending less
-  time reworking systems to fit different needs.
+  resulting in different projects sharing more tooling and me spending less time
+  reworking systems to fit different needs.
 </p>
 <div class="side-note-ref">
   <p>
     That was what really sold me on <abbr>TAP</abbr>. It is minimal and
-    readable*, tools can be reused, and it is language agnostic, being nothing
-    more than a text-based interface. Though, an interface that served me very
-    well over the years.
+    readable*, tools can be reused; and it is language agnostic, being nothing
+    more than a text-based interface, an interface that has served me very well
+    over the years.
   </p>
   <aside class="side-note">
     <p>* Absolutely subjective on my part.</p>
@@ -180,15 +180,15 @@ not ok 4 - Summarized correctly # TODO Not written yet
 </div>
 <p>
   Whenever I have the option to use <abbr>TAP</abbr>, <strong>I will</strong>.
-  Without further ado, let's have a look at some examples on how to produce
+  Without further ado, let's take a look at some examples of how to produce
   <abbr>TAP</abbr> with different languages and tools.
 </p>
 
 <h3 id="produce-tap">Produce <abbr>TAP</abbr></h3>
 <p>
-  Getting <abbr>TAP</abbr> as reporting format is a straight forward process,
+  Getting <abbr>TAP</abbr> as a reporting format is a straight-forward process,
   usually setting a <em>"reporter"</em> flag. I picked a collection of possible
-  producer to showcase the setup.
+  producers to showcase the setup.
 </p>
 
 <h4 id="cpp-with-catch2">C++ with Catch2</h4>
@@ -196,7 +196,7 @@ not ok 4 - Summarized correctly # TODO Not written yet
   <a href="https://github.com/catchorg/Catch2" title="Catch2 on GitHub"
     >Catch2</a
   >
-  comes with <abbr>TAP</abbr> as reporter built-in. To get a minimal example
+  comes with <abbr>TAP</abbr> as a reporter built-in. To get a minimal example
   with CMake going, the following CMake <code>CMakeLists.txt</code> will fetch
   Catch2 and set up an example project.
 </p>
@@ -253,7 +253,7 @@ $ cmake --build build/debug</code></pre>
     The <code>$</code> is used to indicate a command entered into the terminal.
   </figcaption>
 </figure>
-<p>And finally running the test, using <abbr>TAP</abbr> as reporter.</p>
+<p>And finally, running the test using <abbr>TAP</abbr> as a reporter.</p>
 <figure>
   <pre><code class="language-shell hljs">$ ./build/debug/Test --reporter TAP</code></pre>
 </figure>
@@ -273,10 +273,10 @@ $ cmake --build build/debug</code></pre>
     title="Official LuaUnit documentation."
     >LuaUnit</a
   >
-  has <abbr>TAP</abbr> built-in as reporter. To set up an environment to run
+  has <abbr>TAP</abbr> built-in as a reporter. To set up an environment to run
   tests with
   <a href="https://luarocks.org" title="Official LuaRocks website">LuaRocks</a>,
-  I can refer to an earlier article of mine,
+  I can refer to an earlier article of mine on
   <a
     href="https://martin-fieber.de/blog/lua-project-setup-with-luarocks/"
     title="My article about setting up a Lua project with LuaRocks."
@@ -284,9 +284,8 @@ $ cmake --build build/debug</code></pre>
   >.
 </p>
 <p>
-  Having the environment ready, and a project folder capable of running
-  LuaRocks, a minimal example <code>rockspec</code> could look like the
-  following.
+  With the environment ready and a project folder capable of running LuaRocks, a
+  minimal example <code>rockspec</code> could look like the following.
 </p>
 <figure>
   <pre><code class="language-lua hljs">-- test-1.0.0-1.rockspec
@@ -348,7 +347,7 @@ os.exit(lu.LuaUnit.run())</code></pre>
 
 <h4 id="javascript-with-node-tap">JavaScript with node-tap</h4>
 <p>
-  For JavaScript and Node.js there is the amazing
+  For JavaScript and Node.js, there is the amazing
   <a href="https://node-tap.org" title="Official Node-Tap website">Node-Tap</a>
   testing library. With Node.js installed, to get a minimal setup going, the
   following <code>package.json</code> can describe a project.
@@ -365,7 +364,7 @@ os.exit(lu.LuaUnit.run())</code></pre>
   }
 }</code></pre>
 </figure>
-<p>A small sample test file, two tests passing, one failing.</p>
+<p>A small sample test file shows two tests passing and one failing.</p>
 <figure>
   <pre><code class="language-javascript hljs">// test.js
 const tap = require('tap');
@@ -400,7 +399,7 @@ tap.pass('this is also fine');</code></pre>
     title="Official Tappy documentation website."
     >Tappy</a
   >
-  can generate <abbr>TAP</abbr> output and integrates with Pythons
+  can generate <abbr>TAP</abbr> output and integrates with Python's
   <a
     href="https://docs.python.org/3/library/unittest.html"
     title="Pythons unittest module."
@@ -411,14 +410,14 @@ tap.pass('this is also fine');</code></pre>
   <a href="https://pypi.org/project/pip/" title="Official pip project website."
     >pip</a
   >
-  available, for example with
+  available, for example, with
   <a href="https://github.com/pyenv/pyenv" title="Official pyenv GitHub page."
     >pyenv</a
   >.
 </p>
 <p>
-  Tests can be written like any other in Python, here a test file taken from the
-  unittest documentation.
+  Tests can be written like any other in Python; here is a test file taken from
+  the <em>"unittest"</em> documentation.
 </p>
 <figure>
   <pre><code class="language-python hljs"># test.py
@@ -464,8 +463,8 @@ if __name__ == '__main__':
   <a href="https://stylelint.io" title="Official StyleLint website"
     >StyleLint</a
   >
-  does support <abbr>TAP</abbr> as reporter &mdash; Node.js with NPM need to be
-  installed. For a minimal setup, the following <code>package.json</code> can
+  does support <abbr>TAP</abbr> as a reporter &mdash; Node.js with NPM needs to
+  be installed. For a minimal setup, the following <code>package.json</code> can
   describe the project.
 </p>
 <figure>
@@ -484,7 +483,7 @@ if __name__ == '__main__':
 <p>
   The defined <code>npm run lint</code> command will find all CSS files in the
   project and run the linter on them. As an example, two different CSS files
-  will demonstrate the test, one with a problem and the other one without.
+  will demonstrate the test, one with a problem and the other without.
 </p>
 <figure>
   <pre><code class="language-css hljs">/* test1.css */
@@ -522,7 +521,7 @@ strong {
     >pgTAP</a
   >
   for PostgreSQL is a collection of database functions to truly write unit tests
-  for a database, while emitting <abbr>TAP</abbr>. It requires
+  for a database while emitting <abbr>TAP</abbr>. It requires
   <strong>PostgreSQL 9.1 or higher</strong>
   and needs to be <strong>installed on the host</strong> that runs the database
   server.
@@ -534,7 +533,7 @@ strong {
     title="How to install pgTAP into a database."
     >installation of pgTAP</a
   >, the <code>pgtap</code> extension can be added to a PostgreSQL database by
-  running the following as superuser for a database that should be tested.
+  running the following as the superuser for the database that should be tested.
 </p>
 <figure>
   <pre><code class="language-sql hljs">CREATE EXTENSION pgtap;</code></pre>
@@ -593,26 +592,26 @@ ROLLBACK;</code></pre>
     title="TAP documentation about available consumer."
     >official documentation for consumers</a
   >, as it contains a multitude of options for different languages, with quite a
-  few producer also providing options for consumption. Additionally, there is
-  always also the option to search the internet for more, there always is, more
-  I mean.
+  few producers also providing options for consumption. Additionally, there is
+  always the option to search the internet for more &mdash; there always is,
+  more I mean.
 </p>
 <p>
-  The best part here is, thanks to <abbr>TAP</abbr>,
-  <strong>any consumer works with any producer</strong>, no matter the language
+  The best part here is that, thanks to <abbr>TAP</abbr>,
+  <strong>consumers can work with any producer</strong>, no matter the language
   or context.
 </p>
 
 <h3 id="conclusion">Conclusion</h3>
 <p>
   I have stronger feelings about <abbr>TAP</abbr> than I initially thought I
-  would have, and this article can only give a small glimpse into it. It may
-  does not look like it at first, but this is a
-  <strong>love letter to <abbr>TAP</abbr></strong
-  >, and hopefully encouragement for others to give it a shot.
+  would have, and this article can only give a small glimpse into them. It may
+  not look like it at first, but this is a
+  <strong>love letter to <abbr>TAP</abbr></strong> and hopefully an
+  encouragement for others to give it a shot.
 </p>
 <p>
-  All shown producer examples can be found in the
+  All the producer examples can be found in the
   <a
     href="https://github.com/MartinHelmut/tap-article"
     title="GitHub with all the producer example code shown here."

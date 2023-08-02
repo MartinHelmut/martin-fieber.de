@@ -1,14 +1,14 @@
 ---
 date: 2023-01-24
-lastmod: 2023-06-29
+lastmod: 2023-08-02
 title: "Rigging and animating a bulkhead door in Blender"
-description: "Excited learning about rigging and animation in Blender, it feels like it took forever to come here. But a journey well worth for sure."
+description: "Excited to learn about rigging and animation in Blender, it feels like it took forever to come here. But a journey well worth taking for sure."
 image: "/assets/blog/bulkhead-door-part3/title-card.png"
 imageAlt: "A screenshot of Blender, showing a part of the bulkhead door with an armature rendered in front of it. The armature is selected and the Drivers panel is open."
 linkTitle: "On the long journey learning Blender, I will dive into rigging and animation."
 banner: "/assets/blog/bulkhead-door-part3/banner"
 bannerAlt: "A screenshot of Blender, showing a part of the bulkhead door with a selected armature rendered in front of it."
-summary: "<p>Having the bulkhead door modeled and textured, all I have so far are a few static images. Time for rigging and animating the door, finally adding life to it.</p>"
+summary: "<p>After having the bulkhead door modeled and textured, all I have so far are a few static images. It's time for rigging and animating the door, finally adding life to it.</p>"
 hasImageCompare: true
 tags: ["post", "3d", "bulkhead"]
 series: { name: bulkhead, part: 3 }
@@ -32,8 +32,8 @@ series: { name: bulkhead, part: 3 }
 
 <h3>I like to move it</h3>
 <p>
-  Move it! By <strong>rigging and animating the door</strong>, or learning how
-  to do it first. After
+  Move it! By <strong>rigging and animating the door</strong>, or at least
+  learning how to do it first. After
   <a
     href="https://martin-fieber.de/blog/bulkhead-door-with-blender-part-1/"
     title="Creating the base mesh for the bulkhead door as drawn by Ron Cobb."
@@ -44,11 +44,11 @@ series: { name: bulkhead, part: 3 }
     title="Adding textures to the door and giving it my own spin."
     >part two, texturing the bulkhead door</a
   >; I was ready to finally animate the door in Blender. Looking at what I've
-  got so far I've &hellip; wait a second, I did the main door wrong.
+  got so far, I've &hellip; wait a second, I did the main door wrong.
 </p>
 <p>
   On closer inspection of Ron Cobb's sketch, my wife pointed out that the
-  shadows on the door, what I thought are extruded parts, are actually insets.
+  shadows on the door, which I thought were extruded parts, are actually insets.
 </p>
 <figure>
   <div data-compare-image="#6200ee,53">
@@ -79,12 +79,12 @@ series: { name: bulkhead, part: 3 }
       />
     </picture>
   </div>
-  <figcaption>Comparing the sketch to my mesh I created, again.</figcaption>
+  <figcaption>Comparing the sketch to the mesh I created, again.</figcaption>
 </figure>
 <p>
-  Does that mean I have to redo parts of the door? I didn't think so, at first,
-  but the ever growing <strong>whisper of doubt</strong> crept into my ear. I
-  cannot un-see it, I will always know the mistake I made. In the first part of
+  Does that mean I have to redo parts of the door? I didn't think so at first,
+  but the ever-growing <strong>whisper of doubt</strong> crept into my ear. I
+  cannot unsee it; I will always know the mistake I made. In the first part of
   this article series I wrote:
 </p>
 <figure>
@@ -92,18 +92,18 @@ series: { name: bulkhead, part: 3 }
     cite="https://martin-fieber.de/blog/bulkhead-door-with-blender-part-1/"
   >
     <p>
-      What I wanted was to recreate his drawing as good as I could, as close as
+      What I wanted was to recreate his drawing as well as I could, as close as
       possible, and this is what I set out to do.
     </p>
   </blockquote>
 </figure>
-<p>And this is what I will set out to do indeed.</p>
+<p>And this is indeed what I will set out to do.</p>
 
 <h3 id="new-year-new-door">New year, new &hellip; door?</h3>
 <p>
   Looking at the drawing again, I found another oversight &mdash; a small inset
   running around the edge of the main frame of the door. With the extrusions on
-  the door, that are actually insets, this makes two mistakes I have to correct.
+  the door that are actually insets, this makes two mistakes I have to correct.
 </p>
 <figure>
   <picture>
@@ -120,12 +120,12 @@ series: { name: bulkhead, part: 3 }
     />
   </picture>
   <figcaption>
-    My main door-frame misses the inset rim around the entrance.
+    My main door frame misses the inset rim around the entrance.
   </figcaption>
 </figure>
 <div class="side-note-ref">
   <p>
-    Taking this as an opportunity, and applying
+    Taking this as an opportunity and applying
     <strong>all I learned throughout last year</strong>, I wanted to recreate
     the main door and change the frame. While on it, I will also rework parts of
     my topology and fully redo my, as I know now, horrible <abbr>UVs</abbr>*.
@@ -138,11 +138,11 @@ series: { name: bulkhead, part: 3 }
   </aside>
 </div>
 <p>
-  Adding the inset around the main door-frame's edge was quickly done. The
-  actual door I <strong>rebuild from scratch</strong>, this time having inset
-  parts on the surface of the door, similar to the inner barrier doors. I also
-  reduced the segment count on all bevels, decreasing the overall poly-count, as
-  I want to use the door in a game engine.
+  Adding the inset around the main door frame edge was quickly done. The actual
+  door I <strong>rebuilt from scratch</strong>, this time with inset parts on
+  the surface of the door, similar to the inner barrier doors. I also reduced
+  the segment count on all bevels, decreasing the overall poly count, as I want
+  to use the door in a game engine.
 </p>
 <figure>
   <div data-compare-image="#fff,50">
@@ -174,13 +174,13 @@ series: { name: bulkhead, part: 3 }
     </picture>
   </div>
   <figcaption>
-    On the left the old version, on the right the new. I also moved some
+    On the left is the old version, and on the right the new. I also moved some
     elements and reworked the proportions of the door.
   </figcaption>
 </figure>
 <p>
-  Here the <strong>final version</strong>, both with extracted barrier doors and
-  the main door closed.
+  Here is the <strong>final version</strong>, both with the extracted barrier
+  doors and the main door closed.
 </p>
 <figure>
   <div data-compare-image="#fff,50">
@@ -216,7 +216,7 @@ series: { name: bulkhead, part: 3 }
     </picture>
   </div>
   <figcaption>
-    The final form of my door, both with closed and open main door.
+    The final form of my door, both with a closed and open main door.
   </figcaption>
 </figure>
 <p>
@@ -227,7 +227,8 @@ series: { name: bulkhead, part: 3 }
 
 <h3>Stop! Render time.</h3>
 <p>
-  While texturing the door, even though happy with the workflow provided by
+  While texturing the door, even though I was happy with the workflow provided
+  by
   <a
     href="https://www.blendermarket.com/products/fluent-materializer"
     title="The add-on main page on BlenderMarket."
@@ -235,24 +236,24 @@ series: { name: bulkhead, part: 3 }
   >, there was one thing that kept me worried: my render times.
   <strong>Every single render</strong> I did from the door
   <strong>took roughly 15 to 25 minutes</strong> on my machine, an Apple MacBook
-  Air with M1 chip. This was due to the procedural materials and limitations of
-  my system, so I assumed.
+  Air with the M1 chip. This was due to the procedural materials and limitations
+  of my system, so I assumed.
 </p>
 <p>
-  A reasonable fix should be by baking the procedural materials to static
+  A reasonable fix would be to bake the procedural materials into static
   textures. Even though
   <a
     href="https://cgthoughts.com/fluent/materializer/doc/baking_tool/"
     title="Official add-on documentation website about baking support."
     >Fluent: Materializer comes with baking support</a
   >, this <strong>never really worked for me</strong>. The main issue was that I
-  was only able to bake one material at a time. In the end I wanted to have one
+  was only able to bake one material at a time. In the end, I wanted to have one
   texture for everything.
 </p>
 <p>
-  One way I could solve that is by baking every material, one at a time, and
-  with some image processing software combine those images into one texture.
-  Thinking about an efficient workflow, this did <strong>not</strong> struck me
+  One way I could solve that is by baking every material one at a time and, with
+  some image processing software, combining those images into one texture.
+  Thinking about an efficient workflow, this did <strong>not</strong> strike me
   as a scalable approach.
 </p>
 
@@ -264,9 +265,9 @@ series: { name: bulkhead, part: 3 }
     title="Official add-on website for SimpleBake on BlenderMarket."
     >Blender add-on SimpleBake</a
   >
-  got my back &mdash; no affiliation, just a happy user. To use it I had to
+  got my back &mdash; no affiliation, just a happy user. To use it, I had to
   prepare some things. For one, I needed to ensure that my <abbr>UVs</abbr> do
-  not have any overlapping islands; after my last rework this was easy enough
+  not have any overlapping islands; after my last rework, this was easy enough
   and already done.
 </p>
 <figure>
@@ -284,12 +285,12 @@ series: { name: bulkhead, part: 3 }
     />
   </picture>
   <figcaption>
-    Still learning, and <abbr>UVs</abbr> are hard. I acknowledge the empty space
-    could be used better.
+    I'm still learning, and <abbr>UVs</abbr> are hard. I acknowledge the empty
+    space could be used better.
   </figcaption>
 </figure>
 <p>
-  Second and last I needed to <strong>configure SimpleBake</strong>; give it a
+  Second and last, I needed to <strong>configure SimpleBake</strong>: give it a
   list of objects to bake, what textures to create, texture resolution, how to
   export, and if a copy of the objects with the applied textures should be
   created inside the project.
@@ -309,7 +310,7 @@ series: { name: bulkhead, part: 3 }
     />
   </picture>
   <figcaption>
-    Quite some settings to adjust, but needs to only happen once.
+    There are quite a few settings to adjust, but it needs to only happen once.
   </figcaption>
 </figure>
 <p>
@@ -349,7 +350,7 @@ series: { name: bulkhead, part: 3 }
     </picture>
   </div>
   <figcaption>
-    All textures are baked, the door still looks like before, but renders a lot
+    All textures are baked; the door still looks like before but renders a lot
     faster.
   </figcaption>
 </figure>
@@ -371,11 +372,10 @@ series: { name: bulkhead, part: 3 }
     href="https://www.youtube.com/@LevelPixelLevel"
     title="YouTube channel of Level Pixel Level."
     >Level Pixel Level</a
-  >
-  I thought armatures and drivers where pure magic. Now that I went through that
-  playlist, <strong>getting myself familiar with drivers</strong>, it still
-  feels like magic, but right at my fingertips. Applying what I've learned, I
-  threw some bones, or armatures, on my door.
+  >, I thought armatures and drivers were pure magic. Now that I have gone
+  through that playlist, <strong>getting myself familiar with drivers</strong>,
+  it still feels like magic, but right at my fingertips. Applying what I've
+  learned, I threw some bones, or armatures, at my door.
 </p>
 <figure>
   <picture>
@@ -391,13 +391,13 @@ series: { name: bulkhead, part: 3 }
       loading="lazy"
     />
   </picture>
-  <figcaption>My doors bones, rendered in front of the mesh.</figcaption>
+  <figcaption>My door bones, rendered in front of the mesh.</figcaption>
 </figure>
 <p>
   The plan then was to <em>"drive"</em> those bones through a
-  <em>controller</em>, keeping everything together by a set of
-  <em>constrains</em>. Starting of by right-clicking on the bones y-location to
-  add a driver.
+  <em>controller</em>, keeping everything together with a set of
+  <em>constrains</em>. Starting off by right-clicking on the bone's y-location
+  to add a driver.
 </p>
 <figure>
   <picture>
@@ -418,7 +418,7 @@ series: { name: bulkhead, part: 3 }
   </figcaption>
 </figure>
 <p>
-  In the <em>Drivers</em> panel I defined the <em>"scripted expression"</em>,
+  In the <em>Drivers</em> panel, I defined the <em>"scripted expression"</em>,
   connected it to my <em>controller</em>, and added limits to the movement of
   the bone to drive.
 </p>
@@ -439,8 +439,8 @@ series: { name: bulkhead, part: 3 }
   <figcaption>Example of the settings for my driver.</figcaption>
 </figure>
 <p>
-  For the <em>controller</em> I created an arrow out of a plane, to which all
-  bones are connected by there respective <em>driver</em>. The arrow also gets
+  For the <em>controller</em>, I created an arrow out of a plane to which all
+  bones are connected by their respective <em>drivers</em>. The arrow also gets
   an <strong>object constraint</strong> to limit the movement, just for my own
   convenience.
 </p>
@@ -458,11 +458,13 @@ series: { name: bulkhead, part: 3 }
       loading="lazy"
     />
   </picture>
-  <figcaption>The green arrow I will use to control the door.</figcaption>
+  <figcaption>
+    The green arrow is what I will use to control the door.
+  </figcaption>
 </figure>
 <p>
-  Moving the arrow on the y-axis will move all bones of the door, as defined by
-  the driver expression.
+  Moving the arrow on the y-axis will move all the bones of the door, as defined
+  by the driver's expression.
 </p>
 <figure>
   <video
@@ -487,13 +489,13 @@ series: { name: bulkhead, part: 3 }
 </figure>
 <p>
   All in all, drivers felt somewhat natural &mdash; with functions and
-  properties, resembling programming to a degree, giving me a kind of
+  properties resembling programming to a degree, giving me a kind of
   familiarity.
 </p>
 
 <h3>Move it!</h3>
 <p>
-  Having the door-rig ready, I used the controller to drive the animation of the
+  With the door rig ready, I used the controller to drive the animation of the
   door. I know there are <strong>many ways to do this</strong>, but this way
   felt like a solid choice for me at the time.
 </p>
@@ -517,21 +519,21 @@ series: { name: bulkhead, part: 3 }
   <figcaption>Animating the door through the controller.</figcaption>
 </figure>
 <p>
-  Watching my animation too many times left me feel
+  Watching my animation too many times left me feeling
   <strong>somewhat unsatisfied</strong>. I looked at a lot of reference doors,
-  tried to tweak the animation timing, made it that parts of the door animate at
-  different times; all to get a more natural feel of the door moving.
+  tried to tweak the animation timing, and made parts of the door animate at
+  different times, all to get a more natural feel of the door moving.
 </p>
 <p>
-  I'm not quite there yet, but will continue nonetheless. Maybe future me has
-  some good ideas improving the animation further.
+  I'm not quite there yet, but I will continue nonetheless. Maybe future me has
+  some good ideas for improving the animation further.
 </p>
 
 <h3>Final animation</h3>
 <p>
-  Door rigged, animation set up, <strong>time to hit export</strong>. For this I
-  export an image sequence I then combined to a movie through Blenders
-  <em>Video Editing</em> view.
+  Door rigged, animation set up, <strong>time to hit export</strong>. For this,
+  I exported an image sequence, which I then combined into a movie through
+  Blender's <em>Video Editing</em> view.
 </p>
 <figure>
   <picture>
@@ -574,12 +576,12 @@ series: { name: bulkhead, part: 3 }
     />
   </picture>
   <figcaption>
-    Some last corrections of the animation. Mostly because I also wanted to
+    Some last corrections to the animation, mostly because I also wanted to
     learn a bit of DaVinci Resolve 18.
   </figcaption>
 </figure>
 <p>
-  And this is it, here is <strong>my final render</strong> of the bulkhead door
+  And this is it; here is <strong>my final render</strong> of the bulkhead door
   animation.
 </p>
 <figure>
@@ -599,13 +601,13 @@ series: { name: bulkhead, part: 3 }
     />
     It appears your browser doesn't support embedded videos.
   </video>
-  <figcaption>It feels strange to me seeing it finally move.</figcaption>
+  <figcaption>It feels strange to me to see it finally move.</figcaption>
 </figure>
 
 <h3>What comes next?</h3>
 <p>
   After having the basics of rigging, animation, and drivers covered, I want to
-  deepen that knowledge &mdash; getting more modelling experience can't hurt
+  deepen that knowledge &mdash; getting more modeling experience can't hurt
   either. Therefore, my next step will be to
   <strong>model a hallway</strong> incorporating the door, add some slight
   <abbr>VFX</abbr>, and animate a camera moving through the environment.

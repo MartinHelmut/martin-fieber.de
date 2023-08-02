@@ -1,14 +1,14 @@
 ---
 date: 2022-08-30
-lastmod: 2023-02-28
+lastmod: 2023-08-05
 title: "Goodbye snake, I go to the moon"
-description: "I started using Lua after increasing frustration with Python. Using it now for a while, it became my go-to scripting language."
+description: "I started using Lua after increasing frustration with Python. After using it for a while, it became my go-to scripting language."
 image: "/assets/blog/lua/title-card.png"
 imageAlt: "Showing the Visual Studio Code editor with an open Lua test file in the middle and the project setup with different files on the left."
 linkTitle: "Setting up Lua and using it for scripts, tools and application development."
 banner: "/assets/blog/lua/banner"
 bannerAlt: "Showing the Visual Studio Code editor with an open Lua test file in the middle and the project setup with different files on the left."
-summary: "<p>Being more and more frustrated with Python, Lua became my go-to alternative for scripts, tools and application extensions. This article will show how I set up and use Lua.</p>"
+summary: "<p>Being more and more frustrated with Python, Lua became my go-to alternative for scripts, tools, and application extensions. This article will show how I set up and use Lua.</p>"
 hasCode: true
 tags: ["post", "cpp", "lua"]
 ---
@@ -31,9 +31,9 @@ tags: ["post", "cpp", "lua"]
   <a href="https://www.nasa.gov/artemis-1" title="Project page of Artemis 1"
     >going to the moon</a
   >
-  &mdash; <a href="https://www.lua.org" title="Lua homepage">Lua</a>,
-  (pronounced <strong>LOO-ah</strong>) meaning <dfn>"Moon"</dfn> in Portuguese,
-  is a multiple-paradigm scripting language. Created in 1993 by Roberto
+  &mdash; <a href="https://www.lua.org" title="Lua homepage">Lua</a> (pronounced
+  <strong>LOO-ah</strong>) meaning <dfn>"Moon"</dfn> in Portuguese, is a
+  multiple-paradigm scripting language. Created in 1993 by Roberto
   Ierusalimschy, Luiz Henrique de Figueiredo, and Waldemar Celes, members of the
   <dfn>Computer Graphics Technology Group (<abbr>Tecgraf</abbr>)</dfn> at the
   <a
@@ -47,26 +47,26 @@ tags: ["post", "cpp", "lua"]
 <p>
   Initially overlooked by me as <em>"just another scripting language"</em>, it
   caught my eye when I was looking for an
-  <strong>alternative for Python</strong>. Having growing frustrations with the
-  Snake for different reasons, I wanted a small and simple to use language. One
-  of my criteria was that I can embed it into a projects build system; making
-  setup and management easier, sparing the need for specific version
-  installations, or handling local installed language environments with one of
-  too many tools. Speed was another factor, neglected far too often with script
+  <strong>alternative to Python</strong>. Growing frustrated with the Snake for
+  different reasons, I wanted a small and simple-to-use language. One of my
+  criteria was that I could embed it into a project's build system, making setup
+  and management easier, sparing the need for specific version installations, or
+  handling local installed language environments with one of too many tools.
+  Speed was another factor that was neglected far too often with script
   languages.
 </p>
 <p>
-  Lua ticked many boxes for me, and grew on to become a favourite of mine, from
+  Lua ticked many boxes for me and grew on to become a favorite of mine, from
   small scripts to large tools; a language as a
   <strong>general toolset</strong> for my daily tasks, running really
-  everywhere. In this article I will show an overview of how and with what I
-  personally use Lua, <strong>no exhaustive guide</strong>. Nevertheless, I will
-  publish a multipart series on Lua going in-depth on many parts of the
-  language; more on this <a href="#what-comes-next">at the end</a>.
+  everywhere. In this article, I will give an overview of how and with what I
+  personally use Lua; this is <strong>not an exhaustive guide</strong>.
+  Nevertheless, I will publish a multipart series on Lua, going in-depth on many
+  parts of the language; more on this <a href="#what-comes-next">at the end</a>.
 </p>
 <h3>Quick setup</h3>
 <p>
-  You maybe already have Lua installed on your system! You can check by running
+  You may already have Lua installed on your system! You can check by running
   <code>lua -v</code> in a terminal.
 </p>
 <figure>
@@ -77,16 +77,16 @@ Lua 5.4.4  Copyright (C) 1994-2022 Lua.org, PUC-Rio</code></pre>
   </figcaption>
 </figure>
 <p>
-  If this is not the case there are
+  If this is not the case, there are
   <a href="https://www.lua.org/download.html" title="Download and use Lua"
     >different ways to get Lua</a
-  >, one way on macOS is using brew.
+  >; one way on macOS is using brew.
 </p>
 <figure>
   <pre><code class="language-shell hljs">$ brew install lua</code></pre>
 </figure>
 <p>
-  Having Lua installed you can start a
+  Having Lua installed, you can start a
   <a
     href="https://en.wikipedia.org/wiki/Read–eval–print_loop"
     title="Wikipedia article about the Read–eval–print loop"
@@ -106,22 +106,22 @@ Hello, reader!</code></pre>
 <p>
   <a href="https://luarocks.org" title="Website for LuaRocks">LuaRocks</a> can
   be seen as the <em>de facto</em> standard package manager for Lua. If not
-  already installed, on macOS you can use brew to install LuaRocks.
+  already installed on macOS, you can use brew to install LuaRocks.
 </p>
 <figure>
   <pre><code class="language-shell hljs">$ brew install luarocks</code></pre>
 </figure>
 <p>
   Similar to <abbr>NPM</abbr>, I want to keep packages
-  <strong>local and inside the project</strong>, rather than global or in my
-  user directory. A global installation is the default, using
-  <code>--local</code> will install packages in a folder in the users home
+  <strong>local and inside the project</strong> rather than global or in my user
+  directory. A global installation is the default; using
+  <code>--local</code> will install packages in a folder in the user's home
   directory.
 </p>
 <p>
   I will install all packages inside a <code>lua_modules</code> folder in the
   root of a project, using the <code>--tree</code> option of the LuaRocks
-  <abbr title="command line interface">CLI</abbr>. As an example, installing the
+  <abbr title="command-line interface">CLI</abbr>. As an example, installing the
   <a
     href="https://luarocks.org/modules/kikito/inspect"
     title="LuaRocks page for the inspect module."
@@ -133,10 +133,11 @@ Hello, reader!</code></pre>
   <pre><code class="language-shell hljs">$ luarocks install --tree=lua_modules inspect</code></pre>
 </figure>
 <p>
-  For Lua to find any local package on require, the search paths need to be set.
-  This can be done by defining a setup module (can have any name), that will be
-  loaded when executing a script through the <code>-l</code> option of the Lua
-  <abbr title="command line interface">CLI</abbr>.
+  For Lua to find any local package on <code>require</code>, the search paths
+  need to be set. This can be done by defining a setup module (that can have any
+  name) that will be loaded when executing a script through the
+  <code>-l</code> option of the Lua
+  <abbr title="command-line interface">CLI</abbr>.
 </p>
 <figure>
   <pre><code class="language-lua hljs">-- setup.lua
@@ -174,12 +175,12 @@ print(inspect(a))</code></pre>
 </p>
 <h3>Environment setup</h3>
 <p>
-  Setting up a project would not be complete without testing, lint tooling and
+  Setting up a project would not be complete without testing, lint tooling, and
   code formatting.
 </p>
 <h4>Unit testing</h4>
 <p>
-  For unit tests I use
+  For unit tests, I use
   <a
     href="https://github.com/bluebird75/luaunit"
     title="GitHub project of LuaUnit."
@@ -197,7 +198,7 @@ print(inspect(a))</code></pre>
     title="Website for TAP, the Test Anything Protocol."
     ><dfn><abbr>TAP</abbr> (Test Anything Protocol)</dfn></a
   >
-  as output format, an amazing output format I also use in
+  as the output format, an amazing output format I also use in
   <a
     href="https://testanything.org/producers.html"
     title="List of languages and frameworks supporting TAP."
@@ -226,7 +227,7 @@ end
 os.exit(lu.LuaUnit.run())</code></pre>
 </figure>
 <p>
-  The test can than be executed via Lua, printing the result in the terminal.
+  The test can then be executed via Lua, printing the result on the terminal.
 </p>
 <figure>
   <pre><code class="language-shell hljs">$ lua -l setup src/some.test.lua -o tap
@@ -240,7 +241,7 @@ ok     2        TestCompare.test2
 </figure>
 <h4>Lint tooling</h4>
 <p>
-  To lint I use
+  To lint, I use
   <a
     href="https://github.com/mpeterv/luacheck"
     title="GitHub project of LuaCheck."
@@ -251,7 +252,7 @@ ok     2        TestCompare.test2
   <pre><code class="language-shell hljs">$ luarocks install luacheck --tree=lua_modules</code></pre>
 </figure>
 <p>
-  Using the default options, running it on a whole folder, for example the
+  Using the default options, run it on a whole folder, for example, the
   <code>src</code>
   folder.
 </p>
@@ -278,7 +279,7 @@ Total: 0 warnings / 0 errors in 2 files</code></pre>
   --tree=lua_modules</code></pre>
 </figure>
 <p>
-  For the checker I will use a small set of custom options, defined in a
+  For the checker, I will use a small set of custom options, defined in a
   <code>.lua-format</code> file (the format is <abbr>YAML</abbr>), in the
   project root.
 </p>
@@ -298,7 +299,8 @@ tab_width: 4</code></pre>
   Using
   <a href="https://code.visualstudio.com" title="Visual Studio Code website"
     >Visual Studio Code</a
-  >, with a
+  >
+  with a
   <a
     href="https://marketplace.visualstudio.com/items?itemName=dwenegar.vscode-luacheck"
     title="Code plugin for LuaCheck"
@@ -309,7 +311,7 @@ tab_width: 4</code></pre>
     href="https://marketplace.visualstudio.com/items?itemName=Koihik.vscode-lua-format"
     title="Code plugin for LuaFormatter"
     >LuaFormatter</a
-  >, creating a comfortable environment working with Lua.
+  >, creates a comfortable environment for working with Lua.
 </p>
 <figure>
   <picture>
@@ -326,15 +328,15 @@ tab_width: 4</code></pre>
 <h3>C++, CMake, and Lua</h3>
 <p>
   Having established a base working with Lua, how about embedding it into other
-  software? Lua is also known as <em>"extensible extension language"</em>,
-  referring to it being created with the idea to have a scripting language that
-  can extend and customise applications.
+  software? Lua is also known as an <em>"extensible extension language"</em>,
+  referring to it being created with the idea of having a scripting language
+  that can extend and customize applications.
 </p>
 <p>
   I will use
   <a href="https://github.com/ThePhD/sol2" title="Sol2 GitHub project page"
     >Sol2</a
-  >, a header only C++ library providing Lua bindings in combination with my
+  >, a header-only C++ library providing Lua bindings, in combination with my
   <a
     href="https://github.com/MartinHelmut/cpp-base-template"
     title="GitHub template repository I created for a basic C++ project setup."
@@ -345,7 +347,7 @@ tab_width: 4</code></pre>
     href="https://martin-fieber.de/blog/basic-cpp-setup-with-dependency-management"
     title="Article I wrote about setting up C++ with CMake."
     >basic C++ setup with CMake article</a
-  >. Having that set up, I first need to add Lua to the project; creating a new
+  >. Having that set up, I first need to add Lua to the project, creating a new
   CMake file <code>vendor/lua/CMakeLists.txt</code> to build Lua as it does not
   come with CMake support.
 </p>
@@ -398,9 +400,9 @@ FetchContent_Declare(
 add_subdirectory(lua)</code></pre>
 </figure>
 <p>
-  Sol2 can be added as dependency by creating a new
+  Sol2 can be added as a dependency by creating a new
   <code>vendor/sol2/CMakeLists.txt</code>
-  file, rather short as it comes with CMake support.
+  file, which is rather short as it comes with CMake support.
 </p>
 <figure>
   <pre><code class="language-cmake hljs"># vendor/sol2/CMakeLists.txt
@@ -424,8 +426,8 @@ FetchContent_Declare(
 add_subdirectory(sol2)</code></pre>
 </figure>
 <p>
-  That's it getting Lua and Sol2 into the project. Next up, adding the libraries
-  to the application by linking them to the target.
+  That's it for getting Lua and Sol2 into the project. Next up is adding the
+  libraries to the application by linking them to the target.
 </p>
 <figure>
   <pre><code class="language-cmake hljs"># src/app/CMakeLists.txt
@@ -469,8 +471,7 @@ int main() {
 </figure>
 <p>
   This will indeed print <code>Some value is now: 1</code>. A different example,
-  <strong>using a Lua script file</strong> with a simple function for
-  demonstration.
+  <strong>a Lua script file</strong> with a simple function for demonstration.
 </p>
 <figure>
   <pre><code class="language-lua hljs">-- src/app/App/hello.lua
@@ -479,8 +480,8 @@ function hello(name)
 end</code></pre>
 </figure>
 <p>
-  With CMake, any non build files need to be copied to the build output
-  directory, using the <code>file</code> function this can be done on the CMake
+  With CMake, any non-build files need to be copied to the build output
+  directory. Using the <code>file</code> function, this can be done on the CMake
   configure step.
 </p>
 <figure>
@@ -495,7 +496,7 @@ file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/App/hello.lua
 # More CMake ...</code></pre>
 </figure>
 <p>
-  The script file can than be loaded, extracting the defined Lua function
+  The script file can then be loaded, extracting the defined Lua function
   <code>hello</code> to call it from C++.
 </p>
 <figure>
@@ -528,7 +529,7 @@ int main() {
     >embedding-lua-in-cpp-example</a
   >
   repository. How to inject new functions and values into Lua, as well as many
-  other things, can be found at the official
+  other things, can be found in the official
   <a
     href="https://sol2.readthedocs.io/en/latest/index.html"
     title="Website for the Sol2 documentation."
@@ -537,13 +538,13 @@ int main() {
 </p>
 <h3 id="what-comes-next">What comes next</h3>
 <p>
-  This just showed some basics using Lua, and parts of how I use Lua personally,
-  only scratching the surface. To extend on this and shine an even brighter
-  light on the Moon, I will create
+  This just showed some basics of Lua and parts of how I use Lua personally,
+  only scratching the surface. To extend this and shine an even brighter light
+  on the Moon, I will create
   <a href="/series/lua/" title="Landing page for my Lua article series."
     >a series of articles</a
   >
-  covering many topics of Lua more in-depth. Some of those will be:
+  covering many topics of Lua more in depth. Some of those will be:
 </p>
 <ul>
   <li>
