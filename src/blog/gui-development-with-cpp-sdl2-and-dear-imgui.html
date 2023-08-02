@@ -1,6 +1,6 @@
 ---
 date: 2022-07-30
-lastmod: 2023-06-29
+lastmod: 2023-08-05
 title: "GUI Development with C++, SDL2, and Dear ImGui"
 description: "Showcasing my personal setup for GUI application development with C++, SDL2, and Dear ImGui."
 image: "/assets/blog/gui-development-with-cpp/title-card.png"
@@ -8,7 +8,7 @@ imageAlt: "Top part of an application window with a menu and a panel named 'Some
 linkTitle: "Creating end-user GUI applications with Dear ImGui and SDL2."
 banner: "/assets/blog/gui-development-with-cpp/banner"
 bannerAlt: "The final application that will be built in this post."
-summary: "<p>Always being overwhelmed creating <abbr title='Graphical user interface'>GUI</abbr> applications in C++, I finally found a way that works pretty well for me. That opinionated way will be shown in this post.</p>"
+summary: "<p>Always overwhelmed by creating <abbr title='Graphical user interface'>GUI</abbr> applications in C++, I finally found a way that works pretty well for me. That opinionated way will be shown in this post.</p>"
 hasCode: true
 tags: ["post", "cpp"]
 ---
@@ -36,32 +36,33 @@ tags: ["post", "cpp"]
   Looking at all those tools, libraries, and many ways of developing
   <abbr>GUI</abbr>s in C++, it can become easily overwhelming. This at least
   happened to me; every time I set out to
-  <em>"finally solve how I will create <abbr>GUI</abbr>s in C++"</em> I got
-  blasted by all the possibilities. From very simplistic to huge monster like
-  frameworks with own language extensions. In the end I never just
+  <em>"finally solve how I will create <abbr>GUI</abbr>s in C++"</em>, I got
+  blasted by all the possibilities. From very simplistic to huge monster-like
+  frameworks with their own language extensions. In the end, I never just
   <strong>created</strong>.
 </p>
 <p>
-  Over time though, I became more and more familiar with
+  Over time, though, I became more and more familiar with
   <a href="https://github.com/ocornut/imgui" title="GitHub page of Dear ImGui."
     >Dear ImGui</a
   >, an immediate mode
   <em>"<abbr>GUI</abbr> for C++ with minimal dependencies"</em>, creating tools
-  for game development. Never taking it serious for
-  <em>"end-user"</em> applications, I've got the final push to try it from
+  for game development. Never taking it seriously for
+  <em>"end-user"</em> applications, I got the final push to try it from
   <a
     href="https://youtu.be/vWXrFetSH8w"
     title="The video of The Cherno that that gave me a push."
     >a video from Yan Chernikov</a
-  >. Trying ImGui, in combination with
+  >. Trying ImGui in combination with
   <a href="https://www.libsdl.org" title="Homepage for SDL2"
     ><abbr>SDL2</abbr></a
-  >
-  I just started learning, I was pleasantly surprised about the outcome.
+  >, which I just started learning, I was pleasantly surprised about the
+  outcome.
 </p>
 <p>
-  Here it goes, a basic setup I started using for end-user applications. Of
-  course, as many frameworks there are opinions, and this one is only mine.
+  Here it goes: a basic setup I started using for end-user applications. Of
+  course, as with many frameworks, there are opinions, and this one is only
+  mine.
 </p>
 
 <nav>
@@ -94,8 +95,8 @@ tags: ["post", "cpp"]
 
 <h3 id="basic-setup">Basic setup</h3>
 <p>
-  For the setup of the application I use my C++ starter template I showed in the
-  last post,
+  For the setup of the application, I use my C++ starter template I showed in
+  the last post,
   <a
     href="https://martin-fieber.de/blog/basic-cpp-setup-with-dependency-management"
     title="My post about setting up a C++ dev environment."
@@ -105,21 +106,20 @@ tags: ["post", "cpp"]
     href="https://github.com/MartinHelmut/cpp-base-template"
     title="Template project on GitHub."
     >github.com/MartinHelmut/cpp-base-template</a
-  >
-  or as a step-by-step explanation in the blog post.
+  >, or as a step-by-step explanation in the blog post.
 </p>
 <p>
-  The first thing I did was to rename <code>src/some_library</code> to
-  <code>src/core</code>. This then contains the logging and debugging helper,
-  also this is where I will create the <code>Window</code> and
+  The first thing I did was rename <code>src/some_library</code> to
+  <code>src/core</code>. This then contains the logging and debugging helpers,
+  and this is where I will create the <code>Window</code> and
   <code>Application</code>
   classes.
 </p>
 
 <h3 id="sdl2-and-dear-imgui"><abbr>SDL2</abbr> and Dear ImGui</h3>
 <p>
-  <abbr>SDL2</abbr> will be added as dependency through
-  <code>FetchContent_Declare</code>, same as the other dependencies in
+  <abbr>SDL2</abbr> will be added as a dependency through
+  <code>FetchContent_Declare</code>, just as the other dependencies in
   <code>vendor/CMakeLists.txt</code>.
 </p>
 <figure>
@@ -144,10 +144,10 @@ message(STATUS "Fetching SDL ...")
 FetchContent_MakeAvailable(SDL2)</code></pre>
 </figure>
 <p>
-  Adding Dear ImGui as dependency works the same, by adding the content fetching
-  in <code>vendor/CMakeLists.txt</code>. Instead of using a regular release I
-  will use the <em>"docking"</em> branch, enabling a flexible way of moving and
-  docking UI widgets.
+  Adding Dear ImGui as a dependency works the same way, by adding the content
+  fetching in <code>vendor/CMakeLists.txt</code>. Instead of using a regular
+  release, I will use the <em>"docking"</em> branch, enabling a flexible way of
+  moving and docking UI widgets.
 </p>
 <figure>
   <pre><code class="language-cmake hljs"># vendor/CMakeLists.txt
@@ -165,7 +165,7 @@ add_subdirectory(imgui)
   As ImGui does not support CMake, there needs to be a bit more done inside the
   new file <code>vendor/imgui/CMakeLists.txt</code>. The whole file will set up
   ImGui as a library by adding all necessary source files, defining the
-  including directory and linking <abbr>SDL2</abbr> to it.
+  including directory, and linking <abbr>SDL2</abbr> to it.
 </p>
 <figure>
   <pre><code class="language-cmake hljs"># vendor/imgui/CMakeLists.txt
@@ -224,7 +224,8 @@ target_link_libraries(${NAME}
 <h3 id="basic-application-setup">Basic application setup</h3>
 <p>
   The basic application will run the main loop and handle properly stopping the
-  application on close. There will also be an exit status in case of an issues.
+  application on close. There will also be an exit status in the event of an
+  issue.
 </p>
 <figure>
   <pre><code class="language-cpp hljs">// src/core/Core/Application.hpp
@@ -294,7 +295,7 @@ void App::Application::stop() {
 }  // namespace App</code></pre>
 </figure>
 <p>
-  Step-by-step, the constructor will initialise <abbr>SDL2</abbr> and catch
+  Step-by-step, the constructor will initialize <abbr>SDL2</abbr> and catch
   possible issues on creation. The destructor will only quit
   <abbr>SDL2</abbr> for now.
 </p>
@@ -335,7 +336,7 @@ Application::~Application() {
 }</code></pre>
 </figure>
 <p>
-  To actual run the application it needs to be added to the projects
+  To actually run the application, it needs to be added to the project
   <code>Main.cpp</code> file.
 </p>
 <figure>
@@ -348,9 +349,9 @@ int main() {
 }</code></pre>
 </figure>
 <p>
-  Returning the exit status from <code>app.run()</code> will serve as exit code
-  of the application. Last step to make this work is to add the newly created
-  files to CMake.
+  Returning the exit status from <code>app.run()</code> will serve as the exit
+  code of the application. The last step to make this work is to add the newly
+  created files to CMake.
 </p>
 <figure>
   <pre><code class="language-cmake hljs"># src/core/CMakeLists.txt
@@ -484,14 +485,13 @@ SDL_Renderer* Window::get_native_renderer() const {
 }</code></pre>
 </figure>
 <p>
-  First step is to actually create a window &mdash; it should be resizable and
-  work on high DPI displays, like Retina displays. Besides that, the window will
-  be created centered on the screen with the provided settings for size and
+  The first step is to actually create a window &mdash; it should be resizable
+  and work on high DPI displays, like Retina displays. Besides that, the window
+  will be created centered on the screen with the provided settings for size and
   window title.
 </p>
 <p>
-  Besides the window, a renderer is needed to actually draw something into the
-  window.
+  Furthermore, a renderer is needed to actually draw something into the window.
 </p>
 <figure>
   <pre><code class="language-cpp hljs">Window::Window(const Settings& settings) {
@@ -513,8 +513,8 @@ SDL_Renderer* Window::get_native_renderer() const {
 }</code></pre>
 </figure>
 <p>
-  The renderer will use VSync and hardware acceleration. Both, renderer and
-  window, will get cleaned up in the destructor.
+  The renderer will use VSync and hardware acceleration. Both the renderer and
+  window will get cleaned up in the destructor.
 </p>
 <figure>
   <pre><code class="language-cpp hljs">Window::~Window() {
@@ -617,7 +617,7 @@ int App::Application::run() {
   To actually get something on screen, ImGui and the <abbr>SDL2</abbr> ImGui
   backend and renderer need to be set up. The <abbr>SDL2</abbr> renderer will,
   depending on the operating system, pick a different render backend — DirectX
-  10, 11 or 12 for Windows, Metal for Mac, and so on. You can see for yourself
+  10, 11, or 12 for Windows, Metal for Mac, and so on. You can see for yourself
   inside the
   <a
     href="https://github.com/libsdl-org/SDL/blob/main/src/render/SDL_render.c#L91"
@@ -640,12 +640,12 @@ int App::Application::run() {
 // ...</code></pre>
 </figure>
 <p>
-  Now, the <code>run</code> method needs to create the ImGui context, initialise
-  the <abbr>SDL2</abbr> renderer, poll events, create a new frame and actually
-  render something. But, everything step-by-step.
+  Now, the <code>run</code> method needs to create the ImGui context, initialize
+  the <abbr>SDL2</abbr> renderer, poll events, create a new frame, and actually
+  render something. But everything step-by-step.
 </p>
 <p>
-  First thing is to create a new ImGui context and set the flags
+  The first thing is to create a new ImGui context and set the flags
   <code>NavEnableKeyboard</code> and <code>ViewportsEnable</code> for enabling
   keyboard navigation and multiple viewports.
 </p>
@@ -834,7 +834,7 @@ int App::Application::run() {
 }</code></pre>
 </figure>
 <p>
-  One last important thing, adding some cleanup functions inside the
+  One last important thing: adding some cleanup functions inside the
   <code>Application</code> destructor.
 </p>
 <figure>
@@ -884,7 +884,7 @@ $ cd build/debug/src/app && ./App</code></pre>
 
 <h3 id="rendering-a-widget">Rendering a widget</h3>
 <p>
-  Let's get something rendering inside that window. For this I add a private
+  Let's get something rendering inside that window. For this, I add a private
   variable to <code>Application</code> holding the information if the new widget
   should be visible.
 </p>
@@ -932,10 +932,10 @@ $ cd build/debug/src/app && ./App</code></pre>
   // ...</code></pre>
 </figure>
 <p>
-  There it is, in all <strong>it's tiny</strong> glory &mdash; looking too small
+  There it is, in all <strong>its tiny</strong> glory &mdash; looking too small
   and not reacting to any click of the mouse. The reason for this is that the
-  <abbr>SDL2</abbr> renderer-scale is not yet adjusted to my Retina display on
-  Mac. Let's fix it next.
+  <abbr>SDL2</abbr> renderer scale is not yet adjusted to my Retina display on
+  my Mac. Let's fix it next.
 </p>
 <figure>
   <picture>
@@ -956,8 +956,8 @@ $ cd build/debug/src/app && ./App</code></pre>
 
 <h3 id="handling-high-dpi-displays">Handling high DPI displays</h3>
 <p>
-  For high DPI displays, like Apples Retina display, I need to change the
-  renderer scaling. For this I created a new public method
+  For high DPI displays, like Apple's Retina display, I need to change the
+  renderer scaling. For this, I created a new public method
   <code>get_scale</code> in <code>Window</code>.
 </p>
 <figure>
@@ -1024,7 +1024,7 @@ float Window::get_scale() const {
 }</code></pre>
 </figure>
 <p>
-  Building and running the application now shows a way better result then
+  Building and running the application now shows a way better result than
   before.
 </p>
 <figure>
@@ -1048,12 +1048,12 @@ float Window::get_scale() const {
 
 <h3 id="dockspace">Dockspace</h3>
 <p>
-  The basics are up and running, dock spaces will now enable rearranging widgets
+  The basics are up and running; dock spaces will now enable rearranging widgets
   and docking those to the window and each other, giving a user the option to
   <strong>freely define the application layout</strong>.
 </p>
 <p>
-  For this to work the ImGui flag <code>DockingEnable</code> needs to be set in
+  For this to work, the ImGui flag <code>DockingEnable</code> needs to be set in
   <code>run</code>.
 </p>
 <figure>
@@ -1072,8 +1072,8 @@ int App::Application::run() {
 }</code></pre>
 </figure>
 <p>
-  Inside the main loop, <strong>after the frame creation</strong>, but before
-  the widget, will the setup for the dock space be placed.
+  Inside the main loop, <strong>after the frame creation</strong> but before the
+  widget, the setup for the dock space is placed.
 </p>
 <figure>
   <pre><code class="language-cpp hljs">// src/core/Core/Application.cpp
@@ -1102,7 +1102,7 @@ int App::Application::run() {
 }</code></pre>
 </figure>
 <p>
-  This will create a full sized dock space, covering the whole window. Have a
+  This will create a full-sized dock space, covering the whole window. Take a
   look at the following video to see the dock space in action.
 </p>
 <figure>
@@ -1127,8 +1127,8 @@ int App::Application::run() {
 
 <h3 id="event-handling">Event handling</h3>
 <p>
-  Customising the event handling from the previous implemented polling is not
-  much more work; setting up a new method in
+  Customizing the event handling from the previous implemented polling is not
+  much more work than setting up a new method in
   <code>Application</code> called <code>on_event</code>.
 </p>
 <figure>
@@ -1157,11 +1157,11 @@ void Application::on_event(const SDL_WindowEvent& event) {
 }</code></pre>
 </figure>
 <p>
-  Furthermore, three specialised events that will be called from the generic
-  event handler. The <code>on_minimize</code> and <code>on_shown</code> handler
-  will set the <code>m_minimized</code> state of the application. This will be
-  used to optimise the application when in idle mode. The
-  <code>on_close</code> event will call <code>stop</code>.
+  Furthermore, there are three specialized events that will be called from the
+  generic event handler. The <code>on_minimize</code> and
+  <code>on_shown</code> handlers will set the <code>m_minimized</code> state of
+  the application. This will be used to optimize the application when in idle
+  mode. The <code>on_close</code> event will call <code>stop</code>.
 </p>
 <figure>
   <pre><code class="language-cpp hljs">// src/core/Core/Application.hpp
@@ -1187,7 +1187,7 @@ class Application {
 }  // namespace App</code></pre>
 </figure>
 <p>
-  From the generic event handler <code>on_event</code> the three specialised
+  From the generic event handler <code>on_event</code> the three specialized
   events are called.
 </p>
 <figure>
@@ -1216,8 +1216,8 @@ void Application::on_close() {
 }</code></pre>
 </figure>
 <p>
-  To get <code>on_event</code> hooked up is by adding it to the current event
-  polling inside the main loop.
+  To get <code>on_event</code> hooked up, add it to the current event polling
+  inside the main loop.
 </p>
 <figure>
   <pre><code class="language-cpp hljs">// src/core/Core/Application.cpp
@@ -1251,9 +1251,9 @@ int App::Application::run() {
 }</code></pre>
 </figure>
 <p>
-  Using the <code>m_minimized</code> state to optimise the application in idle
+  Using the <code>m_minimized</code> state to optimize the application in idle
   mode by wrapping the viewport and dock space creation, as well as the widget,
-  to not run when minimised.
+  to not run when minimized.
 </p>
 <figure>
   <pre><code class="language-cpp hljs">// src/core/Core/Application.cpp
@@ -1343,19 +1343,19 @@ if (m_show_some_panel) {
 
 <h3 id="custom-font">Custom font</h3>
 <p>
-  Making things look a little less <em>"Debugger UI"</em> like, adding a custom
-  font can go a long way. I will use the amazing Open Source font
+  Making things look a little less <em>"Debugger UI"</em>-like, adding a custom
+  font can go a long way. I will use the amazing open-source font
   <a
     href="https://manropefont.com"
     title="Homepage of the amazing Manrope font."
     >Manrope</a
-  >. After downloading it all fonts will be placed relative to
+  >. After downloading it, all fonts will be placed relative to
   <code>src/app/App/Main.cpp</code> file inside a <code>fonts</code> folder. The
   full path of the folder is <code>src/app/App/fonts</code>.
 </p>
 <p>
   The code for the font is placed inside
-  <code>Application</code> after the <code>ConfigFlags</code>, but before the
+  <code>Application</code> after the <code>ConfigFlags</code> but before the
   renderer setup.
 </p>
 <figure>
@@ -1392,7 +1392,7 @@ int App::Application::run() {
 </figure>
 <p>
   A final look at the application now shows the amazing new font, everything
-  coming together and starting to look like an end-user application.
+  coming together, and it's starting to look like an end-user application.
 </p>
 <figure>
   <video
@@ -1416,7 +1416,7 @@ int App::Application::run() {
 
 <h3 id="epilogue">Epilogue</h3>
 <p>
-  And that is that! A base to continue when creating GUIs in C++ for me. And
+  And that is that. A base to continue when creating GUIs in C++ for me. And
   again, there is a more extended version of this on GitHub.
 </p>
 <p>

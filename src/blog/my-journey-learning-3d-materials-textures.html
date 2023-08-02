@@ -1,10 +1,10 @@
 ---
 date: 2022-10-20
-lastmod: 2023-02-28
+lastmod: 2023-08-05
 title: "My journey learning 3D: Materials and Textures"
 description: "Learning 3D by recreating Ron Cobb's bulkhead door, I'm diving into materials and textures."
 image: "/assets/blog/bulkhead-door-part2/title-card.png"
-imageAlt: "The image shows the upper part of the white bulkhead door on black background from my final render."
+imageAlt: "The image shows the upper part of the white bulkhead door on a black background from my final render."
 linkTitle: "Learning how to master materials and textures to deepen my 3D journey."
 banner: "/assets/blog/bulkhead-door-part2/banner"
 bannerAlt: "Image shows a close up of my final render of the bulkhead door, looking at a part of the inner barrier door with warning label."
@@ -37,28 +37,28 @@ series: { name: bulkhead, part: 2 }
     href="/blog/bulkhead-door-with-blender-part-1.html"
     title="Part one of the series about my journey learning 3D."
     >part one of creating Ron Cobb's bulkhead door from Alien</a
-  >, I thought a second part will be all that is left to finish the project. My
-  assumption was, textures, animation, and sound will be as much work as
+  >, I thought a second part would be all that was left to finish the project.
+  My assumption was that textures, animation, and sound would be as much work as
   creating the initial mesh, from high to low-poly, including
   <abbr>UV</abbr> unwrapping and baking &mdash;
-  <strong>I could have not been more wrong.</strong>
+  <strong>I could not have been more wrong.</strong>
 </p>
 <p>
-  What was intended to be a two part series is becoming
+  What was intended to be a two-part series is becoming
   <strong>five parts</strong>, with this being part two, focusing on texturing
-  and details, and the things I had to do again to come to this point.
+  and details and the things I had to do again to get to this point.
 </p>
 <p>
   For once, I had to rework parts of my mesh as my topology was horrible. I also
-  started applying booleans earlier and be less scared of using a destructive
+  started applying booleans earlier and was less scared of using a destructive
   workflow. The initial idea was to have a simple way of going from a high to a
-  low-poly mesh, by deactivating booleans. Though, this did not turn out to be a
-  time saver, as I had to go in and adjust parts of both meshes afterwards
+  low-poly mesh by deactivating booleans. Though this did not turn out to be a
+  time saver, I had to go in and adjust parts of both meshes afterward
   regardless.
 </p>
 <p>
-  What really took my fear of working destructively on the mesh were add-ons
-  like
+  What really took my fear of working destructively on the mesh away were
+  add-ons like
   <a
     href="https://machin3.io/MESHmachine/"
     title="Landing page for MESHmachine, a Blender mesh modelling add-on."
@@ -69,9 +69,9 @@ series: { name: bulkhead, part: 2 }
     href="https://blendermarket.com/products/machin3tools"
     title="Show MACHIN3tools on BlenderMarket"
     >MACHIN3tools</a
-  >, providing a multitude of helpful tools and shortcuts. On top of that I got
-  more experience in Blender over time, as I was working on other models as
-  well, learning much more on many topics. An amazingly large field with
+  >, which provided a multitude of helpful tools and shortcuts. On top of that,
+  I got more experience in Blender over time, as I was working on other models
+  as well, learning much more on many topics. An amazingly large field with
   engaging challenges to overcome.
 </p>
 
@@ -86,19 +86,19 @@ series: { name: bulkhead, part: 2 }
 </div>
 <p>
   <em>With great topology comes great possibilities</em>, and I had none. Due to
-  mainly using a boolean workflow, giving me quick results, I omitted being more
-  cautious with my mesh topology, combined with being inexperienced in 3D
-  modelling. My shading sure looked okay for what I was able to judge, but I was
-  not able to add bevels to the model and my
+  mainly using a boolean workflow, which gives me quick results, I omitted being
+  more cautious with my mesh topology, combined with being inexperienced in 3D
+  modeling. My shading sure looked okay for what I was able to judge, but I was
+  not able to add bevels to the model, and my
   <abbr>UVs</abbr>
   were suboptimal at best.
 </p>
 <p>
   Using a
-  <strong>boolean heavy workflow is not the issue</strong>
-  here, it is how I worked with it. In the end I sat down and reworked many
-  parts of my mesh, resulting in a better (not saying optimal) mesh topology
-  with clean shading.
+  <strong>boolean-heavy workflow is not the issue</strong>
+  here; it is how I worked with it. In the end, I sat down and reworked many
+  parts of my mesh, resulting in a better (but not optimal) mesh topology with
+  clean shading.
 </p>
 <figure>
   <picture>
@@ -115,7 +115,7 @@ series: { name: bulkhead, part: 2 }
     />
   </picture>
   <figcaption>
-    New and improved topology of the mesh. Getting better, step-by-step.
+    The new and improved topology of the mesh is getting better, step by step.
   </figcaption>
 </figure>
 <p>
@@ -130,20 +130,20 @@ series: { name: bulkhead, part: 2 }
     />
     <img
       src="/assets/blog/bulkhead-door-part2/bulkhead-door-bevels.png"
-      alt="Two images, on the left showing the mesh with beveled edges. On the right, a closeup of the mesh with a metallic shading."
+      alt="Two images, on the left, showing the mesh with beveled edges. On the right, a closeup of the mesh with metallic shading."
       width="1024"
       height="500"
       loading="lazy"
     />
   </picture>
   <figcaption>
-    Now the mesh has beveled edges (left), with much better shading (right).
+    Now the mesh has beveled edges (left) and with much better shading (right).
   </figcaption>
 </figure>
 <p>
   Reworking the topology and adding beveled edges meant I had to go through all
-  previous steps again &mdash; starting with creating a low-poly version of my
-  mesh.
+  the previous steps again &mdash; starting with creating a low-poly version of
+  my mesh.
 </p>
 <figure>
   <div data-compare-image="white,35">
@@ -175,11 +175,13 @@ series: { name: bulkhead, part: 2 }
     </picture>
   </div>
   <figcaption>
-    New low-poly version of the mesh with less detail and fewer bevel segments.
+    The new low-poly version of the mesh has less detail and fewer bevel
+    segments.
   </figcaption>
 </figure>
 <p>
-  Redoing the <abbr>UV</abbr> creation and unwrapping, I also started using
+  After redoing the <abbr>UV</abbr> creation and unwrapping, I also started
+  using
   <a
     href="https://uvpackmaster.com"
     title="Webpage for the Blender add-on UVPackmaster."
@@ -203,7 +205,7 @@ series: { name: bulkhead, part: 2 }
     />
   </picture>
   <figcaption>
-    The <abbr>UV</abbr> unwrapped mesh with an example checkerboard texture.
+    The <abbr>UV</abbr>-unwrapped mesh with an example checkerboard texture.
   </figcaption>
 </figure>
 <p>
@@ -226,7 +228,7 @@ series: { name: bulkhead, part: 2 }
     />
   </picture>
   <figcaption>
-    This is how the mesh looks like with the triangulation modifier.
+    This is how the mesh looks with the triangulation modifier.
   </figcaption>
 </figure>
 <p>Of to baking &hellip;</p>
@@ -235,7 +237,7 @@ series: { name: bulkhead, part: 2 }
 <p>
   This time, I wanted to get better bake results and make applying textures
   later easier for myself. What I missed the last time was a
-  <strong>material ID map</strong>, a mistake I wanted to resolve now. For this
+  <strong>material ID map</strong>, a mistake I wanted to resolve now. For this,
   I did add colored materials to the high-poly mesh in Blender to
   <em>"bake down"</em> onto the low-poly mesh in
   <a href="https://marmoset.co" title="Marmoset website">Marmoset Toolbag 4</a>.
@@ -258,7 +260,7 @@ series: { name: bulkhead, part: 2 }
 </figure>
 <p>
   Baking in Marmoset, this time giving myself more time to make it proper.
-  Specifically, in part one I had some <em>"black fragments"</em> on my mesh. I
+  Specifically, in part one, I had some <em>"black fragments"</em> on my mesh. I
   found out this is an issue with inset parts and the automatic offset cage
   applied by Marmoset. The offset cage should extend far enough to cover the
   highest points of the high-poly mesh, and it did not wherever I had those
@@ -281,8 +283,8 @@ series: { name: bulkhead, part: 2 }
   <figcaption>Some parts of my mesh had those strange black parts.</figcaption>
 </figure>
 <p>
-  To fix this I had to paint the offset, <strong>extending the cage</strong>, to
-  capture all the detail of the mesh.
+  To fix this, I had to paint the offset, <strong>extending the cage</strong>,
+  to capture all the detail of the mesh.
 </p>
 <figure>
   <picture>
@@ -301,8 +303,8 @@ series: { name: bulkhead, part: 2 }
   <figcaption>Changing the offset cage to capture all the detail.</figcaption>
 </figure>
 <p>
-  Having this done, and re-baked the mesh, I got rid of the black spots on my
-  mesh.
+  After having this done and re-baking the mesh, I got rid of the black spots on
+  my mesh.
 </p>
 <figure>
   <picture>
@@ -319,35 +321,35 @@ series: { name: bulkhead, part: 2 }
     />
   </picture>
   <figcaption>
-    After adjusting the offset cage the black fragments were gone.
+    After adjusting the offset cage, the black fragments were gone.
   </figcaption>
 </figure>
 <p>
-  It still took me a while,
-  <strong>fixing more offset and skew issues</strong> as seen in the images
-  above. The people behind Marmoset created an
+  It still took me a while to
+  <strong>fix more offset and skew issues</strong>, as seen in the images above.
+  The people behind Marmoset created an
   <a
     href="https://marmoset.co/posts/toolbag-baking-tutorial/"
     title="Everything needed around baking in Marmoset Toolbag 4."
     >amazing tutorial for baking in Marmoset</a
-  >, covering everything needed, and more, to get the best bake, including
-  common issues and what all exported maps actually do. This was a real
-  life-saver for me, densely packed with information &mdash; I'm still learning
-  from it on every new bake.
+  >, covering everything needed and more to get the best bake, including common
+  issues and what all exported maps actually do. This was a real lifesaver for
+  me, densely packed with information &mdash; I'm still learning from it on
+  every new bake.
 </p>
 <p>
-  Being at this point, again, having learned so much more in the process, it is
-  finally time to create the textures.
+  At this point, having learned so much more in the process, it is finally time
+  to create the textures.
 </p>
 
 <h3>Hurrah, textures!</h3>
 <p>
-  The time has come to give proper material to the bulkhead door; but how, and
+  The time has come to give proper material to the bulkhead door, but how and
   what? First things first, I tried to find out what material the door could
-  use. Searching the internet, looking at Ron Cobb's drawings, movie references
-  from Alien, and pictures from cargo ship interiors, I came to the conclusion
-  it could be an <strong>aluminium alloy, painted white</strong>, with partial
-  signs of use on the edges.
+  use. Searching the internet and looking at Ron Cobb's drawings, movie
+  references from Alien, and pictures from cargo ship interiors, I came to the
+  conclusion it could be an <strong>aluminum alloy, painted white</strong>, with
+  partial signs of use on the edges.
 </p>
 <figure>
   <picture>
@@ -357,30 +359,30 @@ series: { name: bulkhead, part: 2 }
     />
     <img
       src="/assets/blog/bulkhead-door-part2/bulkhead-door-references.png"
-      alt="From left to right: Ron Cobb's sketch of the door, image of the interior of a cargo ship, bulkhead door from the movie Alien."
+      alt="From left to right: Ron Cobb's sketch of the door, an image of the interior of a cargo ship, and the bulkhead door from the movie Alien."
       width="1024"
       height="450"
       loading="lazy"
     />
   </picture>
   <figcaption>
-    From left to right: Ron Cobb's sketch of the door, image of the interior of
-    a cargo ship, bulkhead door from the movie Alien.
+    From left to right: Ron Cobb's sketch of the door, an image of the interior
+    of a cargo ship, and the bulkhead door from the movie Alien.
   </figcaption>
 </figure>
 <p>
-  Cargo ships use a lot of steel and aluminium alloys, steel being heavy makes
-  the aluminium alloy a better candidate, also used in space travel as of today.
-  The white paint would serve as a protective coating that wears-of over time,
-  but can easily be replaced.
+  Cargo ships use a lot of steel and aluminum alloys; steel being heavy makes
+  the aluminum alloy a better candidate; it is also used in space travel as of
+  today. The white paint would serve as a protective coating that wears off over
+  time but can easily be replaced.
 </p>
 <div class="side-note-ref">
   <p>
     Having everything easily repairable even with limited tools &mdash; less
     moving parts, fewer electronics, higher chance to run cheaper, longer, on
     fewer people. Just paint the walls and hull white again, and you're good to
-    go. Throw some duct tape on it and the rattle stops. That kind of mentality,
-    but on a usual high-tech genre.
+    go. Throw some duct tape on it, and the rattle stops. That kind of
+    mentality, but in the usual high-tech genre.
   </p>
   <aside class="side-note">
     <p>
@@ -390,12 +392,12 @@ series: { name: bulkhead, part: 2 }
   </aside>
 </div>
 <p>
-  That's what I wanted to recreate then, an aluminium alloy, painted white,
-  visibly worn. To do this I wanted to try a few different tools:
-  <strong>Quixel Mixer</strong>, a free tool by Epic,
-  <strong>Marmoset Toolbag 4</strong> I already use for baking has texturing
-  support as well, and <strong>Fluent: Materializer</strong>, a Blender add-on
-  with a node-based procedural texturing workflow.
+  That's what I wanted to recreate then &mdash; an aluminum alloy, painted white
+  and visibly worn. To do this, I wanted to try a few different tools:
+  <strong>Quixel Mixer</strong>, a free tool by Epic;
+  <strong>Marmoset Toolbag 4</strong>, which I already use for baking and has
+  texturing support as well; and <strong>Fluent: Materializer</strong>, a
+  Blender add-on with a node-based procedural texturing workflow.
 </p>
 
 <h3>Quixel Mixer</h3>
@@ -416,10 +418,10 @@ series: { name: bulkhead, part: 2 }
 </figure>
 <p>
   <a href="https://quixel.com/mixer" title="Quixel Mixer website"
-    >Epics Quixel Mixer</a
+    >Epic's Quixel Mixer</a
   >
-  is a free tool to create textures I've read about being easy to use while
-  getting amazing results. And I'd say, on a first look, it
+  is a free tool to create textures. I've read about it being easy to use while
+  getting amazing results. And I'd say, at first glance, it
   <strong>can absolutely deliver</strong>. The interface is very clean and
   sorted, most of the functions self-explanatory, and for someone knowing
   typical graphics programs like Affinity Designer quick to understand, at least
@@ -442,24 +444,24 @@ series: { name: bulkhead, part: 2 }
   <figcaption>Quixel Mixer has a really nice interface.</figcaption>
 </figure>
 <p>
-  Getting my mesh and baked maps into the tool, I was ready to start applying
-  predefined materials to it based on my material ID map. The
-  <strong>layer based approach</strong> felt intuitive and I got some pretty
-  results in a short amount of time. Those results did not match what I set out
-  to recreate yet, but putting more work in there I can surely get there.
+  After getting my mesh and baked maps into the tool, I was ready to start
+  applying predefined materials to it based on my material ID map. The
+  <strong>layer based approach</strong> felt intuitive, and I got some pretty
+  good results in a short amount of time. Those results did not match what I set
+  out to recreate yet, but putting more work in there I can surely get there.
 </p>
 <p>
   Though, this is where the <strong>problems started</strong>, at least on my
-  MacBook Air with M1 chip I mainly work on. The program became more and more
-  unresponsive with every added layer, making small changes froze the tool,
-  resulting in waiting times between every edit I made. In two cases Quixel
-  Mixer even crashed, or I had to force quit the program.
+  MacBook Air with the M1 chip I mainly work on. The program became more and
+  more unresponsive with every added layer; making small changes froze the tool,
+  resulting in waiting times between every edit I made. In two cases, Quixel
+  Mixer even crashed, and I had to force quit the program.
 </p>
 <p>
-  Due to those problems <strong>I did not continue using Quixel Mixer</strong>;
-  sadly as I really liked the intuitive controls. Maybe I try using it again on
-  a Windows machine, or give it some time to iron out those problems. Definitely
-  not the last time I try Epics tool.
+  Due to those problems, <strong>I did not continue using Quixel Mixer</strong>,
+  sadly, as I really liked the intuitive controls. Maybe I should try using it
+  again on a Windows machine or give it some time to iron out those problems.
+  It's definitely not the last time I try Epic's tool.
 </p>
 
 <h3>Marmoset Toolbag 4</h3>
@@ -482,18 +484,20 @@ series: { name: bulkhead, part: 2 }
   Next up, I wanted to dive into the texturing tools of
   <a href="https://marmoset.co/toolbag/" title="Website for Marmoset Toolbag"
     >Marmoset Toolbag 4</a
-  >. I knew already some parts of the <abbr title="user interface">UI</abbr> of
-  Marmoset as I use it for baking, I also knew that the program is absolutely
-  fast and snappy. So far, I had not one issue or slowdown, not a single crash.
+  >. I already knew some parts of the <abbr title="user interface">UI</abbr> of
+  Marmoset as I use it for baking, and I also knew that the program is
+  absolutely fast and snappy. So far, I have not had one issue or slowdown, not
+  a single crash.
 </p>
 <p>
-  On top of that there are
+  On top of that, there are
   <a
     href="https://marmoset.co/resources/"
     title="A collection of tutorials around Marmoset."
     >amazing tutorials</a
-  >, covering everything needed from baking to texturing, <abbr>UI</abbr>,
-  rendering, even shaders. Going through some of those tutorials I started
+  >
+  covering everything needed, from baking to texturing, <abbr>UI</abbr>,
+  rendering, and even shaders. Going through some of those tutorials, I started
   working on creating textures for the bulkhead door.
 </p>
 <figure>
@@ -515,7 +519,7 @@ series: { name: bulkhead, part: 2 }
 <p>
   As I had a project already set up from the baking, I could switch to the
   <em>"Texture"</em> tab and keep going. Figuring out what is necessary to
-  create the textures I wanted, using a <strong>layer based approach</strong>,
+  create the textures I wanted using a <strong>layer-based approach</strong>
   with a huge set of predefined materials. Though, I could not create something
   that made me happy. One hurdle for me, the interface, more or less the
   opposite to Quixel Mixer, is very detailed and functional, almost overwhelming
@@ -553,9 +557,9 @@ series: { name: bulkhead, part: 2 }
     title="BlenderMarket page for the Fluent: Materializer add-on."
     >Fluent: Materializer</a
   >
-  calls itself a <em>material tool suite</em>; a Blender add-on that, instead of
+  calls itself a <em>material tool suite</em>, a Blender add-on that, instead of
   using predefined materials to create textures, is about creating materials
-  itself. Building on top of Blenders shading nodes, it serves as a way to
+  itself. Building on top of Blender's shading nodes, it serves as a way to
   streamline the creation of procedural materials.
 </p>
 <figure>
@@ -575,9 +579,9 @@ series: { name: bulkhead, part: 2 }
   <figcaption>Some example nodes from the add-on.</figcaption>
 </figure>
 <p>
-  This way of creating my own materials, with a
-  <strong>node based workflow</strong>, really stuck to me. I felt comfortable
-  right away &mdash; creating materials based on my gathered reference without
+  This way of creating my own materials with a
+  <strong>node-based workflow</strong> really stuck with me. I felt comfortable
+  right away &mdash; creating materials based on my gathered references without
   too many issues.
 </p>
 <figure>
@@ -600,19 +604,19 @@ series: { name: bulkhead, part: 2 }
 </figure>
 <p>
   Not only that, I was able to create something
-  <strong>I finally was happy</strong> with. From the base material of the door,
-  the white painted aluminium alloy with worn edges, to the warn-lights with
-  reflector pattern around the frame; things started to look as I wanted them to
-  be.
+  <strong>I was finally happy</strong> with. From the base material of the door,
+  the white painted aluminum alloy with worn edges, to the warning lights with a
+  reflector pattern around the frame, things started to look as I wanted them
+  to.
 </p>
 <div class="side-note-ref">
   <p>
-    I did stick to it for this project, creating all materials I wanted and even
-    some variants later on. Nevertheless,
+    I did stick to it for this project, creating all the materials I wanted and
+    even some variants later on. Nevertheless,
     <strong>one issue I have is the documentation</strong>; other tools set a
     good standard that Fluent: Materializer just cannot reach, with missing
     information about many of its features. I would really wish for the add-on
-    to get a better documentation, going in-depth of all it's features.
+    to get better documentation, going in-depth about all its features.
   </p>
   <aside class="side-note">
     <p>
@@ -627,33 +631,33 @@ series: { name: bulkhead, part: 2 }
   </aside>
 </div>
 <p>
-  Overall I'm still very happy with the add-on, enabling me to iterate quickly
-  on my materials. All I needed next was some more detail.
+  Overall, I'm still very happy with the add-on, which enables me to iterate
+  quickly on my materials. All I needed next was some more detail.
 </p>
 
 <h3>Details, decals, and determination</h3>
 <p>
-  Now that my materials sparked joy, I wanted to add more detail to my mesh; the
-  numbering above the bulkhead door, as well as some screws on the door. To do
-  this I already knew I wanted to use
+  Now that my materials sparked joy, I wanted to add more detail to my mesh,
+  including the numbering above the bulkhead door as well as some screws on the
+  door. To do this, I already knew I wanted to use
   <a
     href="https://machin3.io/DECALmachine/"
     title="Landing page for DECALmachine, a decal and trim-sheet Blender add-on."
     >DECALmachine</a
   >
-  &mdash; an absolute amazing Blender add-on I do not want to miss anymore.
+  &mdash; an absolutely amazing Blender add-on I do not want to miss anymore.
 </p>
 <p>
-  With it I was able to quickly add mesh decals, in a fast and intuitive way.
-  For the screws on the main door I used some of the decals that came with the
+  With it, I was able to quickly add mesh decals, in a fast and intuitive way.
+  For the screws on the main door, I used some of the decals that came with the
   add-on. For info decals, like the numbering on the frame or the warning text
   on the barrier doors, I created my own.
 </p>
 <p>
   <strong>Without leaving Blender</strong>, I was able to quickly set up my
-  decals. The number from a loaded font, using a similar one to the one Ron Cobb
-  used in his drawing, the warning label from geometry and text I quickly threw
-  together in Blender.
+  decals. The number is from a loaded font, using a similar one to the one Ron
+  Cobb used in his drawing; the warning label is from geometry and text I
+  quickly threw together in Blender.
 </p>
 <figure>
   <picture>
@@ -673,8 +677,9 @@ series: { name: bulkhead, part: 2 }
 </figure>
 <p>
   As a result of <strong>decal creation being that effortless</strong>, I will
-  definitely build up my decal library over time. A very fun process that
-  immediately triggered new ideas in my mind for more details I want to create.
+  definitely build up my decal library over time. It was a very fun process that
+  immediately triggered new ideas in my mind for more details I wanted to
+  create.
 </p>
 <p>Having a set of decals created, I added them to my mesh.</p>
 <figure>
@@ -714,14 +719,14 @@ series: { name: bulkhead, part: 2 }
   <figcaption>I'm trying to make that decal more realistic &hellip;</figcaption>
 </figure>
 <p>
-  One thing that really stands out to me, with all
+  One thing that really stands out to me with all
   <a
     href="https://machin3.io"
     title="MACHIN3 website with all the tools and references."
     >MACHIN3</a
   >
-  tools, is the documentation. Every single tool has a documentation website,
-  FAQ, changelog, and even videos, showing existing and new features alike.
+  tools is the documentation. Every single tool has a documentation website,
+  FAQ, changelog, and even videos showing existing and new features alike.
   Effectively the reason that tools like <em>DECALmachine</em> and
   <em>MESHmachine</em> became essential for me in no time.
 </p>
@@ -767,13 +772,14 @@ series: { name: bulkhead, part: 2 }
   </figcaption>
 </figure>
 <p>
-  This is it, <strong>my first model I created and textured myself</strong>, not
-  following a tutorial, applying what I learned, and learning a hundred more
-  things while doing it. I'm indeed very happy with the result, even though I
-  see many little things I would want to change or do different, if I would do
-  it again. Nevertheless, I already invested <b class="emphasize">a lot</b> of
-  time into this, and I need to continue, so I can someday actually finish
-  everything I set out to do.
+  This is it &mdash;
+  <strong>my first model I created and textured myself</strong>, not following a
+  tutorial, applying what I learned, and learning a hundred more things while
+  doing it. I'm indeed very happy with the result, even though I see many little
+  things I would want to change or do differently if I did it again.
+  Nevertheless, I already invested <b class="emphasize">a lot</b> of time into
+  this, and I need to continue, so I can someday actually finish everything I
+  set out to do.
 </p>
 <p>
   I wanted to recreate not the bulkhead door from Alien (1979), but the door
@@ -782,7 +788,7 @@ series: { name: bulkhead, part: 2 }
     href="http://www.roncobb.net/05-Alien.html"
     title="Ron Cobb's website with a gallery of pictured he made for Alien."
     >the drawing of Ron Cobb he did for the movie</a
-  >. Here a look how my mesh stacks up to it.
+  >. Here's a look at how my mesh stacks up to it.
 </p>
 <figure>
   <div data-compare-image="#6200ee,50">
@@ -822,7 +828,7 @@ series: { name: bulkhead, part: 2 }
 
 <h3>Experiments</h3>
 <p>
-  Having my goal reached, I wanted to try <strong>my own take</strong> on the
+  Having reached my goal, I wanted to try <strong>my own take</strong> on the
   door textures going forward. Even though I like the white style, I thought a
   darker tone for the frame would add a nice contrast to it all.
 </p>
@@ -879,7 +885,7 @@ series: { name: bulkhead, part: 2 }
   </figcaption>
 </figure>
 <p>
-  I also wanted to add some more writing to the door as I thought this would
+  I also wanted to add some more writing to the door, as I thought this would
   help make it feel more real. So I quickly created some more warning decals
   with <em>DECALmachine</em>; this really took me just a couple of minutes.
 </p>
@@ -905,27 +911,28 @@ series: { name: bulkhead, part: 2 }
 
 <h3>Conclusion</h3>
 <p>
-  What a ride, that is not even at the end, yet. Even though this
-  <strong>took me way longer</strong> and <strong>was way harder</strong> then I
-  thought, I learned a tremendous amount of things, having so much
+  What a ride, that is not even done yet. Even though this
+  <strong>took me way longer</strong> and <strong>was way harder</strong> than I
+  thought, I learned a tremendous amount of things and had so much
   <strong>fun and joy</strong> while doing it. I'm for sure not happy with
-  everything, and would do a lot different now, but I take it as how far I've
+  everything and would do a lot differently now, but I take it as how far I've
   come and learned on my 3D journey until now.
 </p>
 <p>
-  On future hard-surface projects I would like to explore a mid-poly workflow,
-  skipping the high to low-poly conversion, using weighted normals. I also need
+  On future hard-surface projects, I would like to explore a mid-poly workflow,
+  skipping the high-to-low-poly conversion, using weighted normals. I also need
   to get better with my <abbr>UVs</abbr>. But that is for sure something for
-  future me. For now, I cannot wait to continue learning more in what comes
+  future me. For now, I cannot wait to continue learning more about what comes
   next.
 </p>
 
 <h3>What comes next?</h3>
 <p>
-  So far I <em>"only"</em> rendered pretty pictured of the door. Next up I want
-  to have some animation, for this I will learn <strong>rigging</strong> and
-  then <strong>animating the door</strong> in Blender. But, I will also explore
-  how to export this to game engines to get a complete workflow going.
+  So far, I <em>"only"</em> rendered pretty pictures of the door. Next up, I
+  want to have some animation; for this, I will learn
+  <strong>to rig</strong> and then <strong>animate the door</strong> in Blender.
+  But I will also explore how to export this to game engines to get a complete
+  workflow going.
 </p>
 <p>
   That will continue in

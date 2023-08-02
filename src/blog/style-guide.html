@@ -1,10 +1,10 @@
 ---
 date: 2022-09-24
-lastmod: 2023-06-25
+lastmod: 2023-08-05
 title: "Website style guide"
-description: 'The style guide of my website. How components are created, and then used, as simplicity saved me from falling into the hole of "not creating".'
+description: 'The style guide for my website, how components are created and then used, as simplicity saved me from falling into the hole of "not creating".'
 linkTitle: "This websites style guide including context about the why and how."
-summary: "<p>This post will showcase all available website components, how they are defined with <abbr>CSS</abbr> and <abbr>HTML</abbr>, and finally used to create this website. Also, a bit about what I thought creating them.</p>"
+summary: "<p>This post will showcase all available website components, how they are defined with <abbr>CSS</abbr> and <abbr>HTML</abbr>, and finally how they were used to create this website. Also, a bit about what I thought when creating them.</p>"
 hasCode: true
 tags: ["post", "general"]
 ---
@@ -13,15 +13,16 @@ tags: ["post", "general"]
 <p>
   Years ago, when I set out to create my own website,
   <strong>I did not</strong>, as I was overwhelmed with possibilities. I thought
-  about complex, intriguing designs, with the highest technical fidelity,
-  amazing easter-eggs, and a mind-blowing user experience. Creating a mountain
-  in front of myself, unable to climb, ever-growing.
+  about complex, intriguing designs with the highest technical fidelity, amazing
+  Easter eggs, and a mind-blowing user experience. Creating a mountain in front
+  of myself, unable to climb, ever-growing.
 </p>
 <p>
-  Back then, creating websites professionally, of course I wanted to have the
-  best of the best of the best. <strong>I did 26 design iterations</strong>,
-  from pure <dfn>Sketch</dfn> designs to full-fledged, complete with pattern
-  libraries and code. Every new prototype more complex than the one before.
+  Back then, when I was creating websites professionally, of course I wanted to
+  have the best of the best of the best.
+  <strong>I did 26 design iterations</strong>, from pure <dfn>Sketch</dfn> to
+  full-fledged designs, complete with pattern libraries and code. Every new
+  prototype was more complex than the one before.
 </p>
 <p>
   I also went through a lot of technologies I could use &mdash; from the
@@ -33,43 +34,43 @@ tags: ["post", "general"]
 
 <h3>Simplicity</h3>
 <p>
-  I deleted it all. What if; just HTML and CSS, no fancy technologies, no
-  pop-ups, no content jumps. Not saying there is a relation between
+  I deleted it all. What if: just HTML and CSS, no fancy technologies, no
+  pop-ups, no content jumps? I'm not saying there is a relationship between
   <em>"fancy technologies</em> to <em>"negatives"</em>, just stating what I
-  wanted to reduce. I was creative my whole youth, learned to be a designer and
-  even worked as one for a while. But <strong>I am no designer</strong>, not
-  anymore, and I did not love the time I was; or at least what I was doing back
+  wanted to reduce. I was creative my whole youth; I learned to be a designer
+  and even worked as one for a while. But <strong>I am no designer</strong>, not
+  anymore, and I did not love the time I was, or at least what I was doing back
   then.
 </p>
 <p>
-  I started working on something I thought will be a
-  <dfn><abbr>WIP</abbr> (work in progress)</dfn>, a simple website, no extras,
-  nothing fancy. Getting something I started to like, I removed everything not
-  necessary. I had a cookie banner, because everyone does &mdash; but why? Do I
-  have cookies, do I need them? I mean, realistically cookies are amazing, the
-  ones to eat, but I had none on my website, so
+  I started working on something I thought would be a
+  <dfn><abbr>WIP</abbr> (work in progress)</dfn>, a simple website with no
+  extras and nothing fancy. After getting something I started to like, I removed
+  everything not necessary. I had a cookie banner because everyone had one
+  &mdash; but why? Do I have cookies? Do I need them? I mean, realistically,
+  cookies are amazing, the ones to eat, but I had none on my website, so
   <strong>gone with the cookie banner</strong>.
 </p>
 <p>
-  Looking at what I had, I realised I do like it. It was simple, but functional,
+  Looking at what I had, I realized I did like it. It was simple but functional,
   covering all my needs for a small website. What was previously meant to be a
   <abbr>WIP</abbr> became the final result &mdash; no build system, no
-  JavaScript, plain CSS and HTML.
+  JavaScript, just plain CSS and HTML.
 </p>
 <p>
-  This is <strong>not true anymore today</strong>. While my site grew, I
-  switched to <a href="https://www.11ty.dev" title="Eleventy homepage">11ty</a>,
-  a static site generator that did not lock me into a specific framework. I was
-  able to gradually streamline some parts of maintaining my website, but that
-  was all. Just a bit of help managing the blog, creating a feed and the
-  sitemap. Everything else still holds true; <em>simplicity</em>.
+  This is <strong>not true anymore</strong>. While my site grew, I switched to
+  <a href="https://www.11ty.dev" title="Eleventy homepage">11ty</a>, a static
+  site generator that did not lock me into a specific framework. I was able to
+  gradually streamline some parts of maintaining my website, but that was all.
+  Just a bit of help managing the blog, creating a feed, and the sitemap.
+  Everything else still holds true, including <em>simplicity</em>.
 </p>
 
 <h3>The style guide</h3>
 <p>
   The following content is a <strong>living document</strong> of defined styles
-  and components, how to use them, and how they are created. With
-  <dfn>"components"</dfn> I refer to the combination of <abbr>HTML</abbr> and
+  and components, how to use them, and how they are created.
+  <dfn>"Components"</dfn> refers to the combination of <abbr>HTML</abbr> and
   <abbr>CSS</abbr> to create a logical unit for my website.
 </p>
 
