@@ -1,6 +1,6 @@
 ---
 date: 2022-09-24
-lastmod: 2023-08-05
+lastmod: 2023-08-08
 title: "Website style guide"
 description: 'The style guide for my website, how components are created and then used, as simplicity saved me from falling into the hole of "not creating".'
 linkTitle: "This websites style guide including context about the why and how."
@@ -77,6 +77,7 @@ tags: ["post", "general"]
 <nav>
   <h3 id="table-of-contents">Table of contents</h3>
   <ul>
+    <li><a href="#theming">Theming</a></li>
     <li><a href="#variables">Variables</a></li>
     <li><a href="#headlines">Headlines</a></li>
     <li>
@@ -87,6 +88,7 @@ tags: ["post", "general"]
         <li><a href="#strong">Strong</a></li>
         <li><a href="#emphasis">Emphasis</a></li>
         <li><a href="#links">Links</a></li>
+        <li><a href="#shortcuts">Shortcuts</a></li>
       </ul>
     </li>
     <li><a href="#address">Address</a></li>
@@ -120,6 +122,24 @@ tags: ["post", "general"]
 </nav>
 
 <hr />
+
+<h4 id="theming">Theming</h4>
+<p>
+  The site does support light and dark mode. This is also represented in this
+  style-guide. There are multiple options to switch between those themes.
+</p>
+<ul>
+  <li>When supported, switch themes via the operating system.</li>
+  <li>Use the theme toggle button at the end of the page.</li>
+  <li>
+    Use the shortcut <kbd><kbd>Shift</kbd>+<kbd>T</kbd></kbd> anywhere on the
+    page.
+  </li>
+</ul>
+<p>
+  Any of those options is valid and can be used to view elements in different
+  themes.
+</p>
 
 <h4 id="variables">Variables</h4>
 <p>
@@ -168,9 +188,12 @@ tags: ["post", "general"]
   /* Other variables ... */
 
   --color-blue-100: #f5f1ff;
+  --color-blue-200: #b392f7;
   --color-blue-300: #7232ff;
   --color-blue-500: #6200ee;
   --color-blue-700: #5200ac;
+  --color-blue-800: #3b2e4d;
+  --color-blue-900: #191223;
 
   --color-grey-200: #f1f1f1;
   --color-grey-300: #dcdcdc;
@@ -215,6 +238,16 @@ tags: ["post", "general"]
     </div>
   </li>
   <li>
+    <div
+      style="
+        background-color: var(--color-blue-200);
+        color: var(--color-grey-900);
+      "
+    >
+      --color-blue-200
+    </div>
+  </li>
+  <li>
     <div style="background-color: var(--color-blue-300)">--color-blue-300</div>
   </li>
   <li>
@@ -222,6 +255,12 @@ tags: ["post", "general"]
   </li>
   <li>
     <div style="background-color: var(--color-blue-700)">--color-blue-700</div>
+  </li>
+  <li>
+    <div style="background-color: var(--color-blue-800)">--color-blue-800</div>
+  </li>
+  <li>
+    <div style="background-color: var(--color-blue-900)">--color-blue-900</div>
   </li>
 </ul>
 <ul class="color-list">
@@ -482,6 +521,40 @@ a > dfn {
   <pre><code class="language-html hljs">&lt;p&gt;Including a &lt;a href="..." title="..."&gt;&lt;dfn&gt;definition element&lt;/dfn&gt;&lt;/a>.&lt;/p&gt;</code></pre>
 </figure>
 <p>Don't forget, every link needs a title.</p>
+
+<h5 id="shortcuts">Shortcuts</h5>
+<p>
+  The <code>kbd</code> element represents a shortcut, whereas a nested
+  <code>kbd</code> element will represent a sequence of keystrokes.
+</p>
+<figure>
+  <pre><code class="language-css hljs">kbd > kbd {
+  background-color: var(--color-grey-200);
+  border-radius: 3px;
+  border: 1px solid var(--color-grey-500);
+  box-shadow:
+    0 1px 1px rgba(0, 0, 0, 0.2),
+    0 2px 0 0 rgba(255, 255, 255, 0.7) inset;
+  color: var(--color-grey-900);
+  display: inline-block;
+  font-size: 0.8em;
+  font-weight: var(--font-weight-bold);
+  line-height: 1;
+  padding: 2px 4px;
+  white-space: nowrap;
+}</code></pre>
+</figure>
+<p>
+  To toggle the theme, use the shortcut
+  <kbd><kbd>Shift</kbd>+<kbd>T</kbd></kbd
+  >.
+</p>
+<figure>
+  <pre><code class="language-html hljs">&lt;p&gt;
+  To toggle the theme, use the shortcut
+  &lt;kbd&gt;&lt;kbd&gt;Shift&lt;/kbd&gt;+&lt;kbd&gt;T&lt;/kbd&gt;&lt;/kbd&gt;.
+&lt;/p&gt;</code></pre>
+</figure>
 
 <h4 id="address">Address</h4>
 <p>Address elements get some original italic style.</p>
