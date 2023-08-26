@@ -21,8 +21,8 @@ devDependencies:
     specifier: 7.1.0
     version: 7.1.0
   luxon:
-    specifier: 3.4.1
-    version: 3.4.1
+    specifier: 3.4.2
+    version: 3.4.2
   prettier:
     specifier: 3.0.2
     version: 3.0.2
@@ -104,7 +104,7 @@ packages:
       iso-639-1: 2.1.15
       kleur: 4.1.5
       liquidjs: 10.7.0
-      luxon: 3.4.1
+      luxon: 3.4.2
       markdown-it: 13.0.1
       micromatch: 4.0.5
       minimist: 1.2.8
@@ -1557,8 +1557,8 @@ packages:
       yallist: 4.0.0
     dev: true
 
-  /luxon@3.4.1:
-    resolution: {integrity: sha512-2USspxOCXWGIKHwuQ9XElxPPYrDOJHDQ5DQ870CoD+CxJbBnRDIBCfhioUJJjct7BKOy80Ia8cVstIcIMb/0+Q==}
+  /luxon@3.4.2:
+    resolution: {integrity: sha512-uBoAVCVcajsrqy3pv7eo5jEUz1oeLmCcnMv8n4AJpT5hbpN9lUssAXibNElpbLce3Mhm9dyBzwYLs9zctM/0tA==}
     engines: {node: '>=12'}
     dev: true
 
