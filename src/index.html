@@ -37,7 +37,7 @@ priority: "1.0"
     badge(post.data.series) }}
     <h3>
       <a href="{{ post.url }}" title="{{ post.data.linkTitle }}"
-        >{{ post.data.title }}</a
+        >{{ post.data.title | safe }}</a
       >
     </h3>
     <footer>
