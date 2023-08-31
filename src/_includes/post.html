@@ -64,7 +64,7 @@
       <main>
         <article>
           {% from 'components.njk' import badge with context %} {{ badge(series) }}
-          <h2>{{ title }}</h2>
+          <h2>{{ title | safe }}</h2>
           <footer>
             <p>
               Posted on
