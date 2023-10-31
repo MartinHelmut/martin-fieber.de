@@ -1,0 +1,721 @@
+---
+date: 2023-10-31
+title: "A TL;DR about CMake Presets"
+description: "Utilizing CMake's presets was the missing piece to truly make it easy to set up and maintain projects, now that I have developed a few opinions of how I want them to be set up."
+linkTitle: "Using CMake presets to enhance project workflows."
+summary: '<p>In my never-ending quest to master CMake, I developed a few opinions on how I wanted my projects to work and finally looked at <em>"CMake Presets"</em>, which I had already heard much about.</p>'
+hasCode: true
+tags: ["post", "cpp"]
+---
+
+<h3 id="prolog">Prolog</h3>
+<p>
+  In my <strong>never-ending quest to master CMake</strong>, I'm coming across
+  more and more handy tools for project setup and management. Trying to maintain
+  a good starter template for my projects and having developed a few opinions on
+  how I want my projects to work, I finally looked at <em>"CMake Presets"</em> I
+  had already heard much about.
+</p>
+<p>
+  One of those opinions is that I want CMake to do as much as possible without
+  relying on other tools to minimize what is needed for a project setup. If I
+  have a setting that CMake already supports through an option, I define it,
+  reducing what is needed for execution further.
+</p>
+<p>
+  With this in mind, I always thought I wouldn't really need CMake presets, but
+  it turned out some settings I always configure were missing.
+</p>
+
+<h3 id="expectations">Expectations</h3>
+<p>
+  What will I cover in this article? It won't be every setting with every
+  property, and in general, the
+  <a
+    href="https://cmake.org/cmake/help/latest/manual/cmake-presets.7.html"
+    title="CMake documentation about all preset properties."
+    >official CMake documentation about presets</a
+  >
+  is quite extensive. If this is what you're looking for, you can follow the
+  link.
+</p>
+<p>
+  Even though <strong>the official docs are great</strong>, I prefer a different
+  format when it comes to presentation and personal taste, and that's why this
+  article exists.
+</p>
+<p>
+  Besides, some of the settings that can be configured with presets I would
+  rather see directly in a CMake file. This will also be the general approach,
+  <strong>what can live in a CMake file will</strong>, everything else goes to a
+  preset.
+</p>
+
+<aside class="callout">
+  <h4>CMake version required</h4>
+  <p>Presets were added to CMake in version 3.19.</p>
+</aside>
+
+<nav>
+  <h3>Table of contents</h3>
+  <ol>
+    <li><a href="#what-are-cmake-presets">What are CMake Presets?</a></li>
+    <li><a href="#create-a-preset">Create a preset</a></li>
+    <li><a href="#basic-configuration">Basic configuration</a></li>
+    <li><a href="#run-configuration-preset">Run configuration preset</a></li>
+    <li><a href="#user-presets">User presets</a></li>
+    <li><a href="#conditional-configuration">Conditional configuration</a></li>
+    <li><a href="#inherit-settings">Inherit settings</a></li>
+    <li><a href="#common-variable-setup">Common variable setup</a></li>
+    <li><a href="#build-preset">Build preset</a></li>
+    <li><a href="#test-presets">Test presets</a></li>
+    <li><a href="#full-example">Full example</a></li>
+  </ol>
+</nav>
+
+<hr />
+
+<h3 id="what-are-cmake-presets">What are CMake Presets?</h3>
+<p>
+  With time and more knowledge about CMake, certain project settings appear
+  again and again. For me, I found a set of settings I tend to use in every
+  project. I always set up Ninja on Windows and Linux or Xcode on macOS, define
+  the same build directories, or even run the same CTest commands.
+</p>
+<p>
+  Presets enable defining exactly those standard or repeated project settings
+  for CMake and even give options to easily override them per project if needed
+  &mdash; things like the build directory, generator, or target architecture.
+</p>
+<p>
+  I can then take this file, throw it in a CMake project, and be ready to go.
+  Especially considering tooling support, where many IDEs like CLion detect
+  those presets to automatically set up a project.
+</p>
+
+<h3 id="create-a-preset">Create a preset</h3>
+<p>
+  A preset is, at its core, a <code>CMakePresets.json</code> in the root of the
+  project. It gets checked into source control and defines project-wide
+  settings. The minimum requirement to be a valid preset file is the
+  <code>version</code> field that defines the version of the JSON schema.
+</p>
+<figure>
+  <pre><code class="language-json hljs">{
+  "version": 6
+}</code></pre>
+  <figcaption><code>CMakePresets.json</code> with schema version 6.</figcaption>
+</figure>
+<p>
+  Version 6 I picked is not the latest, that is version 8. I picked version 6 as
+  it is the
+  <a
+    href="https://www.jetbrains.com/help/clion/cmake-presets.html"
+    title="CLion overview of how CMake presets are supported."
+    >latest CLion supported version of CMake presets</a
+  >.
+</p>
+<p>
+  One benefit of using version 8 is the support of the
+  <code>$schema</code> field, which defines a URL to the JSON schema to validate
+  the file contents against.
+</p>
+<figure>
+  <pre><code class="language-json hljs">{
+  "version": 8,
+  "$schema": "https://cmake.org/cmake/help/latest/_downloads/3e2d73bff478d88a7de0de736ba5e361/schema.json"
+}</code></pre>
+</figure>
+<p>
+  The URL for the
+  <a
+    href="https://cmake.org/cmake/help/latest/manual/cmake-presets.7.html#schema"
+    title="CMake documentation about the usage of the JSON schema."
+    >JSON schema is from the official CMake documentation</a
+  >.
+</p>
+<p>
+  Another thing I would often see is the
+  <code>cmakeMinimumRequired</code> property used in projects, though I'd rather
+  define this version through CMake itself, e.g., in the root CMake file of the
+  project.
+</p>
+<figure>
+  <pre><code class="language-cmake hljs"># CMakeLists.txt
+cmake_minimum_required(VERSION 3.22)</code></pre>
+</figure>
+
+<h3 id="basic-configuration">Basic configuration</h3>
+<p>
+  The base of most CMake presets is the
+  <a
+    href="https://cmake.org/cmake/help/latest/manual/cmake-presets.7.html#configure-preset"
+    title="CMake documentation about configure presets."
+    ><code>configurePresets</code> property</a
+  >, which defines configurations that are applied to the configuration phase,
+  like defining the build directory or the generator used.
+</p>
+<p>
+  The minimum required setting is a name for the preset, but a display name is
+  recommended to be shown when interacting with the preset through a GUI or the
+  CMake CLI.
+</p>
+<figure>
+  <pre><code class="language-json hljs">{
+  "version": 6,
+  "configurePresets": [
+    {
+      "name": "debug",
+      "displayName": "Debug",
+      "generator": "Ninja",
+      "binaryDir": "build/debug",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
+    }
+  ]
+}</code></pre>
+  <figcaption>
+    A basic debug configuration defined in <code>CMakePresets.json</code>.
+  </figcaption>
+</figure>
+<p>
+  This example of a configuration preset defines a debug preset. Using
+  <a href="https://ninja-build.org" title="Official Ninja build site.">Ninja</a>
+  as the generator, the build directory will be <code>build/debug</code> and the
+  CMake build type <code>Debug</code>.
+</p>
+<p>Defining a release preset follows the same pattern.</p>
+<figure>
+  <pre><code class="language-json hljs">{
+  "version": 6,
+  "configurePresets": [
+    { /* ... */ },
+    {
+      "name": "release",
+      "displayName": "Release",
+      "generator": "Ninja",
+      "binaryDir": "build/release",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release"
+      }
+    }
+  ]
+}</code></pre>
+  <figcaption>
+    A basic release configuration defined in <code>CMakePresets.json</code>.
+  </figcaption>
+</figure>
+
+<h3 id="run-configuration-preset">Run configuration preset</h3>
+<p>
+  With some presets defined, it's time to run them. To view all defined presets,
+  run <code>cmake --list-presets</code>.
+</p>
+<figure>
+  <pre><code class="language-shell hljs">$ cmake --list-presets
+Available configure presets:
+
+  "debug"         - Debug
+  "release"       - Release</code></pre>
+  <figcaption>
+    The <code>$</code> is used to show a command will be entered.
+  </figcaption>
+</figure>
+<p>Run one of those configuration presets with <code>cmake --preset</code>.</p>
+<figure>
+  <pre><code class="language-shell hljs">$ cmake --preset debug</code></pre>
+  <figcaption>
+    This will execute CMake's configuration step with the selected preset.
+  </figcaption>
+</figure>
+
+<h3 id="user-presets">User presets</h3>
+<p>
+  Working on a project with CMake presets, there can always be the case where a
+  user needs or wants to define their own presets for any reason. This can be
+  done through the <code>CMakeUserPresets.json</code> file.
+</p>
+<p>
+  This file has the same structure as the <code>CMakePresets.json</code> to
+  override or extend any options and should always be excluded from any source
+  control &mdash; I usually add this to my global <code>.gitignore</code> file.
+</p>
+<p>
+  For example, defining a release build with debug information as a user preset.
+</p>
+<figure>
+  <pre><code class="language-json hljs">{
+  "version": 6,
+  "configurePresets": [
+    {
+      "name": "rel-with-deb-info",
+      "displayName": "Release with Debug information",
+      "generator": "Ninja",
+      "binaryDir": "build/relwithdebinfo",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "RelWithDebInfo"
+      }
+    }
+  ]
+}</code></pre>
+  <figcaption>
+    <code>CMakeUserPresets.json</code>
+  </figcaption>
+</figure>
+
+<h3 id="conditional-configuration">Conditional configuration</h3>
+<aside class="callout">
+  <h4>CMake version required</h4>
+  <p>Conditions were added to CMake Presets in version 3.21.</p>
+</aside>
+<p>
+  A very handy feature, especially when it comes to multi-platform
+  configurations, are
+  <a
+    href="https://cmake.org/cmake/help/latest/manual/cmake-presets.7.html#condition"
+    title="Official CMake documentation about preset conditions."
+    >conditional configurations</a
+  >. With this, it is possible to define when a preset is used, for example, to
+  configure Xcode for macOS.
+</p>
+<figure>
+  <pre><code class="language-json hljs">{
+  "version": 6,
+  "configurePresets": [
+    { /* ... */ },
+    {
+      "name": "xcode-debug",
+      "displayName": "Debug (Xcode)",
+      "generator": "Xcode",
+      "binaryDir": "build/xcode-debug",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug"
+      },
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Darwin"
+      }
+    }
+  ]
+}</code></pre>
+  <figcaption>
+    <code>CMakePresets.json</code>
+  </figcaption>
+</figure>
+<p>
+  The conditions read as: compare two values (<code>equals</code>), the
+  left-hand string (<code>lhs</code>) is the variable
+  <code>hostSystemName</code>, the right-hand string (<code>rhs</code>) is
+  <em>"Darwin"</em> (aka. macOS).
+</p>
+<p>
+  There are many different options for conditionals; different types, multiple
+  conditions to match any or all of; best taken from the
+  <a
+    href="https://cmake.org/cmake/help/latest/manual/cmake-presets.7.html#condition"
+    title="Official CMake documentation about preset conditions."
+    >official CMake documentation about preset conditions</a
+  >.
+</p>
+
+<h3 id="inherit-settings">Inherit settings</h3>
+<p>
+  Any preset can inherit another to override or add to it. It is common to
+  define a base preset, hide it with the <code>hidden</code> property, and
+  derive specific presets from it. Another typical use case is to have a local
+  and a derived CI preset.
+</p>
+<p>
+  With this, let's first create a common, hidden base preset using Ninja as a
+  generator.
+</p>
+<figure>
+  <pre><code class="language-json hljs">{
+  "version": 6,
+  "configurePresets": [
+    {
+      "name": "common",
+      "hidden": true,
+      "generator": "Ninja",
+      "binaryDir": "build/${presetName}"
+    }
+  ]
+}</code></pre>
+</figure>
+<p>
+  The binary directory is predefined, using the variable
+  <code>presetName</code> to set the directory based on the derived preset. Via
+  <code>inherits</code> the base preset will be inherited by name.
+</p>
+<figure>
+  <pre><code class="language-json hljs">{
+  "version": 6,
+  "configurePresets": [
+    {
+      "name": "common",
+      "hidden": true,
+      "generator": "Ninja",
+      "binaryDir": "build/${presetName}"
+    },
+    {
+      "name": "debug",
+      "displayName": "Debug",
+      "inherits": "common",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
+    }
+  ]
+}</code></pre>
+</figure>
+
+<h3 id="common-variable-setup">Common variable setup</h3>
+<p>
+  Even though I prefer to set as much as possible from inside a CMake file, it
+  can come in very handy to define some cache variables through a preset. One of
+  those is to run a project against multiple compilers, e.g., for continuous
+  integration.
+</p>
+<p>
+  Using <a href="#inherit-settings">inheritance</a>, a CI preset can be derived
+  from an already existing preset. Given the following base preset:
+</p>
+<figure>
+  <pre><code class="language-json hljs">{
+  "version": 6,
+  "configurePresets": [
+    {
+      "name": "debug",
+      "displayName": "Debug",
+      "generator": "Ninja",
+      "binaryDir": "build/debug",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
+    }
+  ]
+}</code></pre>
+</figure>
+<p>
+  Setting the compiler as a cache variable for CI to create different
+  configuration scenarios.
+</p>
+<figure>
+  <pre><code class="language-json hljs">{
+  "version": 6,
+  "configurePresets": [
+    { /* Base preset ... */ },
+    {
+      "name": "debug-ci-gcc",
+      "inherits": "debug",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_C_COMPILER": "gcc",
+                "CMAKE_CXX_COMPILER": "g++"
+      }
+    },
+    {
+      "name": "debug-ci-clang",
+      "inherits": "debug",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_C_COMPILER": "clang-cl",
+                "CMAKE_CXX_COMPILER": "clang-cl"
+      }
+    }
+  ]
+}</code></pre>
+  <figcaption>Using different compilers for CI configurations.</figcaption>
+</figure>
+
+<h3 id="build-preset">Build preset</h3>
+<aside class="callout">
+  <h4>CMake version required</h4>
+  <p>Conditions were added to CMake Presets in version 3.20.</p>
+</aside>
+<p>
+  With a properly defined configuration step, it is just a small jump to also
+  define a
+  <a
+    href="https://cmake.org/cmake/help/latest/manual/cmake-presets.7.html#build-preset"
+    title="CMake documentation for build presets."
+    >build preset</a
+  >. As the name implies, build presets are used for CMake's build phase and are
+  directly related to a configuration preset, supporting many of the same
+  properties.
+</p>
+<div class="side-note-ref">
+  <p>
+    A great advantage of using build presets is that they can predetermine what
+    targets are built and when. For example, only building tests, everything for
+    a debug build, or just the main target for a release, all while having a
+    simple, explorable* command.
+  </p>
+  <aside class="side-note">
+    <p>
+      * Explorable as <code>--list-presets</code> can always give a list of
+      available presets. Combining this with a preset
+      <code>description</code> greatly increases usability.
+    </p>
+  </aside>
+</div>
+<p>
+  Let's take a debug configuration preset and create a build preset based on it.
+  All build presets go into an array under the property
+  <code>buildPresets</code>.
+</p>
+<figure>
+  <pre><code class="language-json hljs">{
+  "version": 6,
+  "configurePresets": [
+    { /* ... */ },
+  ],
+  "buildPresets": [
+    {
+      "name": "app-debug",
+      "displayName": "App Debug Build",
+      "configurePreset": "debug",
+      "configuration": "Debug"
+    }
+  ]
+}</code></pre>
+</figure>
+<p>
+  To view all defined build presets, run
+  <code>cmake --build --list-presets</code>.
+</p>
+<figure>
+  <pre><code class="language-shell hljs">$ cmake --build --list-presets
+Available build presets:
+
+  "app-debug"</code></pre>
+</figure>
+<p>
+  The build preset can then be used to build the project using the defined
+  configure preset.
+</p>
+<figure>
+  <pre><code class="language-shell hljs">$ cmake --build --preset app-debug</code></pre>
+</figure>
+<p>
+  By default, this will build all the defined targets. This can be changed via
+  the <code>targets</code> property, defining what targets specifically should
+  be built. For example, only building the main target without tests for a
+  release.
+</p>
+<figure>
+  <pre><code class="language-json hljs">{
+  "version": 6,
+  "configurePresets": [
+    { /* ... */ },
+  ],
+  "buildPresets": [
+    { /* ... */ },
+    {
+      "name": "app-release",
+      "displayName": "App Release Build",
+      "configurePreset": "release",
+      "configuration": "Release",
+      "targets": ["App"]
+    }
+  ]
+}</code></pre>
+  <figcaption>
+    Only build the main target <em>"App"</em> for release builds.
+  </figcaption>
+</figure>
+
+<h3 id="test-presets">Test presets</h3>
+<aside class="callout">
+  <h4>CMake version required</h4>
+  <p>Conditions were added to CMake Presets in version 3.20.</p>
+</aside>
+<p>
+  When using
+  <a
+    href="https://cmake.org/cmake/help/book/mastering-cmake/chapter/Testing%20With%20CMake%20and%20CTest.html"
+    title="Testing with CMake and CTest"
+    >CTest</a
+  >, presets can be used similarly to build presets. Any defined test preset can
+  be listed via <code>ctest --list-preset</code>, and run with
+  <code>ctest --preset</code>, using the <code>ctest</code> CLI instead of
+  <code>cmake</code>.
+</p>
+<p>
+  Using test presets gives the option to execute all or a predefined set of
+  tests, define test fixtures, change environments, set different output
+  options, and more. Nevertheless, I try to define possible or sensible defaults
+  directly in a CMake file for CTest.
+</p>
+<p>
+  Same as build presets, test presets are related to a configuration preset and
+  defined under <code>testPresets</code>.
+</p>
+<figure>
+  <pre><code class="language-json hljs">{
+  "version": 6,
+  "configurePresets": [ /* ... */ ],
+  "buildPresets": [ /* ... */ ],
+  "testPresets": [
+    {
+      "name": "test-all",
+      "displayName": "Test All",
+      "configurePreset": "debug"
+    }
+  ]
+}</code></pre>
+  <figcaption>Run all defined tests for a <em>"Debug"</em> build.</figcaption>
+</figure>
+<p>
+  All the
+  <a
+    href="https://cmake.org/cmake/help/latest/manual/ctest.1.html#build-and-test-mode"
+    title="CTest documentation"
+    >CTest CLI options</a
+  >
+  can also be defined through this preset, as well as filtering for specific
+  tests.
+</p>
+<figure>
+  <pre><code class="language-json hljs">{
+  "version": 6,
+  "configurePresets": [ /* ... */ ],
+  "buildPresets": [ /* ... */ ],
+  "testPresets": [
+    {
+      "name": "test-all",
+      "displayName": "Test All",
+      "configurePreset": "debug",
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "stopOnFailure": true
+      },
+      "filter": {
+        "include": {
+          "name": "SomeTestName"
+        }
+      }
+    }
+  ]
+}</code></pre>
+  <figcaption>Run all defined tests for a <em>"Debug"</em> build.</figcaption>
+</figure>
+
+<h3 id="full-example">Full example</h3>
+<p>
+  Here it goes, a full <code>CMakePresets.json</code> example with debug and
+  release builds, giving a quick overview of the mentioned features of CMake
+  presets.
+</p>
+<figure>
+  <pre><code class="language-json hljs">{
+  "version": 6,
+  "configurePresets": [
+    {
+      "name": "debug",
+      "displayName": "Debug",
+      "generator": "Ninja",
+      "binaryDir": "build/debug",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
+    },
+    {
+      "name": "release",
+      "displayName": "Release",
+      "generator": "Ninja",
+      "binaryDir": "build/release",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release"
+      }
+    },
+    {
+      "name": "debug-ci-gcc",
+      "inherits": "debug",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_C_COMPILER": "gcc",
+        "CMAKE_CXX_COMPILER": "g++"
+      }
+    },
+    {
+      "name": "xcode-debug",
+      "displayName": "Debug (Xcode)",
+      "generator": "Xcode",
+      "binaryDir": "build/xcode-debug",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug"
+      },
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Darwin"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "app-debug",
+      "displayName": "App Debug Build",
+      "configurePreset": "debug",
+      "configuration": "Debug"
+    },
+    {
+      "name": "app-release",
+      "displayName": "App Release Build",
+      "configurePreset": "release",
+      "configuration": "Release",
+      "targets": ["App"]
+    }
+  ],
+  "testPresets": [
+    {
+      "name": "test-all",
+      "displayName": "Test All",
+      "configurePreset": "debug",
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "stopOnFailure": true
+      }
+    }
+  ]
+}</code></pre>
+</figure>
+
+<h3 id="epilogue">Epilogue</h3>
+<p>
+  There is much more to CMake presets than I showed here, but as said in the
+  beginning, I did not try to replicate the great
+  <a
+    href="https://cmake.org/cmake/help/latest/manual/cmake-presets.7.html"
+    title="Official CMake preset documentation"
+    >official CMake documentation about presets</a
+  >
+  but rather give a ready-to-start overview.
+</p>
+<p>
+  To see CMake presets on a real project, my
+  <a
+    href="https://github.com/MartinHelmut/cpp-gui-template-sdl2"
+    title="C++ GUI starter template with SDL2 on GitHub."
+    >GUI starter template with SDL2 and Dear ImGUI</a
+  >
+  has a set of CMake presets defined, including
+  <a
+    href="https://cmake.org/cmake/help/latest/manual/cmake-presets.7.html#package-preset"
+    title="CMake documentation about package presets."
+    >package presets</a
+  >
+  and
+  <a
+    href="https://cmake.org/cmake/help/latest/manual/cmake-presets.7.html#workflow-preset"
+    title="CMake documentation about workflow presets."
+    >workflow presets</a
+  >.
+</p>
