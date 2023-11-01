@@ -1,5 +1,6 @@
 ---
 date: 2023-10-31
+lastmod: 2023-11-01
 title: "A TL;DR about CMake Presets"
 description: "Utilizing CMake's presets was the missing piece to truly make it easy to set up and maintain projects, now that I have developed a few opinions of how I want them to be set up."
 linkTitle: "Using CMake presets to enhance project workflows."
@@ -79,26 +80,27 @@ tags: ["post", "cpp"]
 <p>
   With time and more knowledge about CMake, certain project settings appear
   again and again. For me, I found a set of settings I tend to use in every
-  project. I always set up Ninja on Windows and Linux or Xcode on macOS, define
+  project. I always set up Ninja on Windows and Linux, Xcode on macOS, define
   the same build directories, or even run the same CTest commands.
 </p>
 <p>
   Presets enable defining exactly those standard or repeated project settings
-  for CMake and even give options to easily override them per project if needed
+  for CMake and give the option to easily override them per project if needed
   &mdash; things like the build directory, generator, or target architecture.
 </p>
 <p>
-  I can then take this file, throw it in a CMake project, and be ready to go.
-  Especially considering tooling support, where many IDEs like CLion detect
-  those presets to automatically set up a project.
+  I can then take this file, throw it in a CMake project, and be
+  <strong>ready to go</strong>. Especially considering tooling support, where
+  many IDEs like CLion detect those presets and automatically set up a project.
 </p>
 
 <h3 id="create-a-preset">Create a preset</h3>
 <p>
   A preset is, at its core, a <code>CMakePresets.json</code> in the root of the
-  project. It gets checked into source control and defines project-wide
-  settings. The minimum requirement to be a valid preset file is the
-  <code>version</code> field that defines the version of the JSON schema.
+  project. It gets <strong>checked into source control</strong> and defines
+  project-wide settings. The minimum requirement to be a valid preset file is
+  the <code>version</code> field that defines the version of the used JSON
+  schema.
 </p>
 <figure>
   <pre><code class="language-json hljs">{
@@ -107,8 +109,8 @@ tags: ["post", "cpp"]
   <figcaption><code>CMakePresets.json</code> with schema version 6.</figcaption>
 </figure>
 <p>
-  Version 6 I picked is not the latest, that is version 8. I picked version 6 as
-  it is the
+  Version 6 is not the latest, that be version 8. I picked version 6 as it is
+  the
   <a
     href="https://www.jetbrains.com/help/clion/cmake-presets.html"
     title="CLion overview of how CMake presets are supported."
@@ -135,10 +137,9 @@ tags: ["post", "cpp"]
   >.
 </p>
 <p>
-  Another thing I would often see is the
-  <code>cmakeMinimumRequired</code> property used in projects, though I'd rather
-  define this version through CMake itself, e.g., in the root CMake file of the
-  project.
+  Another thing I see often used in projects is the
+  <code>cmakeMinimumRequired</code> property, though I'd rather define this
+  version through CMake itself, e.g., in the root CMake file of the project.
 </p>
 <figure>
   <pre><code class="language-cmake hljs"># CMakeLists.txt
@@ -152,13 +153,14 @@ cmake_minimum_required(VERSION 3.22)</code></pre>
     href="https://cmake.org/cmake/help/latest/manual/cmake-presets.7.html#configure-preset"
     title="CMake documentation about configure presets."
     ><code>configurePresets</code> property</a
-  >, which defines configurations that are applied to the configuration phase,
-  like defining the build directory or the generator used.
+  >, which defines configurations that are applied to the
+  <strong>configuration phase</strong>, like defining the build directory or the
+  used generator.
 </p>
 <p>
-  The minimum required setting is a name for the preset, but a display name is
-  recommended to be shown when interacting with the preset through a GUI or the
-  CMake CLI.
+  The minimum required setting is a <strong>name for the preset</strong>, but a
+  <strong>display name is recommended</strong> to be shown when interacting with
+  the preset through a GUI or the CMake CLI, increasing usability.
 </p>
 <figure>
   <pre><code class="language-json hljs">{
@@ -209,8 +211,8 @@ cmake_minimum_required(VERSION 3.22)</code></pre>
 
 <h3 id="run-configuration-preset">Run configuration preset</h3>
 <p>
-  With some presets defined, it's time to run them. To view all defined presets,
-  run <code>cmake --list-presets</code>.
+  With at least one configuration presets defined, it's time to run it. To view
+  all defined presets, run <code>cmake --list-presets</code>.
 </p>
 <figure>
   <pre><code class="language-shell hljs">$ cmake --list-presets
@@ -233,13 +235,14 @@ Available configure presets:
 <h3 id="user-presets">User presets</h3>
 <p>
   Working on a project with CMake presets, there can always be the case where a
-  user needs or wants to define their own presets for any reason. This can be
-  done through the <code>CMakeUserPresets.json</code> file.
+  user needs or wants to <strong>define their own presets</strong> for any
+  reason. This can be done through the <code>CMakeUserPresets.json</code> file.
 </p>
 <p>
   This file has the same structure as the <code>CMakePresets.json</code> to
-  override or extend any options and should always be excluded from any source
-  control &mdash; I usually add this to my global <code>.gitignore</code> file.
+  override or extend any options and should always be
+  <strong>excluded from any source control</strong> &mdash; I usually add this
+  to my global <code>.gitignore</code> file.
 </p>
 <p>
   For example, defining a release build with debug information as a user preset.
@@ -267,7 +270,7 @@ Available configure presets:
 <h3 id="conditional-configuration">Conditional configuration</h3>
 <aside class="callout">
   <h4>CMake version required</h4>
-  <p>Conditions were added to CMake Presets in version 3.21.</p>
+  <p>Conditions were added to CMake in version 3.21.</p>
 </aside>
 <p>
   A very handy feature, especially when it comes to multi-platform
@@ -276,8 +279,8 @@ Available configure presets:
     href="https://cmake.org/cmake/help/latest/manual/cmake-presets.7.html#condition"
     title="Official CMake documentation about preset conditions."
     >conditional configurations</a
-  >. With this, it is possible to define when a preset is used, for example, to
-  configure Xcode for macOS.
+  >. With this, it is possible to define <strong>when</strong> a preset is
+  available, for example, to configure Xcode as generator only on macOS.
 </p>
 <figure>
   <pre><code class="language-json hljs">{
@@ -305,7 +308,7 @@ Available configure presets:
   </figcaption>
 </figure>
 <p>
-  The conditions read as: compare two values (<code>equals</code>), the
+  The condition reads as: compare two values (<code>equals</code>), the
   left-hand string (<code>lhs</code>) is the variable
   <code>hostSystemName</code>, the right-hand string (<code>rhs</code>) is
   <em>"Darwin"</em> (aka. macOS).
@@ -325,7 +328,7 @@ Available configure presets:
   Any preset can inherit another to override or add to it. It is common to
   define a base preset, hide it with the <code>hidden</code> property, and
   derive specific presets from it. Another typical use case is to have a local
-  and a derived CI preset.
+  and a derived <dfn>continuous integration (<abbr>CI</abbr>)</dfn> preset.
 </p>
 <p>
   With this, let's first create a common, hidden base preset using Ninja as a
@@ -375,12 +378,13 @@ Available configure presets:
 <p>
   Even though I prefer to set as much as possible from inside a CMake file, it
   can come in very handy to define some cache variables through a preset. One of
-  those is to run a project against multiple compilers, e.g., for continuous
-  integration.
+  those is to run a project against <strong>multiple compilers</strong>, e.g.,
+  for <abbr title="continuous integration">CI</abbr>.
 </p>
 <p>
-  Using <a href="#inherit-settings">inheritance</a>, a CI preset can be derived
-  from an already existing preset. Given the following base preset:
+  Using <a href="#inherit-settings">inheritance</a>, a
+  <abbr title="continuous integration">CI</abbr> preset can be derived from an
+  already existing preset. Given the following base preset:
 </p>
 <figure>
   <pre><code class="language-json hljs">{
@@ -399,7 +403,8 @@ Available configure presets:
 }</code></pre>
 </figure>
 <p>
-  Setting the compiler as a cache variable for CI to create different
+  Setting the compiler as a cache variable for
+  <abbr title="continuous integration">CI</abbr> to create different
   configuration scenarios.
 </p>
 <figure>
@@ -413,7 +418,7 @@ Available configure presets:
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
         "CMAKE_C_COMPILER": "gcc",
-                "CMAKE_CXX_COMPILER": "g++"
+        "CMAKE_CXX_COMPILER": "g++"
       }
     },
     {
@@ -422,18 +427,21 @@ Available configure presets:
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
         "CMAKE_C_COMPILER": "clang-cl",
-                "CMAKE_CXX_COMPILER": "clang-cl"
+        "CMAKE_CXX_COMPILER": "clang-cl"
       }
     }
   ]
 }</code></pre>
-  <figcaption>Using different compilers for CI configurations.</figcaption>
+  <figcaption>
+    Using different compilers for
+    <abbr title="continuous integration">CI</abbr> configurations.
+  </figcaption>
 </figure>
 
 <h3 id="build-preset">Build preset</h3>
 <aside class="callout">
   <h4>CMake version required</h4>
-  <p>Conditions were added to CMake Presets in version 3.20.</p>
+  <p>Build presets were added to CMake in version 3.20.</p>
 </aside>
 <p>
   With a properly defined configuration step, it is just a small jump to also
@@ -442,9 +450,9 @@ Available configure presets:
     href="https://cmake.org/cmake/help/latest/manual/cmake-presets.7.html#build-preset"
     title="CMake documentation for build presets."
     >build preset</a
-  >. As the name implies, build presets are used for CMake's build phase and are
-  directly related to a configuration preset, supporting many of the same
-  properties.
+  >. As the name implies, build presets are used for CMake's
+  <strong>build phase</strong> and are directly related to a configuration
+  preset, supporting many of the same properties.
 </p>
 <div class="side-note-ref">
   <p>
@@ -500,10 +508,10 @@ Available build presets:
   <pre><code class="language-shell hljs">$ cmake --build --preset app-debug</code></pre>
 </figure>
 <p>
-  By default, this will build all the defined targets. This can be changed via
-  the <code>targets</code> property, defining what targets specifically should
-  be built. For example, only building the main target without tests for a
-  release.
+  By default, this will <strong>build all the defined targets</strong>. This can
+  be changed via the <code>targets</code> property, defining what targets
+  specifically to build. For example, only building the main target without
+  tests for a release.
 </p>
 <figure>
   <pre><code class="language-json hljs">{
@@ -523,14 +531,14 @@ Available build presets:
   ]
 }</code></pre>
   <figcaption>
-    Only build the main target <em>"App"</em> for release builds.
+    Only build the main target, here called <em>"App"</em>, for release builds.
   </figcaption>
 </figure>
 
 <h3 id="test-presets">Test presets</h3>
 <aside class="callout">
   <h4>CMake version required</h4>
-  <p>Conditions were added to CMake Presets in version 3.20.</p>
+  <p>Test presets were added to CMake in version 3.20.</p>
 </aside>
 <p>
   When using
@@ -697,7 +705,7 @@ Available build presets:
     title="Official CMake preset documentation"
     >official CMake documentation about presets</a
   >
-  but rather give a ready-to-start overview.
+  and rather give a ready-to-start overview.
 </p>
 <p>
   To see CMake presets on a real project, my
@@ -719,3 +727,4 @@ Available build presets:
     >workflow presets</a
   >.
 </p>
+<p>Until then 👋🏻</p>
