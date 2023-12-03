@@ -34,12 +34,12 @@
   "devDependencies": {
     "@11ty/eleventy": "2.0.1",
     "@11ty/eleventy-plugin-rss": "1.2.0",
-    "eslint": "8.52.0",
-    "eslint-config-prettier": "9.0.0",
+    "eslint": "8.55.0",
+    "eslint-config-prettier": "9.1.0",
     "eslint-plugin-html": "7.1.0",
-    "luxon": "3.4.3",
-    "prettier": "3.0.3",
+    "luxon": "3.4.4",
+    "prettier": "3.1.0",
     "stylelint": "15.11.0",
-    "stylelint-prettier": "4.0.2"
+    "stylelint-prettier": "4.1.0"
   }
 }
