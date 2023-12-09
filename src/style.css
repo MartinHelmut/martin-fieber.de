@@ -383,7 +383,7 @@ blockquote p {
 
 ul,
 ol {
-  margin: 0 0 0 var(--size-500);
+  margin: 0 0 0 var(--size-600);
   padding: 0;
 }
 
