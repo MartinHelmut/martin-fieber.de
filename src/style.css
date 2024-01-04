@@ -281,11 +281,10 @@ body.dark-theme aside.callout p {
 a {
   color: var(--color-highlight);
   cursor: pointer;
-  text-decoration: none;
 }
 
 a:hover {
-  text-decoration: underline;
+  text-decoration: underline dotted;
 }
 
 a > dfn {
