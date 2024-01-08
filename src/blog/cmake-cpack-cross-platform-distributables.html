@@ -5,7 +5,7 @@ description: "It is one thing to start using CMake in a project, it is another t
 image: "/assets/blog/cmake-cpack-cross-platform-distributables/title-card.png"
 imageAlt: "An Apple macOS DMG window, showing a SmallSDL2App icon on the left and the macOS Application folder icon on the right. In the middle is an arrow pointing to the Application folder icon."
 linkTitle: "Creating distributable packages for macOS, Linux, and Windows with CPack."
-banner: "/assets/blog/cmake-cpack-cross-platform-distributables/banner"
+banner: "/assets/blog/cmake-cpack-cross-platform-distributables/banner.png"
 bannerAlt: "The top part of the application window of the example application used in this article. It shows macOS Finder window with a dark background and the text 'Small SDL2 App'."
 summary: "<p>It is one thing to start using CMake, another to actually create distributable packages. This article will try to show how, in a holistic approach, including static assets, app icons, and more.</p>"
 hasCode: true
@@ -60,12 +60,6 @@ tags: ["post", "cpp"]
 </p>
 <figure>
   <picture>
-    <source
-      type="image/webp"
-      srcset="
-        /assets/blog/cmake-cpack-cross-platform-distributables/sample-app-running.webp
-      "
-    />
     <img
       src="/assets/blog/cmake-cpack-cross-platform-distributables/sample-app-running.png"
       alt="A macOS application window showing the example application used in this article with a dark background and the text 'Small SDL2 App'."
@@ -268,12 +262,6 @@ tags: ["post", "cpp"]
 </p>
 <figure>
   <picture>
-    <source
-      type="image/webp"
-      srcset="
-        /assets/blog/cmake-cpack-cross-platform-distributables/macos-app-bundle-structure.webp
-      "
-    />
     <img
       src="/assets/blog/cmake-cpack-cross-platform-distributables/macos-app-bundle-structure.png"
       alt="Image showing the folder structure on macOS of the application bundle. The root folder is SmallSDL2App.app, with Contents underneath. This then contains Frameworks with SDL2.dylib files, the MacOS folder with the executable, a Resource folder with icons.icns and the Manrope.ttf file, and an Info.plist and PkgInfo file."
@@ -1042,12 +1030,6 @@ $ cmake --build build/release</code></pre>
 </p>
 <figure>
   <picture>
-    <source
-      type="image/webp"
-      srcset="
-        /assets/blog/cmake-cpack-cross-platform-distributables/distribution-folder-with-tar.webp
-      "
-    />
     <img
       src="/assets/blog/cmake-cpack-cross-platform-distributables/distribution-folder-with-tar.png"
       alt="A macOS Finder window showing a .tar.gz file generated through CPack."
@@ -1115,12 +1097,6 @@ $ cmake --build build/release</code></pre>
 <p>Ten files in total, in a folder called <code>icon.iconset</code>.</p>
 <figure>
   <picture>
-    <source
-      type="image/webp"
-      srcset="
-        /assets/blog/cmake-cpack-cross-platform-distributables/macos-app-icons.webp
-      "
-    />
     <img
       src="/assets/blog/cmake-cpack-cross-platform-distributables/macos-app-icons.png"
       alt="A set of five example app icons for macOS showing a rounded rectangle with an orange gradient."
@@ -1634,12 +1610,6 @@ set_target_properties(MyApp PROPERTIES
 </p>
 <figure>
   <picture>
-    <source
-      type="image/webp"
-      srcset="
-        /assets/blog/cmake-cpack-cross-platform-distributables/firefox-disk-image.webp
-      "
-    />
     <img
       src="/assets/blog/cmake-cpack-cross-platform-distributables/firefox-disk-image.png"
       alt="A macOS disk image as seen when installing Firefox. The Firefox logo is on the left, the Application folder icon on the right. A squiggly arrow in the middle pointing to the app folder."
@@ -1677,12 +1647,6 @@ set_target_properties(MyApp PROPERTIES
 </p>
 <figure>
   <picture>
-    <source
-      type="image/webp"
-      srcset="
-        /assets/blog/cmake-cpack-cross-platform-distributables/sample-app-disk-image-bg.webp
-      "
-    />
     <img
       src="/assets/blog/cmake-cpack-cross-platform-distributables/sample-app-disk-image-bg.png"
       alt="A white image with a dashed line around the rim, in the middle a gray arrow pointing from left to right."
@@ -1798,12 +1762,6 @@ end run</code></pre>
 <p>This will create the following <abbr>DMG</abbr> window.</p>
 <figure>
   <picture>
-    <source
-      type="image/webp"
-      srcset="
-        /assets/blog/cmake-cpack-cross-platform-distributables/sample-app-disk-image.webp
-      "
-    />
     <img
       src="/assets/blog/cmake-cpack-cross-platform-distributables/sample-app-disk-image.png"
       alt="A disk image window as created by the script. The sample application logo is on the left, the Application folder icon on the right. A gray arrow in the middle pointing to the app folder."
@@ -1909,12 +1867,6 @@ include(CPack)</code></pre>
 </figure>
 <figure>
   <picture>
-    <source
-      type="image/webp"
-      srcset="
-        /assets/blog/cmake-cpack-cross-platform-distributables/distribution-folder-with-dmg.webp
-      "
-    />
     <img
       src="/assets/blog/cmake-cpack-cross-platform-distributables/distribution-folder-with-dmg.png"
       alt="A macOS Finder window with the generated distributable showing the .dmg as well as the .tar.gz file."
@@ -2027,12 +1979,6 @@ include(CPack)</code></pre>
 </figure>
 <figure>
   <picture>
-    <source
-      type="image/webp"
-      srcset="
-        /assets/blog/cmake-cpack-cross-platform-distributables/distribution-folder-with-deb.webp
-      "
-    />
     <img
       src="/assets/blog/cmake-cpack-cross-platform-distributables/distribution-folder-with-deb.png"
       alt="An Ubuntu window showing the through CPack generated files. A .deb and a .tar.gz file."
@@ -2346,10 +2292,6 @@ include(CPack)</code></pre>
     poster="/assets/blog/cmake-cpack-cross-platform-distributables/windows-nsis-installer-poster.png"
     muted="muted"
   >
-    <source
-      src="/assets/blog/cmake-cpack-cross-platform-distributables/windows-nsis-installer.webm"
-      type="video/webm"
-    />
     <source
       src="/assets/blog/cmake-cpack-cross-platform-distributables/windows-nsis-installer.mp4"
       type="video/mp4"

@@ -1,6 +1,6 @@
 ---
 layout: base
-lastmod: 2024-01-04
+lastmod: 2024-01-08
 title: "Blog"
 description: "Find all my latest blog posts about development, 3D, games and my hobbies and interests."
 ---
@@ -25,9 +25,8 @@ description: "Find all my latest blog posts about development, 3D, games and my 
   </footer>
   {% if post.data.banner %}
   <picture>
-    <source type="image/webp" srcset="{{ post.data.banner }}.webp" />
     <img
-      src="{{ post.data.banner }}.png"
+      src="{{ post.data.banner }}"
       alt="{{ post.data.bannerAlt }}"
       width="1024"
       height="300"

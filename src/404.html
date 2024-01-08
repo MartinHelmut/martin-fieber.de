@@ -33,9 +33,8 @@ eleventyExcludeFromCollections: true
     </footer>
     {%- if post.data.banner %}
     <picture>
-      <source type="image/webp" srcset="{{ post.data.banner }}.webp" />
       <img
-        src="{{ post.data.banner }}.png"
+        src="{{ post.data.banner }}"
         alt="{{ post.data.bannerAlt }}"
         width="1024"
         height="300"
