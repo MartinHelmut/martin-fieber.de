@@ -124,7 +124,7 @@ body.dark-theme {
 
 .content {
   margin: 0 auto;
-  max-width: 660px;
+  max-width: 720px;
   padding: var(--size-500);
 }
 
@@ -257,14 +257,14 @@ body.dark-theme aside.callout p {
 }
 
 /**
- * The min-width is calculated by the page width (660px)
+ * The min-width is calculated by the page width (720px)
  * plus twice the amount of the side note width (240px), as
  * the page is not centered and the side note "reaches" out
  * of the page on the right.
  * There are also 20px added (on both sides) to give the
- * whole some space. In short: `660 + (20 + 240) * 2`.
+ * whole some space. In short: `720 + (20 + 240) * 2`.
  */
-@media (min-width: 1180px) {
+@media (min-width: 1240px) {
   .side-note {
     --side-note-width: 240px;
 
@@ -448,7 +448,7 @@ picture + p {
   margin-top: var(--size-500);
 }
 
-@media (min-width: 660px) {
+@media (min-width: 720px) {
   picture {
     margin: 0;
   }
@@ -580,7 +580,7 @@ article.disabled p {
   margin: 0;
 }
 
-@media (min-width: 660px) {
+@media (min-width: 720px) {
   [data-compare-image] {
     margin: 0;
   }
@@ -751,7 +751,7 @@ pre code.hljs {
   border-bottom: 1px solid var(--color-grey-500);
 }
 
-@media (min-width: 660px) {
+@media (min-width: 720px) {
   pre code.hljs {
     padding: 1rem;
     font-size: 1rem;
