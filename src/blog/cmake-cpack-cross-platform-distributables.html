@@ -1,0 +1,2377 @@
+---
+date: 2024-01-07
+title: "CMake & CPack for cross-platform distributables"
+description: "It is one thing to start using CMake in a project, it is another to actually create a distributable package for major operating systems. A truth I learned on my journey mastering CPack with CMake."
+image: "/assets/blog/cmake-cpack-cross-platform-distributables/title-card.png"
+imageAlt: "An Apple macOS DMG window, showing a SmallSDL2App icon on the left and the macOS Application folder icon on the right. In the middle is an arrow pointing to the Application folder icon."
+linkTitle: "Creating distributable packages for macOS, Linux, and Windows with CPack."
+banner: "/assets/blog/cmake-cpack-cross-platform-distributables/banner"
+bannerAlt: "The top part of the application window of the example application used in this article. It shows macOS Finder window with a dark background and the text 'Small SDL2 App'."
+summary: "<p>It is one thing to start using CMake, another to actually create distributable packages. This article will try to show how, in a holistic approach, including static assets, app icons, and more.</p>"
+hasCode: true
+tags: ["post", "cpp"]
+---
+
+<h3>Application distribution</h3>
+<p>
+  In a previous article about
+  <a
+    href="/blog/gui-development-with-cpp-sdl2-and-dear-imgui"
+    title="One of my blog posts about creating a SDL2 app."
+    ><abbr>GUI</abbr> applications with C++, SDL2, and Dear ImGUI</a
+  >, I explored one way of creating a <abbr>GUI</abbr> application setup with
+  CMake. It aimed to be a base template to get started with for further
+  projects. Though, building and running the application is only the beginning
+  &mdash; a crucial part was missing to make it a true and solid starter
+  template: <strong>distribution</strong>.
+</p>
+<p>
+  This article will aim at creating distributable packages for macOS, Windows,
+  and Linux using
+  <a
+    href="https://cmake.org/cmake/help/latest/module/CPack.html"
+    title="CPack documentation page"
+    >CPack</a
+  >. Not a minimal setup, but rather a setup that touches on enough aspects to
+  have a solid understanding of
+  <strong>creating installers for the major systems</strong>, showing how to add
+  static assets, like fonts, and creating an application icon.
+</p>
+<p>
+  Any <abbr>GUI</abbr> application built with CMake can be used for this, like
+  the
+  <a
+    href="https://github.com/MartinHelmut/cpp-gui-template-sdl2/tree/version-1"
+    title="Version 1 of the SDL2 application template I created."
+    >mentioned application setup from an earlier article</a
+  >
+  or
+  <a
+    href="https://github.com/MartinHelmut/cpp-small-gui-project-sdl2/tree/without-cpack"
+    title="A small example project I created for this article."
+    >the small project I created that comes with a minimal setup</a
+  >
+  and a branch called <code>without-cpack</code> to follow along this article.
+</p>
+<p>
+  <strong>You can pick either or your own</strong>, but for this article I will
+  assume the second small project setup, as it helps to focus on the core
+  aspects of packaging.
+</p>
+<figure>
+  <picture>
+    <source
+      type="image/webp"
+      srcset="
+        /assets/blog/cmake-cpack-cross-platform-distributables/sample-app-running.webp
+      "
+    />
+    <img
+      src="/assets/blog/cmake-cpack-cross-platform-distributables/sample-app-running.png"
+      alt="A macOS application window showing the example application used in this article with a dark background and the text 'Small SDL2 App'."
+      width="1024"
+      height="681"
+    />
+  </picture>
+  <figcaption>The small sample application used for this article.</figcaption>
+</figure>
+
+<h3>Expectation</h3>
+<p>
+  Distributing an application means many things. Depending on the targeted
+  platforms, it needs a specific format for the installer, thoughts about how to
+  actually install the application, pack assets, an application icon, licensing,
+  etc. &mdash; and all this can vary a lot per system.
+</p>
+<p>
+  Where Windows and Linux can be built with a couple of different tools, for
+  example,
+  <a href="https://www.gnu.org/software/make/" title="Webpage for GNU Make"
+    >Make</a
+  >
+  or
+  <a href="https://ninja-build.org" title="Webpage for the Ninja build tool"
+    >Ninja</a
+  >,
+  <a href="https://developer.apple.com/xcode/" title="Xcode on Apple developer"
+    >Xcode</a
+  >
+  on macOS is the choice for proper system integration.
+</p>
+<p>So let's go and have a look.</p>
+
+<nav>
+  <h3>Table of contents</h3>
+  <ol>
+    <li><a href="#target-folder-structure">Target folder structure</a></li>
+    <li>
+      <a href="#defining-a-structure">Defining a structure</a>
+      <ul>
+        <li><a href="#defining-a-structure-on-macos">macOS</a></li>
+        <li><a href="#defining-a-structure-on-linux">Linux</a></li>
+        <li><a href="#defining-a-structure-on-windows">Windows</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#cmake-install">CMake <code>install</code></a>
+    </li>
+    <li><a href="#destinations">Destinations</a></li>
+    <li>
+      <a href="#install-application-target">Install application target</a>
+    </li>
+    <li>
+      <a href="#install-sdl2">Install SDL2</a>
+      <ul>
+        <li><a href="#install-sdl2-on-macos">macOS</a></li>
+        <li><a href="#install-sdl2-on-linux">Linux</a></li>
+        <li><a href="#install-sdl2-on-windows">Windows</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#install-static-assets">Install static assets</a>
+      <ul>
+        <li><a href="#install-static-assets-on-macos">macOS</a></li>
+        <li>
+          <a href="#install-static-assets-on-linux-and-windows"
+            >Linux and Windows</a
+          >
+        </li>
+      </ul>
+    </li>
+    <li><a href="#setup-cpack">Setup CPack</a></li>
+    <li>
+      <a href="#a-simple-package">A simple package</a>
+      <ul>
+        <li><a href="#base-cpack-settings">Base CPack settings</a></li>
+        <li><a href="#tar">TAR</a></li>
+      </ul>
+    </li>
+    <li><a href="#execute-cpack">Execute CPack</a></li>
+    <li>
+      <a href="#application-icon">Application icon</a>
+      <ul>
+        <li><a href="#application-icon-on-macos">macOS</a></li>
+        <li><a href="#application-icon-on-linux">Linux</a></li>
+        <li><a href="#application-icon-on-windows">Windows</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#macos-application-bundle">macOS application bundle</a>
+      <ul>
+        <li><a href="#info-plist">Info.plist</a></li>
+        <li><a href="#dmg">DMG</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#linux-application-bundle">Linux application bundle</a>
+      <ul>
+        <li><a href="#deb">DEB</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#windows-application-bundle">Windows application bundle</a>
+      <ul>
+        <li><a href="#manifest">Manifest</a></li>
+        <li><a href="#nsis-assets">NSIS assets</a></li>
+        <li>
+          <a href="#description-license-readme">Description, License, Readme</a>
+        </li>
+        <li><a href="#start-menu-entries">Start menu entries</a></li>
+        <li><a href="#nsis-generator">NSIS generator</a></li>
+      </ul>
+    </li>
+    <li><a href="#epilogue">Epilogue</a></li>
+  </ol>
+</nav>
+
+<hr />
+
+<h3 id="target-folder-structure">Target folder structure</h3>
+<p>
+  Before looking at how to install all needed application resources, it is
+  necessary to look at <strong>where files should go</strong>. Directory layouts
+  are different per operating system, though there are some similarities that
+  can be taken advantage of. A program can be installed at a target path, or
+  <strong>base path</strong>, with all other
+  <strong>resources located relative to that base path</strong>, making the
+  application movable on the system.
+</p>
+<p>
+  Examples for those common application locations are
+  <code>/urs/local/</code> and <code>/opt/</code> on Linux, or
+  <code>C:\Program Files</code> on Windows. The <code>/lib/</code> folder often
+  gets used for library and object files, <code>doc/</code> and
+  <code>man/</code> for documentation and <code>man</code>-files respectively.
+</p>
+<p>
+  In contrast, for Apple's macOS, it is common to create an
+  <a
+    href="https://developer.apple.com/library/archive/documentation/CoreFoundation/Conceptual/CFBundles/BundleTypes/BundleTypes.html#//apple_ref/doc/uid/10000123i-CH101-SW19"
+    title="Anatomy of a macOS Application Bundle on Apple developer."
+    >application bundle</a
+  >
+  containing all the files for the application to work in one place. The
+  application bundle is a strictly structured folder with the
+  <code>.app</code> prefix, including various other folders and files. Inside
+  <code>Contents/MacOS/</code> is the executable,
+  <code>Contents/Resources/</code> holds static files such as fonts, and
+  <code>Contents/Frameworks/</code> is for shared libraries.
+</p>
+<p>
+  To cover most of those platform-dependent cases, the
+  <a
+    href="https://cmake.org/cmake/help/latest/module/GNUInstallDirs.html"
+    title="CMake GNUInstallDirs module documentation"
+    >CMake GNUInstallDirs module</a
+  >
+  can be included, providing a set of
+  <a
+    href="https://cmake.org/cmake/help/book/mastering-cmake/chapter/CMake%20Cache.html"
+    title="CMake cache documentation"
+    >cache variables</a
+  >
+  to point to different places for common install scenarios.
+</p>
+
+<h3 id="defining-a-structure">Defining a structure</h3>
+<p>
+  The earlier the target installation structure is planned, defining the
+  components of the applications and how they are laid out, the easier it will
+  be to bring it to fruition and to the users.
+</p>
+<p>
+  Taking an application executable, SDL2 as a shared library, an application
+  icon, and a font as examples, let's look at where to place them on the
+  respective target system.
+</p>
+
+<h4 id="defining-a-structure-on-macos">macOS</h4>
+<p>
+  As mentioned, the application on macOS is bundled inside its own
+  <code>.app</code>
+  folder, ideally <strong>containing all files needed</strong> for the
+  application to run. The implication here is that the application bundle can be
+  moved anywhere on the system and still works.
+</p>
+<p>
+  The <code>.app</code> folder has a <code>Contents</code> folder that actually
+  contains all the files in a predefined structure. On the root of this folder
+  is always an <a href="#info-plist">Info.plist file</a>, defining various
+  properties of the application as key-value pairs specific for Apple systems.
+  Example values are the icon name without extension, the executable name, or
+  copyright information.
+</p>
+<p>
+  Inside <code>Contents</code>, the <code>MacOS</code> folder contains the
+  executable, <code>Frameworks</code> are dynamic libraries, and
+  <code>Resources</code> hold static files like icons or fonts.
+</p>
+<figure>
+  <picture>
+    <source
+      type="image/webp"
+      srcset="
+        /assets/blog/cmake-cpack-cross-platform-distributables/macos-app-bundle-structure.webp
+      "
+    />
+    <img
+      src="/assets/blog/cmake-cpack-cross-platform-distributables/macos-app-bundle-structure.png"
+      alt="Image showing the folder structure on macOS of the application bundle. The root folder is SmallSDL2App.app, with Contents underneath. This then contains Frameworks with SDL2.dylib files, the MacOS folder with the executable, a Resource folder with icons.icns and the Manrope.ttf file, and an Info.plist and PkgInfo file."
+      width="1024"
+      height="798"
+    />
+  </picture>
+  <figcaption>Application bundle structure on macOS.</figcaption>
+</figure>
+
+<h4 id="defining-a-structure-on-linux">Linux</h4>
+<div class="side-note-ref">
+  <p>
+    On most Linux distributions, and depending on the type of installed
+    package*, files have specific locations at different parts of the user's
+    system, defined in the Linux
+    <a
+      href="https://refspecs.linuxfoundation.org/FHS_3.0/fhs/ch04s11.html"
+      title="Website of the Linux Foundation about the FHS."
+      ><dfn>filesystem hierarchy standard (<abbr>FHS</abbr>)</dfn></a
+    >, with the executable often placed in <code>/usr/local/</code>.
+  </p>
+  <aside class="side-note">
+    <p>
+      * For example, is it a library, header files, <abbr>GUI</abbr> or
+      command-line tool executable?
+    </p>
+  </aside>
+</div>
+<p>
+  Thankfully, with
+  <a
+    href="https://cmake.org/cmake/help/latest/module/GNUInstallDirs.html"
+    title="CMake page about the GNUInstallDirs module."
+    >CMake and GNUInstallDirs module</a
+  >, those desired places are defined via variables that can be used when
+  installing a component with CMake. It will place executables, static and
+  shared libraries, and other files and dependencies in their appropriate
+  places.
+</p>
+<p>
+  What will need to be taken care of by adding a <code>.desktop</code> file to
+  the <code>/usr/share/applications/</code> folder to create an application icon
+  and entry in the system, as defined by the
+  <a
+    href="https://freedesktop.org/wiki/Specifications/menu-spec/"
+    title="Website for the .desktop file specification."
+    >desktop menu specification</a
+  >, and copying the application icon to the
+  <code>/usr/share/pixmaps/</code> directory.
+</p>
+
+<h4 id="defining-a-structure-on-windows">Windows</h4>
+<p>
+  On Windows, an application is usually placed inside a program folder in
+  <code>C:\Program Files\</code> under the application name. In that application
+  folder, the executable and all installed components will be located, often in
+  a flat hierarchy &mdash; a folder named <code>shared</code> is used for static
+  assets like images and fonts.
+</p>
+<p>
+  Similar to Linux, most of this structure comes out of the box with CMake and
+  its predefined variables, ready to be used for the installation of the
+  applications and their parts.
+</p>
+<p>
+  Additionally, to define an icon for the application, a
+  <a href="#application-icon-on-windows">resource file</a> is needed that
+  defines the location in the application bundle and a
+  <a href="#manifest">manifest file</a> for application properties like
+  high-<abbr>DPI</abbr> support. Both files will be included in the bundle by
+  providing them as application sources through CMake.
+</p>
+
+<h3 id="cmake-install">CMake <code>install</code></h3>
+<p>
+  Now, to actually get the application, files, and folders to their desired
+  places, they need to be installed using
+  <a
+    href="https://cmake.org/cmake/help/latest/command/install.html"
+    title="Documentation for the CMake install() command."
+    >CMake's <code>install()</code> command</a
+  >. The command itself is extremely versatile, giving the option to install
+  targets with dependencies, files and folders, libraries, header files, rename
+  them on installation, define permissions, and much more.
+</p>
+<p>
+  For example, one could copy a whole directory to a desired destination on
+  installation.
+</p>
+<figure>
+  <pre><code class="language-cmake hljs"># Contains definition for CMAKE_INSTALL_DATADIR
+# Only needs to be included once
+include(GNUInstallDirs)
+
+# Install the folder "assets" to DATADIR
+install(DIRECTORY assets
+  DESTINATION ${CMAKE_INSTALL_DATADIR})</code></pre>
+</figure>
+<p>Or a file, renaming it on installation.</p>
+<figure>
+  <pre><code class="language-cmake hljs">install(FILES assets/icons/icon.png
+  DESTINATION share/pixmaps
+  RENAME my_app_icon.png)</code></pre>
+</figure>
+<p>
+  Any CMake target can be installed too, as should the main application, but
+  this needs some clarification for the different predefined destinations to
+  install to.
+</p>
+
+<h3 id="destinations">Destinations</h3>
+<p>
+  CMake's <em>"GNUInstallDirs"</em> module provides a way to use a standard
+  directory layout by defining a set of convenient variables.
+</p>
+<figure>
+  <pre><code class="language-cmake hljs">include(GNUInstallDirs)</code></pre>
+  <figcaption>
+    Only needs to be included once in the root <code>CMakeLists.txt</code>.
+  </figcaption>
+</figure>
+<p>Some of those variables defined through the module are the following:</p>
+<ul>
+  <li>
+    <code>BINDIR</code> &mdash; Executables, scripts, and symlinks to be run
+    directly. Defaults to <code>bin</code>.
+  </li>
+  <li>
+    <code>LIBDIR</code> &mdash; Libraries and object files. Often defaults to
+    <code>lib</code>, dependents on the target platform.
+  </li>
+  <li>
+    <code>DATADIR</code> &mdash; Read-only directory for static assets like
+    images or fonts. Often defaults to <code>share</code>, dependents on the
+    target platform.
+  </li>
+</ul>
+<p>
+  A complete list can be found at the
+  <a
+    href="https://cmake.org/cmake/help/latest/module/GNUInstallDirs.html"
+    title="CMake documentation for the GNUInstallDirs module."
+    >GNUInstallDirs module documentation page</a
+  >. To access one of those variables, they need to be prefixed with
+  <code>CMAKE_INSTALL_</code>, e.g. <code>CMAKE_INSTALL_BINDIR</code>.
+</p>
+
+<h3 id="install-application-target">Install application target</h3>
+<p>
+  Let's now take those destinations and
+  <a
+    href="https://cmake.org/cmake/help/latest/command/install.html#installing-targets"
+    title="CMake documentation about installing targets."
+    >install the application target</a
+  >. A reduced base application setup could look like the following, with an
+  executable called <em>"MyApp"</em>.
+</p>
+<figure>
+  <pre><code class="language-cmake hljs"># src/CMakeLists.txt
+
+# Main executable
+add_executable(MyApp
+  # Source files cpp/hpp ...
+  )
+
+# Any libraries
+target_link_libraries(MyApp
+  PUBLIC SDL2::SDL2)</code></pre>
+</figure>
+<p>
+  The goal is to build a GUI application bundle, adding the
+  <code>WIN32</code> and <code>MACOSX_BUNDLE</code> options to the
+  <a
+    href="https://cmake.org/cmake/help/latest/command/add_executable.html"
+    title="CMake documentation about the add_executable() command."
+    ><code>add_executable()</code> command</a
+  >
+  will instruct CMake to do the <em>"right thing"</em> &mdash; meaning, on
+  Windows, it will build a Windows GUI application by using
+  <code>WinMain()</code> instead of <code>main()</code> and the
+  <code>MACOSX_BUNDLE</code> option will create a basic
+  <a href="#info-plist">Info.plist</a> file and respect the macOS bundle
+  directory structure.
+</p>
+<figure>
+  <pre><code class="language-cmake hljs"># src/CMakeLists.txt
+
+# Main executable
+add_executable(MyApp WIN32 MACOSX_BUNDLE
+  # Source files cpp/hpp ...
+  )
+
+# Any libraries
+target_link_libraries(MyApp
+  PUBLIC SDL2::SDL2)</code></pre>
+</figure>
+<p>
+  The <strong>options will be ignored</strong> when not built on their
+  respective platforms, so <code>WIN32</code> will be ignored when building on
+  macOS, and vice versa.
+</p>
+<p>
+  Next, the application target can be installed with the
+  <code>install()</code> command, defining the needed destinations.
+</p>
+<figure>
+  <pre><code class="language-cmake hljs"># src/CMakeLists.txt
+
+# Main executable
+add_executable(MyApp WIN32 MACOSX_BUNDLE
+  # Source files cpp/hpp ...
+  )
+
+# Install application target
+install(TARGETS MyApp
+  BUNDLE DESTINATION .
+  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR})
+
+# Any libraries
+target_link_libraries(MyApp
+  PUBLIC SDL2::SDL2)</code></pre>
+</figure>
+<p>
+  The <code>BUNDLE DESTINATION</code> is for macOS, defining that all
+  executables marked with <code>MACOSX_BUNDLE</code> shall be treated as bundle
+  targets. On other systems, <code>RUNTIME DESTINATION</code> is used for this,
+  including DLLs on Windows.
+</p>
+<p>
+  <code>LIBRARY DESTINATION</code> includes all shared libraries,
+  <strong>except DLLs</strong> on Windows or targets marked as
+  <code>FRAMEWORK</code> on macOS.
+</p>
+<p>
+  Static libraries are included in <code>ARCHIVE DESTINATION</code>, except if
+  marked as <code>FRAMEWORK</code> on macOS.
+</p>
+<p>
+  Defining a library target as <code>FRAMEWORK</code> will build it as a shared
+  or static
+  <a
+    href="https://cmake.org/cmake/help/latest/prop_tgt/FRAMEWORK.html"
+    title="CMake documentation about the FRAMEWORK property."
+    >framework bundle</a
+  >
+  for macOS and iOS, with CMake creating the required directory structure.
+</p>
+
+<h3 id="install-sdl2">Install SDL2</h3>
+<p>
+  Where and how to install a shared library, in this case
+  <a href="https://www.libsdl.org" title="SDL website">SLD2</a>, depends on the
+  operating system. Windows and Linux are very similar, thanks to the predefined
+  variables in <a href="#destinations">GNUInstallDirs</a>, Apple's macOS needs a
+  different configuration.
+</p>
+<p>
+  For what I think is a good structure, any platform-related CMake code will be
+  split into separate <code>CMakeLists.txt</code> files in dedicated folders for
+  every supported operating system. Those folders will later hold more
+  platform-dependent files.
+</p>
+<p>
+  After the application target install, a CMake file per platform will be
+  included to install any shared libraries &mdash; files that can contain other
+  OS-specific properties and options.
+</p>
+<figure>
+  <pre><code class="language-cmake hljs"># src/CMakeLists.txt
+
+# Other CMake ...
+
+install(TARGETS MyApp
+  # Target settings ...
+  )
+
+# Include settings per platform
+if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
+  include(platform/windows/CMakeLists.txt)
+elseif (CMAKE_SYSTEM_NAME STREQUAL "Linux")
+  include(platform/linux/CMakeLists.txt)
+elseif (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
+  include(platform/darwin/CMakeLists.txt)
+endif ()
+
+# ...</code></pre>
+</figure>
+
+<h4 id="install-sdl2-on-macos">macOS</h4>
+<p>
+  By not using variables defined through the mentioned <em>GNUInstallDirs</em>,
+  <strong>Apple works differently</strong>. Through a post-build command, any
+  shared library like SDL2 will be copied into the
+  <code>Frameworks</code> folder of the application bundle.
+</p>
+<figure>
+  <pre><code class="language-cmake hljs">add_custom_command(TARGET MyApp POST_BUILD
+  COMMAND ${CMAKE_COMMAND} -E copy_if_different
+  $&lt;TARGET_FILE:SDL2::SDL2&gt;
+  $&lt;TARGET_FILE_DIR:MyApp&gt;/../Frameworks/$&lt;TARGET_FILE_NAME:SDL2::SDL2&gt;)</code></pre>
+</figure>
+<p>
+  When building applications <strong>without Xcode</strong> for Apple, e.g.,
+  using Ninja, the <code>install()</code> function will be used.
+</p>
+<figure>
+  <pre><code class="language-cmake hljs">if (NOT "${CMAKE_GENERATOR}" STREQUAL "Xcode")
+  install(FILES $&lt;TARGET_FILE:SDL2::SDL2&gt;
+    DESTINATION $&lt;TARGET_FILE_DIR:MyApp&gt;/../Frameworks/)
+endif ()</code></pre>
+</figure>
+<p>
+  Necessarily, to let macOS find installed libraries in the
+  <code>Framework</code> folder, the
+  <a
+    href="https://cmake.org/cmake/help/latest/prop_tgt/INSTALL_RPATH.html"
+    title="CMake documentation about the rpath property."
+    >INSTALL_RPATH property</a
+  >
+  needs to be set on the target to find runtime libraries.
+</p>
+<figure>
+  <pre><code class="language-cmake hljs">set_target_properties(MyApp PROPERTIES
+  INSTALL_RPATH @executable_path/../Frameworks)</code></pre>
+</figure>
+<p>
+  The full CMake code to <strong>install SDL2 as a shared library</strong> for
+  development and distribution on macOS looks as follows:
+</p>
+<figure>
+  <pre><code class="language-cmake hljs"># src/platform/darwin/CMakeLists.txt
+
+# Get dynamic SDL2 lib into Frameworks folder in app bundle.
+add_custom_command(TARGET MyApp POST_BUILD
+  COMMAND ${CMAKE_COMMAND} -E copy_if_different
+  $&lt;TARGET_FILE:SDL2::SDL2&gt;
+  $&lt;TARGET_FILE_DIR:MyApp&gt;/../Frameworks/$&lt;TARGET_FILE_NAME:SDL2::SDL2&gt;)
+
+# For distribution without Xcode:
+if (NOT "${CMAKE_GENERATOR}" STREQUAL "Xcode")
+  install(FILES $&lt;TARGET_FILE:SDL2::SDL2&gt;
+    DESTINATION $&lt;TARGET_FILE_DIR:MyApp&gt;/../Frameworks/)
+endif ()
+
+# Set runtime library path
+set_target_properties(MyApp PROPERTIES
+  INSTALL_RPATH @executable_path/../Frameworks)</code></pre>
+</figure>
+
+<h4 id="install-sdl2-on-linux">Linux</h4>
+<p>
+  There are two parts to installing SDL2 as a shared library on Linux: For
+  development, a post-build command will copy any dynamic library files to the
+  target application folder.
+</p>
+<figure>
+  <pre><code class="language-cmake hljs">add_custom_command(TARGET MyApp POST_BUILD
+  COMMAND ${CMAKE_COMMAND} -E copy_if_different
+  $&lt;TARGET_FILE:SDL2::SDL2&gt;
+  $&lt;TARGET_FILE_DIR:MyApp&gt;)</code></pre>
+</figure>
+<p>
+  For distribution, the <code>install()</code> command will copy the library
+  files to the CMake's <em>GNUInstallDirs</em> module defined
+  <code>CMAKE_INSTALL_BINDIR</code> directory.
+</p>
+<p>
+  Important to note here is that the
+  <strong>target library file name will be renamed</strong>, adding the
+  application target name as a prefix. I did this to avoid collisions with other
+  applications installing a version of SDL2 in a shared folder on Linux.
+</p>
+<figure>
+  <pre><code class="language-cmake hljs">install(FILES $&lt;TARGET_FILE:SDL2::SDL2&gt;
+  DESTINATION ${CMAKE_INSTALL_BINDIR}
+  RENAME MyApp_$&lt;TARGET_FILE_NAME:SDL2::SDL2&gt;)</code></pre>
+</figure>
+<p>
+  Here is the full CMake code to install SDL2 as a shared library for
+  development and distribution on Linux.
+</p>
+<figure>
+  <pre><code class="language-cmake hljs"># src/platform/linux/CMakeLists.txt
+
+# Copy .so files on Linux to the target MyApp build folder.
+
+# For development:
+add_custom_command(TARGET MyApp POST_BUILD
+  COMMAND ${CMAKE_COMMAND} -E copy_if_different
+  $&lt;TARGET_FILE:SDL2::SDL2&gt;
+  $&lt;TARGET_FILE_DIR:MyApp&gt;)
+
+# For distribution:
+install(FILES $&lt;TARGET_FILE:SDL2::SDL2&gt;
+  DESTINATION ${CMAKE_INSTALL_BINDIR}
+  RENAME MyApp_$&lt;TARGET_FILE_NAME:SDL2::SDL2&gt;)</code></pre>
+</figure>
+
+<h4 id="install-sdl2-on-windows">Windows</h4>
+<p>
+  Installing SDL2 as a shared library on Windows is very similar to installing
+  it on <a href="#install-sdl2-on-linux">Linux</a>. For development, a
+  post-build command will copy any dynamic library files (<code>.dll</code>) to
+  the target application folder.
+</p>
+<figure>
+  <pre><code class="language-cmake hljs">add_custom_command(TARGET MyApp POST_BUILD
+  COMMAND ${CMAKE_COMMAND} -E copy_if_different
+  $&lt;TARGET_FILE:SDL2::SDL2&gt;
+  $&lt;TARGET_FILE_DIR:MyApp&gt;)</code></pre>
+</figure>
+<p>
+  For the distribution, the <code>install()</code> command will copy the library
+  files to the CMake module <em>GNUInstallDirs</em> defined
+  <code>CMAKE_INSTALL_BINDIR</code> directory, same as Linux.
+</p>
+<figure>
+  <pre><code class="language-cmake hljs">install(FILES $&lt;TARGET_FILE:SDL2::SDL2&gt;
+  DESTINATION ${CMAKE_INSTALL_BINDIR})</code></pre>
+</figure>
+<p>
+  Resulting in the following CMake code to install SDL2 as a shared library for
+  development and distribution on Windows.
+</p>
+<figure>
+  <pre><code class="language-cmake hljs"># src/platform/windows/CMakeLists.txt
+
+# Copy .dll files on Windows to the target MyApp build folder.
+
+# For development:
+add_custom_command(TARGET MyApp POST_BUILD
+  COMMAND ${CMAKE_COMMAND} -E copy_if_different
+  $&lt;TARGET_FILE:SDL2::SDL2&gt;
+  $&lt;TARGET_FILE_DIR:MyApp&gt;)
+
+# For distribution:
+install(FILES $&lt;TARGET_FILE:SDL2::SDL2&gt;
+  DESTINATION ${CMAKE_INSTALL_BINDIR})</code></pre>
+</figure>
+
+<h3 id="install-static-assets">Install static assets</h3>
+<p>
+  Static assets, like images or fonts, also need to be available while
+  developing the application and installed for the final application bundle.
+  Some assets might be used by all supported platforms, others are platform
+  specific, like having different icons for different operating systems.
+</p>
+<p>
+  One way is to define a CMake
+  <strong>variable for all static assets</strong> and install them via the
+  respective CMake files, enabling the ability to add platform-dependent files
+  or adjust options.
+</p>
+<div class="side-note-ref">
+  <p>
+    Let's say there is a font file used for all platforms:
+    <code>assets/fonts/Manrope.ttf</code>*, creating a
+    <code>SHARED_STATIC_ASSETS</code> variable at the top of the target CMake
+    file after the definition of the executable.
+  </p>
+  <aside class="side-note">
+    <p>
+      * Shout-out to the amazing
+      <a href="https://www.gent.media/manrope" title="Manrope homepage"
+        >open-source font Manrope</a
+      >.
+    </p>
+  </aside>
+</div>
+<figure>
+  <pre><code class="language-cmake hljs"># src/CMakeLists.txt
+
+# Main executable
+add_executable(#[[ ... ]])
+
+# Assets for all platforms
+set(SHARED_STATIC_ASSETS assets/fonts/Manrope.ttf)
+
+# Other settings ...</code></pre>
+</figure>
+
+<h4 id="install-static-assets-on-macos">macOS</h4>
+<p>
+  On Apple platforms, installing static assets needs a couple of things to work:
+  first, telling CMake where to install those assets via the
+  <a
+    href="https://cmake.org/cmake/help/latest/command/set_source_files_properties.html"
+    title="CMake documentation for the set_source_files_properties() command."
+    ><code>set_source_files_properties()</code> command</a
+  >
+  and defining the
+  <a
+    href="https://cmake.org/cmake/help/latest/prop_sf/MACOSX_PACKAGE_LOCATION.html"
+    title="CMake documentation for the MACOSX_PACKAGE_LOCATION property."
+    ><code>MACOSX_PACKAGE_LOCATION</code> property</a
+  >
+  to instruct the installation into the application bundles
+  <code>Resources</code> folder.
+</p>
+<figure>
+  <pre><code class="language-cmake hljs">set_source_files_properties(${SHARED_STATIC_ASSETS}
+  PROPERTIES MACOSX_PACKAGE_LOCATION ${CMAKE_INSTALL_DATADIR})</code></pre>
+</figure>
+<p>
+  Using
+  <a
+    href="https://cmake.org/cmake/help/latest/command/target_sources.html"
+    title="CMake documentation for the target_source() command."
+    >CMake's <code>target_source()</code> function</a
+  >, specify what target will use those sources.
+</p>
+<figure>
+  <pre><code class="language-cmake hljs">target_sources(MyApp PUBLIC ${SHARED_STATIC_ASSETS})</code></pre>
+</figure>
+<p>
+  And, extending the already existing
+  <code>set_target_properties()</code> command, defining what files are
+  resources to the application bundle.
+</p>
+<figure>
+  <pre><code class="language-cmake hljs">set_target_properties(MyApp PROPERTIES
+  INSTALL_RPATH @executable_path/../Frameworks
+  RESOURCE "${SHARED_STATIC_ASSETS}")</code></pre>
+</figure>
+<p>
+  Here is the full CMake to install static assets in the right location for
+  Apple platforms.
+</p>
+<figure>
+  <pre><code class="language-cmake hljs"># src/platform/darwin/CMakeLists.txt
+
+# Static assets
+set_source_files_properties(${SHARED_STATIC_ASSETS}
+  PROPERTIES MACOSX_PACKAGE_LOCATION ${CMAKE_INSTALL_DATADIR})
+target_sources(MyApp PUBLIC ${SHARED_STATIC_ASSETS})
+
+# Other CMake settings ...
+
+# Target properties
+set_target_properties(MyApp PROPERTIES
+  INSTALL_RPATH @executable_path/../Frameworks
+  RESOURCE "${SHARED_STATIC_ASSETS}")</code></pre>
+</figure>
+
+<h4 id="install-static-assets-on-linux-and-windows">Linux and Windows</h4>
+<p>
+  With
+  <a
+    href="https://cmake.org/cmake/help/latest/command/target_sources.html"
+    title="CMake documentation for the target_source() command."
+    >CMake's <code>target_source()</code> function</a
+  >, adding the font for Linux and Windows works the same; on top of both
+  platform files, the static <strong>assets are linked to the target</strong>.
+</p>
+<figure>
+  <pre><code class="language-cmake hljs"># src/platform/[linux|windows]/CMakeLists.txt
+
+# Static assets
+target_sources(MyApp PRIVATE ${SHARED_STATIC_ASSETS})</code></pre>
+</figure>
+<p>
+  Adding a custom post-build command with <code>add_custom_command()</code> will
+  add all assets into a <code>share</code> application folder for development.
+</p>
+<figure>
+  <pre><code class="language-cmake hljs">add_custom_command(TARGET MyApp POST_BUILD
+  COMMAND ${CMAKE_COMMAND} -E copy_directory
+  ${PROJECT_SOURCE_DIR}/src/assets
+  $&lt;TARGET_FILE_DIR:MyApp&gt;/../share)</code></pre>
+</figure>
+<p>And the <code>install()</code> command will do the same for distribution.</p>
+<figure>
+  <pre><code class="language-cmake hljs">install(DIRECTORY ${PROJECT_SOURCE_DIR}/src/assets
+  DESTINATION ${CMAKE_INSTALL_DATADIR})</code></pre>
+</figure>
+<p>
+  Here is the full configuration to include static assets on Linux and Windows.
+</p>
+<figure>
+  <pre><code class="language-cmake hljs"># src/platform/[linux|windows]/CMakeLists.txt
+
+# Static assets
+target_sources(MyApp PRIVATE ${SHARED_STATIC_ASSETS})
+
+# Copy assets into app bundle
+# For development:
+add_custom_command(TARGET MyApp POST_BUILD
+  COMMAND ${CMAKE_COMMAND} -E copy_directory
+  ${PROJECT_SOURCE_DIR}/src/assets
+  $&lt;TARGET_FILE_DIR:MyApp&gt;/../share)
+
+# For distribution:
+install(DIRECTORY ${PROJECT_SOURCE_DIR}/src/assets
+  DESTINATION ${CMAKE_INSTALL_DATADIR})
+
+# Other settings ...</code></pre>
+</figure>
+
+<h3 id="setup-cpack">Setup CPack</h3>
+<p>
+  With a clear target structure and installation setup, CPack can now be used to
+  create distributable packages for the targeted platforms.
+  <strong>Starting with a basic set of options</strong> to create a compressed
+  <abbr>TAR</abbr> archive and scaling to a more holistic approach for
+  platform-specific installers.
+</p>
+
+<h3 id="a-simple-package">A simple package</h3>
+<p>
+  To keep things together, I place all packaging-related resources in a folder
+  called <code>packaging</code> at the project root. This subdirectory will be
+  added to the root CMake file.
+</p>
+<figure>
+  <pre><code class="language-cmake hljs"># CMakeLists.txt
+
+# Other CMake settings ...
+
+# Add packaging directory
+add_subdirectory(packaging)
+
+# Application sources
+add_subdirectory(src)</code></pre>
+</figure>
+<p>
+  Before a
+  <a
+    href="https://cmake.org/cmake/help/latest/manual/cpack-generators.7.html"
+    title="CMake documentation about CPack generator options."
+    >CPack generator</a
+  >
+  can be defined, some
+  <a
+    href="https://cmake.org/cmake/help/latest/module/CPack.html#variables-common-to-all-cpack-generators"
+    title="CMake documentation about CPack generator variables."
+    >base settings</a
+  >
+  need to be set.
+</p>
+
+<h4 id="base-cpack-settings">Base CPack settings</h4>
+<p>
+  Due to backwards compatibility, this is not the default, but the
+  <code>CPACK_VERBATIM_VARIABLES</code> value should
+  <strong>always be set to true</strong>. This will enable CPack to escape
+  values when writing its configuration file.
+</p>
+<figure>
+  <pre><code class="language-cmake hljs">set(CPACK_VERBATIM_VARIABLES YES)</code></pre>
+</figure>
+<p>A package vendor is defined with <code>CPACK_PACKAGE_VENDOR</code>.</p>
+<figure>
+  <pre><code class="language-cmake hljs">set(CPACK_PACKAGE_VENDOR "My Company")</code></pre>
+</figure>
+<p>
+  By default, CPack will create the distributable under the build folder. For
+  example, if the build directory is <code>build/release</code> all built
+  distributables will be created in that folder.
+</p>
+<p>
+  This setting can be changed via <code>CPACK_PACKAGE_DIRECTORY</code>, to keep
+  all generated packages in one folder, e.g., under the folder
+  <code>distribution</code>.
+</p>
+<figure>
+  <pre><code class="language-cmake hljs">set(CPACK_PACKAGE_DIRECTORY distribution)</code></pre>
+</figure>
+<p>
+  To now also influence the name of the generated packages
+  <code>CPACK_SOURCE_PACKAGE_FILE_NAME</code> is used. This enables, for
+  example, adding what architecture the package was built for or the application
+  version.
+</p>
+<figure>
+  <pre><code class="language-cmake hljs">set(CPACK_SOURCE_PACKAGE_FILE_NAME "myapp-${CMAKE_PROJECT_VERSION}")</code></pre>
+</figure>
+<p>
+  The installation directory can be customized with
+  <code>CPACK_PACKAGE_INSTALL_DIRECTORY</code>. Some
+  <a
+    href="https://cmake.org/cmake/help/latest/cpack_gen/nsis.html"
+    title="CMake documentation about the CPack NSIS generator option."
+    >generators, like
+    <dfn><abbr>NSIS</abbr> (Nullsoft Scriptable Install System)</dfn> under
+    Windows</a
+  >, will use this and install all components in that folder. A common setting
+  is the package or project name.
+</p>
+<figure>
+  <pre><code class="language-cmake hljs">set(CPACK_PACKAGE_INSTALL_DIRECTORY ${CPACK_PACKAGE_NAME})</code></pre>
+</figure>
+<p>
+  And, if there are no separate components for the installation, the selection
+  can be skipped via
+  <a
+    href="https://cmake.org/cmake/help/latest/module/CPack.html#variable:CPACK_MONOLITHIC_INSTALL"
+    title="CMake documentation about the CPack CPACK_MONOLITHIC_INSTALL variable."
+    ><code>CPACK_MONOLITHIC_INSTALL</code></a
+  >.
+</p>
+<figure>
+  <pre><code class="language-cmake hljs">set(CPACK_MONOLITHIC_INSTALL TRUE)</code></pre>
+</figure>
+
+<h4 id="tar"><abbr>TAR</abbr></h4>
+<p>
+  The CPack generator is set via <code>CPACK_GENERATOR</code> and will for now
+  generate a compressed <abbr>TAR</abbr>.
+</p>
+<figure>
+  <pre><code class="language-cmake hljs">set(CPACK_GENERATOR TGZ)</code></pre>
+</figure>
+<p>
+  And finally, including
+  <a
+    href="https://cmake.org/cmake/help/latest/module/CPack.html"
+    title="CMake documentation for the CPack module."
+    >the CPack module</a
+  >.
+</p>
+<figure>
+  <pre><code class="language-cmake hljs">include(CPack)</code></pre>
+</figure>
+<p>The full CPack configuration file for the base example looks like this:</p>
+<figure>
+  <pre><code class="language-cmake hljs"># packaging/CMakeLists.txt
+
+# Base package settings
+set(CPACK_VERBATIM_VARIABLES YES)
+set(CPACK_PACKAGE_VENDOR ${PROJECT_COMPANY_NAME})
+set(CPACK_PACKAGE_DIRECTORY distribution)
+set(CPACK_SOURCE_PACKAGE_FILE_NAME "myapp-${CMAKE_PROJECT_VERSION}")
+set(CPACK_PACKAGE_INSTALL_DIRECTORY ${CPACK_PACKAGE_NAME})
+
+set(CPACK_GENERATOR TGZ)
+
+include(CPack)</code></pre>
+</figure>
+
+<h3 id="execute-cpack">Execute CPack</h3>
+<p>
+  Before running CPack a release build of the application needs to be created.
+</p>
+<figure>
+  <pre><code class="language-shell hljs">$ cmake -GNinja -DCMAKE_BUILD_TYPE=Release -B build/release
+$ cmake --build build/release</code></pre>
+  <figcaption>
+    Replace <code>-GNinja</code> with <code>-GXcode</code> on macOS.<br />The
+    <code>$</code> is used to show a command will be entered.
+  </figcaption>
+</figure>
+<p>
+  Using this release, a distributable can be created using the
+  <code>cpack</code> command.
+</p>
+<figure>
+  <pre><code class="language-shell hljs">$ cpack --config build/release/CPackConfig.cmake</code></pre>
+</figure>
+<p>
+  As earlier defined through <code>CPACK_PACKAGE_DIRECTORY</code>, the package
+  will be located at <code>build/release/distribution</code>.
+</p>
+<figure>
+  <picture>
+    <source
+      type="image/webp"
+      srcset="
+        /assets/blog/cmake-cpack-cross-platform-distributables/distribution-folder-with-tar.webp
+      "
+    />
+    <img
+      src="/assets/blog/cmake-cpack-cross-platform-distributables/distribution-folder-with-tar.png"
+      alt="A macOS Finder window showing a .tar.gz file generated through CPack."
+      width="1024"
+      height="524"
+    />
+  </picture>
+  <figcaption>The generated <code>.tar.gz</code> file.</figcaption>
+</figure>
+
+<h3 id="application-icon">Application icon</h3>
+<p>
+  <strong>The application needs a proper icon</strong> for all platforms. The
+  difficulty here is that application icons are set up differently per platform
+  &mdash; from the file format to how to configure them.
+</p>
+<p>
+  But this also comes with the opportunity to create
+  <strong>dedicated icons per platform</strong>, tailored to the specific styles
+  of each platform. There are style guides on
+  <a
+    href="https://developer.apple.com/design/human-interface-guidelines/app-icons"
+    title="Apple developer website with guidelines for app icons."
+    >how to create icons for Apple platforms</a
+  >,
+  <a
+    href="https://developer.gnome.org/hig/guidelines/app-icons.html"
+    title="GNOME developer website with guidelines for app icons."
+    >guidelines for GNOME app icons</a
+  >, applicable to many Linux derivatives, and even
+  <a
+    href="https://learn.microsoft.com/en-us/windows/apps/design/style/iconography/app-icon-design"
+    title="Windows developer website with guidelines for app icons."
+    >what makes a good app icon for Windows</a
+  >.
+</p>
+
+<h4 id="application-icon-on-macos">macOS</h4>
+<p>
+  An application icon for Apple macOS is a <code>.icns</code> file, created from
+  a <strong>set of icon files</strong> inside a
+  <code>icon.iconset</code> folder. To support the full spectrum of icon sizes
+  for different screen resolutions, the folder needs to contain icons in all the
+  following sizes:
+</p>
+<ul>
+  <li><code>icon_16x16.png</code></li>
+  <li><code>icon_32x32.png</code></li>
+  <li><code>icon_128x128.png</code></li>
+  <li><code>icon_256x256.png</code></li>
+  <li><code>icon_512x512.png</code></li>
+</ul>
+<p>
+  All of them should also be available in
+  <strong>double the resolution</strong>, postfixed with <code>@2x</code>.
+</p>
+<ul>
+  <li><code>icon_16x16@2x.png</code></li>
+  <li><code>icon_32x32@2x.png</code></li>
+  <li><code>icon_128x128@2x.png</code></li>
+  <li><code>icon_256x256@2x.png</code></li>
+  <li><code>icon_512x512@2x.png</code></li>
+</ul>
+<p>Ten files in total, in a folder called <code>icon.iconset</code>.</p>
+<figure>
+  <picture>
+    <source
+      type="image/webp"
+      srcset="
+        /assets/blog/cmake-cpack-cross-platform-distributables/macos-app-icons.webp
+      "
+    />
+    <img
+      src="/assets/blog/cmake-cpack-cross-platform-distributables/macos-app-icons.png"
+      alt="A set of five example app icons for macOS showing a rounded rectangle with an orange gradient."
+      width="1024"
+      height="493"
+    />
+  </picture>
+  <figcaption>Example application icons for macOS.</figcaption>
+</figure>
+<p>
+  With the <code>iconutil</code> command line util provided by macOS, this
+  folder can be converted to the desired <code>.icns</code> file.
+</p>
+<figure>
+  <pre><code class="language-shell hljs">$ iconutil -c icns icon.iconset</code></pre>
+</figure>
+<p>
+  This command will create a <code>icon.icns</code> file next to the
+  <code>.iconset</code> folder that will need to be
+  <a href="#install-static-assets-on-macos">added as a static asset</a>.
+  Assuming the icon file is located under <code>assets/icons/icon.icns</code>,
+  it needs to be combined with the shared static assets for macOS.
+</p>
+<p>
+  Creating a new variable <code>MACOSX_STATIC_ASSETS</code>, combining the icon
+  with the previous <code>SHARED_STATIC_ASSETS</code> variable inside
+  <code>src/platform/darwin/CMakeLists.txt</code>.
+</p>
+<figure>
+  <pre><code class="language-cmake hljs">set(MACOSX_STATIC_ASSETS
+  ${SHARED_STATIC_ASSETS}
+  assets/icons/icon.icns)</code></pre>
+</figure>
+<p>
+  Then, replace the usage of <code>SHARED_STATIC_ASSETS</code> with the new
+  <code>MACOSX_STATIC_ASSETS</code> variable.
+</p>
+<figure>
+  <pre><code class="language-cmake hljs"># src/platform/darwin/CMakeLists.txt
+
+# Combining shared with macOS assets
+set(MACOSX_STATIC_ASSETS
+  ${SHARED_STATIC_ASSETS}
+  assets/icons/icon.icns)
+
+# Changed `SHARED_STATIC_ASSETS` to `MACOSX_STATIC_ASSETS`
+set_source_files_properties(${MACOSX_STATIC_ASSETS}
+  PROPERTIES
+    MACOSX_PACKAGE_LOCATION ${CMAKE_INSTALL_DATADIR})
+target_sources(MyApp
+  PUBLIC ${MACOSX_STATIC_ASSETS})
+
+# Other CMake settings ...
+
+# Changed `SHARED_STATIC_ASSETS` to `MACOSX_STATIC_ASSETS`
+set_target_properties(MyApp PROPERTIES
+  INSTALL_RPATH @executable_path/../Frameworks
+  RESOURCE "${MACOSX_STATIC_ASSETS}")</code></pre>
+  <figcaption>Now with platform-dependent assets.</figcaption>
+</figure>
+<p>
+  To then actually connect the icon file to
+  <a href="#macos-application-bundle">the bundle that will be created</a>, the
+  icon name, in this case <code>icon</code>, needs to be added to the bundles
+  <code>.plist</code> file. This will be done later when
+  <a href="#macos-application-bundle"
+    >creating the application bundle for macOS</a
+  >.
+</p>
+<p>
+  The crucial part in the <code>.plist</code> file is the
+  <code>CFBundleIconFile</code> key, setting the <code>.icns</code> base name as
+  a string.
+</p>
+<figure>
+  <pre><code class="language-xml hljs">&lt;key&gt;CFBundleIconFile&lt;/key&gt;
+&lt;string&gt;icon&lt;/string&gt;</code></pre>
+  <figcaption>
+    The whole
+    <a href="#macos-application-bundle"
+      ><code>.plist</code> file will be created in a later step</a
+    >.
+  </figcaption>
+</figure>
+
+<h4 id="application-icon-on-linux">Linux</h4>
+<p>
+  A typical Linux application icon is a 1024&nbsp;&times;&nbsp;1024 pixel
+  square, but at least 128&nbsp;&times;&nbsp;128 pixel, installed into a folder
+  where
+  <a
+    href="https://specifications.freedesktop.org/icon-theme-spec/icon-theme-spec-latest.html#directory_layout"
+    title="Free desktop directory specification."
+    >the system will look for application icons</a
+  >, in this case, I picked <code>/usr/share/pixmaps</code>.
+</p>
+<p>
+  With the 1024&nbsp;&times;&nbsp;1024 pixel Linux icon located under
+  <code>/src/assets/icons/LinuxIcon.png</code>, it needs to be installed through
+  CMake in <code>src/platform/linux/CMakeLists.txt</code>.
+</p>
+<figure>
+  <pre><code class="language-cmake hljs"># src/platform/linux/CMakeLists.txt
+
+# Other CMake ...
+
+install(FILES
+  ${PROJECT_SOURCE_DIR}/src/assets/icons/LinuxIcon.png
+  DESTINATION share/pixmaps
+  RENAME myapp_icon.png)</code></pre>
+</figure>
+<p>
+  I rename the icon on installation to avoid collisions with other files by
+  specifying the application name. This could be made even more specific by
+  adding a version.
+</p>
+<p>
+  With the icon made available through install, it needs to be associated with
+  the application bundle. This is done through a <code>.desktop</code> file
+  supported by most Linux as defined by the
+  <a
+    href="https://specifications.freedesktop.org/desktop-entry-spec/desktop-entry-spec-1.1.html#introduction"
+    title="Free desktop entry specification"
+    ><abbr title="X Desktop Group">XDG</abbr> Desktop Entry Specification</a
+  >.
+</p>
+<p>
+  Creating a <code>.desktop</code> file <strong>template</strong> under
+  <code>src/assets/manifests/MyApp.desktop.in</code>. The folder
+  <code>src/assets/manifests</code>
+  will hold all manifest files for the different systems.
+</p>
+<figure>
+  <pre><code class="language-ini hljs">[Desktop Entry]
+Name=MyApp
+GenericName=@CMAKE_PROJECT_NAME@
+Comment=@CMAKE_PROJECT_DESCRIPTION@
+Exec=MyApp
+Icon=@ENTRY_NAME@_icon
+Type=Application
+Categories=Miscellaneous;</code></pre>
+</figure>
+<p>
+  This file with the extension <code>.desktop.in</code> contains a set of
+  properties that will be filled in by the
+  <a
+    href="https://cmake.org/cmake/help/latest/command/configure_file.html"
+    title="CMake documentation about the configure_file() command."
+    >CMake command <code>configure_file()</code></a
+  >. CMake and project variable names will replace names enclosed in
+  <code>@</code>.
+</p>
+<p>
+  All variables are already available except <code>ENTRY_NAME</code>, which will
+  be set as a reverse DNS name, e.g. <code>com.mycompany.myapp</code>.
+</p>
+<figure>
+  <pre><code class="language-cmake hljs">set(ENTRY_NAME "com.mycompany.myapp")</code></pre>
+</figure>
+<p>
+  To create the actual <code>.desktop</code> file, the CMake command
+  <code>configure_file()</code> is used.
+</p>
+<figure>
+  <pre><code class="language-cmake hljs">configure_file(
+  ${PROJECT_SOURCE_DIR}/src/assets/manifests/MyApp.desktop.in
+  ${CMAKE_CURRENT_BINARY_DIR}/${ENTRY_NAME}.desktop)</code></pre>
+</figure>
+<p>
+  This will take the <code>MyApp.desktop.in</code> file as input, fill in all
+  variable names, and write it to the location of
+  <code>CMAKE_CURRENT_BINARY_DIR</code> as <code>ENTRY_NAME</code> with the
+  <code>.desktop</code> extension. Last but not least, install that desktop file
+  on the users' system to <code>share/applications</code>.
+</p>
+<figure>
+  <pre><code class="language-cmake hljs">install(FILES
+  ${CMAKE_CURRENT_BINARY_DIR}/${ENTRY_NAME}.desktop
+  DESTINATION share/applications)</code></pre>
+</figure>
+<p>
+  Having a <code>.desktop</code> file will also make the application visible on
+  the system as a <abbr>GUI</abbr> program.
+</p>
+<figure>
+  <pre><code class="language-cmake hljs"># src/platform/linux/CMakeLists.txt
+
+# Other CMake ...
+
+# Linux app entry and icon setup
+set(ENTRY_NAME "com.mycompany.myapp")
+configure_file(
+  ${PROJECT_SOURCE_DIR}/src/assets/manifests/MyApp.desktop.in
+  ${CMAKE_CURRENT_BINARY_DIR}/${ENTRY_NAME}.desktop)
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${ENTRY_NAME}.desktop
+  DESTINATION share/applications)
+install(FILES
+  ${PROJECT_SOURCE_DIR}/src/assets/icons/LinuxIcon.png
+  DESTINATION share/pixmaps
+  RENAME myapp_icon.png)</code></pre>
+  <figcaption>
+    The full configuration added to the
+    <code>src/platform/linux/CMakeLists.txt</code>.
+  </figcaption>
+</figure>
+
+<h4 id="application-icon-on-windows">Windows</h4>
+<p>
+  An application icon on Windows is a <code>.ico</code> file containing a set of
+  different icon sizes. There is quite a
+  <a
+    href="https://learn.microsoft.com/en-us/windows/apps/design/style/iconography/app-icon-construction"
+    title="Microsoft developer documentation about Windows icon sizes."
+    >range of icon sizes and formats to support on Windows</a
+  >, but to cover the basic set, the following should be present:
+</p>
+<ul>
+  <li><code>icon_16x16.png</code></li>
+  <li><code>icon_32x32.png</code></li>
+  <li><code>icon_64x64.png</code></li>
+  <li><code>icon_128x128.png</code></li>
+  <li><code>icon_256x256.png</code></li>
+  <li><code>icon_512x512.png</code></li>
+</ul>
+<p>
+  The largest 512-pixel-sized icon file ensures that, in the worst case, Windows
+  takes this and scales the icon down if needed.
+</p>
+<p>
+  Having all those sizes in one folder, I use
+  <a
+    href="https://github.com/imagemagick/imagemagick"
+    title="ImageMagick GitHub project page"
+    >ImageMagick</a
+  >
+  to convert them to a single <code>.ico</code> file with the
+  <code>convert</code> command line tool.
+</p>
+<figure>
+  <pre><code class="language-shell hljs">$ convert \
+  icon_16x16.png icon_32x32.png \
+  icon_64x64.png icon_128x128.png \
+  icon_256x256.png icon_512x512.png \
+  icon.ico</code></pre>
+</figure>
+<p>
+  The <code>identify</code> command can be used to verify that the
+  <code>.ico</code> file was created properly.
+</p>
+<figure>
+  <pre><code class="language-shell hljs">$ identify icon.ico
+
+icon.ico[0] ICO 16x16 16x16+0+0 8-bit sRGB 0.010u 0:00.004
+icon.ico[1] ICO 32x32 32x32+0+0 8-bit sRGB 0.010u 0:00.004
+icon.ico[2] ICO 64x64 64x64+0+0 8-bit sRGB 0.010u 0:00.004
+icon.ico[3] ICO 128x128 128x128+0+0 8-bit sRGB 0.010u 0:00.004
+icon.ico[1] PNG 256x256 256x256+0+0 8-bit sRGB 8973B 0.000u 0:00.000
+icon.ico[2] PNG 512x512 512x512+0+0 8-bit sRGB 58491B 0.000u 0:00.000</code></pre>
+</figure>
+<p>
+  Having a <code>.ico</code> file for Windows is the first step, it also needs a
+  <a
+    href="https://learn.microsoft.com/en-us/windows/win32/menurc/about-resource-files"
+    title="Microsoft documentation about Windows resource files."
+    >resource file</a
+  >
+  to associate this icon with the
+  <a href="#windows-application-bundle">Windows application bundle</a>. Creating
+  a new <code>.rc</code> file under
+  <code>src/assets/manifests/app.rc</code> with the following content:
+</p>
+<figure>
+  <pre><code class="language-properties hljs">app_icon ICON DISCARDABLE "../icons/icon.ico"</code></pre>
+</figure>
+<p>
+  Both files, the icon and resource file, need to be added to the target sources
+  via CMake's <code>target_sources()</code> command, extending the existing
+  command in <code>src/platform/windows/CMakeLists.txt</code>.
+</p>
+<figure>
+  <pre><code class="language-cmake hljs">target_sources(MyApp PUBLIC
+  ${SHARED_STATIC_ASSETS}
+  assets/icons/icon.ico
+  assets/manifests/app.rc)</code></pre>
+</figure>
+<p>
+  The
+  <a href="#install-static-assets-on-linux-and-windows"
+    >icon will be handled as a static asset</a
+  >, located in the <code>src/assets</code> folder, and copied to the
+  application bundle.
+</p>
+
+<h3 id="macos-application-bundle">macOS application bundle</h3>
+<p>
+  A common way on macOS to install a new application is via a
+  <em>"Drag & Drop"</em> disk image, a file with the
+  <code>.dmg</code> extension. The classic
+  <em>"drag this file into your Application folder"</em> process Mac users are
+  well accustomed to.
+</p>
+<p>
+  Before enabling it as a package generator, some things need to be considered
+  for the application target. Namely, to create an
+  <a
+    href="https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/AboutInformationPropertyListFiles.html"
+    title="Apple developer portal for the Information Property List File."
+    >Information Property List File</a
+  >, often just called <em>"plist"</em> files due to being
+  <abbr>XML</abbr> files with the file extension <em>.plist</em>.
+</p>
+<p>
+  The <code>.plist</code> file will contain necessary information about the
+  bundled executable, settings that can be defined through CMake using the
+  <code>set_target_properties()</code> command in
+  <code>src/platform/darwin/CMakeLists.txt</code>.
+</p>
+
+<h4 id="info-plist">Info.plist</h4>
+<p>
+  Let's first create a base <code>Info.plist</code> under
+  <code>src/assets/manifests/Info.plist</code>.
+</p>
+<figure>
+  <pre><code class="language-xml hljs">&lt;!-- src/assets/manifests/Info.plist --&gt;
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+  "http://www.apple.com/DTDs/PropertyList-1.0.dtd"&gt;
+&lt;plist version="1.0"&gt;
+  &lt;dict&gt;
+    &lt;key&gt;CFBundleDevelopmentRegion&lt;/key&gt;
+    &lt;string&gt;en&lt;/string&gt;
+    &lt;key&gt;CFBundleIconFile&lt;/key&gt;
+    &lt;string&gt;icon&lt;/string&gt;
+    &lt;key&gt;CFBundleInfoDictionaryVersion&lt;/key&gt;
+    &lt;string&gt;6.0&lt;/string&gt;
+    &lt;key&gt;CFBundlePackageType&lt;/key&gt;
+    &lt;string&gt;APPL&lt;/string&gt;
+    &lt;key&gt;NSMainStoryboardFile&lt;/key&gt;
+    &lt;string&gt;Main&lt;/string&gt;
+    &lt;key&gt;NSPrincipalClass&lt;/key&gt;
+    &lt;string&gt;NSApplication&lt;/string&gt;
+    &lt;key&gt;NSHighResolutionCapable&lt;/key&gt;
+    &lt;true/&gt;
+
+    &lt;key&gt;CFBundleExecutable&lt;/key&gt;
+    &lt;string&gt;$(EXECUTABLE_NAME)&lt;/string&gt;
+    &lt;key&gt;CFBundleIdentifier&lt;/key&gt;
+    &lt;string&gt;$(PRODUCT_BUNDLE_IDENTIFIER)&lt;/string&gt;
+    &lt;key&gt;LSMinimumSystemVersion&lt;/key&gt;
+    &lt;string&gt;$(MACOSX_DEPLOYMENT_TARGET)&lt;/string&gt;
+  &lt;/dict&gt;
+&lt;/plist&gt;</code></pre>
+</figure>
+<p>
+  The first block of values are some common application bundle settings as found
+  in the
+  <a
+    href="https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/AboutInformationPropertyListFiles.html"
+    title="Apple developer portal documenting the Information Property List File."
+    >official documentation for the Information Property List File</a
+  >.
+</p>
+<div class="side-note-ref">
+  <p>
+    The second block is settings with dynamic values via <code>$()</code>*,
+    filled in only when built via Xcode. It contains the name of the executable
+    <code>EXECUTABLE_NAME</code> and bundle
+    <code>PRODUCT_BUNDLE_IDENTIFIER</code>, as well as the macOS required
+    minimum system version <code>MACOSX_DEPLOYMENT_TARGET</code>.
+  </p>
+  <aside class="side-note">
+    <p>
+      * Xcode variables use parentheses <code>$()</code>, CMake variables use
+      curly braces <code>${}</code>.
+    </p>
+  </aside>
+</div>
+<p>
+  To use that file, the <code>set_target_properties()</code> command is used,
+  setting the <code>MACOSX_BUNDLE_INFO_PLIST</code> property.
+</p>
+<figure>
+  <pre><code class="language-cmake hljs">set_target_properties(MyApp PROPERTIES
+  INSTALL_RPATH @executable_path/../Frameworks
+  RESOURCE "${SHARED_STATIC_ASSETS}"
+  MACOSX_BUNDLE_INFO_PLIST
+    "${CMAKE_CURRENT_SOURCE_DIR}/assets/manifests/Info.plist")</code></pre>
+  <figcaption>
+    Defined in <code>src/platform/darwin/CMakeLists.txt</code>.
+  </figcaption>
+</figure>
+<p>
+  This is the same place where more properties will be defined: a bundle
+  version, the <abbr>GUI</abbr> identifier, and copyright information.
+</p>
+<p>First, the version with a full and a short version string.</p>
+<figure>
+  <pre><code class="language-cmake hljs">set_target_properties(MyApp PROPERTIES
+  # Other properties ...
+  MACOSX_BUNDLE_BUNDLE_VERSION "${BUILD_VERSION}"
+  MACOSX_BUNDLE_SHORT_VERSION_STRING "${PROJECT_VERSION}")</code></pre>
+</figure>
+<p>
+  The <abbr>GUI</abbr> identifier is usually a combination of the company name
+  in
+  <a
+    href="https://en.wikipedia.org/wiki/Reverse_domain_name_notation"
+    title="Wikipedia page about the reverse domain name notation."
+    >reverse domain name notation</a
+  >
+  and the project name.
+</p>
+<figure>
+  <pre><code class="language-cmake hljs">set_target_properties(MyApp PROPERTIES
+  # Other properties ...
+  MACOSX_BUNDLE_BUNDLE_VERSION "${BUILD_VERSION}"
+  MACOSX_BUNDLE_SHORT_VERSION_STRING "${PROJECT_VERSION}"
+  MACOSX_BUNDLE_GUI_IDENTIFIER "com.mycompany.myapp"
+  XCODE_ATTRIBUTE_PRODUCT_BUNDLE_IDENTIFIER "com.mycompany.myapp")</code></pre>
+</figure>
+<p>And copyright information.</p>
+<figure>
+  <pre><code class="language-cmake hljs">set_target_properties(MyApp PROPERTIES
+  # Other properties ...
+  MACOSX_BUNDLE_BUNDLE_VERSION "${BUILD_VERSION}"
+  MACOSX_BUNDLE_SHORT_VERSION_STRING "${PROJECT_VERSION}"
+  MACOSX_BUNDLE_GUI_IDENTIFIER "com.mycompany.myapp"
+  XCODE_ATTRIBUTE_PRODUCT_BUNDLE_IDENTIFIER "com.mycompany.myapp"
+  MACOSX_BUNDLE_COPYRIGHT "(c) 2024 My Company")</code></pre>
+</figure>
+<p>
+  With this, the <code>set_target_properties()</code> command has all the
+  properties needed to fill in the <code>.plist</code> file.
+</p>
+<figure>
+  <pre><code class="language-cmake hljs"># src/platform/darwin/CMakeLists.txt
+
+# Other CMake settings ...
+
+# Target properties
+set_target_properties(MyApp PROPERTIES
+  INSTALL_RPATH @executable_path/../Frameworks
+  RESOURCE "${SHARED_STATIC_ASSETS}"
+  MACOSX_BUNDLE_INFO_PLIST
+    "${CMAKE_CURRENT_SOURCE_DIR}/assets/manifests/Info.plist"
+  MACOSX_BUNDLE_BUNDLE_VERSION "${BUILD_VERSION}"
+  MACOSX_BUNDLE_SHORT_VERSION_STRING "${PROJECT_VERSION}"
+  MACOSX_BUNDLE_GUI_IDENTIFIER "com.mycompany.myapp"
+  XCODE_ATTRIBUTE_PRODUCT_BUNDLE_IDENTIFIER "com.mycompany.myapp"
+  MACOSX_BUNDLE_COPYRIGHT "(c) 2024 My Company")</code></pre>
+  <figcaption>This is how the command now looks.</figcaption>
+</figure>
+<p>
+  Taking those newly defined properties, the <code>.plist</code> file gets
+  another block of properties at the end that will be filled in by CMake.
+</p>
+<figure>
+  <pre><code class="language-xml hljs">&lt;key&gt;CFBundleName&lt;/key&gt;
+&lt;string&gt;${MACOSX_BUNDLE_BUNDLE_NAME}&lt;/string&gt;
+&lt;key&gt;CFBundleShortVersionString&lt;/key&gt;
+&lt;string&gt;${MACOSX_BUNDLE_SHORT_VERSION_STRING}&lt;/string&gt;
+&lt;key&gt;CFBundleVersion&lt;/key&gt;
+&lt;string&gt;${MACOSX_BUNDLE_BUNDLE_VERSION}&lt;/string&gt;</code></pre>
+</figure>
+<p>Here the full <code>.plist</code> file.</p>
+<figure>
+  <pre><code class="language-xml hljs">&lt;!-- src/assets/manifests/Info.plist --&gt;
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+  "http://www.apple.com/DTDs/PropertyList-1.0.dtd"&gt;
+&lt;plist version="1.0"&gt;
+  &lt;dict&gt;
+    &lt;key&gt;CFBundleDevelopmentRegion&lt;/key&gt;
+    &lt;string&gt;en&lt;/string&gt;
+    &lt;key&gt;CFBundleIconFile&lt;/key&gt;
+    &lt;string&gt;icon&lt;/string&gt;
+    &lt;key&gt;CFBundleInfoDictionaryVersion&lt;/key&gt;
+    &lt;string&gt;6.0&lt;/string&gt;
+    &lt;key&gt;CFBundlePackageType&lt;/key&gt;
+    &lt;string&gt;APPL&lt;/string&gt;
+    &lt;key&gt;NSMainStoryboardFile&lt;/key&gt;
+    &lt;string&gt;Main&lt;/string&gt;
+    &lt;key&gt;NSPrincipalClass&lt;/key&gt;
+    &lt;string&gt;NSApplication&lt;/string&gt;
+    &lt;key&gt;NSHighResolutionCapable&lt;/key&gt;
+    &lt;true/&gt;
+
+    &lt;key&gt;CFBundleExecutable&lt;/key&gt;
+    &lt;string&gt;$(EXECUTABLE_NAME)&lt;/string&gt;
+    &lt;key&gt;CFBundleIdentifier&lt;/key&gt;
+    &lt;string&gt;$(PRODUCT_BUNDLE_IDENTIFIER)&lt;/string&gt;
+    &lt;key&gt;LSMinimumSystemVersion&lt;/key&gt;
+    &lt;string&gt;$(MACOSX_DEPLOYMENT_TARGET)&lt;/string&gt;
+
+    &lt;key&gt;CFBundleName&lt;/key&gt;
+    &lt;string&gt;${MACOSX_BUNDLE_BUNDLE_NAME}&lt;/string&gt;
+    &lt;key&gt;CFBundleShortVersionString&lt;/key&gt;
+    &lt;string&gt;${MACOSX_BUNDLE_SHORT_VERSION_STRING}&lt;/string&gt;
+    &lt;key&gt;CFBundleVersion&lt;/key&gt;
+    &lt;string&gt;${MACOSX_BUNDLE_BUNDLE_VERSION}&lt;/string&gt;
+  &lt;/dict&gt;
+&lt;/plist&gt;</code></pre>
+</figure>
+
+<h4 id="dmg"><abbr>DMG</abbr></h4>
+<p>
+  Now it's up to creating a <em>"Drag & Drop"</em> disk image with a properly
+  formatted window, one like you would see when, e.g., installing Firefox.
+</p>
+<figure>
+  <picture>
+    <source
+      type="image/webp"
+      srcset="
+        /assets/blog/cmake-cpack-cross-platform-distributables/firefox-disk-image.webp
+      "
+    />
+    <img
+      src="/assets/blog/cmake-cpack-cross-platform-distributables/firefox-disk-image.png"
+      alt="A macOS disk image as seen when installing Firefox. The Firefox logo is on the left, the Application folder icon on the right. A squiggly arrow in the middle pointing to the app folder."
+      width="1024"
+      height="745"
+    />
+  </picture>
+  <figcaption>
+    A <abbr>DMG</abbr> window as seen when installing Firefox on macOS.
+  </figcaption>
+</figure>
+<p>
+  The window has a defined size, a background image that also works on retina
+  displays, and shows the application icon ready to be dragged into the
+  Application folder.
+</p>
+<p>
+  The <strong><abbr>DMG</abbr> background is a <code>.tiff</code> file</strong>,
+  or rather two &mdash; one <em>"regular"</em> one and one with double the
+  resolution for high-<abbr>DPI</abbr> monitors &mdash; combined into one
+  <code>.tiff</code>. This can be done with the preinstalled
+  <code>tiffutil</code> command on macOS.
+</p>
+<p>
+  Assuming a simple <abbr>DMG</abbr> background
+  <code>AppDMGBackground.tiff</code> and
+  <code>AppDMGBackground@2x.tiff</code> for high-<abbr>DPI</abbr>.
+</p>
+<figure>
+  <picture>
+    <source
+      type="image/webp"
+      srcset="
+        /assets/blog/cmake-cpack-cross-platform-distributables/sample-app-disk-image-bg.webp
+      "
+    />
+    <img
+      src="/assets/blog/cmake-cpack-cross-platform-distributables/sample-app-disk-image-bg.png"
+      alt="A white image with a dashed line around the rim, in the middle a gray arrow pointing from left to right."
+      width="1024"
+      height="759"
+    />
+  </picture>
+  <figcaption>Example <abbr>DMG</abbr> background image.</figcaption>
+</figure>
+<p>
+  Both images can be combined into one supporting <code>.tiff</code> with the
+  following command on macOS:
+</p>
+<figure>
+  <pre><code class="language-shell hljs">$ tiffutil \
+  -cathidpicheck AppDMGBackground.tiff \
+  AppDMGBackground@2x.tiff \
+  -out packaging/dmg/AppDMGBackground.tiff</code></pre>
+  <figcaption>
+    Writing the result to the new folder <code>packaging/dmg</code>.
+  </figcaption>
+</figure>
+<p>
+  With the background image ready, it needs to be applied to the
+  <abbr>DMG</abbr> window while also setting the size of that window and where
+  icons in it should be placed. Specifically, the application icon and the
+  <em>Application</em> folder icon. This will be done by creating a
+  <code>.DS_Store</code>
+  file for the application bundle via an
+  <a
+    href="https://developer.apple.com/library/archive/documentation/AppleScript/Conceptual/AppleScriptLangGuide/introduction/ASLR_intro.html"
+    title="Apple website for the AppleScript language."
+    >AppleScript</a
+  >.
+</p>
+<p>
+  The AppleScript used is originally from
+  <a
+    href="https://gitlab.kitware.com/cmake/cmake/-/blob/d3812437036e95329fbee0773282b88e8b013fbe/Packaging/CMakeDMGSetup.scpt"
+    title="CMake Gitlab with the original CMakeDMGSetup.scpt AppleScript file."
+    >the way CMake itself creates its installer <abbr>DMG</abbr> window</a
+  >, adapted to change icon positions and window size.
+</p>
+<figure>
+  <!-- It's not Lua, but the closest for highlighting I have. -->
+  <pre><code class="language-lua hljs">-- packaging/dmg/AppDMGSetup.scpt
+
+-- This code was adapted to serve the application needs.
+
+on run argv
+  set image_name to item 1 of argv
+
+  tell application "Finder"
+    tell disk image_name
+
+    -- Wait for the image to finish mounting.
+      set open_attempts to 0
+      repeat while open_attempts < 4
+        try
+          open
+          delay 1
+          set open_attempts to 5
+          close
+        on error errStr number errorNumber
+          set open_attempts to open_attempts + 1
+          delay 10
+        end try
+      end repeat
+      delay 5
+
+      -- Open the image and save a .DS_Store with
+      -- background and icon setup.
+      open
+      set current view of container window to icon view
+      set theViewOptions to the icon view options of container window
+      set background picture of theViewOptions to file ".background:background.tiff"
+      set arrangement of theViewOptions to not arranged
+      set icon size of theViewOptions to 128
+      delay 5
+      close
+
+      -- Setup the position of the app and Applications symlink
+      -- and hide all the window decoration.
+      open
+      tell container window
+        set sidebar width to 0
+        set statusbar visible to false
+        set toolbar visible to false
+        -- Those bounds are defined as:
+        -- x-start, y-start, x-end, y-end (aka. x, z, width, height)
+        set the bounds to {400, 100, 940, 528}
+        set position of item "MyApp.app" to {140, 200}
+        set position of item "Applications" to {405, 200}
+      end tell
+      delay 5
+      close
+
+      -- Open and close for visual verification.
+      open
+      delay 5
+      close
+
+    end tell
+    delay 1
+  end tell
+end run</code></pre>
+  <figcaption>
+    The changed script set for a background image with the size
+    540&nbsp;&times;&nbsp;400 pixel.
+  </figcaption>
+</figure>
+<p>This will create the following <abbr>DMG</abbr> window.</p>
+<figure>
+  <picture>
+    <source
+      type="image/webp"
+      srcset="
+        /assets/blog/cmake-cpack-cross-platform-distributables/sample-app-disk-image.webp
+      "
+    />
+    <img
+      src="/assets/blog/cmake-cpack-cross-platform-distributables/sample-app-disk-image.png"
+      alt="A disk image window as created by the script. The sample application logo is on the left, the Application folder icon on the right. A gray arrow in the middle pointing to the app folder."
+      width="1024"
+      height="848"
+    />
+  </picture>
+  <figcaption>The example disk image window that will be created.</figcaption>
+</figure>
+<p>
+  The application icon is on the left, and the <em>Application</em> folder icon
+  is on the right. The arrow in the middle and the dotted line around is from
+  the background image <code>.tiff</code>.
+</p>
+<p>
+  To make this all work, it needs to be hooked up by extending the
+  <code>packaging/CMakeLists.txt</code> file for CPack. Setting the background
+  image is done via the <code>CPACK_DMG_BACKGROUND_IMAGE</code> variable.
+</p>
+<figure>
+  <pre><code class="language-cmake hljs">set(CPACK_DMG_BACKGROUND_IMAGE
+  "${CMAKE_CURRENT_LIST_DIR}/dmg/AppDMGBackground.tiff")</code></pre>
+  <figcaption>Uses the generated TIFF container file.</figcaption>
+</figure>
+<p>
+  The AppleScript script, executed by CMake, needs to be set via
+  <code>CPACK_DMG_DS_STORE_SETUP_SCRIPT</code>.
+</p>
+<figure>
+  <pre><code class="language-cmake hljs">set(CPACK_DMG_DS_STORE_SETUP_SCRIPT
+  "${CMAKE_CURRENT_LIST_DIR}/dmg/AppDMGSetup.scpt")</code></pre>
+</figure>
+<p>
+  There are two more options:
+  <a
+    href="https://cmake.org/cmake/help/latest/cpack_gen/dmg.html#variable:CPACK_DMG_SLA_USE_RESOURCE_FILE_LICENSE"
+    title="CMake documentation about the CPack SLA options."
+    >enabling the default
+    <abbr title="Service-level agreement">SLA</abbr> license option</a
+  >
+  introduced in CMake 3.23 for a common <abbr>DMG</abbr> user flow and
+  <a
+    href="https://cmake.org/cmake/help/latest/cpack_gen/dmg.html#variable:CPACK_DMG_VOLUME_NAME"
+    title="CMake documentation about the CPack variable CPACK_DMG_VOLUME_NAME."
+    >setting the <abbr>DMG</abbr> volume name</a
+  >
+  to the project name.
+</p>
+<figure>
+  <pre><code class="language-cmake hljs">set(CPACK_DMG_SLA_USE_RESOURCE_FILE_LICENSE OFF)
+set(CPACK_DMG_VOLUME_NAME "${CMAKE_PROJECT_NAME}")</code></pre>
+</figure>
+<p>
+  Finally, enable the
+  <a
+    href="https://cmake.org/cmake/help/latest/cpack_gen/dmg.html"
+    title="CMake documentation about the CPack DMG generator."
+    ><abbr>DMG</abbr> generator</a
+  >
+  by setting <code>CPACK_GENERATOR</code> on Apple systems to
+  <em>"DragNDrop"</em> while still generating a compressed <abbr>TAR</abbr>.
+</p>
+<figure>
+  <pre><code class="language-cmake hljs"># Generator selection per platform
+if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
+  set(CPACK_GENERATOR TGZ DragNDrop)
+else ()
+  set(CPACK_GENERATOR TGZ)
+endif ()</code></pre>
+</figure>
+<p>This is how the CPack configuration now looks for macOS.</p>
+<figure>
+  <pre><code class="language-cmake hljs"># packaging/CMakeLists.txt
+
+# Base package settings
+# Nothing changed here ...
+
+# macOS settings for DragNDrop generator
+set(CPACK_DMG_BACKGROUND_IMAGE
+  "${CMAKE_CURRENT_LIST_DIR}/dmg/AppDMGBackground.tiff")
+set(CPACK_DMG_DS_STORE_SETUP_SCRIPT
+  "${CMAKE_CURRENT_LIST_DIR}/dmg/AppDMGSetup.scpt")
+set(CPACK_DMG_SLA_USE_RESOURCE_FILE_LICENSE OFF)
+set(CPACK_DMG_VOLUME_NAME "${CMAKE_PROJECT_NAME}")
+
+# Generator selection per platform
+if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
+  set(CPACK_GENERATOR TGZ DragNDrop)
+else ()
+  set(CPACK_GENERATOR TGZ)
+endif ()
+
+include(CPack)</code></pre>
+</figure>
+<p>
+  Running CPack on a release build created with Xcode on macOS will create a
+  <code>.tar.gz</code> and the desired <code>.dmg</code> file in
+  <code>build/release/distribution</code>.
+</p>
+<figure>
+  <pre><code class="language-shell hljs">$ cpack --config build/release/CPackConfig.cmake</code></pre>
+</figure>
+<figure>
+  <picture>
+    <source
+      type="image/webp"
+      srcset="
+        /assets/blog/cmake-cpack-cross-platform-distributables/distribution-folder-with-dmg.webp
+      "
+    />
+    <img
+      src="/assets/blog/cmake-cpack-cross-platform-distributables/distribution-folder-with-dmg.png"
+      alt="A macOS Finder window with the generated distributable showing the .dmg as well as the .tar.gz file."
+      width="1024"
+      height="499"
+    />
+  </picture>
+  <figcaption>Created <code>.dmg</code> file on macOS.</figcaption>
+</figure>
+
+<h3 id="linux-application-bundle">Linux application bundle</h3>
+<p>
+  For common Linux derivatives, a <code>.deb</code> file can be created with the
+  <a
+    href="https://cmake.org/cmake/help/v3.3/module/CPackDeb.html"
+    title="CMake documentation for the CPack DEB generator."
+    >CPack <abbr>DEB</abbr> generator</a
+  >. All the needed structure is already set up, what is left are a few CPack
+  settings.
+</p>
+
+<h4 id="deb"><abbr>DEB</abbr></h4>
+<p>
+  In <code>packaging/CMakeLists.txt</code> a mandatory setting is
+  <a
+    href="https://cmake.org/cmake/help/latest/cpack_gen/deb.html#variable:CPACK_DEBIAN_FILE_NAME"
+    title="CMake documentation for the CPack variable CPACK_DEBIAN_FILE_NAME."
+    >the <abbr>DEB</abbr> file name</a
+  >
+  that should be set via <code>CPACK_DEBIAN_FILE_NAME</code>, where the best
+  setting for backwards compatibility is <code>DEB-DEFAULT</code>.
+</p>
+<figure>
+  <pre><code class="language-cmake hljs">set(CPACK_DEBIAN_FILE_NAME DEB-DEFAULT)</code></pre>
+</figure>
+<p>
+  The package maintainer and
+  <a
+    href="https://packages.debian.org/unstable/"
+    title="List with Debian package section names."
+    >section name</a
+  >.
+</p>
+<figure>
+  <pre><code class="language-cmake hljs">set(CPACK_DEBIAN_PACKAGE_SECTION Miscellaneous)
+set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Maintainer Name")</code></pre>
+</figure>
+<p>
+  And what
+  <a
+    href="https://cmake.org/cmake/help/v3.3/module/CPackDeb.html#variable:CPACK_DEBIAN_PACKAGE_DEPENDS"
+    title="CMake documentation for the CPack variable CPACK_DEBIAN_PACKAGE_DEPENDS."
+    >packages the bundle depends on</a
+  >, in this case SDL2.
+</p>
+<figure>
+  <pre><code class="language-cmake hljs">set(CPACK_DEBIAN_PACKAGE_DEPENDS "libsdl2-2.0-0")</code></pre>
+</figure>
+<p>
+  At the end, enable the
+  <a
+    href="https://cmake.org/cmake/help/latest/cpack_gen/dmg.html"
+    title="CMake documentation for the CPack DEB generator."
+    ><abbr>DMG</abbr> generator</a
+  >
+  by setting <code>CPACK_GENERATOR</code> for Linux to <em>"DEB"</em> while
+  still generating a compressed <abbr>TAR</abbr>.
+</p>
+<figure>
+  <pre><code class="language-cmake hljs">set(CPACK_GENERATOR TGZ DEB)</code></pre>
+</figure>
+<p>
+  This is how the CPack configuration now looks with added DEB generator support
+  for Linux.
+</p>
+<figure>
+  <pre><code class="language-cmake hljs"># packaging/CMakeLists.txt
+
+# Base package settings
+# Nothing changed here ...
+
+# macOS settings for DragNDrop generator
+# Nothing changed here ...
+
+# Linux DEB settings
+set(CPACK_DEBIAN_FILE_NAME DEB-DEFAULT)
+set(CPACK_DEBIAN_PACKAGE_SECTION Miscellaneous)
+set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Maintainer Name")
+set(CPACK_DEBIAN_PACKAGE_DEPENDS "libsdl2-2.0-0")
+
+# Generator selection per platform
+if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
+  set(CPACK_GENERATOR TGZ DragNDrop)
+elseif (CMAKE_SYSTEM_NAME STREQUAL "Linux")
+  set(CPACK_GENERATOR TGZ DEB)
+else ()
+  set(CPACK_GENERATOR TGZ)
+endif ()
+
+include(CPack)</code></pre>
+</figure>
+<p>
+  Running CPack on a release build created on a Linux system will create a
+  <code>.tar.gz</code> and <code>.deb</code> file in
+  <code>build/release/distribution</code>.
+</p>
+<figure>
+  <pre><code class="language-shell hljs">$ cpack --config build/release/CPackConfig.cmake</code></pre>
+</figure>
+<figure>
+  <picture>
+    <source
+      type="image/webp"
+      srcset="
+        /assets/blog/cmake-cpack-cross-platform-distributables/distribution-folder-with-deb.webp
+      "
+    />
+    <img
+      src="/assets/blog/cmake-cpack-cross-platform-distributables/distribution-folder-with-deb.png"
+      alt="An Ubuntu window showing the through CPack generated files. A .deb and a .tar.gz file."
+      width="1024"
+      height="630"
+    />
+  </picture>
+  <figcaption>Created <code>.deb</code> file on Ubuntu.</figcaption>
+</figure>
+
+<h3 id="windows-application-bundle">Windows application bundle</h3>
+<p>
+  For the application bundle and installer on Windows, the
+  <dfn
+    ><a
+      href="https://nsis.sourceforge.io/Main_Page"
+      title="Nullsoft Scriptable Install System main website."
+      >Nullsoft Scriptable Install System</a
+    >
+    (<abbr>NSIS</abbr>)</dfn
+  >
+  generator is used. It will create a graphical installer and uninstaller,
+  contain description and license texts, and even set start menu entries.
+</p>
+
+<h4 id="manifest">Manifest</h4>
+<p>
+  To fully support high-<abbr>DPI</abbr> displays on Windows for the generated
+  application bundle, a
+  <a
+    href="https://learn.microsoft.com/en-us/windows/win32/sbscs/application-manifests"
+    title="Microsoft documentation for Windows application manifest files."
+    >manifest file</a
+  >
+  is needed. The <code>App.manifest</code> can be placed in the manifest folder
+  <code>src/assets/manifests</code> like the ones for the other systems; the
+  format is <abbr>XML</abbr>.
+</p>
+<figure>
+  <pre><code class="language-xml hljs">&lt;!-- src/assets/manifests/App.manifest --&gt;
+&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;
+&lt;assembly
+  xmlns="urn:schemas-microsoft-com:asm.v1"
+  manifestVersion="1.0"
+  xmlns:asmv3="urn:schemas-microsoft-com:asm.v3"&gt;
+  &lt;asmv3:application&gt;
+    &lt;asmv3:windowsSettings&gt;
+      &lt;dpiAware
+          xmlns="http://schemas.microsoft.com/SMI/2005/WindowsSettings"&gt;
+    true
+    &lt;/dpiAware&gt;
+      &lt;dpiAwareness
+        xmlns="http://schemas.microsoft.com/SMI/2016/WindowsSettings"&gt;
+      PerMonitorV2
+      &lt;/dpiAwareness&gt;
+    &lt;/asmv3:windowsSettings&gt;
+  &lt;/asmv3:application&gt;
+&lt;/assembly&gt;</code></pre>
+</figure>
+<p>This file then needs to be included in the target sources for Windows.</p>
+<figure>
+  <pre><code class="language-cmake hljs"># src/platform/windows/CMakeLists.txt
+
+# Static assets
+target_sources(MyApp PUBLIC
+  ${SHARED_STATIC_ASSETS}
+  assets/icons/icon.ico
+  assets/manifests/app.rc
+  assets/manifests/App.manifest)
+
+# Other settings ...</code></pre>
+</figure>
+
+<h4 id="nsis-assets"><abbr>NSIS</abbr> assets</h4>
+<p>
+  To use the <abbr>NSIS</abbr> generator and create an installer and uninstaller
+  that are custom to the application, some assets are required.
+</p>
+<p>
+  Besides the
+  <a href="#application-icon-on-windows">already-created application icon</a>,
+  an uninstaller icon is needed as well. As it is a <code>.ico</code> file it
+  can be created the
+  <a href="#application-icon-on-windows">same way as the application icon</a>,
+  having a set of PNGs and using the
+  <a
+    href="https://github.com/imagemagick/imagemagick"
+    title="GitHub page for ImageMagick."
+    >ImageMagick</a
+  >
+  <code>convert</code> command line util.
+</p>
+<figure>
+  <pre><code class="language-shell hljs">$ convert \
+  uninstall_icon_16x16.png uninstall_icon_32x32.png \
+  uninstall_icon_64x64.png uninstall_icon_128x128.png \
+  uninstall_icon_256x256.png uninstall_icon_512x512.png \
+  uninstall_icon.ico</code></pre>
+</figure>
+<div class="side-note-ref">
+  <p>I place it under <code>packaging/nsis/uninstall_icon.ico</code>*.</p>
+  <aside class="side-note">
+    <p>
+      *
+      <a
+        href="https://github.com/MartinHelmut/cpp-small-gui-project-sdl2/blob/main/packaging/nsis/resources/uninstall_icon_512x512.png"
+        title="Example of an uninstall icon from my C++ starter template project on GitHub."
+        >Link to example uninstaller icon.</a
+      >
+    </p>
+  </aside>
+</div>
+<p>
+  Further, <abbr>NSIS</abbr> needs a
+  <a
+    href="https://github.com/MartinHelmut/cpp-small-gui-project-sdl2/blob/main/packaging/nsis/resources/nsis_header.png"
+    title="Example of a header image from my C++ starter template project on GitHub."
+    >header image</a
+  >
+  sized at 150&nbsp;&times;&nbsp;57 pixels, an
+  <a
+    href="https://github.com/MartinHelmut/cpp-small-gui-project-sdl2/blob/main/packaging/nsis/resources/nsis_install_welcome.png"
+    title="Example of an installer welcome image from my C++ starter template project on GitHub."
+    >installer welcome image</a
+  >
+  sized 164&nbsp;&times;&nbsp;314 pixels, and, in the same size, an
+  <a
+    href="https://github.com/MartinHelmut/cpp-small-gui-project-sdl2/blob/main/packaging/nsis/resources/nsis_uninstall_welcome.png"
+    title="Example of an uninstaller welcome image from my C++ starter template project on GitHub."
+    >uninstaller welcome image</a
+  >. All of those as bitmap (<code>.bmp</code>) files, specifically the
+  <abbr>BMP</abbr>
+  Windows 3.x format.
+</p>
+<p>
+  Created in any format, e.g., <abbr>PNG</abbr>, the
+  <a
+    href="https://github.com/imagemagick/imagemagick"
+    title="GitHub page for ImageMagick."
+    >ImageMagick</a
+  >
+  <code>convert</code> command line util can be used again to convert them to
+  <abbr>BMP</abbr> files.
+</p>
+<figure>
+  <pre><code class="language-shell hljs">$ convert nsis_header.png BMP3:nsis_header.bmp && \
+  convert nsis_install_welcome.png BMP3:nsis_install_welcome.bmp && \
+  convert nsis_uninstall_welcome.png BMP3:nsis_uninstall_welcome.bmp</code></pre>
+</figure>
+<p>
+  Together with the uninstaller icon, I place them in the
+  <code>packaging/nsis</code> folder.
+</p>
+<p>
+  With all the needed resources to create a proper installer and uninstaller,
+  the CPack configuration for <abbr>NSIS</abbr> on Windows can be added to the
+  <code>packaging/CMakeLists.txt</code> file.
+</p>
+<p>First, the package and display name.</p>
+<figure>
+  <pre><code class="language-cmake hljs">set(CPACK_NSIS_DISPLAY_NAME ${CMAKE_PROJECT_NAME})
+set(CPACK_NSIS_PACKAGE_NAME ${CPACK_PACKAGE_NAME})</code></pre>
+</figure>
+<p>Enabling a high-<abbr>DPI</abbr> display-aware installer.</p>
+<figure>
+  <pre><code class="language-cmake hljs">set(CPACK_NSIS_MANIFEST_DPI_AWARE true)</code></pre>
+</figure>
+<p>
+  Ensuring that when executing the installer again, old versions of the software
+  will be uninstalled first.
+</p>
+<figure>
+  <pre><code class="language-cmake hljs">set(CPACK_NSIS_ENABLE_UNINSTALL_BEFORE_INSTALL YES)</code></pre>
+</figure>
+<p>Setting the icon for the installer and uninstaller.</p>
+<figure>
+  <pre><code class="language-cmake hljs">set(CPACK_NSIS_INSTALLED_ICON_NAME
+  ${PROJECT_SOURCE_DIR}/src\\\\assets\\\\icons\\\\icon.ico)
+set(CPACK_NSIS_MUI_ICON
+  ${PROJECT_SOURCE_DIR}/src\\\\assets\\\\icons\\\\icon.ico)
+set(CPACK_NSIS_MUI_UNIICON
+  ${CMAKE_CURRENT_LIST_DIR}/nsis\\\\uninstall_icon.ico)</code></pre>
+</figure>
+<p>The header image.</p>
+<figure>
+  <pre><code class="language-cmake hljs">set(CPACK_NSIS_MUI_HEADERIMAGE
+  ${CMAKE_CURRENT_LIST_DIR}/nsis\\\\nsis_header.bmp)</code></pre>
+</figure>
+<p>And welcome images for the installer and uninstaller.</p>
+<figure>
+  <pre><code class="language-cmake hljs">set(CPACK_NSIS_MUI_WELCOMEFINISHPAGE_BITMAP
+  ${CMAKE_CURRENT_LIST_DIR}/nsis\\\\nsis_install_welcome.bmp)
+set(CPACK_NSIS_MUI_UNWELCOMEFINISHPAGE_BITMAP
+  ${CMAKE_CURRENT_LIST_DIR}/nsis\\\\nsis_uninstall_welcome.bmp)</code></pre>
+</figure>
+
+<h4 id="description-license-readme">Description, License, Readme</h4>
+<p>
+  A <abbr>NSIS</abbr> installer will typically show some extra information about
+  the software to be installed. A welcome text, a software description and
+  README, and a license text &mdash; defined as <code>.txt</code> files. All
+  those files can be placed inside the <code>packaging</code> folder.
+</p>
+<figure>
+  <pre><code class="language-cmake hljs">set(CPACK_RESOURCE_FILE_WELCOME
+  ${CMAKE_CURRENT_LIST_DIR}/Welcome.txt)
+set(CPACK_RESOURCE_FILE_README
+  ${CMAKE_CURRENT_LIST_DIR}/Readme.txt)
+set(CPACK_RESOURCE_FILE_LICENSE
+  ${CMAKE_CURRENT_LIST_DIR}/License.txt)
+set(CPACK_PACKAGE_DESCRIPTION_FILE
+  ${CMAKE_CURRENT_LIST_DIR}/Description.txt)</code></pre>
+</figure>
+
+<h4 id="start-menu-entries">Start menu entries</h4>
+<p>
+  <abbr>NSIS</abbr> with CPack can also help to set a start menu entry under
+  Windows, as well as remove it on uninstall.
+</p>
+<figure>
+  <pre><code class="language-cmake hljs">set(CPACK_NSIS_CREATE_ICONS_EXTRA
+  "CreateShortCut '$SMPROGRAMS\\\\$STARTMENU_FOLDER\\\\${CMAKE_PROJECT_NAME}.lnk' '$INSTDIR\\\\bin\\\\MyApp.exe'")
+set(CPACK_NSIS_DELETE_ICONS_EXTRA
+  "Delete '$SMPROGRAMS\\\\$START_MENU\\\\${CMAKE_PROJECT_NAME}.lnk'")</code></pre>
+</figure>
+
+<h4 id="nsis-generator"><abbr>NSIS</abbr> generator</h4>
+<p>
+  What is left is setting the
+  <a
+    href="https://cmake.org/cmake/help/latest/cpack_gen/nsis.html"
+    title="CMake documentation about the CPack NSIS generator."
+    ><abbr>NSIS</abbr> generator</a
+  >
+  to be used by CPack on Windows via the <code>CPACK_GENERATOR</code> variable.
+</p>
+<figure>
+  <pre><code class="language-cmake hljs">set(CPACK_GENERATOR ZIP NSIS)</code></pre>
+</figure>
+<p>
+  Here is the CPack configuration with added <abbr>NSIS</abbr> generator support
+  for Windows.
+</p>
+<figure>
+  <pre><code class="language-cmake hljs"># packaging/CMakeLists.txt
+
+# Base package settings
+# Nothing changed here ...
+
+# macOS settings for DragNDrop generator
+# Nothing changed here ...
+
+# Linux DEB settings
+# Nothing changed here ...
+
+# Windows settings for NSIS generator
+set(CPACK_NSIS_DISPLAY_NAME ${CMAKE_PROJECT_NAME})
+set(CPACK_NSIS_PACKAGE_NAME ${CPACK_PACKAGE_NAME})
+set(CPACK_NSIS_MANIFEST_DPI_AWARE true)
+set(CPACK_NSIS_ENABLE_UNINSTALL_BEFORE_INSTALL YES)
+set(CPACK_NSIS_INSTALLED_ICON_NAME
+  ${PROJECT_SOURCE_DIR}/src\\\\assets\\\\icons\\\\icon.ico)
+set(CPACK_NSIS_MUI_ICON
+  ${PROJECT_SOURCE_DIR}/src\\\\assets\\\\icons\\\\icon.ico)
+set(CPACK_NSIS_MUI_UNIICON
+  ${CMAKE_CURRENT_LIST_DIR}/nsis\\\\uninstall_icon.ico)
+
+# Package resources
+set(CPACK_RESOURCE_FILE_WELCOME
+  ${CMAKE_CURRENT_LIST_DIR}/Welcome.txt)
+set(CPACK_RESOURCE_FILE_README
+  ${CMAKE_CURRENT_LIST_DIR}/Readme.txt)
+set(CPACK_RESOURCE_FILE_LICENSE
+  ${CMAKE_CURRENT_LIST_DIR}/License.txt)
+set(CPACK_PACKAGE_DESCRIPTION_FILE
+  ${CMAKE_CURRENT_LIST_DIR}/Description.txt)
+
+# Define how to install/uninstall start menu entries on Windows
+set(CPACK_NSIS_CREATE_ICONS_EXTRA
+  "CreateShortCut '$SMPROGRAMS\\\\$STARTMENU_FOLDER\\\\${CMAKE_PROJECT_NAME}.lnk' '$INSTDIR\\\\bin\\\\MyApp.exe'")
+set(CPACK_NSIS_DELETE_ICONS_EXTRA
+  "Delete '$SMPROGRAMS\\\\$START_MENU\\\\${CMAKE_PROJECT_NAME}.lnk'")
+
+# Generator selection per platform
+if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
+  set(CPACK_GENERATOR TGZ DragNDrop)
+elseif (CMAKE_SYSTEM_NAME STREQUAL "Linux")
+  set(CPACK_GENERATOR TGZ DEB)
+elseif (CMAKE_SYSTEM_NAME STREQUAL "Windows")
+  set(CPACK_GENERATOR ZIP NSIS)
+else ()
+  set(CPACK_GENERATOR TGZ)
+endif ()
+
+include(CPack)</code></pre>
+</figure>
+<p>
+  Running CPack on a release build created on Windows will create a
+  <code>.zip</code> and <code>.exe</code> file in
+  <code>build/release/distribution</code>.
+</p>
+<figure>
+  <pre><code class="language-cmake hljs">$ cpack --config build/release/CPackConfig.cmake</code></pre>
+</figure>
+<figure>
+  <video
+    controls
+    width="1008"
+    height="720"
+    poster="/assets/blog/cmake-cpack-cross-platform-distributables/windows-nsis-installer-poster.png"
+  >
+    <source
+      src="/assets/blog/cmake-cpack-cross-platform-distributables/windows-nsis-installer.webm"
+      type="video/webm"
+    />
+    <source
+      src="/assets/blog/cmake-cpack-cross-platform-distributables/windows-nsis-installer.mp4"
+      type="video/mp4"
+    />
+    It appears your browser doesn't support embedded videos.
+  </video>
+  <figcaption>
+    Video showing the <abbr>NSIS</abbr> installer running.
+  </figcaption>
+</figure>
+
+<h3 id="epilogue">Epilogue</h3>
+<p>
+  It's quite the journey to create a good installer for an application for the
+  major operating systems, but it's a necessary one to really understand how an
+  application gets placed on the user's system. Besides, a journey that did not
+  just create a minimal version but a user-friendly, I say even good one.
+</p>
+<p>
+  Still, I see this as a <em>"starter"</em> when it comes to creating a
+  distributable package, giving the option to further fully customize every
+  aspect of those through CPack and beyond.
+</p>
+<p>
+  To see everything come to life, there is the
+  <a
+    href="https://github.com/MartinHelmut/cpp-small-gui-project-sdl2"
+    title="The companion repository to this article on GitHub."
+    >companion repository to this article, a small SDL2 app</a
+  >
+  utilizing everything shown here. Or the bigger sibling, my
+  <a
+    href="https://github.com/MartinHelmut/cpp-gui-template-sdl2"
+    title="A more comprehensive starter template showing even more options."
+    >C++ <abbr>GUI</abbr> starter template with CMake and CPack, Dear ImGui, and
+    SDL2</a
+  >, showing even more ways to configure CPack and create cross-platform
+  applications.
+</p>
+<p>Until then 👋🏻</p>
