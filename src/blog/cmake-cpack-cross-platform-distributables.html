@@ -434,7 +434,7 @@ target_link_libraries(MyApp
   PUBLIC SDL2::SDL2)</code></pre>
 </figure>
 <p>
-  The goal is to build a GUI application bundle, adding the
+  The goal is to build a <abbr>GUI</abbr> application bundle, adding the
   <code>WIN32</code> and <code>MACOSX_BUNDLE</code> options to the
   <a
     href="https://cmake.org/cmake/help/latest/command/add_executable.html"
@@ -442,7 +442,7 @@ target_link_libraries(MyApp
     ><code>add_executable()</code> command</a
   >
   will instruct CMake to do the <em>"right thing"</em> &mdash; meaning, on
-  Windows, it will build a Windows GUI application by using
+  Windows, it will build a Windows <abbr>GUI</abbr> application by using
   <code>WinMain()</code> instead of <code>main()</code> and the
   <code>MACOSX_BUNDLE</code> option will create a basic
   <a href="#info-plist">Info.plist</a> file and respect the macOS bundle
