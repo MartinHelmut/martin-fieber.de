@@ -70,29 +70,6 @@ Add your changes and run `pnpm commit` to start the commitizen cli to create a p
 
 Create a "Pull Request" on GitHub and be awesome! 😎
 
-## Using WebP for images
-
-Best is to create a JPEG or PNG first for browsers not supporting WebP. After that images can be converted using the [WebP tooling](https://developers.google.com/speed/webp).
-
-```shell
-# Example for PNG files. Switch first to the directory containing the files.
-cd into/folder/with/images
-for file in *.png
-do
-cwebp "$file" -o "${file%.png}.webp"
-done
-```
-
-## Using WebM for videos
-
-Using `ffmpeg` videos can be converted to WebM videos in two steps, saving a lot of data.
-
-```shell
-cd into/folder/with/video
-ffmpeg -i NAME.mp4 -b:v 0 -crf 30 -pass 1 -an -f webm -y /dev/null
-ffmpeg -i NAME.mp4 -b:v 0 -crf 30 -pass 2 NAME.webm
-```
-
 ## Be Nice
 
 Please follow the defined [code of conduct](CODE_OF_CONDUCT.md).

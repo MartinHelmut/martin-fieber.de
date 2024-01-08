@@ -1,6 +1,6 @@
 ---
 date: 2022-09-24
-lastmod: 2023-08-08
+lastmod: 2024-01-08
 title: "Website style guide"
 description: 'The style guide for my website, how components are created and then used, as simplicity saved me from falling into the hole of "not creating".'
 linkTitle: "This websites style guide including context about the why and how."
@@ -864,8 +864,7 @@ ol ol li:last-child {
 <p>
   Media on this site are images and video, but can also be other
   rich&#8209;content like code blocks. It is placed inside a
-  <code>figure</code> element with caption. Every image will have a
-  <dfn>webp</dfn> version, every video a <dfn>webm</dfn>.
+  <code>figure</code> element with caption.
 </p>
 <p>
   The basic media content style is for the <code>figure</code> and
@@ -890,9 +889,8 @@ figcaption {
 
 <h5 id="images">Images</h5>
 <p>
-  Images will always have a <dfn>webp</dfn> version and a caption. They are
-  placed inside the <code>picture</code> element, and will show up larger on
-  mobile devices by using the full device width.
+  Images are placed inside the <code>picture</code> element, and will show up
+  larger on mobile devices by using the full device width.
 </p>
 <figure>
   <pre><code class="language-css hljs">img + figcaption,
@@ -925,7 +923,6 @@ video {
 </figure>
 <figure>
   <picture>
-    <source type="image/webp" srcset="/assets/blog/style-guide/example.webp" />
     <img
       src="/assets/blog/style-guide/example.jpeg"
       alt="Image showing a close up of a hand in shadow typing on a retro-futuristic keyboard with thick key caps, a scene from the movie Alien."
@@ -946,10 +943,6 @@ video {
 <figure>
   <pre><code class="language-html hljs">&lt;figure&gt;
   &lt;picture&gt;
-    &lt;source
-      type="image/webp"
-      srcset="/assets/blog/style-guide/example.webp"
-    /&gt;
     &lt;img
       src="/assets/blog/style-guide/example.jpeg"
       alt="Image showing a close up of a hand ..."
@@ -965,11 +958,7 @@ video {
 </figure>
 
 <h5 id="video">Video</h5>
-<p>
-  Similar to <dfn>webp</dfn> for images, video will always have a
-  <dfn>webm</dfn> version and a caption. A <em>"poster"</em> will be used to
-  show a preview image of the video.
-</p>
+<p>A <em>"poster"</em> will be used to show a preview image of the video.</p>
 <figure>
   <pre><code class="language-css hljs">video {
   height: auto;
@@ -987,10 +976,6 @@ video + figcaption {
     height="720"
     poster="/assets/blog/gui-development-with-cpp/docking-space.png"
   >
-    <source
-      src="/assets/blog/gui-development-with-cpp/docking-space.webm"
-      type="video/webm"
-    />
     <source
       src="/assets/blog/gui-development-with-cpp/docking-space.mp4"
       type="video/mp4"
@@ -1014,10 +999,6 @@ video + figcaption {
     height="720"
     poster="/path/to/poster.png"
   &gt;
-    &lt;source
-      src="/path/to/video.webm"
-      type="video/webm"
-    /&gt;
     &lt;source
       src="/path/to/video.mp4"
       type="video/mp4"

@@ -1,6 +1,6 @@
 ---
 layout: base
-lastmod: 2024-01-04
+lastmod: 2024-01-08
 description: "My personal homepage, including projects, things I do, and where I work. Also, some social media sites where I am active."
 priority: "1.0"
 ---
@@ -50,9 +50,8 @@ priority: "1.0"
     </footer>
     {%- if post.data.banner %}
     <picture>
-      <source type="image/webp" srcset="{{ post.data.banner }}.webp" />
       <img
-        src="{{ post.data.banner }}.png"
+        src="{{ post.data.banner }}"
         alt="{{ post.data.bannerAlt }}"
         width="1024"
         height="300"
