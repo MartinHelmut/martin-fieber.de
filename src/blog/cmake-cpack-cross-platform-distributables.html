@@ -1,5 +1,5 @@
 ---
-date: 2024-01-07
+date: 2024-01-08
 title: "CMake & CPack for cross-platform distributables"
 description: "It is one thing to start using CMake in a project, it is another to actually create a distributable package for major operating systems. A truth I learned on my journey mastering CPack with CMake."
 image: "/assets/blog/cmake-cpack-cross-platform-distributables/title-card.png"
@@ -279,6 +279,7 @@ tags: ["post", "cpp"]
       alt="Image showing the folder structure on macOS of the application bundle. The root folder is SmallSDL2App.app, with Contents underneath. This then contains Frameworks with SDL2.dylib files, the MacOS folder with the executable, a Resource folder with icons.icns and the Manrope.ttf file, and an Info.plist and PkgInfo file."
       width="1024"
       height="798"
+      loading="lazy"
     />
   </picture>
   <figcaption>Application bundle structure on macOS.</figcaption>
@@ -1052,6 +1053,7 @@ $ cmake --build build/release</code></pre>
       alt="A macOS Finder window showing a .tar.gz file generated through CPack."
       width="1024"
       height="524"
+      loading="lazy"
     />
   </picture>
   <figcaption>The generated <code>.tar.gz</code> file.</figcaption>
@@ -1124,6 +1126,7 @@ $ cmake --build build/release</code></pre>
       alt="A set of five example app icons for macOS showing a rounded rectangle with an orange gradient."
       width="1024"
       height="493"
+      loading="lazy"
     />
   </picture>
   <figcaption>Example application icons for macOS.</figcaption>
@@ -1642,10 +1645,17 @@ set_target_properties(MyApp PROPERTIES
       alt="A macOS disk image as seen when installing Firefox. The Firefox logo is on the left, the Application folder icon on the right. A squiggly arrow in the middle pointing to the app folder."
       width="1024"
       height="745"
+      loading="lazy"
     />
   </picture>
   <figcaption>
-    A <abbr>DMG</abbr> window as seen when installing Firefox on macOS.
+    A <abbr>DMG</abbr> window as seen when installing
+    <a
+      href="https://www.mozilla.org/firefox/browsers/"
+      title="Firefox landing page"
+      >Firefox</a
+    >
+    on macOS.
   </figcaption>
 </figure>
 <p>
@@ -1678,6 +1688,7 @@ set_target_properties(MyApp PROPERTIES
       alt="A white image with a dashed line around the rim, in the middle a gray arrow pointing from left to right."
       width="1024"
       height="759"
+      loading="lazy"
     />
   </picture>
   <figcaption>Example <abbr>DMG</abbr> background image.</figcaption>
@@ -1798,6 +1809,7 @@ end run</code></pre>
       alt="A disk image window as created by the script. The sample application logo is on the left, the Application folder icon on the right. A gray arrow in the middle pointing to the app folder."
       width="1024"
       height="848"
+      loading="lazy"
     />
   </picture>
   <figcaption>The example disk image window that will be created.</figcaption>
@@ -1908,6 +1920,7 @@ include(CPack)</code></pre>
       alt="A macOS Finder window with the generated distributable showing the .dmg as well as the .tar.gz file."
       width="1024"
       height="499"
+      loading="lazy"
     />
   </picture>
   <figcaption>Created <code>.dmg</code> file on macOS.</figcaption>
@@ -2025,6 +2038,7 @@ include(CPack)</code></pre>
       alt="An Ubuntu window showing the through CPack generated files. A .deb and a .tar.gz file."
       width="1024"
       height="630"
+      loading="lazy"
     />
   </picture>
   <figcaption>Created <code>.deb</code> file on Ubuntu.</figcaption>
@@ -2330,6 +2344,7 @@ include(CPack)</code></pre>
     width="1008"
     height="720"
     poster="/assets/blog/cmake-cpack-cross-platform-distributables/windows-nsis-installer-poster.png"
+    muted="muted"
   >
     <source
       src="/assets/blog/cmake-cpack-cross-platform-distributables/windows-nsis-installer.webm"
