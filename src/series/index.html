@@ -1,0 +1,75 @@
+---
+layout: base
+title: "List of article series"
+description: "All the article series on my blog."
+---
+
+<h2>{{ title }}</h2>
+{%- set post = collections.lua | last %}
+<article>
+  <h3>
+    <a href="/series/lua" title="A series about different parts of Lua."
+      >Series: Lua</a
+    >
+  </h3>
+  <footer>
+    <p>
+      Last article posted on
+      <time datetime="{{ post.date | htmlDateString }}"
+        >{{ post.date | postDate }}</time
+      >
+    </p>
+  </footer>
+  {%- if post.data.banner %}
+  <picture>
+    <img
+      src="{{ post.data.banner }}"
+      alt="{{ post.data.bannerAlt }}"
+      width="1024"
+      height="300"
+    />
+  </picture>
+  {% endif %}
+  <p>
+    A series of articles about Lua covering different aspects of the language
+    and the surrounding ecosystem, but <strong>not the language itself</strong>.
+  </p>
+  <p>
+    Even though structured as a series, every article also serves as a
+    standalone article about a specific topic. The companion repository will
+    provide a base for every article.
+  </p>
+</article>
+
+{%- set post = collections.bulkhead | last %}
+<article>
+  <h3>
+    <a
+      href="/series/bulkhead-door-with-blender"
+      title="A series about me learning Blender."
+      >Series: Ron Cobb's bulkhead door in Blender</a
+    >
+  </h3>
+  <footer>
+    <p>
+      Last article posted on
+      <time datetime="{{ post.date | htmlDateString }}"
+        >{{ post.date | postDate }}</time
+      >
+    </p>
+  </footer>
+  {%- if post.data.banner %}
+  <picture>
+    <img
+      src="{{ post.data.banner }}"
+      alt="{{ post.data.bannerAlt }}"
+      width="1024"
+      height="300"
+    />
+  </picture>
+  {% endif %}
+  <p>
+    Article series about me learning Blender and recreating Ron Cobb's bulkhead
+    door he sketched for the movie Alien (<time>1979</time>).
+  </p>
+</article>
