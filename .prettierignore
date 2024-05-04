@@ -1,4 +1,5 @@
 node_modules/
 src/_includes/
+.pnpm-store/
 pnpm-lock.yaml
 src/scripts/*.min.js

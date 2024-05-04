@@ -3,11 +3,17 @@ version: 2.1
 jobs:
   build:
     docker:
-      - image: "krieselreihe/node-pnpm:0.4.0"
+      - image: node:20
     steps:
       - checkout
       - restore_cache:
           key: dependency-cache-{{ checksum "pnpm-lock.yaml" }}
+      - run:
+          name: Install pnpm package manager
+          command: |
+            corepack enable
+            corepack prepare pnpm@latest-9 --activate
+            pnpm config set store-dir .pnpm-store
       - run:
           name: install
           command: pnpm install
