@@ -8,7 +8,6 @@ function copyStaticFiles(eleventyConfig) {
   const staticResources = [
     "src/assets",
     "src/scripts",
-    "src/_redirects",
     "src/_routes.json",
     "src/favicon.ico",
     "src/*.xsl",

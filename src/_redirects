@@ -1,6 +1,0 @@
-# Redirect default Netlify subdomain to primary domain
-https://martin-fieber.netlify.com/* https://martin-fieber.de/:splat 301!
-
-# Plausible proxy
-/js/script.js https://plausible.io/js/script.outbound-links.js 200
-/api/event https://plausible.io/api/event 200
