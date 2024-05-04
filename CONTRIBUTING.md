@@ -20,22 +20,23 @@ Once you have tried the above, create a GitHub issue notifying your bug report.
 If you want to contribute code, please:
 
 - Follow the same [coding style](#format-check) as used in the project.
-- Add an automated test that verifies your code change like described in the [Tests chapter](#tests).
-- Write [good commit messages](http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html), explain what your patch does, and why it is needed. How to is described in the [Commit changes chapter](#commit-changes).
+- Write [good commit messages](http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html), explain what your patch does, and why it is needed.
 - Keep it simple: Any patch that changes a lot of code or is difficult to understand should be discussed before you put in the effort.
 
 Once you have tried the above, create a GitHub pull request with your changes and feel awesome 🎉.
 
 ### Environment
 
-Tested with Node 10.
+Tested with Node 20.
 
 ### Setup
 
 Clone the repo and run install:
 
 ```shell script
-git clone git@github.com:MartinHelmut/martin-fieber.de.git && cd martin-fieber.de && pnpm install
+git clone git@github.com:MartinHelmut/martin-fieber.de.git && \
+  cd martin-fieber.de && \
+  pnpm install
 ```
 
 ### Lint
@@ -48,32 +49,12 @@ pnpm lint
 
 ### Format check
 
-You can also run a prettier verification for all JS files in all packages with:
+You can also run a prettier:
 
 ```shell script
 pnpm format:check
 ```
 
-### Commit changes
-
-**This repo is Commitizen-friendly!** ([read more][czcli])
-
-Checkout a new branch, e.g.:
-
-```shell script
-git checkout -b task/do-something
-```
-
-**There is no specific naming convention for branches.**
-
-Add your changes and run `pnpm commit` to start the commitizen cli to create a proper commit message.
-
-Create a "Pull Request" on GitHub and be awesome! 😎
-
 ## Be Nice
 
 Please follow the defined [code of conduct](CODE_OF_CONDUCT.md).
-
-[czcli]: http://commitizen.github.io/cz-cli/
-[svurl]: https://github.com/conventional-changelog/standard-version
-[jturl]: https://facebook.github.io/jest/
