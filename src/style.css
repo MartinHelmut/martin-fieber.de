@@ -136,7 +136,7 @@ main + footer {
   display: flex;
   gap: var(--size-300);
   flex-wrap: wrap;
-  font-family: var(--base-font);
+  font-family: var(--base-font) sans-serif;
   font-weight: var(--font-weight-normal);
   line-height: 1.65;
   border-top: var(--size-100) solid var(--color-grey-500);
@@ -296,7 +296,7 @@ h2,
 h3,
 h4,
 h5 {
-  font-family: var(--base-font);
+  font-family: var(--base-font) sans-serif;
   font-weight: var(--font-weight-bold);
   line-height: 1.65;
   color: var(--color-text);
@@ -347,7 +347,7 @@ em {
 
 p,
 blockquote {
-  font-family: var(--base-font);
+  font-family: var(--base-font) sans-serif;
   font-size: 1.3rem;
   font-weight: var(--font-weight-normal);
   color: var(--color-text);
@@ -388,7 +388,7 @@ ol {
 
 ul li,
 ol li {
-  font-family: var(--base-font);
+  font-family: var(--base-font) sans-serif;
   font-size: 1.3rem;
   font-weight: var(--font-weight-normal);
   color: var(--color-text);
@@ -418,7 +418,7 @@ figcaption,
 .side-note p,
 .callout p {
   color: var(--color-text-secondary);
-  font-family: var(--base-font);
+  font-family: var(--base-font) sans-serif;
   font-size: 1rem;
   font-weight: var(--font-weight-normal);
   line-height: 1.65;
@@ -544,7 +544,7 @@ article.disabled p {
 
 .badge {
   font-size: 1rem;
-  font-family: var(--base-font);
+  font-family: var(--base-font) sans-serif;
   font-weight: var(--font-weight-normal);
   line-height: 1;
   background: var(--color-highlight);
