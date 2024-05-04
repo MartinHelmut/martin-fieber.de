@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "eleventy --serve",
-    "build": "eleventy && prettier --write _site",
+    "build": "eleventy && prettier --write _site --ignore-path .prettierignore",
     "lint": "eslint src -c eslint.config.js && stylelint '**/*.css'",
     "format": "prettier --write .",
     "format:check": "prettier --list-different .",
