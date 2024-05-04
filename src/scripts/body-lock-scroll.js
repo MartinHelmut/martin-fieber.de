@@ -244,11 +244,11 @@ SOFTWARE.
     return true;
   };
 
+  // eslint-disable-next-line no-unused-vars
   var disableBodyScroll = (exports.disableBodyScroll =
     function disableBodyScroll(targetElement, options) {
       // targetElement must be provided
       if (!targetElement) {
-        // eslint-disable-next-line no-console
         console.error(
           "disableBodyScroll unsuccessful - targetElement must be provided when calling disableBodyScroll on IOS devices.",
         );
@@ -302,6 +302,7 @@ SOFTWARE.
       }
     });
 
+  // eslint-disable-next-line no-unused-vars
   var clearAllBodyScrollLocks = (exports.clearAllBodyScrollLocks =
     function clearAllBodyScrollLocks() {
       if (isIosDevice) {
@@ -333,11 +334,11 @@ SOFTWARE.
       locks = [];
     });
 
+  // eslint-disable-next-line no-unused-vars
   var enableBodyScroll = (exports.enableBodyScroll = function enableBodyScroll(
     targetElement,
   ) {
     if (!targetElement) {
-      // eslint-disable-next-line no-console
       console.error(
         "enableBodyScroll unsuccessful - targetElement must be provided when calling enableBodyScroll on IOS devices.",
       );

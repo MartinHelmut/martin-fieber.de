@@ -3,10 +3,11 @@
   "version": "1.0.0",
   "description": "My personal site, portfolio, blog, experiments or other things I wanted to try.",
   "private": true,
+  "type": "module",
   "scripts": {
     "start": "eleventy --serve",
-    "build": "eleventy && prettier --write build",
-    "lint": "eslint '**/*.html' && stylelint '**/*.css'",
+    "build": "eleventy && prettier --write _site",
+    "lint": "eslint src -c eslint.config.js && stylelint '**/*.css'",
     "format": "prettier --write .",
     "format:check": "prettier --list-different .",
     "ci": "pnpm lint && pnpm format:check"
@@ -32,14 +33,16 @@
   },
   "homepage": "https://martin-fieber.se/",
   "devDependencies": {
-    "@11ty/eleventy": "2.0.1",
-    "@11ty/eleventy-plugin-rss": "1.2.0",
-    "eslint": "8.57.0",
-    "eslint-config-prettier": "9.1.0",
-    "eslint-plugin-html": "8.0.0",
-    "luxon": "3.4.4",
-    "prettier": "3.2.5",
-    "stylelint": "16.2.1",
-    "stylelint-prettier": "5.0.0"
+    "@11ty/eleventy": "^3.0.0-alpha.10",
+    "@11ty/eleventy-plugin-rss": "^1.2.0",
+    "@eslint/js": "^9.1.1",
+    "eslint": "^9.1.1",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-html": "^8.1.1",
+    "globals": "^15.1.0",
+    "luxon": "^3.4.4",
+    "prettier": "^3.2.5",
+    "stylelint": "^16.5.0",
+    "stylelint-prettier": "^5.0.0"
   }
 }
