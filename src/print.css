@@ -2,6 +2,19 @@
   size: A4 portrait;
 }
 
+body * {
+  --color-text: var(--color-grey-900);
+  --color-highlight: var(--color-grey-900);
+}
+
+body *.hljs * {
+  --color-code-attribute: #aa5d00;
+  --color-code-symbol: green;
+  --color-code-keyword: #7928a1;
+  --color-code-class: #d91e18;
+  --color-code-title: #007faa;
+}
+
 h1 {
   font-size: 20pt;
 }
@@ -31,6 +44,12 @@ figcaption,
 .callout p,
 .list figcaption {
   font-size: 12pt;
+}
+
+p code,
+li code,
+pre code.hljs {
+  font-size: 0.8rem;
 }
 
 .content {
