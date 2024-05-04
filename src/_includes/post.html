@@ -34,7 +34,12 @@
     <meta property="og:image:height" content="630" />
     <meta property="og:image:type" content="image/png" />
     {%- endif %}
-    <script async defer data-domain="{{ site.name }}" src="/js/script.js"></script>
+    <script
+      defer
+      data-api="/api/event"
+      data-domain="{{ site.name }}"
+      src="/js/script.js">
+    </script>
     <script>
       window.plausible =
         window.plausible ||

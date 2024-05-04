@@ -9,6 +9,7 @@ function copyStaticFiles(eleventyConfig) {
     "src/assets",
     "src/scripts",
     "src/_redirects",
+    "src/_routes.json",
     "src/favicon.ico",
     "src/*.xsl",
     "src/style.css",
