@@ -2,4 +2,3 @@ node_modules/
 src/_includes/
 pnpm-lock.yaml
 src/scripts/*.min.js
-

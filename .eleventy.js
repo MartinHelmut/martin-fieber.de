@@ -1,7 +1,5 @@
-"use strict";
-
-const { DateTime } = require("luxon");
-const pluginRss = require("@11ty/eleventy-plugin-rss");
+import { DateTime } from "luxon";
+import pluginRss from "@11ty/eleventy-plugin-rss";
 
 /**
  * Copy static files like images, styles and scripts.
@@ -46,7 +44,7 @@ function addRandomItemFilter(eleventyConfig) {
   );
 }
 
-module.exports = function (eleventyConfig) {
+export default function (eleventyConfig) {
   copyStaticFiles(eleventyConfig);
   addDateFormatFilter(eleventyConfig);
   addRandomItemFilter(eleventyConfig);
@@ -57,7 +55,6 @@ module.exports = function (eleventyConfig) {
     htmlTemplateEngine: "njk",
     dir: {
       input: "src",
-      output: "build",
     },
   };
-};
+}

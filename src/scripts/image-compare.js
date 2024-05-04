@@ -107,7 +107,7 @@
 
       // Mobile events
 
-      control.addEventListener("touchstart", (e) => {
+      control.addEventListener("touchstart", () => {
         active = true;
         document.body.classList.add("no-user-select");
         window.bodyScrollLock.disableBodyScroll(el, {
