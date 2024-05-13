@@ -1,6 +1,6 @@
 ---
 date: 2023-10-31
-lastmod: 2023-11-01
+lastmod: 2024-05-13
 title: "A TL;DR about CMake Presets"
 description: "Utilizing CMake's presets was the missing piece to truly make it easy to set up and maintain projects, now that I have developed a few opinions of how I want them to be set up."
 linkTitle: "Using CMake presets to enhance project workflows."
@@ -329,7 +329,7 @@ Available configure presets:
   Any preset can inherit another to override or add to it. It is common to
   define a base preset, hide it with the <code>hidden</code> property, and
   derive specific presets from it. Another typical use case is to have a local
-  and a derived <dfn>continuous integration (<abbr>CI</abbr>)</dfn> preset.
+  and a derived continuous integration (<abbr>CI</abbr>) preset.
 </p>
 <p>
   With this, let's first create a common, hidden base preset using Ninja as a

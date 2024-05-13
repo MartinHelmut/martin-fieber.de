@@ -1,5 +1,6 @@
 ---
 date: 2024-01-08
+lastmod: 2024-05-13
 title: "CMake & CPack for cross-platform distributables"
 description: "It is one thing to start using CMake in a project, it is another to actually create a distributable package for major operating systems. A truth I learned on my journey mastering CPack with CMake."
 image: "/assets/blog/cmake-cpack-cross-platform-distributables/title-card.png"
@@ -282,7 +283,7 @@ tags: ["post", "cpp"]
     <a
       href="https://refspecs.linuxfoundation.org/FHS_3.0/fhs/ch04s11.html"
       title="Website of the Linux Foundation about the FHS."
-      ><dfn>filesystem hierarchy standard (<abbr>FHS</abbr>)</dfn></a
+      >filesystem hierarchy standard (<abbr>FHS</abbr>)</a
     >, with the executable often placed in <code>/usr/local/</code>.
   </p>
   <aside class="side-note">
@@ -948,9 +949,8 @@ add_subdirectory(src)</code></pre>
   <a
     href="https://cmake.org/cmake/help/latest/cpack_gen/nsis.html"
     title="CMake documentation about the CPack NSIS generator option."
-    >generators, like
-    <dfn><abbr>NSIS</abbr> (Nullsoft Scriptable Install System)</dfn> under
-    Windows</a
+    >generators, like <abbr>NSIS</abbr> (Nullsoft Scriptable Install System)
+    under Windows</a
   >, will use this and install all components in that folder. A common setting
   is the package or project name.
 </p>
@@ -1992,17 +1992,14 @@ include(CPack)</code></pre>
 
 <h3 id="windows-application-bundle">Windows application bundle</h3>
 <p>
-  For the application bundle and installer on Windows, the
-  <dfn
-    ><a
-      href="https://nsis.sourceforge.io/Main_Page"
-      title="Nullsoft Scriptable Install System main website."
-      >Nullsoft Scriptable Install System</a
-    >
-    (<abbr>NSIS</abbr>)</dfn
+  For the application bundle and installer on Windows, the<a
+    href="https://nsis.sourceforge.io/Main_Page"
+    title="Nullsoft Scriptable Install System main website."
+    >Nullsoft Scriptable Install System</a
   >
-  generator is used. It will create a graphical installer and uninstaller,
-  contain description and license texts, and even set start menu entries.
+  (<abbr>NSIS</abbr>) generator is used. It will create a graphical installer
+  and uninstaller, contain description and license texts, and even set start
+  menu entries.
 </p>
 
 <h4 id="manifest">Manifest</h4>
