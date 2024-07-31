@@ -9,8 +9,7 @@
     "build": "eleventy && prettier --write _site --ignore-path .prettierignore",
     "lint": "eslint src -c eslint.config.js && stylelint '**/*.css'",
     "format": "prettier --write .",
-    "format:check": "prettier --list-different .",
-    "ci": "pnpm lint && pnpm format:check"
+    "format:check": "prettier --list-different ."
   },
   "engines": {
     "node": ">=20"
@@ -33,16 +32,16 @@
   },
   "homepage": "https://martin-fieber.se/",
   "devDependencies": {
-    "@11ty/eleventy": "^3.0.0-alpha.10",
-    "@11ty/eleventy-plugin-rss": "^1.2.0",
-    "@eslint/js": "^9.1.1",
-    "eslint": "^9.1.1",
+    "@11ty/eleventy": "^3.0.0-alpha.18",
+    "@11ty/eleventy-plugin-rss": "^2.0.2",
+    "@eslint/js": "^9.8.0",
+    "eslint": "^9.8.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-html": "^8.1.1",
-    "globals": "^15.1.0",
+    "globals": "^15.8.0",
     "luxon": "^3.4.4",
-    "prettier": "^3.2.5",
-    "stylelint": "^16.5.0",
-    "stylelint-prettier": "^5.0.0"
+    "prettier": "^3.3.3",
+    "stylelint": "^16.8.1",
+    "stylelint-prettier": "^5.0.2"
   }
 }
