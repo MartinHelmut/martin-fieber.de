@@ -1,6 +1,6 @@
 ---
 date: 2023-03-31
-lastmod: 2024-08-01
+lastmod: 2024-08-05
 title: "Create, build, and publish modules for Lua"
 description: "Going through the process of creating new packages with LuaRocks, and preparing them for publishing into the official LuaRocks registry. On top: how to manage new versions, include documentation, and configure platform support."
 image: "/assets/blog/lua-series-part-2/title-card.png"
@@ -434,7 +434,7 @@ test_dependencies = {
 }</code></pre>
   <figcaption>
     This will use
-    <a href="http://stevedonovan.github.io/ldoc/" title="ldoc website">ldoc</a>
+    <a href="https://stevedonovan.github.io/ldoc/" title="ldoc website">ldoc</a>
     on <code>luarocks build</code>, and
     <a href="https://github.com/bluebird75/luaunit" title="LuaUnit on GitHub."
       >LuaUnit</a
@@ -510,7 +510,7 @@ test_dependencies = {
 </p>
 <figure>
   <pre><code class="language-lua hljs">rocks_servers = {
-  "http://luarocks.org/repositories/rocks"
+  "https://luarocks.org/repositories/rocks"
 }</code></pre>
   <figcaption>The default registry when installing dependencies.</figcaption>
 </figure>
