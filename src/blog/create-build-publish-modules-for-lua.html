@@ -1,6 +1,6 @@
 ---
 date: 2023-03-31
-lastmod: 2024-01-08
+lastmod: 2024-08-01
 title: "Create, build, and publish modules for Lua"
 description: "Going through the process of creating new packages with LuaRocks, and preparing them for publishing into the official LuaRocks registry. On top: how to manage new versions, include documentation, and configure platform support."
 image: "/assets/blog/lua-series-part-2/title-card.png"
@@ -28,25 +28,24 @@ series: { name: lua, part: 2 }
 
 <h3>Lua rocks!</h3>
 <p>
-  With the
+  The
   <a
     href="/blog/lua-project-setup-with-luarocks/"
     title="Setup a Lua project with LuaRocks."
-    >first article covering the basics of managing a project</a
+    >first article was covering the basics of managing a project</a
   >
-  and adding dependencies with LuaRocks. A
+  and adding dependencies with LuaRocks, as well as having a
   <a
     href="/blog/lua-project-setup-with-luarocks/#installing-lua"
     title="How to install Lua and LuaRocks in part 1."
     >how-to for installing Lua and LuaRocks</a
-  >
-  can be found in the first article as well.
+  >.
 </p>
 <p>
   This article will focus on how to
-  <strong>create, build, and publish</strong> a Lua package, as well as
-  documentation and version management. If you just want a quick summary, you
-  can jump down to the <a href="#tldr">TL;DR at the end</a> of the page.
+  <strong>create, build, and publish</strong> a Lua package with documentation
+  and version management. If you just want a quick summary, you can jump down to
+  the <a href="#tldr">TL;DR at the end</a> of the page.
 </p>
 
 <nav>
@@ -181,7 +180,12 @@ series: { name: lua, part: 2 }
   </p>
   <aside class="side-note">
     <p>
-      * More on this later in the dedicated article about writing tests in Lua.
+      *
+      <a
+        href="/blog/how-to-test-your-lua/#keep-tests-close"
+        title="I like to keep my Lua tests close to the implementation."
+        >More on keeping tests close in the article about writing them.</a
+      >
     </p>
   </aside>
 </div>
@@ -199,7 +203,7 @@ series: { name: lua, part: 2 }
 <p>
   The <code>.rockspec</code> is a Lua file, though without access to any Lua
   functions. When editing the file it is good practice to check that it is
-  well-formed by running the LuaRocks <code>lint</code> command often.
+  well-formed by running the LuaRocks <code>lint</code> command.
 </p>
 <figure>
   <pre><code class="language-shell hljs">$ ./luarocks lint</code></pre>
@@ -285,7 +289,7 @@ source = {
   <pre><code class="language-lua hljs">source = {
   url = "https://github.com/MartinHelmut/lua-series.git",
   -- This is also the branch name for this article
-  -- at the companion repository.
+  -- in the companion repository.
   branch = "part-2"
 }</code></pre>
 </figure>
@@ -404,8 +408,8 @@ description = {
   </figcaption>
 </figure>
 <p>
-  When setting up a project, all dependencies in that list can easily be
-  installed via the LuaRocks install command.
+  When setting up a project, all dependencies in that list can be installed via
+  the LuaRocks install command.
 </p>
 <figure>
   <pre><code class="language-shell hljs">$ ./luarocks install --deps-only my-package-1.0.0-1.rockspec</code></pre>
@@ -813,24 +817,28 @@ build = {
   <pre><code class="language-shell hljs">$ ./luarocks pack my-package-1.0.0-1.rockspec</code></pre>
 </figure>
 <p>
-  Even though it is nowhere mentioned in the official documentation, a
-  <strong><abbr>JSON</abbr> module is required</strong> for the LuaRocks
-  <code>upload</code> command to work. I personally use
-  <a
-    href="https://luarocks.org/modules/openresty/lua-cjson"
-    title="LuaRocks module page for lua-cjson."
-    >lua-cjson</a
-  >
-  for this, which is installed inside my project folder.
-</p>
-<figure>
-  <pre><code class="language-shell hljs">$ ./luarocks install lua-cjson</code></pre>
-</figure>
-<p>
-  With a <abbr>JSON</abbr> module available, it is now possible to
+  After packing the module, it is now possible to
   <strong>publish the package</strong> for inclusion in the official LuaRocks
   registry.
 </p>
+<aside class="callout">
+  <h4>LuaRocks before 3.10.0</h4>
+  <p>
+    In LuaRocks versions before 3.10.0 a separate
+    <strong><abbr>JSON</abbr> module is required</strong> for the LuaRocks
+    <code>upload</code> command to work. I personally use
+    <a
+      href="https://luarocks.org/modules/openresty/lua-cjson"
+      title="LuaRocks module page for lua-cjson."
+      >lua-cjson</a
+    >
+    for this, which is installed inside my project folder.
+  </p>
+  <figure>
+    <pre><code class="language-shell hljs">$ ./luarocks install lua-cjson</code></pre>
+  </figure>
+</aside>
+
 <figure>
   <pre><code class="language-shell hljs">$ ./luarocks upload my-package-1.1.0-1.rockspec \
     --api-key=&lt;API_KEY_HERE&gt;</code></pre>
@@ -979,7 +987,7 @@ test_dependencies = { "luaunit >= 3.4" }</code></pre>
   <pre><code class="language-shell hljs">$ git tag v1.0.0 && git push --tags</code></pre>
 </figure>
 <p>
-  Get one of those sweet, sweet <a href="#ship-it">API keys</a>, build, pack,
+  Get one of those sweet, sweet <a href="#ship-it">API keys</a>; build, pack,
   and upload your package.
 </p>
 <figure>
@@ -1001,8 +1009,13 @@ $ ./luarocks upload my-package-1.0.0-1.rockspec \
   on GitHub.
 </p>
 <p>
-  The next article will be a deep dive into
-  <strong>testing Lua code</strong> &mdash; the first small iterations, unit
-  testing, creating mocks, and running continuous integration.
+  The
+  <a
+    href="/blog/how-to-test-your-lua/"
+    title="Part 3 in the Lua series: testing Lua."
+    >next article will be a deep dive into <strong>testing Lua code</strong></a
+  >
+  &mdash; the first small iterations, unit testing, creating mocks, and running
+  continuous integration.
 </p>
 <p>Until then 👋🏻</p>

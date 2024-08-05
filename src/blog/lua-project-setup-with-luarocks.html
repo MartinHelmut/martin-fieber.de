@@ -62,7 +62,7 @@ series: { name: lua, part: 1 }
         </li>
       </ul>
     </li>
-    <li><a href="##hello-world">Hello World</a></li>
+    <li><a href="#hello-world">Hello World</a></li>
     <li>
       <a href="#dependency-management-with-luarocks"
         >Dependency management with LuaRocks</a
@@ -260,18 +260,18 @@ Lua 5.4.4  Copyright (C) 1994-2022 Lua.org, PUC-Rio</code></pre>
   <figcaption>A terminal ready to run Lua.</figcaption>
 </figure>
 
-<h3 id="#hello-world">Hello World</h3>
+<h3 id="hello-world">Hello World</h3>
 <div class="side-note-ref">
   <p>
     With Lua installed, it's time to
     <strong>create a small test program</strong> to verify that everything works
-    as expected. Creating a source file inside the dedicated project folder*,
+    as expected. Creating a source file inside a dedicated project folder*,
     <code>src/main.lua</code>, saying hello to everyone.
   </p>
   <aside class="side-note">
     <p>
-      * All files and folders from the article series will go inside the
-      dedicated project folder.
+      * All files and folders from the article series will go inside the same
+      project folder, with at least one subfolder <code>src/</code>.
     </p>
   </aside>
 </div>
@@ -567,7 +567,7 @@ build = {
 <p>Let's use <code>inspect</code> to print a test table.</p>
 <figure>
   <pre><code class="language-lua hljs">-- src/main.lua
-local inspect = require("inspect")
+local inspect = require "inspect"
 local output = { "Hello, reader.", 42 }
 
 print(inspect(output))</code></pre>
@@ -775,8 +775,7 @@ export PATH=$PATH:./lua_modules/bin</code></pre>
     href="https://github.com/Koihik/LuaFormatter"
     title="GitHub page of LuaFormatter, Lua code formatter."
     >LuaFormatter</a
-  >
-  the tool of choice, installed via LuaRocks and thereafter available via the
+  >, my tool of choice, installed via LuaRocks and thereafter available via the
   <code>lua_modules/bin</code> folder.
 </p>
 <figure>
