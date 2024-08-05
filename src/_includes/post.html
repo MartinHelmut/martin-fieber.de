@@ -90,7 +90,16 @@
           {{ content | safe }}
         </article>
         <p>
-          <a href="/blog" title="Main blog page">← Show all blog posts</a>
+          <a href="/blog" title="Main blog page">← Show all posts</a>
+          {%- if series.part %}
+          {% set part = series[series.name] %}
+          | <a
+            href="/series/{{ part.link }}"
+            title="Show all parts of the series: {{ part.title }}"
+          >
+            Show all in series
+          </a>
+          {%- endif -%}
         </p>
       </main>
       <footer>

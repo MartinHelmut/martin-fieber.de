@@ -1,6 +1,6 @@
 ---
 date: 2023-07-31
-lastmod: 2024-01-08
+lastmod: 2024-08-02
 title: "How to test your Lua"
 description: "Having a look at testing Lua code, from small manual tests, to automated tests with LuaUnit. Also having a look at how to mock code and continuous integration with GitHub Actions."
 image: "/assets/blog/lua-series-part-3/title-card.png"
@@ -314,7 +314,7 @@ end</code></pre>
 </p>
 <figure>
   <pre><code class="language-lua hljs">-- src/examples/assert.lua
-local factorial = require("examples/factorial")
+local factorial = require "examples/factorial"
 
 test(function ()
   assert(
@@ -371,8 +371,8 @@ return Runner</code></pre>
 </p>
 <figure>
   <pre><code class="language-lua hljs">-- src/examples/factorial-test-2.lua
-local tr = require("examples/test-runner")
-local factorial = require("examples/factorial")
+local tr = require "examples/test-runner"
+local factorial = require "examples/factorial"
 
 tr:test(function ()
   assert(
@@ -458,7 +458,7 @@ test = {
 </p>
 <figure>
   <pre><code class="language-lua hljs">-- src/test.lua
-local lu = require("luaunit")
+local lu = require "luaunit"
 
 -- Define tests ...
 
@@ -487,8 +487,8 @@ return factorial</code></pre>
 </figure>
 <figure>
   <pre><code class="language-lua hljs">-- src/test.lua
-local lu = require("luaunit")
-local factorial = require("examples/factorial")
+local lu = require "luaunit"
+local factorial = require "examples/factorial"
 
 function Test1()
   lu.assertEquals(factorial(4), 24)
@@ -505,8 +505,8 @@ os.exit(lu.LuaUnit.run())</code></pre>
 </p>
 <figure>
   <pre><code class="language-lua hljs">-- src/test.lua
-local lu = require("luaunit")
-local factorial = require("examples/factorial")
+local lu = require "luaunit"
+local factorial = require "examples/factorial"
 
 TestFactorial = {}
 
@@ -548,8 +548,8 @@ return round</code></pre>
 </p>
 <figure>
   <pre><code class="language-lua hljs">-- src/examples/round-test.lua
-local lu = require("luaunit")
-local round = require("examples/round")
+local lu = require "luaunit"
+local round = require "examples/round"
 
 local TestRound = {}
 
@@ -570,8 +570,8 @@ return TestRound</code></pre>
 </p>
 <figure>
   <pre><code class="language-lua hljs">-- src/examples/factorial-test.lua
-local lu = require("luaunit")
-local factorial = require("examples/factorial")
+local lu = require "luaunit"
+local factorial = require "examples/factorial"
 
 local TestFactorial = {}
 
@@ -583,7 +583,7 @@ end
 
 return TestFactorial</code></pre>
 </figure>
-<p>
+<p id="keep-tests-close">
   I like keeping <strong>tests close to the implementation</strong>, which is
   why tests are in a file with the same name and the postfix
   <code>-test</code> in the same folder &mdash; having a
@@ -598,10 +598,10 @@ return TestFactorial</code></pre>
 </p>
 <figure>
   <pre><code class="language-lua hljs">-- src/test.lua
-TestFactorial = require("examples/factorial-test")
-TestRound = require("examples/round-test")
+TestFactorial = require "examples/factorial-test"
+TestRound = require "examples/round-test"
 
-local lu = require("luaunit")
+local lu = require "luaunit"
 os.exit(lu.LuaUnit.run())</code></pre>
   <figcaption>The entry file will list all tests to run.</figcaption>
 </figure>
@@ -639,8 +639,8 @@ ok     5  TestRound.test2
 </p>
 <figure>
   <pre><code class="language-lua hljs">-- src/examples/logger-test.lua
-local lu = require("luaunit")
-local Logger = require("examples/logger")
+local lu = require "luaunit"
+local Logger = require "examples/logger"
 
 local TestLogger = {}
 
@@ -789,7 +789,7 @@ end</code></pre>
   <strong>toggles a boolean</strong> when called and asserts the value.
 </p>
 <figure>
-  <pre><code class="language-lua hljs">local lu = require("luaunit")
+  <pre><code class="language-lua hljs">local lu = require "luaunit"
 
 function Test1()
   local hasBeenCalled = false
@@ -816,8 +816,8 @@ os.exit(lu.LuaUnit.run())</code></pre>
 </p>
 <figure>
   <pre><code class="language-lua hljs">-- src/examples/mock-exported-test.lua
-local lu = require("luaunit")
-local someModule = require("some-module")
+local lu = require "luaunit"
+local someModule = require "some-module"
 
 local TestSomeModule = {}
 
@@ -894,7 +894,7 @@ end</code></pre>
 <p>This is how the whole example looks.</p>
 <figure>
   <pre><code class="language-lua hljs">-- src/examples/mock-global-test.lua
-local lu = require("luaunit")
+local lu = require "luaunit"
 
 local function log(text)
   print(text)
@@ -940,7 +940,7 @@ os.exit(lu.LuaUnit.run())</code></pre>
 </p>
 <figure>
   <pre><code class="language-lua hljs">-- src/examples/mock-module/assets.lua
-local path = require("path")
+local path = require "path"
 
 local Assets = {}
 function Assets:getPath()
@@ -1006,8 +1006,7 @@ end</code></pre>
 -- Other test code ...
 
 function TestAssets:test1()
-  local assets = require(
-    "examples/mock-module/assets")
+  local assets = require "examples/mock-module/assets"
   lu.assertEquals(assets.getPath(), "/assets")
 end</code></pre>
 </figure>
@@ -1020,7 +1019,7 @@ end</code></pre>
   Here is the <strong>full example</strong> how to mock <code>require</code>.
 </p>
 <figure>
-  <pre><code class="language-lua hljs">local lu = require("luaunit")
+  <pre><code class="language-lua hljs">local lu = require "luaunit"
 
 local TestAssets = {}
 
@@ -1042,8 +1041,7 @@ function TestAssets:setUp()
 end
 
 function TestAssets:test1()
-  local assets = require(
-    "examples/mock-module/assets")
+  local assets = require "examples/mock-module/assets"
   lu.assertEquals(assets.getPath(), "/assets")
 end
 
