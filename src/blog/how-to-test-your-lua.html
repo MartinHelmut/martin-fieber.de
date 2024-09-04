@@ -1,13 +1,13 @@
 ---
 date: 2023-07-31
-lastmod: 2024-08-02
+lastmod: 2024-09-04
 title: "How to test your Lua"
 description: "Having a look at testing Lua code, from small manual tests, to automated tests with LuaUnit. Also having a look at how to mock code and continuous integration with GitHub Actions."
 image: "/assets/blog/lua-series-part-3/title-card.png"
-imageAlt: "Showing a VSCode window in dark mode, a Lua file open with showing test code written with LuaUnit. A sidebar on the left, showing the project files that get built in this part of the series."
+imageAlt: "Showing a VS Code window in dark mode, a Lua file open with showing test code written with LuaUnit. A sidebar on the left, showing the project files that get built in this part of the series."
 linkTitle: "Different aspects of testing your Lua code."
 banner: "/assets/blog/lua-series-part-3/banner.png"
-bannerAlt: "Showing a VSCode window in dark mode, a Lua file open with showing test code written with LuaUnit. A sidebar on the left, showing the project files that get built in this part of the series."
+bannerAlt: "Showing a VS Code window in dark mode, a Lua file open with showing test code written with LuaUnit. A sidebar on the left, showing the project files that get built in this part of the series."
 summary: "<p>Besides quick iterations on the command-line, having a test suite for Lua will be crucial for any serious project. This article will also cover mocking and a continuous integration setup.</p>"
 hasCode: true
 tags: ["post", "lua"]
@@ -19,8 +19,8 @@ series: { name: lua, part: 3 }
     <img
       src="/assets/blog/lua-series-part-3/banner.png"
       alt="{{ bannerAlt }}"
-      width="1024"
-      height="300"
+      width="1360"
+      height="399"
     />
   </picture>
   <figcaption>Preview of using LuaUnit for unit testing.</figcaption>
@@ -1156,8 +1156,12 @@ jobs:
 </p>
 <p>
   The next article will focus on
-  <strong>debugging and profiling Lua code</strong> &mdash; really digging into
-  fixing bugs, detecting performance bottlenecks, and even writing a small
-  profiling tool.
+  <a
+    href="/blog/debugging-and-profiling-lua/"
+    title="Article about debugging and profiling Lua, including a small performance tracer."
+    >debugging and profiling Lua code</a
+  >
+  &mdash; really digging into fixing bugs, detecting performance bottlenecks,
+  and even writing a small profiling tool.
 </p>
 <p>Until then 👋🏻</p>

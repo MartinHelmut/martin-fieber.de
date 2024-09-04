@@ -1,13 +1,13 @@
 ---
 date: 2023-02-27
-lastmod: 2024-08-01
+lastmod: 2024-09-04
 title: "Lua project setup with LuaRocks"
 description: "A full guide on setting up a Lua project, including dependency management, code formatting and analysis, and editor setup. Part of a larger series about aspects of Lua."
 image: "/assets/blog/lua-series-part-1/title-card.png"
-imageAlt: "Showing a VSCode window in dark mode with an open Lua file and the sidebar on the left showing the contained project files that get built up in the series."
+imageAlt: "Showing a VS Code window in dark mode with an open Lua file and the sidebar on the left showing the contained project files that get built up in the series."
 linkTitle: "A setup for lua projects, getting ready to built upon later."
 banner: "/assets/blog/lua-series-part-1/banner.png"
-bannerAlt: "Showing a VSCode window in dark mode with an open Lua file and the sidebar on the left showing the contained project files that get built up in the series."
+bannerAlt: "Showing a VS Code window in dark mode with an open Lua file and the sidebar on the left showing the contained project files that get built up in the series."
 summary: "<p>Setting up a project with Lua, running code, installing dependencies, code formatting, and static analysis, as well as the editor setup.</p>"
 hasCode: true
 tags: ["post", "lua"]
@@ -19,8 +19,8 @@ series: { name: lua, part: 1 }
     <img
       src="/assets/blog/lua-series-part-1/banner.png"
       alt="{{ bannerAlt }}"
-      width="1024"
-      height="300"
+      width="1360"
+      height="399"
     />
   </picture>
   <figcaption>A look at the project setup created in this article.</figcaption>
@@ -56,8 +56,12 @@ series: { name: lua, part: 1 }
       <a href="#installing-lua">Installing Lua</a>
       <ul>
         <li>
-          <a href="#installing-lua-macos">macOS</a>,
-          <a href="#installing-lua-linux">Linux</a>,
+          <a href="#installing-lua-macos">macOS</a>
+        </li>
+        <li>
+          <a href="#installing-lua-linux">Linux</a>
+        </li>
+        <li>
           <a href="#installing-lua-windows">Windows</a>
         </li>
       </ul>
@@ -69,8 +73,12 @@ series: { name: lua, part: 1 }
       >
       <ul>
         <li>
-          <a href="#dependency-management-with-luarocks-macos">macOS</a>,
-          <a href="#dependency-management-with-luarocks-linux">Linux</a>,
+          <a href="#dependency-management-with-luarocks-macos">macOS</a>
+        </li>
+        <li>
+          <a href="#dependency-management-with-luarocks-linux">Linux</a>
+        </li>
+        <li>
           <a href="#dependency-management-with-luarocks-windows">Windows</a>
         </li>
       </ul>
@@ -88,8 +96,18 @@ series: { name: lua, part: 1 }
       <a href="#editor-setup">Editor setup</a>
       <ul>
         <li>
-          <a href="#editor-setup-jetbrains">JetBrains</a>,
-          <a href="#editor-setup-visual-studio-code">Visual Studio Code</a>,
+          <a href="#editor-setup-jetbrains">JetBrains (CLion)</a>
+        </li>
+        <li>
+          <a href="#editor-setup-visual-studio-code">Visual Studio Code</a>
+        </li>
+        <li>
+          <a href="#editor-setup-sublime-text">Sublime Text 4</a>
+        </li>
+        <li>
+          <a href="#editor-setup-zerobrane">ZeroBrane</a>
+        </li>
+        <li>
           <a href="#editor-setup-honorable-mentions">Honorable mentions</a>
         </li>
       </ul>
@@ -199,8 +217,8 @@ Lua 5.4.4  Copyright (C) 1994-2022 Lua.org, PUC-Rio</code></pre>
       src="/assets/blog/lua-series-part-1/source-forge-lua-download-1.png"
       alt="A screenshot of the SourceForge website, showing multiple download entries for Lua, with the 'Tools Executables' entry highlighted."
       loading="lazy"
-      width="1024"
-      height="500"
+      width="1360"
+      height="665"
     />
   </picture>
   <figcaption>
@@ -217,8 +235,8 @@ Lua 5.4.4  Copyright (C) 1994-2022 Lua.org, PUC-Rio</code></pre>
       src="/assets/blog/lua-series-part-1/source-forge-lua-download-2.png"
       alt="A screenshot of the SourceForge website, showing a list of Lua downloads for different system versions."
       loading="lazy"
-      width="1024"
-      height="670"
+      width="1360"
+      height="890"
     />
   </picture>
   <figcaption>
@@ -236,8 +254,8 @@ Lua 5.4.4  Copyright (C) 1994-2022 Lua.org, PUC-Rio</code></pre>
       src="/assets/blog/lua-series-part-1/windows-folder-with-lua.png"
       alt="An open Windows Explorer window, the Downloads folder is selected showing the extracted files from the Lua download. The file 'lua54' is highlighted."
       loading="lazy"
-      width="1024"
-      height="400"
+      width="1360"
+      height="532"
     />
   </picture>
   <figcaption>The contents of the extracted archive.</figcaption>
@@ -258,8 +276,8 @@ Lua 5.4.4  Copyright (C) 1994-2022 Lua.org, PUC-Rio</code></pre>
       src="/assets/blog/lua-series-part-1/windows-lua-terminal.png"
       alt="Part of a black windows terminal showing the Lua welcome message when running in interactive mode."
       loading="lazy"
-      width="1024"
-      height="230"
+      width="1360"
+      height="306"
     />
   </picture>
   <figcaption>A terminal ready to run Lua.</figcaption>
@@ -581,20 +599,20 @@ print(inspect(output))</code></pre>
 <figure>
   <pre><code class="language-shell hljs">$ lua src/main.lua
 lua: src/main.lua:1: module 'inspect' not found:
-	no field package.preload['inspect']
-	no file '/opt/homebrew/share/lua/5.4/inspect.lua'
-	no file '/opt/homebrew/share/lua/5.4/inspect/init.lua'
-	no file '/opt/homebrew/lib/lua/5.4/inspect.lua'
-	no file '/opt/homebrew/lib/lua/5.4/inspect/init.lua'
-	no file './inspect.lua'
-	no file './inspect/init.lua'
-	no file '/opt/homebrew/lib/lua/5.4/inspect.so'
-	no file '/opt/homebrew/lib/lua/5.4/loadall.so'
-	no file './inspect.so'
+  no field package.preload['inspect']
+  no file '/opt/homebrew/share/lua/5.4/inspect.lua'
+  no file '/opt/homebrew/share/lua/5.4/inspect/init.lua'
+  no file '/opt/homebrew/lib/lua/5.4/inspect.lua'
+  no file '/opt/homebrew/lib/lua/5.4/inspect/init.lua'
+  no file './inspect.lua'
+  no file './inspect/init.lua'
+  no file '/opt/homebrew/lib/lua/5.4/inspect.so'
+  no file '/opt/homebrew/lib/lua/5.4/loadall.so'
+  no file './inspect.so'
 stack traceback:
-	[C]: in function 'require'
-	src/main.lua:1: in main chunk
-	[C]: in ?</code></pre>
+  [C]: in function 'require'
+  src/main.lua:1: in main chunk
+  [C]: in ?</code></pre>
   <figcaption>Continue reading for the solution.</figcaption>
 </figure>
 
@@ -857,22 +875,25 @@ Total: 0 warnings / 0 errors in 2 files</code></pre>
 <h3 id="editor-setup">Editor setup</h3>
 <p>
   No project setup is complete without setting up an editor environment. To have
-  some options, <strong>I picked two</strong> well-known ones: IntelliJ IDE from
-  JetBrains (paid) and VSCode from Microsoft (free).
+  some options, <strong>I picked five</strong> well-known ones: an IntelliJ IDE,
+  in this case <a href="#editor-setup-jetbrains">CLion</a> (paid),
+  <a href="#editor-setup-visual-studio-code">VS Code</a> (free),
+  <a href="#editor-setup-sublime-text">Sublime Text 4</a> (paid), and
+  <a href="#editor-setup-zerobrane">ZeroBrane</a> (free).
 </p>
 
-<h4 id="editor-setup-jetbrains">JetBrains</h4>
+<h4 id="editor-setup-jetbrains">JetBrains (CLion)</h4>
 <figure>
   <picture>
     <img
       src="/assets/blog/lua-series-part-1/editor-jetbrains-intellij.png"
       alt="Screenshot of IntelliJ IDE with the open Lua series project."
       loading="lazy"
-      width="1024"
-      height="600"
+      width="1360"
+      height="797"
     />
   </picture>
-  <figcaption>The Lua series project open in IntelliJ IDE.</figcaption>
+  <figcaption>The Lua series project open in CLion.</figcaption>
 </figure>
 <p>
   Using any
@@ -887,137 +908,510 @@ Total: 0 warnings / 0 errors in 2 files</code></pre>
     title="JetBrains' CLion landing page, cross-platform IDE for C and C++."
     >CLion</a
   >) for Lua development, I use the plugin
-  <a
-    href="https://github.com/Benjamin-Dobell/IntelliJ-Luanalysis"
-    title="GitHub page of the IntelliJ plugin Luanalysis."
-    >Luanalysis</a
-  >, an
-  <a
-    href="https://github.com/EmmyLua/IntelliJ-EmmyLua"
-    title="GitHub page of the IntelliJ plugin EmmyLua."
-    >EmmyLua</a
-  >
-  fork. It comes with Luacheck bundled and offers many convenient functions like
-  <em>Find Usage</em>, <em>Refactor</em>, <em>Go To</em>,
-  <em>Parameter Hints</em>, and <em>Documentation</em> support, to name a few.
+  <a href="https://github.com/redhat-developer/lsp4ij" title="">LSP4IJ</a> to
+  support language server clients with
+  <a href="https://plugins.jetbrains.com/plugin/22315-sumnekolua" title=""
+    >SumnekoLua</a
+  >, the Lua language server plugin for IntelliJ products. It comes with dynamic
+  type checking, formatting, find reference, simple refactoring capabilities,
+  and documentation support, to name a few.
 </p>
 <p>
-  I could <strong>not find a way</strong> to auto-format code on save with
-  LuaFormatter, though.
+  It does <strong>not support debugging</strong> though, so breakpoints won't
+  work and
+  <a
+    href="/blog/debugging-and-profiling-lua/"
+    title="Article about debugging and profiling Lua, including a small performance tracer."
+    >other ways to debug</a
+  >
+  need to be utilized.
 </p>
+<p>
+  To then run Lua files directly from the IDE, a run configuration needs to be
+  provided.
+</p>
+<p>
+  To get a run configuration going, CLion needs a build target defined. In
+  settings look for <em>Build, Execution, Deployment</em> &rarr;
+  <em>Custom Build Target</em>.
+</p>
+<figure>
+  <picture>
+    <img
+      src="/assets/blog/lua-series-part-1/editor-clion-target.png"
+      alt="The CLion settings window, showing the 'Custom Build Target' section."
+      loading="lazy"
+      width="1360"
+      height="638"
+    />
+  </picture>
+</figure>
+<p>
+  Create a new build target and name it <em>"Lua"</em>, leaving all other
+  options as they are.
+</p>
+<figure>
+  <picture>
+    <img
+      src="/assets/blog/lua-series-part-1/editor-clion-new-target.png"
+      alt="The CLion settings window, showing the 'Custom Build Target' section with a new build called 'Lua'."
+      loading="lazy"
+      width="1360"
+      height="1086"
+    />
+  </picture>
+</figure>
+<p>
+  That's for the target definition. Closing the settings window, the actual run
+  configuration now needs to be defined.
+</p>
+<p>
+  On the <strong>right side in the top toolbar</strong> is, when no
+  configuration exists, a button saying <em>"Edit Configurations&hellip;"</em>.
+  If a configuration already exists the same option is in the dropdown where the
+  configuration is selected.
+</p>
+<p>Opening that configuration will show a window like the following.</p>
+<figure>
+  <picture>
+    <img
+      src="/assets/blog/lua-series-part-1/editor-clion-run-config.png"
+      alt="The CLion Run and Debug configuration window."
+      loading="lazy"
+      width="1360"
+      height="942"
+    />
+  </picture>
+</figure>
+<p>
+  This is where the run config will be created. Add a new configuration as
+  <em>"Native Application"</em>.
+</p>
+<figure>
+  <picture>
+    <img
+      src="/assets/blog/lua-series-part-1/editor-clion-run-config-new.png"
+      alt="The CLion Run and Debug configuration window, with an open sub-window for creating a new configuration."
+      loading="lazy"
+      width="1360"
+      height="942"
+    />
+  </picture>
+</figure>
+<div class="side-note-ref">
+  <p>
+    Select the newly created <em>"Lua"</em> target as runner target. Name the
+    new configuration <em>"Lua"</em>, executable is <code>lua</code>*. The
+    program argument should be the current open file, set via the variable
+    <code>$FilePathRelativeToProjectRoot$</code>. Working directory is the
+    project directory.
+  </p>
+  <aside class="side-note">
+    <p>
+      *The Lua executable should be available in the PATH environment variable.
+      If not, it can be
+      <a
+        href="/blog/lua-project-setup-with-luarocks/"
+        title="My article about setting up Lua."
+        >setup</a
+      >
+      or use the whole path to the executable.
+    </p>
+  </aside>
+</div>
+<p>
+  The last but very important setting is the environment variable
+  <code>LUA_INIT</code>. As discussed in the
+  <a
+    href="/blog/lua-project-setup-with-luarocks/#resolve-module-paths"
+    title="How to resolve module paths, from the Lua setup article."
+    >first part, setting up Lua</a
+  >, this is to resolve LuaRocks module paths based on the
+  <code>setup.lua</code> file.
+</p>
+<figure>
+  <picture>
+    <img
+      src="/assets/blog/lua-series-part-1/editor-clion-run-config-create.png"
+      alt="The CLion Run and Debug configuration window, with a new configuration showing how to setup a Lua runner."
+      loading="lazy"
+      width="1360"
+      height="942"
+    />
+  </picture>
+  <figcaption>This is how the final configuration looks like.</figcaption>
+</figure>
+<p>
+  After creating this configuration it is now possible to run Lua directly
+  within CLion.
+</p>
+<figure>
+  <picture>
+    <img
+      src="/assets/blog/lua-series-part-1/editor-clion-run.png"
+      alt="A CLion window showing how Lua is run directly from within the IDE. An open example Lua file with some simple print statements, a runner window at the bottom."
+      loading="lazy"
+      width="1360"
+      height="941"
+    />
+  </picture>
+</figure>
 
 <h4 id="editor-setup-visual-studio-code">Visual Studio Code</h4>
 <figure>
   <picture>
     <img
       src="/assets/blog/lua-series-part-1/editor-microsoft-vscode.png"
-      alt="Screenshot of VSCode editor with the open Lua series project."
+      alt="Screenshot of VS Code editor with the open Lua series project."
       loading="lazy"
-      width="1024"
-      height="600"
+      width="1360"
+      height="797"
     />
   </picture>
-  <figcaption>The Lua series project open in VSCode.</figcaption>
+  <figcaption>The Lua series project open in VS Code.</figcaption>
 </figure>
 <p>
   For
   <a
     href="https://code.visualstudio.com"
     title="Microsoft's Visual Studio Code editor website."
-    >VSCode</a
+    >VS Code</a
   >
-  three plugins do the heavy lifting &mdash; the
+  <strong>two plugins</strong> do the heavy lifting &mdash; the
   <a
     href="https://marketplace.visualstudio.com/items?itemName=sumneko.lua"
-    title="Lua plugin page on VSCode marketplace."
-    >Lua language server plugin</a
-  >, the
+    title="Lua plugin page on VS Code marketplace."
+    >Lua language server</a
+  >
+  providing language support including type checking, autocomplete, code
+  formatting, documentation, and lots more; and the
   <a
-    href="https://marketplace.visualstudio.com/items?itemName=rog2.luacheck"
-    title="Luacheck plugin page on VSCode marketplace."
-    >plugin for Luacheck</a
-  >, and another
-  <a
-    href="https://marketplace.visualstudio.com/items?itemName=Koihik.vscode-lua-format"
-    title="LuaFormatter plugin page on VSCode marketplace."
-    >plugin for LuaFormatter</a
-  >.
+    href="https://marketplace.visualstudio.com/items?itemName=actboy168.lua-debug"
+    title="Lua Debug plugin page on VS Code marketplace."
+    >Lua Debug</a
+  >
+  plugin for breakpoints and debugging support.
 </p>
 <p>
-  The only plugin that really needs configuration is the LuaFormatter plugin,
-  setting the path to the LuaFormatter executable and to the
-  <code>.lua-format</code>
-  config file.
-</p>
-<figure>
-  <picture>
-    <img
-      src="/assets/blog/lua-series-part-1/vscode-luaformatter-settings.png"
-      alt="A screenshot of the settings in VSCode to enable LuaFormatter, showing the binary path and format config path options."
-      loading="lazy"
-      width="1024"
-      height="520"
-    />
-  </picture>
-  <figcaption>Both settings need to be provided.</figcaption>
-</figure>
-<p>
-  VSCode's setting <em>"Format on Save"</em> can be used to automatically format
-  the code.
+  Both plugins work out-of-the-box. Nevertheless, VS Code's setting
+  <em>"Format on Save"</em> can be used to automatically format the code.
 </p>
 <figure>
   <picture>
     <img
       src="/assets/blog/lua-series-part-1/vscode-format-on-save.png"
-      alt="A screenshot of the settings in VSCode to enable 'format on save'. The checkbox is checked."
+      alt="A screenshot of the settings in VS Code to enable 'format on save'. The checkbox is checked."
       loading="lazy"
-      width="1024"
-      height="385"
+      width="1360"
+      height="512"
     />
   </picture>
   <figcaption>Makes life that much easier.</figcaption>
 </figure>
-
-<h4 id="editor-setup-honorable-mentions">Honorable mentions</h4>
 <p>
-  Even though I focused on those two editors, I wanted to mention some
-  <strong>more options</strong> for Lua development.
+  Thanks to the
+  <a
+    href="https://marketplace.visualstudio.com/items?itemName=actboy168.lua-debug"
+    title="Lua Debug plugin page on VS Code marketplace."
+    >Lua Debug</a
+  >
+  plugin it is possible to <strong>run Lua right from VS Code</strong>.
+</p>
+<div class="side-note-ref">
+  <p>
+    But, not when using LuaRocks due to modules not being resolved. To fix this,
+    the <em>Lua Debug</em> extension supports setting <code>path</code> and
+    <code>cpath</code> either through a
+    <a
+      href="https://code.visualstudio.com/docs/cpp/launch-json-reference"
+      title="Official documentation for the launch.json file."
+      >launch.json</a
+    >
+    or the
+    <a
+      href="https://code.visualstudio.com/docs/getstarted/settings"
+      title="Official documentation for workspace settings."
+      >workspace settings</a
+    >, nevertheless, this <strong>did not work for me</strong> in any capacity*.
+  </p>
+  <aside class="side-note">
+    <p>
+      Here an
+      <a
+        href="https://github.com/actboy168/lua-debug/issues/202"
+        title="Open issue regarding path and cpath being ignored."
+        >open GitHub issue</a
+      >
+      mentioning the problem.
+    </p>
+  </aside>
+</div>
+<p>
+  To make this work, loading modules installed through LuaRocks, I had to
+  require the <code>setup.lua</code> file at the start of my main entry.
+</p>
+<figure>
+  <pre><code class="language-lua hljs">-- src/main.lua
+require "src/setup"
+
+local inspect = require "inspect"
+local output = {
+  "Hello, reader.",
+  42
+}
+
+print(inspect(output))</code></pre>
+</figure>
+<p>With this I'm able to run and debug Lua directly in VS Code.</p>
+
+<h4 id="editor-setup-sublime-text">Sublime Text 4</h4>
+<figure>
+  <picture>
+    <img
+      src="/assets/blog/lua-series-part-1/editor-sublime-text.png"
+      alt="Screenshot of Sublime Text 4 editor with the open Lua series project."
+      loading="lazy"
+      width="1360"
+      height="372"
+    />
+  </picture>
+  <figcaption>The Lua series project open in Sublime Text 4.</figcaption>
+</figure>
+<p>
+  Three plugins will enable working with Lua in Sublime Text, through
+  <a href="https://packagecontrol.io" title="Official package control website"
+    >package control</a
+  >:
+  <a href="https://packagecontrol.io/packages/LSP" title="LSP package page"
+    >LSP</a
+  >,
+  <a
+    href="https://packagecontrol.io/packages/LSP-lua"
+    title="LSP Lua package page"
+    >LSP-lua</a
+  >, and
+  <a
+    href="https://packagecontrol.io/packages/Direnv"
+    title="Direnv package page"
+    >Direnv</a
+  >.
 </p>
 <p>
-  One of those options is
+  <abbr title="Language Server Protocol">LSP</abbr> is a general package to
+  enable language server protocol support in Sublime. <em>LSP-lua</em> then is
+  the Lua language server.
+</p>
+<p>
+  The package <em>Direnv</em> is to enable
+  <a href="https://direnv.net" title="Official direnv website">direnv</a>
+  support. Direnv is what I use to set environment variables like
+  <code>LUA_INIT</code> to load the <code>src/setup.lua</code> when running Lua
+  to
+  <a
+    href="/blog/lua-project-setup-with-luarocks/#resolve-module-paths"
+    title="First article in the series, showing how to resolve module paths."
+    >enable a smooth LuaRocks integration</a
+  >.
+</p>
+<p>
+  I tried different packages but could
+  <strong>not get support for debugging</strong> or breakpoints, therefore
+  <a
+    href="/blog/debugging-and-profiling-lua/"
+    title="Article about debugging and profiling Lua, including a small performance tracer."
+    >other ways to debug</a
+  >
+  need to be utilized.
+</p>
+<p>
+  To properly integrate Lua into Sublime it is best done through a
+  <a
+    href="https://www.sublimetext.com/docs/projects.html"
+    title="Sublime Text documentation about projects."
+    >Sublime project</a
+  >. Any open folder can be saved as a project, either by going through
+  <em>Project</em> &rarr; <em>Save Project as &hellip;</em> in the menu or by
+  creating a <code>.sublime-project</code> file.
+</p>
+<figure>
+  <pre><code class="language-json hljs">{
+  "folders": [
+    {
+      "path": "."
+    }
+  ]
+}
+</code></pre>
+  <figcaption>
+    Defining a project via a <code>*.sublime-project</code> file.
+  </figcaption>
+</figure>
+<p>
+  <strong>Autocomplete</strong> and the <strong>language server</strong> can be
+  set up through the project file.
+</p>
+<figure>
+  <pre><code class="language-json hljs">{
+  "folders": [
+    {
+      "path": "."
+    }
+  ],
+  "settings": {
+    "auto_complete": true,
+    "LSP": {
+      "lua": {
+        "enabled": true
+      },
+    },
+  }
+}
+</code></pre>
+  <figcaption>
+    <code>some-name.sublime-project</code>
+  </figcaption>
+</figure>
+<p>
+  Through the <em>"direnv"</em> extension the <code>LUA_INIT</code> variable
+  defined in <code>.envrc</code> is loaded. This will try to run the
+  <code>src/setup.lua</code> file whenever Lua is run, to enable LuaRocks
+  integration.
+</p>
+<p>
+  To get this working it needs a <strong>custom build setup</strong> for Lua,
+  defining the <code>working_dir</code> property to find the
+  <code>src/setup.lua</code> file when running the build through Sublime.
+</p>
+<p>
+  This gets defined through the project file. It will need a name, e.g.
+  <em>"Lua"</em>, the <code>working_dir</code> that will be a variable called
+  <code>$project_path</code>, the Lua command, a file regular expression, and
+  source selector, telling sublime for what type of code the build is defined.
+</p>
+<figure>
+  <pre><code class="language-json hljs">{
+  "folders": [
+    {
+      "path": "."
+    }
+  ],
+  "build_systems": [
+    {
+      "name": "Lua",
+      "working_dir": "$project_path",
+      "cmd": ["lua", "$file"],
+      "file_regex": "^(?:lua:)?[\t ](...*?):([0-9]*):?([0-9]*)",
+      "selector": "source.lua"
+    }
+  ],
+  "settings": {
+    "auto_complete": true,
+    "LSP": {
+      "lua": {
+        "enabled": true
+      },
+    },
+  }
+}
+</code></pre>
+  <figcaption>
+    <code>some-name.sublime-project</code>
+  </figcaption>
+</figure>
+<figure>
+  <picture>
+    <img
+      src="/assets/blog/lua-series-part-1/editor-sublime-text-project.png"
+      alt="Screenshot of Sublime Text 4 editor with the project setting file."
+      loading="lazy"
+      width="1360"
+      height="890"
+    />
+  </picture>
+  <figcaption>The whole project setting file.</figcaption>
+</figure>
+<p>
+  The file regular expression
+  <code>^(?:lua:)?[\t ](...*?):([0-9]*):?([0-9]*)</code> will be run against the
+  build result and extract information to enable navigating the result on error
+  in editor.
+</p>
+<p>
+  Now, running Lua directly through Sublime is enabled through
+  <em>Tools</em> &rarr; <em>Build</em> or the related shortcut.
+</p>
+<figure>
+  <picture>
+    <img
+      src="/assets/blog/lua-series-part-1/editor-sublime-text-check.png"
+      alt="Screenshot of Sublime Text 4 editor running the project code directly through the editor."
+      loading="lazy"
+      width="1360"
+      height="890"
+    />
+  </picture>
+  <figcaption>Showing an example how Lua was run through Sublime.</figcaption>
+</figure>
+
+<h4 id="editor-setup-zerobrane">ZeroBrane</h4>
+<figure>
+  <picture>
+    <img
+      src="/assets/blog/lua-series-part-1/zero-brane-studio.png"
+      alt="The start screen of ZeroBrane Studio with the Lua series project opened."
+      loading="lazy"
+      width="1360"
+      height="372"
+    />
+  </picture>
+  <figcaption>The Lua series project open in ZeroBrane Studio.</figcaption>
+</figure>
+<p>
   <a
     href="https://studio.zerobrane.com"
     title="Website of ZeroBrane Studio, a lightweight Lua IDE."
     >ZeroBrane Studio</a
-  >, an IDE focused on Lua development. It has a lot of features focused on Lua,
-  including resources to learn the language.
+  >
+  is an IDE focused on Lua development. It has a lot of features focused on Lua,
+  including resources to learn the language right in the editor. It comes with
+  everything needed to write and run Lua.
 </p>
+<p>
+  The only thing I needed to provide separately was LuaRocks support. What
+  worked best for me was to include the <code>src/setup.lua</code> file in my
+  main entry.
+</p>
+<figure>
+  <picture>
+    <img
+      src="/assets/blog/lua-series-part-1/zero-brane-running.png"
+      alt="Running the Lua series project in ZeroBrane Studio. The editor open with the main file, at the bottom of the screen is some console output from running code."
+      loading="lazy"
+      width="1360"
+      height="890"
+    />
+  </picture>
+  <figcaption>The Lua series project open in ZeroBrane Studio.</figcaption>
+</figure>
+
+<h4 id="editor-setup-honorable-mentions">Honorable mention</h4>
 <p>
   <a
     href="https://neovim.io"
     title="Website for the hyper-extensible Vim-based text editor."
     >Neovim</a
   >
-  is another option that comes with Lua support out-of-the-box. Lua is even
-  built-in, and plugins for the editor are written in it.
+  is another option that comes with Lua support out-of-the-box. Lua is built-in
+  and plugins for the editor are written in it.
 </p>
 <p>
-  Close to my heart,
-  <a href="https://www.sublimetext.com" title="Sublime Text 4 website"
-    >Sublime Text</a
-  >
-  is a great option for development in general. For Lua, I use the
   <a
-    href="https://packagecontrol.io/packages/LuaExtended"
-    title="Plugin page for the Sublime Text plugin LuaExtended."
-    >LuaExtended</a
+    href="https://defold.com"
+    title="Website for the Defold game engine supporting Lua."
+    >Defold</a
   >
-  plugin, which brings even better support to the editor.
-</p>
-<p>
-  Another great but macOS only choice is
-  <a href="https://nova.app">Nova by Panic</a>. It comes with everything needed
-  for Lua development, ready to go.
+  is a game engine using Lua as its scripting language. I comes with an editor
+  that fully supports Lua including debugging capabilities.
 </p>
 
 <h3 id="what-comes-next">What comes next</h3>

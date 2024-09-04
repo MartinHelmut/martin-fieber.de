@@ -507,6 +507,44 @@ kbd > kbd {
   white-space: nowrap;
 }
 
+table {
+  font-family: var(--base-font), sans-serif;
+  font-size: 1rem;
+  font-weight: var(--font-weight-normal);
+  color: var(--color-text);
+  line-height: 1.65;
+  text-align: left;
+  margin: 0 0 var(--size-500) 0;
+  padding: 0;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table caption {
+  caption-side: bottom;
+  padding: var(--size-400) 0 0 0;
+  color: var(--color-text-secondary);
+}
+
+table code {
+  font-size: 0.8rem;
+}
+
+thead {
+  background-color: var(--color-blue-100);
+  border-bottom: 2px solid var(--color-highlight);
+}
+
+th,
+td {
+  border: 1px solid var(--color-grey-500);
+  padding: var(--size-100) var(--size-300);
+}
+
+tbody > tr:nth-of-type(even) {
+  background-color: var(--color-blue-100);
+}
+
 /* Article */
 
 article {

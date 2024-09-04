@@ -1,6 +1,6 @@
 ---
 layout: base
-lastmod: 2024-01-08
+lastmod: 2024-09-04
 title: "Series: Lua"
 description: "A series about different parts of Lua, from dependency management, testing and profiling, to large project setups and C++ integration."
 image: "/assets/blog/lua-series-part-1/title-card.png"
@@ -14,7 +14,7 @@ imageAlt: "Showing a VSCode window in dark mode with an open Lua file and the si
   <strong>not the language itself</strong>. There are far better resources for
   this, like the book
   <a
-    href="http://www.lua.org/pil/"
+    href="https://www.lua.org/pil/"
     title="Website about the Lua programming book."
     >Programming in Lua</a
   >
@@ -73,7 +73,18 @@ imageAlt: "Showing a VSCode window in dark mode with an open Lua file and the si
   </article>
   {% endif %} {%- endfor %}
   <article class="disabled">
-    <h3>Part 5: CLI applications with Lua</h3>
+    <h3>Part 5: Extending C++ applications with Lua</h3>
+    <footer>
+      <p>Will take a while</p>
+    </footer>
+    <p>
+      Lua being an <em>"extensible extension language"</em>, it is perfect to
+      extend and customize applications. This will go deeper into how in
+      combination with C++.
+    </p>
+  </article>
+  <article class="disabled">
+    <h3>Part 6: CLI applications with Lua</h3>
     <footer>
       <p>Coming soon</p>
     </footer>
@@ -84,24 +95,13 @@ imageAlt: "Showing a VSCode window in dark mode with an open Lua file and the si
     </p>
   </article>
   <article class="disabled">
-    <h3>Part 6: Mono-repo setup with Lua</h3>
+    <h3>Part 7: Mono-repo setup with Lua</h3>
     <footer>
       <p>Need to wait a bit longer</p>
     </footer>
     <p>
       Growing applications have growing needs. This will cover how to manage
       those, with multiple projects inside one repository.
-    </p>
-  </article>
-  <article class="disabled">
-    <h3>Part 7: Extending C++ applications with Lua</h3>
-    <footer>
-      <p>Will take a while</p>
-    </footer>
-    <p>
-      Lua being an <em>"extensible extension language"</em>, it is perfect to
-      extend and customize applications. This will go deeper into how in
-      combination with C++.
     </p>
   </article>
   <article class="disabled">
@@ -136,7 +136,7 @@ imageAlt: "Showing a VSCode window in dark mode with an open Lua file and the si
   <ul>
     <li>
       <a
-        href="http://www.lua.org"
+        href="https://www.lua.org"
         title="All about Lua on the official website."
         >Official Lua website</a
       >
@@ -189,6 +189,14 @@ imageAlt: "Showing a VSCode window in dark mode with an open Lua file and the si
         >LuaUnit</a
       >
       &mdash; A popular unit-testing framework for Lua.
+    </li>
+    <li>
+      <a
+        href="https://www.lua.org/gems/sample.pdf"
+        title="PDF with Lua performance tips by the Lua creator Roberto Ierusalimschy himself."
+        >Lua Performance Tips</a
+      >
+      &mdash; Tips around better performance in Lua.
     </li>
   </ul>
 </section>
