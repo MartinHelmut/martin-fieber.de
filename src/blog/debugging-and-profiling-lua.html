@@ -1,0 +1,2002 @@
+---
+date: 2024-09-04
+title: "Debugging and profiling Lua"
+description: "A solid test suite is one step, but errors will always be part of development. This article will go in-depth on how to debug Lua applications, from manual to IDE-based, including how to profile and find performance bottlenecks."
+image: "/assets/blog/lua-series-part-4/title-card.png"
+imageAlt: "Part of the Chrome tracer UI showing a colorful flame graph created with a Lua tracer."
+linkTitle: "How to debug Lua, from manual to IDE-based, including profiling."
+banner: "/assets/blog/lua-series-part-4/banner.png"
+bannerAlt: "Part of the Chrome tracer UI showing a colorful flame graph created with a Lua tracer."
+summary: "<p>Even with a good test suite, debugging will be necessary, sooner or later. This article will go in depth into debugging Lua, including how to profile a Lua application.</p>"
+hasCode: true
+tags: ["post", "lua"]
+series: { name: lua, part: 4 }
+---
+
+<figure>
+  <picture>
+    <img
+      src="/assets/blog/lua-series-part-4/banner.png"
+      alt="{{ bannerAlt }}"
+      width="1360"
+      height="399"
+    />
+  </picture>
+  <figcaption>
+    Chrome tracer UI, accessible in Chromium-based browser at chrome://tracing/
+  </figcaption>
+</figure>
+
+<h3>Introduction</h3>
+<p>
+  After having
+  <a
+    href="/blog/lua-project-setup-with-luarocks/"
+    title="First article of the Lua series about the initial setup."
+    >set up Lua</a
+  >,
+  <a
+    href="/blog/create-build-publish-modules-for-lua/"
+    title="Second article in the Lua series about modules with LuaRocks."
+    >modules with LuaRocks</a
+  >
+  covered, and a solid understanding of
+  <a
+    href="/blog/how-to-test-your-lua/"
+    title="Third article in the Lua series about testing Lua code."
+    >testing Lua code</a
+  >, it is time to confront failure &mdash; <strong>errors</strong>, to be
+  precise. <strong>And how to fix them.</strong>
+</p>
+<p>
+  First and foremost, it is important to understand the anatomy of a Lua error
+  messages, how to define custom errors, work with them, and look at what Lua
+  brings out of the box to handle and incorporate error handling, from protected
+  calls to asserts.
+</p>
+<p>
+  A great strength of Lua is its flexibility, and that goes for errors too.
+  Nevertheless, this also means a flexible approach to debugging. Looking at
+  this article in different ways, from manual to IDE-based debugging with
+  various editors as an example.
+</p>
+<p>
+  To round it all off: ways to profile a Lua application, including a simple
+  tracer that can produce flame graphs, digging even so deeper into solid Lua
+  applications.
+</p>
+<p>
+  All the code shown in this article is also available in the
+  <a
+    href="https://github.com/MartinHelmut/lua-series/tree/part-4"
+    title="GitHub repository with all the code from this article."
+    >companion repository on GitHub, branch part-4</a
+  >.
+</p>
+
+<nav>
+  <h3>Table of contents</h3>
+  <ol>
+    <li><a href="#about-versions">About versions</a></li>
+    <li>
+      <a href="#errors">Errors</a>
+      <ul>
+        <li><a href="#anatomy-of-a-lua-error">Anatomy of a Lua error</a></li>
+        <li><a href="#user-defined-errors">User defined errors</a></li>
+        <li>
+          <a href="#defining-the-error-origin">Defining the error origin</a>
+        </li>
+        <li>
+          <a href="#try-catch-protected-call-pcall"
+            >Try..catch, protected call? <code>pcall</code>!</a
+          >
+        </li>
+        <li>
+          <a href="#xpcall"><code>xpcall</code></a>
+        </li>
+        <li>
+          <a href="#an-error-can-be-anything">An error can be anything</a>
+        </li>
+        <li>
+          <a href="#assert"><code>assert</code></a>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#debugging-lua">Debugging Lua</a></li>
+    <li><a href="#manual-debugging">Manual debugging</a></li>
+    <li>
+      <a href="#print-and-debug"><code>print</code> and <code>debug</code></a>
+    </li>
+    <li>
+      <a href="#debugger-lua">debugger.lua</a>
+      <ul>
+        <li><a href="#installation">Installation</a></li>
+        <li><a href="#setup">Setup</a></li>
+        <li><a href="#running-the-debugger">Running the debugger</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#using-an-ide">Using an IDE</a>
+      <ul>
+        <li><a href="#visual-studio-code">Visual Studio Code</a></li>
+        <li><a href="#zerobrane">ZeroBrane</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#profiling">Profiling</a>
+      <ul>
+        <li>
+          <a href="#function-execution-count">Function execution count</a>
+        </li>
+        <li><a href="#memory-profile">Memory profile</a></li>
+        <li><a href="#own-tracer">Own tracer</a></li>
+      </ul>
+    </li>
+    <li><a href="#what-comes-next">What comes next</a></li>
+  </ol>
+</nav>
+
+<hr />
+
+<h3 id="about-versions">About versions</h3>
+<p>
+  The latest Lua version as of writing is 5.4 (released
+  <time datetime="2020-05-29">June 2020</time>), though almost everything in
+  this article series will work with Lua 5.1 (released
+  <time datetime="2006-02-21">February 2006</time>) and up. If this deviates, a
+  callout like the following will signal the required version.
+</p>
+<aside class="callout">
+  <h4>Example: Lua version required</h4>
+  <p>This feature requires Lua 5.x and up.</p>
+</aside>
+<p>
+  An overview of all versions and their main features can be found on the
+  <a href="https://www.lua.org/versions.html" title="Lua version release log."
+    >official Lua version history</a
+  >
+  page.
+</p>
+
+<h3 id="errors">Errors</h3>
+<p>
+  Any unexpected behaviour in Lua will raise an error. To actually solve
+  problems, errors need to be understood. Besides reading them, it is equally
+  important to understand how to construct them, where they originate from,
+  handle them, and, in general, the flexible and dynamic nature of errors in
+  Lua.
+</p>
+
+<h4 id="anatomy-of-a-lua-error">Anatomy of a Lua error</h4>
+<p>
+  Looking at an error, raised by indexing a non-table value; even though
+  improbable, it gives a good look at a short error message to deconstruct.
+</p>
+<figure>
+  <pre><code class="language-lua hljs">-- src/errors/built-in.lua
+local non_table = 1
+print(non_table[1])</code></pre>
+</figure>
+<p>
+  Running this Lua code through a terminal will result in the following error
+  message:
+</p>
+<figure>
+  <pre><code class="language-shell hljs">lua: src/errors/built-in.lua:2: attempt to index a number value (local 'non_table')
+stack traceback:
+  src/errors/built-in.lua:2: in main chunk
+  [C]: in ?</code></pre>
+</figure>
+<p>
+  The Lua error consists of <strong>two sections</strong>: the first is the
+  error location, e.g., a file name with a line number, as well as the actual
+  error message; the second section is a stack trace.
+</p>
+<p>
+  The error location can be a file name with a line number, but it can also be
+  the standard input when Lua was run directly through the REPL, or something
+  completely else when a
+  <a href="#an-error-can-be-anything"
+    >user defined error was raised that is not a string</a
+  >.
+</p>
+<p>
+  After the location information comes the actual error message or description.
+</p>
+<p>
+  The second section of the error message is a stack trace, starting as an
+  indented text block after the line <code>stack traceback:</code>. Line by
+  line, it gives information about the origin of an error, followed through by
+  the function call stack.
+</p>
+<p>
+  In this error example, the first stack trace line gives the executed file with
+  line number <code>src/errors/built-in.lua:2</code>. The code was run
+  <code>in main chunk</code>. Every piece of Lua code is a <em>"chunk"</em>,
+  where the <em>"main chunk"</em> is the entry point of a Lua program.
+</p>
+<p>
+  The second line does the same, giving the location as
+  <em>"in a C function"</em> <code>[C]</code>, run <code>in ?</code>. The whole
+  line <code>[C]: in ?</code> tells a function was run as a C function,
+  therefore the unknown name <code>in ?</code>, as it is common to see a mix of
+  Lua and C functions executed, especially as part of the Lua standard library.
+</p>
+<p>Running another example, this time with a deeper stack trace.</p>
+<figure>
+  <pre><code class="language-lua hljs">-- src/errors/built-in-nested.lua
+local function will_error()
+  local non_table = 1
+  return non_table[1]
+end
+
+local function parent_function()
+  will_error()
+end
+
+parent_function()</code></pre>
+</figure>
+<p>This will result in the following error message:</p>
+<figure>
+  <pre><code class="language-shell hljs">lua: src/errors/built-in-nested.lua:3: attempt to index a number value (local 'non_table')
+stack traceback:
+  src/errors/built-in-nested.lua:3: in upvalue 'will_error'
+  src/errors/built-in-nested.lua:7: in local 'parent_function'
+  src/errors/built-in-nested.lua:10: in main chunk
+  [C]: in ?</code></pre>
+</figure>
+<div class="side-note-ref">
+  <p>
+    Again, showing the file name with line number and error description,
+    followed by a stack trace. The function call stack shows where the error
+    came from, from <code>will_error</code>, that was called by
+    <code>parent_function</code>, that was called from the main chunk, being the
+    program entry point, closing with the unknown* C function that did run the
+    main chunk.
+  </p>
+  <aside class="side-note">
+    <p>
+      * Probably somewhere in
+      <a
+        href="https://github.com/lua/lua/tree/master/lua.c"
+        title="Lua source code on GitHub."
+        >lua.c</a
+      >, though this is not relevant for the article and will be ignored for
+      now.
+    </p>
+  </aside>
+</div>
+
+<h4 id="user-defined-errors">User defined errors</h4>
+<div class="side-note-ref">
+  <p>
+    Raising or <em>"throwing"</em> an error can be done via the function
+    <code>error</code>. It takes an argument*, usually a string, and will
+    produce an error with the given message.
+  </p>
+  <aside class="side-note">
+    <p>
+      * <em>"An argument"</em> means that the
+      <a href="#an-error-can-be-anything">error function can take anything</a>,
+      known as the error object.
+    </p>
+  </aside>
+</div>
+<figure>
+  <pre><code class="language-lua hljs">-- src/errors/user-defined.lua
+local function greet(str)
+  if type(str) ~= "string" then
+    error(
+      "Function 'greet' expects a string as argument.")
+  end
+  return "Hello, " .. str
+end
+
+print(greet(1))</code></pre>
+</figure>
+<p>
+  This will result in the already-seen error message structure, showing where
+  the error happened, including the call stack, but with a user-defined error
+  message.
+</p>
+<figure>
+  <pre><code class="language-shell hljs">lua: src/errors/user-defined.lua:3: Function 'greet' expects a string as argument.
+stack traceback:
+  [C]: in function 'error'
+  src/errors/user-defined.lua:3: in local 'greet'
+  src/errors/user-defined.lua:8: in main chunk
+  [C]: in ?</code></pre>
+</figure>
+
+<h4 id="defining-the-error-origin">Defining the error origin</h4>
+<p>
+  Looking at the previous user-defined error message, even though it is already
+  handy, from a user perspective, the reason for the error is that the function
+  <code>greet</code> was called wrong. The error message though points to the
+  call of <code>error</code> inside the <code>greet</code> function &mdash; line
+  three of the file via <code>src/errors/user-defined.lua:3</code>.
+</p>
+<p>
+  To solve this and give the user a better message to quickly find the actual
+  problem origin, the <em>error</em> function takes a second argument, the
+  calling hierarchy level, telling
+  <em>"how many levels up did this happen"</em>.
+</p>
+<p>
+  Level <code>1</code> is the current function, level <code>2</code> the parent,
+  and so on. Therefore, changing the <code>greet</code> function to point to its
+  parent when called will give a much better error origin.
+</p>
+<figure>
+  <pre><code class="language-lua hljs">-- src/errors/user-defined-origin.lua
+local function greet(str)
+  if type(str) ~= "string" then
+    error(
+      "Function 'greet' expects a string as argument.",
+      2) -- One up
+  end
+  return "Hello, " .. str
+end
+
+print(greet(1))</code></pre>
+</figure>
+<p>
+  With this change, the line number of the error origin is now the caller
+  function at line eight.
+</p>
+<figure>
+  <pre><code class="language-shell hljs">lua: src/errors/user-defined-origin.lua:8: Function 'greet' expects a string as argument.
+stack traceback:
+  [C]: in function 'error'
+  src/errors/user-defined-origin.lua:3: in local 'greet'
+  src/errors/user-defined-origin.lua:8: in main chunk
+  [C]: in ?</code></pre>
+</figure>
+
+<h4 id="try-catch-protected-call-pcall">
+  Try..catch, protected call? <code>pcall</code>!
+</h4>
+<p>
+  Alright, now how to <em>"catch"</em> or handle an error when it occurs? With a
+  protected call via the function <code>pcall</code>, it takes a function to be
+  called in protected mode; any further arguments get passed to that function
+  when called.
+</p>
+<p>So instead of calling a function directly, &hellip;</p>
+<figure>
+  <pre><code class="language-lua hljs">some_function("first argument", 2)</code></pre>
+</figure>
+<p>&hellip; it gets called through <code>pcall</code>.</p>
+<figure>
+  <pre><code class="language-lua hljs">pcall(some_function, "first argument", 2)</code></pre>
+</figure>
+<p>
+  Using the previous example of the <code>greet</code> function, this time
+  wrapped in a <code>pcall</code>.
+</p>
+<figure>
+  <pre><code class="language-lua hljs">-- src/errors/pcall.lua
+local function greet(str)
+  if type(str) ~= "string" then
+    error(
+      "Function 'greet' expects a string as argument.")
+  end
+  return "Hello, " .. str
+end
+
+-- Proteted call:
+if pcall(greet, 1) then
+  print("No errors")
+else
+  print("Error calling greet!")
+end</code></pre>
+</figure>
+<p>
+  When run, <code>pcall</code> will return a status and, if an error occurred,
+  <strong
+    >the error object or the function result as the second return value</strong
+  >. The status is <code>true</code> if there are no errors,
+  <code>false</code> if there are.
+</p>
+<figure>
+  <pre><code class="language-lua hljs">-- src/errors/pcall-return.lua
+local function greet(str)
+  if type(str) ~= "string" then
+    error(
+      "Function 'greet' expects a string as argument.",
+      2)
+  end
+  return "Hello, " .. str
+end
+
+local status, result = pcall(greet, 1)
+
+if status then
+  print(result)
+else
+  print("Error calling greet:\n", result)
+end</code></pre>
+</figure>
+<p>Running this will result in the following message:</p>
+<figure>
+  <pre><code class="language-shell hljs">Error calling greet:
+  Function 'greet' expects a string as argument.</code></pre>
+</figure>
+<p>
+  Be aware that the error message provided by <code>pcall</code> is missing the
+  error location as well as a stack trace. This is due to <code>pcall</code>
+  <strong>unwinding part of the stack</strong> that goes from
+  <code>pcall</code> to the error caller.
+</p>
+<p>
+  To retrieve a proper stack trace, the function <code>xpcall</code> needs to be
+  used.
+</p>
+
+<h4 id="xpcall"><code>xpcall</code></h4>
+<p>
+  The function <code>xpcall</code> works just like <code>pcall</code>, running a
+  function in protected mode to be able to handle any errors. The difference is
+  that <code>xpcall</code> takes an
+  <strong>error handler as a second argument</strong>.
+</p>
+<p>
+  When an error is raised, the error handler gets called with it. Any operation
+  can then be performed, though to get an error result from the call, a return
+  value needs to be provided.
+</p>
+<p>Looking again at the example function <code>greet</code>:</p>
+<figure>
+  <pre><code class="language-lua hljs">-- src/errors/xpcall.lua
+local function greet(str)
+  if type(str) ~= "string" then
+    error(
+      "Function 'greet' expects a string as argument.",
+      2)
+  end
+  return "Hello, " .. str
+end</code></pre>
+</figure>
+<p>
+  A possible error handler could check for a specific error string to transform
+  the error message, add additional information to the error, etc.
+</p>
+<figure>
+  <pre><code class="language-lua hljs">local function handle_error(err)
+  if err == "&lt;unknown&gt;" then
+    return "Unknown error!"
+  end
+  return err
+end</code></pre>
+</figure>
+<p>
+  Then <code>xpcall</code> can be called with the function to run in protected
+  mode, the error handler, and any arguments for the function.
+</p>
+<figure>
+  <pre><code class="language-lua hljs">local status, result = xpcall(greet, handle_error, 1)
+
+if not status then
+  print("Error calling greet:\n", result)
+end</code></pre>
+</figure>
+<p>
+  A very useful feature of <code>xpcall</code> compared to <code>pcall</code> is
+  the access to a stack trace before it gets unwound. Generally, they work the
+  same: after the call, when the status is retrieved, the stack is unwound and
+  part of the function call stack is lost. But, a full stack trace can be
+  retrieved in <code>xpcall</code>'s handler function.
+</p>
+<p>
+  As an example, calling <code>debug.traceback</code> after the
+  <code>xpcall</code> function returned gives the same result as
+  <code>pcall</code>.
+</p>
+<figure>
+  <pre><code class="language-lua hljs">-- src/errors/xpcall-with-stacktrace.lua
+local function greet(str)
+  if type(str) ~= "string" then
+    error(
+      "Function 'greet' expects a string as argument.",
+      2)
+  end
+  return "Hello, " .. str
+end
+
+local function handle_error()
+  -- Do nothing for now
+end
+
+if not xpcall(greet, handle_error, 1) then
+  print(debug.traceback())
+end</code></pre>
+</figure>
+<p>Meaning, it will only show part of the stack:</p>
+<figure>
+  <pre><code class="language-shell hljs">stack traceback:
+  src/errors/xpcall-with-stacktrace.lua:13: in main chunk
+  [C]: in ?</code></pre>
+</figure>
+<p>
+  Though, calling <code>debug.traceback</code> inside the handler gives access
+  to the full stack trace.
+</p>
+<figure>
+  <pre><code class="language-lua hljs">-- src/errors/xpcall-with-stacktrace.lua
+local function greet(str)
+  if type(str) ~= "string" then
+    error(
+      "Function 'greet' expects a string as argument.",
+      2)
+  end
+  return "Hello, " .. str
+end
+
+local function handle_error(err)
+  -- Call inside error handler:
+  return err .. "\n" .. debug.traceback()
+end
+
+local status, result = xpcall(greet, handle_error, 1)
+
+if not status then
+  print(result)
+end</code></pre>
+</figure>
+<p>Running this example will show the full call stack:</p>
+<figure>
+  <pre><code class="language-shell hljs">Function 'greet' expects a string as argument.
+stack traceback:
+  src/errors/xpcall-with-stacktrace.lua:10: in function &lt;src/errors/xpcall-with-stacktrace.lua:8&gt;
+  [C]: in function 'error'
+  src/errors/xpcall-with-stacktrace.lua:3: in function &lt;src/errors/xpcall-with-stacktrace.lua:1&gt;
+  [C]: in function 'xpcall'
+  src/errors/xpcall-with-stacktrace.lua:13: in main chunk
+  [C]: in ?</code></pre>
+</figure>
+
+<h4 id="an-error-can-be-anything">An error can be anything</h4>
+<p>
+  So far, all errors in the examples were strings, and this is also the case for
+  all errors raised by built-in functions. Nevertheless,
+  <em>"error message"</em> is not a fully correct name, as
+  <em>"error object"</em> describes better that an
+  <strong>error can be any value</strong>.
+</p>
+<p>
+  Meaning, besides primitive values, the <code>error</code> function can also
+  take a table as value. A caveat of this is that only strings get the
+  <em>"first line location information"</em> prepended to the error description.
+  It is then up to the implementation to give good information to the user to
+  find where a problem originates.
+</p>
+<p>
+  Given a function <code>work</code> that will raise an error with a custom
+  error table:
+</p>
+<figure>
+  <pre><code class="language-lua hljs">-- src/errors/custom-error.lua
+local function work(str)
+  if type(str) ~= "string" then
+    error({
+      message = "Function 'work' needs a string.",
+      status = 42
+    }, 2)
+  end
+  return "Doing some work: " .. str
+end
+
+work(1)</code></pre>
+</figure>
+<p>
+  Without any extra care, the error message shown when run the code will miss
+  any content of the error table, besides saying the
+  <em>"error object is a table value"</em>.
+</p>
+<figure>
+  <pre><code class="language-shell hljs">lua: (error object is a table value)
+stack traceback:
+  [C]: in function 'error'
+  src/errors/custom-error.lua:3: in local 'work'
+  src/errors/custom-error.lua:11: in main chunk
+  [C]: in ?</code></pre>
+</figure>
+<p>
+  One version better is using <code>pcall</code> to handle a function that can
+  raise an error with a custom error table.
+</p>
+<figure>
+  <pre><code class="language-lua hljs">-- src/errors/custom-error-pcall.lua
+local function work(str)
+  if type(str) ~= "string" then
+    error({
+      message = "Function 'work' needs a string.",
+      status = 42
+    }, 2)
+  end
+  return "Doing some work: " .. str
+end
+
+local status, err = pcall(work, 1)
+
+if not status then
+  print(err.message)
+end</code></pre>
+</figure>
+<p>
+  This will give the option to actually print a value from the error table, like
+  a message, but due to <code>pcall</code> destroying part of the call stack
+  will miss additional information.
+</p>
+<p>
+  In the example, only printing the error message from the table without any
+  location information:
+</p>
+<figure>
+  <pre><code class="language-shell hljs">Function 'work' needs a string.</code></pre>
+</figure>
+<p>
+  Those types of errors are not just strings, making it necessary to
+  <strong>check every time</strong> what kind of error gets returned and handle
+  it appropriately.
+</p>
+<p>
+  <strong>This makes <code>xpcall</code> indispensable.</strong> Using
+  <code>xpcall</code>, custom error tables can be transformed into strings to be
+  handled in any standard way, while also having access to a full stack trace.
+</p>
+<p>Same example function: <code>work</code>.</p>
+<figure>
+  <pre><code class="language-lua hljs">-- src/errors/custom-error-xpcall.lua
+local function work(str)
+  if type(str) ~= "string" then
+    error({
+      message = "Function 'work' needs a string.",
+      status = 42
+    }, 2)
+  end
+  return "Doing some work: " .. str
+end</code></pre>
+</figure>
+<p>
+  The error handler can transform this error table into an error message. Adding
+  additional location information.
+</p>
+<figure>
+  <pre><code class="language-lua hljs">local function handle_error(err)
+  if err.status == 42 then
+    -- Any special handling
+  end
+  return err.message .. "\n" .. debug.traceback()
+end</code></pre>
+</figure>
+<p>
+  Enabling a standard use where the expectation can be that any error message is
+  a string, ready to be presented to the user.
+</p>
+<figure>
+  <pre><code class="language-lua hljs">local status, result = xpcall(work, handle_error, 1)
+
+if not status then
+  print(result)
+end</code></pre>
+</figure>
+<p>The error result when running the full example:</p>
+<figure>
+  <pre><code class="language-shell hljs">Function 'work' needs a string.
+stack traceback:
+  src/errors/custom-error-xpcall.lua:15: in function &lt;src/errors/custom-error-xpcall.lua:11&gt;
+  [C]: in function 'error'
+  src/errors/custom-error-xpcall.lua:3: in function &lt;src/errors/custom-error-xpcall.lua:1&gt;
+  [C]: in function 'xpcall'
+  src/errors/custom-error-xpcall.lua:18: in main chunk
+  [C]: in ?</code></pre>
+</figure>
+
+<h4 id="assert"><code>assert</code></h4>
+<p>
+  Another built-in error handling facility is the <code>assert</code> function.
+  If a value is <code>false</code> or <code>nil</code> assert will raise an
+  error, where the second argument can be an error message.
+</p>
+<figure>
+  <pre><code class="language-lua hljs">-- src/examples/assert-load.lua
+local function readConfig(path)
+  local config = {}
+  assert(
+    loadfile(path, "t", config),
+    "Config not found!")()
+  return config
+end
+
+local config = readConfig("src/examples/config.lua")
+print(config.speed, config.jumpHeight)</code></pre>
+</figure>
+<p>
+  Running this code with the file <code>src/examples/config.lua</code> not
+  existent will raise an error and show the provided error message.
+</p>
+<figure>
+  <pre><code class="language-shell hljs">lua: src/examples/assert-load.lua:3: Config not found!
+stack traceback:
+  [C]: in function 'assert'
+  src/examples/assert-load.lua:3: in local 'readConfig'
+  src/examples/assert-load.lua:7: in main chunk
+  [C]: in ?</code></pre>
+</figure>
+<p>
+  If a function already returns a value and a potential error message as the
+  second return value, the error message gets substituted as the second argument
+  to the assert call when the first return value is <code>nil</code>.
+</p>
+<p>
+  Taking the previous example, the error message can be removed, as
+  <code>loadfile</code> will return <code>nil</code> as the first, and a string
+  error as the second return value.
+</p>
+<figure>
+  <pre><code class="language-lua hljs">-- src/examples/assert-load.lua
+local function readConfig(path)
+  local config = {}
+  assert(loadfile(path, "t", config))()
+  return config
+end
+
+local config = readConfig("src/examples/config.lua")
+print(config.speed, config.jumpHeight)</code></pre>
+</figure>
+<p>Running this code will show the error from <code>loadfile</code>.</p>
+<figure>
+  <pre><code class="language-shell hljs">lua: src/examples/assert-load.lua:3: cannot open src/examples/config.lua: No such file or directory
+stack traceback:
+  [C]: in function 'assert'
+  src/examples/assert-load.lua:3: in local 'readConfig'
+  src/examples/assert-load.lua:7: in main chunk
+  [C]: in ?</code></pre>
+</figure>
+<p>
+  The <code>assert</code> function can and should be used wherever appropriate
+  to help catch issues early and give good feedback to potential users.
+</p>
+<p>
+  Aside from that, <code>assert</code> can also be used to replace a typical
+  error handling patter. The following code with error handling can be rewritten
+  much smaller with <code>assert</code>.
+</p>
+<figure>
+  <pre><code class="language-lua hljs">-- An often seen error handling pattern
+local value, err = loadfile("some/file.lua", "t")
+if not value then
+  error(err)
+end</code></pre>
+</figure>
+<p>
+  As said, <code>assert</code> can substitute a second return value as error
+  message. When there is no error raised, the first return value will be
+  returned by the <code>assert</code> call.
+</p>
+<figure>
+  <pre><code class="language-lua hljs">-- A better pattern
+local value = assert(loadfile("some/file.lua", "t"))</code></pre>
+</figure>
+
+<h3 id="debugging-lua">Debugging Lua</h3>
+<p>
+  There is no built-in debugger in Lua, but, depending on the environment Lua is
+  run in, different options do exist. One of those options is developing Lua in
+  an editor or IDE that offers debugging capabilities with breakpoints and
+  inspections, using a debugger library, writing own debugger functions with Lua
+  and the provided <code>debug</code> module, or just plain and simple manual
+  debugging via <code>assert</code> and <code>print</code> calls scattered over
+  the code.
+</p>
+<div class="side-note-ref">
+  <p>
+    There is no definitive answer here, as many factors can influence what
+    options are at hand or appropriate. Different Lua versions or dialects*,
+    running through a host application like a game engine, or if C-modules can
+    be loaded or not.
+  </p>
+  <aside class="side-note">
+    <p>
+      * For example
+      <a href="https://luajit.org" title="LuaJIT project website">LuaJIT</a> or
+      <a href="https://luau-lang.org" title="Luau project website">Luau</a>.
+    </p>
+  </aside>
+</div>
+
+<h3 id="manual-debugging">Manual debugging</h3>
+<p>
+  Manual debugging sounds a lot like having a bunch of <code>print</code> calls
+  all over the code, but I would argue that proper error handling in the first
+  place is half the way reducing any debugging effort in the first place.
+</p>
+<p>
+  Too often, a comment like the following can be found in code, even production
+  code.
+</p>
+<figure>
+  <pre><code class="language-lua hljs">-- TODO: Handle errors ...</code></pre>
+</figure>
+<p>
+  Not only handling errors early, but thinking about good error handling from
+  the start, will reduce a large array of bugs to find. The
+  <a href="#errors">earlier chapter about errors</a> gives a good first read on
+  what error handling methods exists in Lua.
+</p>
+<p>
+  This part will look at some simple options often frowned upon when it comes to
+  debugging &mdash; even though they are used by many daily &mdash; adding
+  <code>print</code> calls in the code.
+</p>
+
+<h3 id="print-and-debug"><code>print</code> and <code>debug</code></h3>
+<p>
+  Just throwing in <code>print</code> calls is usually
+  <strong>not the best way to go</strong>, that might be true, but if that is
+  the way things go, Lua offers
+  <a
+    href="https://www.lua.org/pil/23.html"
+    title="Programing in Lua about The Debug Library"
+    >some tools</a
+  >
+  to make those print calls worth something.
+</p>
+<p>
+  Instead of only printing a value where an issue might be suspected, &hellip;
+</p>
+<figure>
+  <pre><code class="language-lua hljs">-- src/errors/print-debug.lua
+local function caller(fn)
+  -- Some code ...
+  local value = fn()
+  print("Problem:", value)
+end</code></pre>
+</figure>
+<p>
+  &hellip; it can be helpful to add a call stack trace to it via
+  <a
+    href="https://www.lua.org/manual/5.4/manual.html#pdf-debug.traceback"
+    title="Lua manual with the debug.traceback function API."
+    ><code>debug.traceback</code></a
+  >.
+</p>
+<figure>
+  <pre><code class="language-lua hljs">-- src/errors/print-debug.lua
+local function caller(fn)
+  -- Some code ...
+  local value = fn()
+  print("Problem:", value, debug.traceback())
+end</code></pre>
+</figure>
+<p>
+  The
+  <a
+    href="https://www.lua.org/manual/5.4/manual.html#pdf-debug.getinfo"
+    title="Lua manual with the debug.getinfo function API."
+    ><code>debug.getinfo</code> function can</a
+  >
+  be used to inspect a function or stack level. It will return a table with data
+  about the given function or stack level. For example, using a combination of
+  the properties <code>source</code> and <code>linedefined</code> on a function
+  to get the file and line number for a function.
+</p>
+<figure>
+  <pre><code class="language-lua hljs">-- src/errors/print-debug.lua
+local function caller(fn)
+  -- Some code ...
+  local value = fn()
+  print("Problem at:",
+    debug.getinfo(fn).source
+      .. ":" ..
+      debug.getinfo(fn).linedefined)
+end
+
+-- Some example function
+local function callback()
+  return "Great value!"
+end
+
+print(caller(callback))</code></pre>
+</figure>
+<p>Running this will print the following message to the console:</p>
+<figure>
+  <pre><code class="language-shell hljs">Problem at: @src/errors/print-debug.lua:11</code></pre>
+</figure>
+<p>
+  The external
+  <a
+    href="https://github.com/kikito/inspect.lua"
+    title="GitHub page for the Lua inspect module."
+    >inspect module</a
+  >
+  that can be
+  <a
+    href="/blog/lua-project-setup-with-luarocks/#install-a-module"
+    title="First article in the Lua series, how to install a module."
+    >installed via LuaRocks</a
+  >
+  can help to print all values of a table &mdash; very handy when debugging.
+</p>
+<figure>
+  <pre><code class="language-lua hljs">local function caller(fn)
+  -- Some code ...
+  local value = fn()
+  print("Why is this wrong:", value,
+    inspect(debug.getinfo(fn)))
+end</code></pre>
+</figure>
+
+<h3 id="debugger-lua">debugger.lua</h3>
+<p>
+  A great option between <em>"print debugging"</em> and a full-blown IDE usage
+  is
+  <a
+    href="https://github.com/slembcke/debugger.lua"
+    title="GitHub page for debugger.lua"
+    >debugger.lua by Scott Lembcke</a
+  >. It is a single Lua file (or C header if preferred), ready to be included in
+  a project to get a terminal-based, interactive Lua debugger.
+</p>
+<p>
+  I will not go into detail on the C-header usage, but rather focus on the Lua
+  file version of the debugger.
+</p>
+
+<h4 id="installation">Installation</h4>
+<p>
+  From the repository at
+  <a
+    href="https://github.com/slembcke/debugger.lua"
+    title="GitHub page for debugger.lua"
+    >github.com/slembcke/debugger.lua</a
+  >
+  drop the single
+  <a
+    href="https://github.com/slembcke/debugger.lua/blob/master/debugger.lua"
+    title="The single Lua file for integration of debugger.lua."
+    >debugger.lua</a
+  >
+  file into a project. <strong>That's it.</strong> Now the module can be
+  required where needed to debug code.
+</p>
+<figure>
+  <pre><code class="language-lua hljs">local dbg = require "debugger"
+
+dbg()</code></pre>
+  <figcaption>
+    Call <code>dbg()</code> directly to act like a breakpoint.
+  </figcaption>
+</figure>
+
+<h4 id="setup">Setup</h4>
+<p>
+  A full usage guide is in the
+  <a
+    href="https://github.com/slembcke/debugger.lua#-debugger-commands"
+    title="Overview of available commands for debugger.lua."
+    >README.md on GitHub</a
+  >, though I will show how I use it 90% of the time &mdash; to set breakpoints
+  or start the debugger on an <code>assert</code>.
+</p>
+<p>
+  Setting a <strong>breakpoint</strong> to start the debugger can be done by
+  calling the debugger function.
+</p>
+<figure>
+  <pre><code class="language-lua hljs">-- This is a breakpoint
+dbg()</code></pre>
+</figure>
+<p>
+  The same function can be used with an argument to <strong>assert</strong>, as
+  a drop-in replacement for the built-in <code>assert</code> function.
+</p>
+<figure>
+  <pre><code class="language-lua hljs">-- assert() replacement
+dbg(result ~= true)</code></pre>
+</figure>
+<p>
+  Another common case is the usage as <strong>error handler</strong>, a drop-in
+  replacement for <code>error</code>.
+</p>
+<figure>
+  <pre><code class="language-lua hljs">-- Just like error()
+dbg.error("Problem!")</code></pre>
+</figure>
+<p>
+  All of those will, when triggered, start the interactive debugging session in
+  the terminal.
+</p>
+<p>
+  Another often-used function for me is <code>dbg.pretty</code>, replacing the
+  separate <a href="#print-and-debug">inspect module I mentioned earlier</a>, to
+  print a table in a readable format.
+</p>
+<figure>
+  <pre><code class="language-lua hljs">-- Print a human readable table
+print(dbg.pretty(debug.getinfo(1)))</code></pre>
+</figure>
+<p>
+  This covers my usual usage of debugger.lua. But, this is only part of the
+  integration. Seeing that many of the functions are drop-in-replacements of
+  built-in functions, the debugger can be used to enhance already existing error
+  handling, with little work.
+</p>
+<p>
+  Let's take an earlier example, and see how debugger.lua can be added in
+  development without much work. The original code uses the built-in
+  <code>error</code> and <code>pcall</code> function for some simple error
+  handling.
+</p>
+<figure>
+  <pre><code class="language-lua hljs">-- src/errors/pcall.lua
+local function greet(str)
+  if type(str) ~= "string" then
+    error(
+      "Function 'greet' expects a string as argument.")
+  end
+  return "Hello, " .. str
+end
+
+if pcall(greet, 1) then
+  print("No errors")
+else
+  print("Error calling greet!")
+end</code></pre>
+</figure>
+<p>
+  Requiring the debugger and locally, overriding the <code>error</code> and
+  <code>pcall</code>
+  functions is all that is needed.
+</p>
+<figure>
+  <pre><code class="language-lua hljs">-- src/errors/debugger-in-place.lua
+local dbg = require "debugger"
+local error = dbg.error
+local pcall = dbg.call
+
+local function greet(str)
+  if type(str) ~= "string" then
+    error(
+      "Function 'greet' expects a string as argument.")
+  end
+  return "Hello, " .. str
+end
+
+if pcall(greet, 1) then
+  print("No errors")
+else
+  print("Error calling greet!")
+end</code></pre>
+</figure>
+<p>Let's see it running in action.</p>
+
+<h4 id="running-the-debugger">Running the debugger</h4>
+<p>
+  &hellip; is like running any other Lua file. As soon as the debugger gets
+  triggered, the interactive debugging session will start. This will give access
+  to running a set of commands to inspect the code.
+</p>
+<p>
+  Here is a quick overview of the available commands, taken from the
+  debugger.lua
+  <a
+    href="https://github.com/slembcke/debugger.lua#-debugger-commands"
+    title="Overview of available commands for debugger.lua."
+    >README commands section</a
+  >.
+</p>
+<table>
+  <caption>
+    Available debugger.lua commands
+  </caption>
+  <thead>
+    <tr>
+      <th scope="col">Command</th>
+      <th scope="col">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row"><code>[return]</code></th>
+      <td>Re-run last command</td>
+    </tr>
+    <tr>
+      <th scope="row"><code>c(ontinue)</code></th>
+      <td>Continue execution</td>
+    </tr>
+    <tr>
+      <th scope="row"><code>s(tep)</code></th>
+      <td>Step forward by one line (into functions)</td>
+    </tr>
+    <tr>
+      <th scope="row"><code>n(ext)</code></th>
+      <td>Step forward by one line (skipping over functions)</td>
+    </tr>
+    <tr>
+      <th scope="row"><code>p(rint) [expression]</code></th>
+      <td>Execute the expression and print the result</td>
+    </tr>
+    <tr>
+      <th scope="row"><code>f(inish)</code></th>
+      <td>Step forward until exiting the current function</td>
+    </tr>
+    <tr>
+      <th scope="row"><code>u(p)</code></th>
+      <td>Move up the stack by one frame</td>
+    </tr>
+    <tr>
+      <th scope="row"><code>d(own)</code></th>
+      <td>Move down the stack by one frame</td>
+    </tr>
+    <tr>
+      <th scope="row"><code>w(here) [line count]</code></th>
+      <td>Print source code around the current line</td>
+    </tr>
+    <tr>
+      <th scope="row"><code>t(race)</code></th>
+      <td>Print the stack trace</td>
+    </tr>
+    <tr>
+      <th scope="row"><code>l(ocals)</code></th>
+      <td>Print the function arguments, locals and upvalues.</td>
+    </tr>
+    <tr>
+      <th scope="row"><code>h(elp)</code></th>
+      <td>Print help message</td>
+    </tr>
+    <tr>
+      <th scope="row"><code>q(uit)</code></th>
+      <td>Halt execution</td>
+    </tr>
+  </tbody>
+</table>
+<p>
+  To show this in action, here is a demo of running the previous
+  <code>src/errors/debugger-in-place.lua</code> example.
+</p>
+<figure>
+  <picture>
+    <img
+      src="/assets/blog/lua-series-part-4/debugger.svg"
+      alt="An animated SVG showing a terminal running the debugger.lua in an interactive mode."
+      loading="lazy"
+      width="1360"
+      height="800"
+    />
+  </picture>
+  <figcaption>
+    This SVG was generated with a combination of
+    <a
+      href="https://docs.asciinema.org/manual/cli/usage/"
+      title="Documentation for asciicast"
+      >asciicast</a
+    >
+    and
+    <a
+      href="https://github.com/marionebl/svg-term-cli"
+      title="GitHub page for svg-term-cli"
+      >svg-term-cli</a
+    >.
+  </figcaption>
+</figure>
+<p>
+  What happens is that running the file that integrated the debugger will cause
+  an error in the function <code>greet</code>. This will start the debugging
+  session. Then the command <code>t</code> is used to print a call stack.
+  Followed by <code>q</code> to end the debugging session.
+</p>
+<p>
+  That's the gist of debugger.lua &mdash; integrate it, run the code, and when
+  the debugger gets hit, using the provided commands to find the reason for the
+  problem at hand.
+</p>
+
+<h3 id="using-an-ide">Using an IDE</h3>
+<p>
+  Another great way to debug Lua code is when an editor or IDE is available that
+  offers debugging capabilities for Lua. There are some options available, a few
+  with built-in Lua debugging support, and others that need plugins.
+</p>
+<p>
+  I by no means can offer an exhaustive list, but I want to try and give
+  <strong>two popular options</strong> a shot with which I have at least some
+  experience.
+</p>
+
+<h4 id="visual-studio-code">Visual Studio Code</h4>
+<p>
+  VS Code can be used to debug Lua when used with the
+  <a
+    href="https://marketplace.visualstudio.com/items?itemName=actboy168.lua-debug"
+    title="VS Code Marketplace site for the Lua Debug extension"
+    >Lua Debug extension</a
+  >, with the
+  <a
+    href="/blog/lua-project-setup-with-luarocks/#editor-setup-visual-studio-code"
+    title="First article in the Lua series, showing how to setup VS Code."
+    >setup described in the first article of the series</a
+  >. It offers everything desired for debugging, from breakpoints, runtime
+  inspections, variable watching, an interactive call stack, and more.
+</p>
+<figure>
+  <picture>
+    <img
+      src="/assets/blog/lua-series-part-4/vscode-debugging.png"
+      alt="VS Code with the article project open. An example file is shown in the middle with a debugger instance running."
+      loading="lazy"
+      width="1360"
+      height="950"
+    />
+  </picture>
+</figure>
+<p>
+  Debugging can be started by opening any file and pressing the
+  <em>"Debug File"</em> button at the top right. On start, execution will stop
+  immediately, even without break points, giving the option to step through the
+  program. When pressing <em>"Continue"</em> from the debug control bar, the
+  next stop will be at a breakpoint, or if none is set, run through the whole
+  program.
+</p>
+<figure>
+  <picture>
+    <img
+      src="/assets/blog/lua-series-part-4/vscode-debugging-start.png"
+      alt="Part of a VS Code window with active debugger. An arrow points from the debug button to an active breakpoint."
+      loading="lazy"
+      width="1360"
+      height="825"
+    />
+  </picture>
+  <figcaption>
+    Circled, the <em>"Debug File"</em> button, pointing to a set breakpoint.
+  </figcaption>
+</figure>
+<p>
+  The debug controls offer options to (from left to right) move the toolbar;
+  continue to the next breakpoint; to step over, into, and out of the execution
+  scope; restart debugging; and to stop the debugger.
+</p>
+<figure>
+  <picture>
+    <img
+      src="/assets/blog/lua-series-part-4/vscode-debugging-controls.png"
+      alt="VS Code debug controls, from left to right: move the toolbar; continue to the next breakpoint; to step over, into, and out of the execution scope; restart debugging; and to stop the debugger."
+      loading="lazy"
+      width="1360"
+      height="133"
+    />
+  </picture>
+</figure>
+<p>
+  In the sidebar are different tools to inspect the running program. One is to
+  inspect variables in different scopes, seeing their values.
+</p>
+<figure>
+  <picture>
+    <img
+      src="/assets/blog/lua-series-part-4/vscode-debugging-variables.png"
+      alt="VS Code variables window showing Parameter, Upvalues, and Globals."
+      loading="lazy"
+      width="1062"
+      height="351"
+    />
+  </picture>
+</figure>
+<p>
+  The <em>"Watch"</em> panel offers the ability to watch values and how they
+  change while running the program. To watch a variable, the name needs to be
+  added to the watch list via the <em>"plus"</em> button at the right.
+</p>
+<figure>
+  <picture>
+    <img
+      src="/assets/blog/lua-series-part-4/vscode-debugging-watch.png"
+      alt="VS Code variable watch window. Showing two variables, 'str' and 'err' watched."
+      loading="lazy"
+      width="664"
+      height="186"
+    />
+  </picture>
+</figure>
+<p>
+  Another panel offers the ability to look at and inspect the current call
+  stack.
+</p>
+<figure>
+  <picture>
+    <img
+      src="/assets/blog/lua-series-part-4/vscode-debugging-stack.png"
+      alt="VS Code call stack window for viewing the function execution stack."
+      loading="lazy"
+      width="600"
+      height="372"
+    />
+  </picture>
+</figure>
+<p>
+  More information about debugging with VSCode can be found in the
+  <a
+    href="https://code.visualstudio.com/Docs/editor/debugging"
+    title="VS Code documentation and in-depth guides on debugging."
+    >official Microsoft documentation</a
+  >.
+</p>
+
+<h4 id="zerobrane">ZeroBrane</h4>
+<p>
+  ZeroBrane is a free, Lua first, editor supporting all mayor operating systems,
+  coming with all that is needed for debugging, out-of-the-box, with the
+  <a
+    href="/blog/lua-project-setup-with-luarocks/#editor-setup-zerobrane"
+    title="First article in the Lus series, showing how to set up ZeroBrane."
+    >setup described in the first article of the series</a
+  >. From debugging, breakpoints, variable watching, call stack, and more.
+</p>
+<figure>
+  <picture>
+    <img
+      src="/assets/blog/lua-series-part-4/zero-brane-debugging.png"
+      alt="ZeroBrane window with the series project repo open. An example file with breakpoints is in the center of the window."
+      loading="lazy"
+      width="1360"
+      height="995"
+    />
+  </picture>
+</figure>
+<p>
+  The editor has a set of debugging controls in the middle of the top bar.
+  Besides running the current open file, it can start the debugger, which will
+  stop immediately with options to observe the running program.
+</p>
+<figure>
+  <picture>
+    <img
+      src="/assets/blog/lua-series-part-4/zero-brane-debugging-start.png"
+      alt="Part of the ZeroBrane window focusing on the file part. The 'run the debugger' button is highlighted with an arrow pointing to a set breakpoint."
+      loading="lazy"
+      width="1360"
+      height="731"
+    />
+  </picture>
+</figure>
+<p>
+  Same as with other debugger controls, from left to right, it can run the whole
+  file; continue and stop execution; stop debugging and continue regular
+  execution; break at the next line; step in, over, and out scopes; run to a
+  point set by the cursor; and toggle all breakpoints.
+</p>
+<figure>
+  <picture>
+    <img
+      src="/assets/blog/lua-series-part-4/zero-brane-debugging-controls.png"
+      alt="ZeroBrane debugging controls. From left to right: run the whole file; continue and stop execution; stop debugging and continue regular execution; break at the next line; step in, over, and out scopes; run to a point set by the cursor; and toggle all breakpoints."
+      loading="lazy"
+      width="1360"
+      height="99"
+    />
+  </picture>
+</figure>
+<p>
+  To inspect values while debugging, the variable in question can be hovered,
+  and a tooltip will show the current state. Alternatively, a variable can be
+  watched to view its value over the course of running the debugger.
+</p>
+<p>
+  Right-click a variable and select <em>"Add Watch Expression"</em> from the
+  context menu.
+</p>
+<figure>
+  <picture>
+    <img
+      src="/assets/blog/lua-series-part-4/zero-brane-debugging-watch.png"
+      alt="The ZeroBrane variable watch panel. To variables are marked to be watched, 'err' and 'str'."
+      loading="lazy"
+      width="800"
+      height="307"
+    />
+  </picture>
+</figure>
+<p>Another feature is a stack window, showing the current execution stack.</p>
+<figure>
+  <picture>
+    <img
+      src="/assets/blog/lua-series-part-4/zero-brane-debugging-stack.png"
+      alt="The ZeroBrane call stack panel, showing the function call stack."
+      loading="lazy"
+      width="800"
+      height="307"
+    />
+  </picture>
+</figure>
+<p>
+  There is much, much, more. A lot of more ways to debug Lua can be found in the
+  official
+  <a
+    href="https://studio.zerobrane.com/doc-lua-debugging"
+    title="ZeroBrane documentation about debugging Lua code."
+    >ZeroBrane documentation for debugging</a
+  >.
+</p>
+
+<h3 id="profiling">Profiling</h3>
+<p>
+  Being able to consistently profile an application enables writing fast and
+  efficient code. Thanks to
+  <a
+    href="https://www.lua.org/pil/23.html"
+    title="Programing in Lua about The Debug Library"
+    >Lua's debug library</a
+  >
+  and specifically the
+  <a
+    href="https://www.lua.org/pil/23.2.html"
+    title="Programing in Lua about debug hooks in the debug library."
+    ><code>debug.sethook</code> function</a
+  >, a user can implement any debug mechanic themselves.
+</p>
+
+<h4 id="function-execution-count">Function execution count</h4>
+<p>
+  One of those examples can be found directly on
+  <a
+    href="https://www.lua.org/pil/23.3.html"
+    title="Profiling example on Programing in Lua"
+    >lua.org Programming in Lua section about profiling</a
+  >. The example profiler will count how often each function got called. The
+  whole profiler looks like this:
+</p>
+<figure>
+  <pre><code class="language-lua hljs">-- src/tools/profiler-pil.lua
+local Counters = {}
+local Names = {}
+
+local function hook()
+  local f = debug.getinfo(2, "f").func
+  -- first time `f' is called?
+  if Counters[f] == nil then
+    Counters[f] = 1
+    Names[f] = debug.getinfo(2, "Sn")
+  else -- only increment the counter
+    Counters[f] = Counters[f] + 1
+  end
+end
+
+local function getname(func)
+  local n = Names[func]
+  if n.what == "C" then
+    return n.name
+  end
+  local loc = string.format("[%s]:%s", n.short_src, n.linedefined)
+  if n.namewhat ~= "" then
+    return string.format("%s (%s)", loc, n.name)
+  else
+    return string.format("%s", loc)
+  end
+end
+
+local f = assert(loadfile(arg[1]))
+debug.sethook(hook, "c") -- turn on the hook
+f()                      -- run the main program
+debug.sethook()          -- turn off the hook
+
+for func, count in pairs(Counters) do
+  print(getname(func), count)
+end</code></pre>
+</figure>
+<p>
+  The idea is to run the profiler and give it a Lua file as an argument. The
+  file will be loaded via <code>loadfile</code>. Before running the loaded
+  chunk, the function <code>hook</code> will be set as debug hook via
+  <code>sethook</code> for function execution via the argument <code>"c"</code>.
+</p>
+<p>
+  The hook then counts how often a function gets called in the table
+  <code>Counters</code> and saves the name into <code>Names</code>. At the end,
+  all names will be printed via a for loop with the amount of executions.
+</p>
+<p>This is how the count profiler can be run:</p>
+<figure>
+  <pre><code class="language-shell hljs">$ lua src/tools/profiler-pil.lua some/nice/file.lua</code></pre>
+  <figcaption>
+    The <code>$</code> is used to show a command will be entered.
+  </figcaption>
+</figure>
+<p>
+  The profiler will produce an output similar to the following one, taken from
+  the example on lua.org.
+</p>
+<figure>
+  <pre><code class="language-shell hljs">[markov.lua]:4 884723
+write   10000
+[markov.lua]:0 (f)     1
+read    31103
+sub     884722
+[markov.lua]:1 (allwords)      1
+[markov.lua]:20 (prefix)       894723
+find    915824
+[markov.lua]:26 (insert)       884723
+random  10000
+sethook 1
+insert  884723</code></pre>
+</figure>
+<p>
+  More profiler options can be found at
+  <a
+    href="http://lua-users.org/wiki/ProfilingLuaCode"
+    title="Lua user wiki overview with many profiler options."
+    >lua-users.org/wiki/ProfilingLuaCode</a
+  >, like the
+  <a
+    href="http://lua-users.org/wiki/PepperfishProfiler"
+    title="Lua user wiki page for the Pepperfish Profiler."
+    >Pepperfish Profiler</a
+  >
+  or the
+  <a
+    href="https://jan.kneschke.de/projects/misc/profiling-lua-with-kcachegrind/"
+    title="Website about how to use KCacheGrind to profile Lua."
+    >lua-callgrind.lua</a
+  >
+  profiler that will produce <em>"callgrind file-spec"</em> files to be used
+  with
+  <a
+    href="https://kcachegrind.github.io/html/Home.html"
+    title="Website for KCachegrind"
+    >KCachegrind</a
+  >.
+</p>
+
+<h4 id="memory-profile">Memory profile</h4>
+<p>
+  Even though simplistic, nevertheless effective, the used memory at any point
+  of execution can be measured with <code>collectgarbage("count")</code>. The
+  call returns the total memory in use in kilobytes.
+</p>
+<p>
+  Here is an example of printing the count at the start and end of a test
+  program.
+</p>
+<figure>
+  <pre><code class="language-lua hljs">-- src/examples/memory-profile.lua
+print("Memory Before:\t",
+  collectgarbage("count") .. " kb")
+
+local lu = require "luaunit"
+local round = require "examples/round"
+
+local TestRound = {}
+
+function TestRound.test1()
+  lu.assertEquals(round(3.44), 3)
+end
+
+function TestRound.test2()
+  lu.assertEquals(round(3.44, 1), 3.4)
+end
+
+print("Memory After:\t",
+  collectgarbage("count") .. " kb")
+
+return TestRound</code></pre>
+</figure>
+<p>Running this file &hellip;</p>
+<figure>
+  <pre><code class="language-shell hljs">$ lua src/examples/memory-profile.lua</code></pre>
+</figure>
+<p>
+  &hellip; will show the used memory in kilobytes at the start and end of the
+  file.
+</p>
+<figure>
+  <pre><code class="language-shell hljs">Memory Before: 22.9609375 kb
+Memory After:  229.1533203125 kb</code></pre>
+</figure>
+<p>Simple, but helpful.</p>
+
+<h4 id="own-tracer">Own tracer</h4>
+<p>
+  I always found flame graphs pretty handy when profiling. May it be in web
+  development through Chromium based browsers, accessing it via
+  chrome://tracing/, Firefox through the Performance tab, or for general
+  application development using a
+  <a
+    href="https://github.com/wolfpld/tracy"
+    title="Nanosecond precision frame profiler Tracy"
+    >frame profiler like Tracy</a
+  >.
+</p>
+<div class="side-note-ref">
+  <p>
+    When in a Lua-only code base, I like to use my own small tracer that will
+    produce a JSON file in the
+    <a
+      href="https://docs.google.com/document/d/1CvAClvFfyA5R-PhYUmn5OOQtYMH4h6I0nSsKchNAySU"
+      title=""
+      >trace event format</a
+    >
+    that I can use either with a Chromium-based browser or
+    <a href="https://www.speedscope.app" title="">Speedscope</a>*. It may not be
+    the most accurate for production use &mdash; as there is quite an
+    <strong>overhead doing this in Lua</strong> with the debug library &mdash;
+    but it is <em>"good enough"</em> for quick results without complicated setup
+    or installation.
+  </p>
+  <aside class="side-note">
+    <p>
+      * Speedscope supports multiple different
+      <a
+        href="https://github.com/jlfwong/speedscope#supported-file-formats"
+        title="Supported tracing file formats of Speedscope."
+        >profiler formats</a
+      >. Another alternative is
+      <a
+        href="https://ui.perfetto.dev/"
+        title="Another profiler option supporting the Chromium trace format."
+        >Perfetto</a
+      >.
+    </p>
+  </aside>
+</div>
+<p>
+  The tracer can be found in the
+  <a
+    href="https://github.com/MartinHelmut/lua-series/blob/part-4/src/tools/profiler-mhf.lua"
+    title="The full profiler file in the article companion repository."
+    >companion repository in the file <code>src/tools/profiler-mhf.lua</code></a
+  >.
+</p>
+<p>
+  Looking at the parts that make the (less than 200 lines) tracer, the
+  <code>Profile</code> table holds the logic to write the tracing file format.
+  It defines some settings, like the file name the trace gets written to, and
+  sets a <code>new</code>
+  function to create a new profiler.
+</p>
+<figure>
+  <pre><code class="language-lua hljs">-- src/tools/profiler-mhf.lua
+local Profile = {
+  file = "profile.json",
+  output = "",
+}
+
+function Profile:new(file)
+  local obj = {
+    file = file or self.file
+  }
+  self.__index = self
+  setmetatable(obj, self)
+  return obj
+end</code></pre>
+</figure>
+<p>
+  The functions <code>write_header</code> and <code>write_footer</code> handle
+  the start and end of the JSON file that will be created, the footer will also
+  create the file itself.
+</p>
+<figure>
+  <pre><code class="language-lua hljs">function Profile:write_header()
+  self.output = string.format([[{"metadata": {
+    "source": "CustomProfiler",
+    "startTime": "%s",
+    "dataOrigin": "TraceEvents"
+  },"traceEvents":[]], os.date("%Y-%m-%dT%X"))
+end
+
+function Profile:write_footer()
+  local file_handle = io.open(self.file, "w")
+  if file_handle then
+    file_handle:write(self.output:sub(1, -2) .. "]}")
+    self.output = ""
+    io.close(file_handle)
+  end
+end</code></pre>
+</figure>
+<p>
+  The function <code>write_item</code> is what creates a new entry for the
+  tracer with the start and end time of an execution scope, as well as a name.
+</p>
+<figure>
+  <pre><code class="language-lua hljs">function Profile:write_item(name, start_time, end_time)
+  local json = [[
+  {
+    "args":{},
+    "cat": "function",
+    "dur": %f,
+    "name": "%s",
+    "ph": "X",
+    "pid": 0,
+    "tid": 0,
+    "ts": %f
+  },]]
+  self.output = self.output
+    .. string.format(json, end_time, name, start_time)
+end</code></pre>
+</figure>
+<p>
+  The <code>Instrumentator</code> table is what defines a couple of settings and
+  the function to be set as a debug hook. The settings are a potential custom
+  clock function that returns a time in nanoseconds, as well as some values to
+  hold on execution.
+</p>
+<figure>
+  <pre><code class="language-lua hljs">local Instrumentator = {
+  -- Clock milliseconds to nanoseconds
+  clock = function() return os.clock() * 1000000 end,
+  profile = nil,
+  tail_calls = 0,
+  function_stack = {},
+  scope_stack = {},
+}</code></pre>
+</figure>
+<p>
+  The <code>create_hook</code> function is the meat of the tracer. It creates a
+  hook function to be used with <code>debug.sethook</code> that will listen for
+  all but the line event.
+</p>
+<figure>
+  <pre><code class="language-lua hljs">function Instrumentator:create_hook()
+  return function(event, _line, info)
+    info = info or debug.getinfo(2)
+    local func = info.func
+
+    -- Ignore internal or C functions in trace
+    if internal_functions[func] or info.what ~= "Lua" then
+      return
+    end
+
+    local _, stack_depth = debug.traceback():gsub("\n", "\n")
+    if info.istailcall == true then
+      stack_depth = stack_depth - 1
+    end
+
+    if event == "tail call" then
+      self.tail_calls = self.tail_calls + 1
+
+      if not self.function_stack[func] then
+        self.function_stack[func] = {}
+      end
+
+      self.function_stack[func][stack_depth + self.tail_calls] = self.clock()
+    end
+
+    if event == "call" then
+      if not self.function_stack[func] then
+        self.function_stack[func] = {}
+      end
+
+      self.function_stack[func][stack_depth] = self.clock()
+    end
+
+    if event == "return" then
+      if not self.function_stack[func] then
+        return
+      end
+
+      local function _write(id, depth)
+        if self.function_stack[func][depth] == nil then
+          return
+        end
+
+        local name = info.name
+          or string.format("%s(%s:%s)",
+            id, info.short_src, info.linedefined)
+        local start_time = self.function_stack[func][depth]
+        local end_time = self.clock() - start_time
+        self.profile:write_item(name, start_time, end_time)
+        self.function_stack[func][depth] = nil
+      end
+
+      if info.istailcall == true then
+        for i = self.tail_calls, 1, -1 do
+          _write("tail_call", stack_depth + i)
+        end
+        self.tail_calls = 0
+      end
+
+      _write("unknown", stack_depth)
+
+      -- Cleanup
+      if next(self.function_stack[func]) == nil then
+        self.function_stack[func] = nil
+      end
+    end
+  end
+end</code></pre>
+</figure>
+<p>
+  It will also skip functions that are referenced in the table
+  <code>internal_functions</code>. This table will hold all tracer own functions
+  to not show up in a trace.
+</p>
+<p>
+  The <code>Instrumentator</code> functions <code>begin_session</code> and
+  <code>end_session</code> are to scope on what part of the code the tracer
+  shall run. The <code>begin_session</code> function will create a new
+  <code>Profiler</code>, write the header and set the actual debugging hook.
+</p>
+<figure>
+  <pre><code class="language-lua hljs">function Instrumentator:begin_session(file)
+  self.profile = Profile:new(file)
+  self.profile:write_header()
+  debug.sethook(self:create_hook(), "cr")
+end</code></pre>
+</figure>
+<p>
+  The function <code>end_session</code> will remove the hook and write the
+  footer.
+</p>
+<figure>
+  <pre><code class="language-lua hljs">function Instrumentator:end_session()
+  debug.sethook()
+  self.profile:write_footer()
+  self.profile = nil;
+end</code></pre>
+</figure>
+<p>
+  One last function, <code>scope</code>, is added to give the option to create
+  trace entries for a non-function scope.
+</p>
+<figure>
+  <pre><code class="language-lua hljs">function Instrumentator:scope(name)
+  self.scope_stack[name] = self.clock()
+
+  local function __close()
+    if not self.scope_stack[name] then
+      return
+    end
+
+    local info = debug.getinfo(2)
+    local scope_name = string.format("%s(%s:%s)",
+      name, info.short_src, info.linedefined)
+    local start_time = self.scope_stack[name]
+    local end_time = self.clock() - start_time
+    self.profile:write_item(
+      scope_name, start_time, end_time)
+
+    self.scope_stack[name] = nil
+  end
+
+  local closable = { close = __close }
+  setmetatable(closable, { __close = __close })
+  internal_functions[__close] = true
+
+  return closable
+end</code></pre>
+</figure>
+<p>
+  The meta-method <code>__close</code> that is defined in that function is an
+  <strong>optional Lua 5.4 feature</strong> to support the local variable
+  attribute <em>"close"</em>.
+</p>
+<p>
+  And at last, adding all functions that should not be profiled to the
+  <code>internal_functions</code> table.
+</p>
+<figure>
+  <pre><code class="language-lua hljs">local function collect_function(from, into)
+  for _, v in pairs(from) do
+    if type(v) == "function" then
+      into[v] = true
+    end
+  end
+end
+
+internal_functions[collect_function] = true
+collect_function(Instrumentator, internal_functions)
+collect_function(Profile, internal_functions)</code></pre>
+</figure>
+<p>
+  Again, the whole tracer can be found in the
+  <a
+    href="https://github.com/MartinHelmut/lua-series/blob/part-4/src/tools/profiler-mhf.lua"
+    title="The full profiler file in the article companion repository."
+    >companion repository in the file <code>src/tools/profiler-mhf.lua</code></a
+  >.
+</p>
+<p>
+  How to use the tracer? After requiring the profiler into a file to be
+  profiled, the function <code>begin_session</code> needs to be called to start
+  the profiler.
+</p>
+<figure>
+  <pre><code class="language-lua hljs">-- src/examples/profiler-example.lua
+local profiler = require "tools/profiler-mhf"
+
+profiler:begin_session()</code></pre>
+</figure>
+<p>And, at the end, calling <code>end_session</code> to close the profiler.</p>
+<figure>
+  <pre><code class="language-lua hljs">profiler:end_session()</code></pre>
+</figure>
+<p>
+  That is all that is necessary to profile function calls in the code. After
+  running the code with the profiler, a <code>profile.json</code> will be
+  created. Loading this file, e.g., into
+  <a
+    href="https://www.speedscope.app"
+    title="Speedscope website to view flame graphs of different tracer formats."
+    >Speedscope</a
+  >, will show the flame graph of the executed program.
+</p>
+<figure>
+  <picture>
+    <img
+      src="/assets/blog/lua-series-part-4/speedscope.png"
+      alt="The Speedscope application to view many different trace formats."
+      loading="lazy"
+      width="1360"
+      height="1064"
+    />
+  </picture>
+</figure>
+<p>
+  The <code>scope</code> function now gives another way of defining a scope to
+  profile. It takes a name for the scope and returns a scope-table, with a
+  <code>close</code> function that needs to be called at the end of the scope.
+</p>
+<figure>
+  <pre><code class="language-lua hljs">local function test_fn()
+  -- Some code ...
+  if something then
+    local scope = profiler:scope("test scope")
+    -- More code ...
+    scope:close()
+  end
+  -- Could be even more code here ...
+end</code></pre>
+  <figcaption>Profile the if-statement as separate scope.</figcaption>
+</figure>
+<aside class="callout">
+  <h4>Lua version required</h4>
+  <p>This following feature requires Lua 5.4 or up.</p>
+</aside>
+<p>
+  When using Lua 5.4, the <code>&lt;close&gt;</code> attribute can be used to
+  automatically close a scope, removing the need to call
+  <code>close</code> manually.
+</p>
+<figure>
+  <pre><code class="language-lua hljs">local function test_fn()
+  -- Some code ...
+  if something then
+    local _ &lt;close&gt; = profiler:scope("test scope")
+    -- More code ...
+  end
+  -- Could be even more code here ...
+end</code></pre>
+  <figcaption>Profile the if-statement as separate scope.</figcaption>
+</figure>
+<p>
+  Again, as mentioned initially, this tracer may not be the most efficient. If
+  precision is needed, a nanosecond-resolution profiler like
+  <a
+    href="https://github.com/wolfpld/tracy"
+    title="The nanosecond-resolution profiler Tracy."
+    >Tracy Profiler</a
+  >
+  should be used.
+</p>
+
+<h3 id="what-comes-next">What comes next</h3>
+<p>
+  As usual, all the code shown in this article is also available in the
+  <a
+    href="https://github.com/MartinHelmut/lua-series/tree/part-4"
+    title="The branch 'part-4' in the companion repository with the code of this article."
+    >companion repository on GitHub, branch part-4</a
+  >.
+</p>
+<p>
+  Up next is extending a C++ application with Lua. Taking a look at the base API
+  as well as an alternative with
+  <a
+    href="https://github.com/ThePhD/sol2"
+    title="GitHub page of the sol2 project."
+    >sol2</a
+  >, both-way function calls, code structure, how to bundle the application
+  using CMake, and how to allow users to define scripts that can be run in a
+  sandbox.
+</p>
+<p>Until then 👋🏻</p>

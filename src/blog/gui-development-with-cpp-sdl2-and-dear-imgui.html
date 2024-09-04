@@ -1,6 +1,6 @@
 ---
 date: 2022-07-30
-lastmod: 2024-01-08
+lastmod: 2024-09-04
 title: "GUI Development with C++, SDL2, and Dear ImGui"
 description: "Showcasing my personal setup for GUI application development with C++, SDL2, and Dear ImGui."
 image: "/assets/blog/gui-development-with-cpp/title-card.png"
@@ -413,9 +413,9 @@ namespace App {
 
 Window::Window(const Settings& settings) {
   auto window_flags{
-	static_cast&lt;SDL_WindowFlags&gt;(
-	  SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI
-	)
+  static_cast&lt;SDL_WindowFlags&gt;(
+    SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI
+  )
   };
   constexpr int window_center_flag{SDL_WINDOWPOS_CENTERED};
 
@@ -462,9 +462,9 @@ SDL_Renderer* Window::get_native_renderer() const {
 <figure>
   <pre><code class="language-cpp hljs">Window::Window(const Settings& settings) {
   auto window_flags{
-	static_cast&lt;SDL_WindowFlags&gt;(
-	  SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI
-	)
+  static_cast&lt;SDL_WindowFlags&gt;(
+    SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI
+  )
   };
   constexpr int window_center_flag{SDL_WINDOWPOS_CENTERED};
 
