@@ -545,6 +545,17 @@ tbody > tr:nth-of-type(even) {
   background-color: var(--color-blue-100);
 }
 
+body.dark-theme thead,
+body.dark-theme tbody > tr:nth-of-type(even) {
+  background-color: var(--color-low-contrast);
+  color: var(--color-grey-300);
+}
+
+body.dark-theme th,
+body.dark-theme td {
+  border-color: var(--color-grey-700);
+}
+
 /* Article */
 
 article {
