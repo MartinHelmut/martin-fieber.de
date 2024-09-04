@@ -1,6 +1,6 @@
 ---
 date: 2022-09-24
-lastmod: 2024-05-13
+lastmod: 2024-09-04
 title: "Website style guide"
 description: 'The style guide for my website, how components are created and then used, as simplicity saved me from falling into the hole of "not creating".'
 linkTitle: "This websites style guide including context about the why and how."
@@ -36,7 +36,7 @@ tags: ["post", "general"]
 <p>
   I deleted it all. What if: just HTML and CSS, no fancy technologies, no
   pop-ups, no content jumps? I'm not saying there is a relationship between
-  <em>"fancy technologies</em> to <em>"negatives"</em>, just stating what I
+  <em>"fancy technologies"</em> to <em>"negatives"</em>, just stating what I
   wanted to reduce. I was creative my whole youth; I learned to be a designer
   and even worked as one for a while. But <strong>I am no designer</strong>, not
   anymore, and I did not love the time I was, or at least what I was doing back
@@ -92,6 +92,7 @@ tags: ["post", "general"]
       </ul>
     </li>
     <li><a href="#address">Address</a></li>
+    <li><a href="#table">Table</a></li>
     <li><a href="#callout">Callout</a></li>
     <li><a href="#flag-object">Flag Object</a></li>
     <li>
@@ -586,6 +587,95 @@ a > dfn {
     Italy
   &lt;/p&gt;
 &lt;/address&gt;</code></pre>
+</figure>
+
+<h4 id="table">Table</h4>
+<p>
+  The table just got a little styling for better readability for condensed data.
+  It can contain a caption that will be displayed underneath the table.
+</p>
+<figure>
+  <pre><code class="language-css hljs">table {
+  font-family: var(--base-font), sans-serif;
+  font-size: 1rem;
+  font-weight: var(--font-weight-normal);
+  color: var(--color-text);
+  line-height: 1.65;
+  text-align: left;
+  margin: 0 0 var(--size-500) 0;
+  padding: 0;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table caption {
+  caption-side: bottom;
+  padding: var(--size-400) 0 0 0;
+  color: var(--color-text-secondary);
+}
+
+table code {
+  font-size: 0.8rem;
+}
+
+thead {
+  background-color: var(--color-blue-100);
+  border-bottom: 2px solid var(--color-highlight);
+}
+
+th,
+td {
+  border: 1px solid var(--color-grey-500);
+  padding: var(--size-100) var(--size-300);
+}
+
+tbody > tr:nth-of-type(even) {
+  background-color: var(--color-blue-100);
+}</code></pre>
+</figure>
+<table>
+  <caption>
+    This is a table caption.
+  </caption>
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">1</th>
+      <td>Max Mustermann</td>
+    </tr>
+    <tr>
+      <th scope="row">2</th>
+      <td>J&oacute;na J&oacute;nsd&oacute;ttir</td>
+    </tr>
+  </tbody>
+</table>
+<figure>
+  <pre><code class="language-html hljs">&lt;table&gt;
+  &lt;caption&gt;
+    This is a table caption.
+  &lt;/caption&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th scope="col"&gt;ID&lt;/th&gt;
+      &lt;th scope="col"&gt;Name&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;th scope="row"&gt;1&lt;/th&gt;
+      &lt;td&gt;Max Mustermann&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th scope="row"&gt;2&lt;/th&gt;
+      &lt;td&gt;Jóna Jónsdóttir&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;</code></pre>
 </figure>
 
 <h4 id="callout">Callout</h4>
