@@ -3,6 +3,9 @@
 
   const lightThemeName = "light-theme";
   const darkThemeName = "dark-theme";
+  const btnTarget = document.querySelector("main + footer");
+
+  if (!btnTarget) return;
 
   const setThemeBasedProps = (ele, theme) => {
     const isDark = theme === darkThemeName;
@@ -19,7 +22,7 @@
   const btn = document.createElement("button");
   btn.classList.add("theme-toggle");
   setThemeBasedProps(btn, currentTheme);
-  document.querySelector("main + footer").appendChild(btn);
+  btnTarget.appendChild(btn);
 
   document.body.classList.toggle(currentTheme);
 
