@@ -29,6 +29,11 @@ Once you have tried the above, create a GitHub pull request with your changes an
 
 Tested with Node 20.
 
+### Dependencies
+
+- [Node.js](https://nodejs.org) 20 or higher
+- [pNPM](https://pnpm.io) 9 or higher
+
 ### Setup
 
 Clone the repo and run install:
@@ -53,6 +58,14 @@ You can also run a prettier:
 
 ```shell script
 pnpm format:check
+```
+
+### Compress scripts
+
+To create compressed versions of the available scripts run:
+
+```shell script
+pnpm compress
 ```
 
 ## Be Nice

@@ -8,11 +8,10 @@ function copyStaticFiles(eleventyConfig) {
   const staticResources = [
     "src/assets",
     "src/scripts",
+    "src/styles",
     "src/_routes.json",
     "src/favicon.ico",
     "src/*.xsl",
-    "src/style.css",
-    "src/print.css",
   ];
 
   staticResources.forEach((resource) =>

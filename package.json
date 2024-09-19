@@ -9,7 +9,8 @@
     "build": "eleventy && prettier --write _site --ignore-path .prettierignore",
     "lint": "eslint src -c eslint.config.js && stylelint '**/*.css'",
     "format": "prettier --write .",
-    "format:check": "prettier --list-different ."
+    "format:check": "prettier --list-different .",
+    "compress": "./tools/compress.sh"
   },
   "engines": {
     "node": ">=20"
@@ -42,6 +43,7 @@
     "luxon": "^3.5.0",
     "prettier": "^3.3.3",
     "stylelint": "^16.9.0",
-    "stylelint-prettier": "^5.0.2"
+    "stylelint-prettier": "^5.0.2",
+    "terser": "^5.33.0"
   }
 }
