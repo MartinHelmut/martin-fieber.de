@@ -33,17 +33,17 @@
   },
   "homepage": "https://martin-fieber.se/",
   "devDependencies": {
-    "@11ty/eleventy": "^3.0.0-alpha.18",
+    "@11ty/eleventy": "^3.0.0",
     "@11ty/eleventy-plugin-rss": "^2.0.2",
-    "@eslint/js": "^9.9.1",
-    "eslint": "^9.9.1",
+    "@eslint/js": "^9.11.1",
+    "eslint": "^9.11.1",
     "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-html": "^8.1.1",
-    "globals": "^15.9.0",
+    "eslint-plugin-html": "^8.1.2",
+    "globals": "^15.10.0",
     "luxon": "^3.5.0",
     "prettier": "^3.3.3",
     "stylelint": "^16.9.0",
     "stylelint-prettier": "^5.0.2",
-    "terser": "^5.33.0"
+    "terser": "^5.34.1"
   }
 }
