@@ -32,7 +32,7 @@ Tested with Node 20.
 ### Dependencies
 
 - [Node.js](https://nodejs.org) 20 or higher
-- [pNPM](https://pnpm.io) 9 or higher
+- [PNPM](https://pnpm.io) 9 or higher
 
 ### Setup
 
