@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" href="/assets/favicon/icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/assets/favicon/apple-touch-icon.png" />
+    <link rel="manifest" href="/assets/favicon/site.webmanifest" />
+    <link rel="stylesheet" href="/styles/keyboards.css" />
+    <link rel="stylesheet" media="print" href="/styles/keyboards-print.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gloock&display=swap" rel="stylesheet">
+    <link
+      rel="alternate"
+      type="application/atom+xml"
+      title="Martin Fieber's Blog"
+      href="/feed.xml"
+    />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="white" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#191223" />
+    <meta
+      name="google-site-verification"
+      content="3EUDp2p1HY0eouMKX3PBvPSv3Mr6WNL-4sUYA2yNxz8"
+    />
+    <meta name="generator" content="{{ eleventy.generator }}">
+    <meta name="author" content="{{ site.author }}" />
+    <meta name="description" content="{{ description }}" />
+    <meta property="og:title" content="{{ title }}" />
+    <meta property="og:description" content="{{ description }}" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="{{ site.url }}{{ page.url }}" />
+    {%- if image %}
+    <meta property="og:image" content="{{ site.url }}{{ image }}" />
+    <meta property="og:image:alt" content="{{ imageAlt }}" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:type" content="image/png" />
+    {%- endif %}
+    <script
+      defer
+      data-api="/api/event"
+      data-domain="{{ site.name }}"
+      src="/js/script.js">
+    </script>
+    <script>
+      window.plausible =
+        window.plausible ||
+        (() => (window.plausible.q = window.plausible.q || []).push(arguments));
+    </script>
+    <!-- <script defer src="/scripts/theme-toggle.min.js"></script> -->
+    <title>{{ site.name }} | {{ title }}</title>
+  </head>
+  <body>
+  <header>
+    <h1>
+      <a href="/" title="Take my back to start!">Martin Helmut Fieber</a>
+    </h1>
+  </header>
+  <main>
+    {{ content | safe }}
+  </main>
+  <footer>
+    <a
+      href="/legal-notice"
+      title="Legal notice page includes address and contact information"
+    >Legal</a>
+    |
+    <a
+      href="/privacy-policy"
+      title="Privacy policy includes cookie information, but there are no cookies"
+    >Privacy</a>
+    |
+    <a href="/feed.xml" title="Atom feed">Feed</a>
+    |
+    <a
+      href="/blog/my-blog"
+      title="Additional information about this website, what to expect and how it was built."
+    >About</a>
+  </footer>
+  </body>
+</html>
