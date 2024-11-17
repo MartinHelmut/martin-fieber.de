@@ -35,15 +35,15 @@
   "devDependencies": {
     "@11ty/eleventy": "^3.0.0",
     "@11ty/eleventy-plugin-rss": "^2.0.2",
-    "@eslint/js": "^9.11.1",
-    "eslint": "^9.11.1",
+    "@eslint/js": "^9.15.0",
+    "eslint": "^9.15.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-html": "^8.1.2",
-    "globals": "^15.10.0",
+    "globals": "^15.12.0",
     "luxon": "^3.5.0",
     "prettier": "^3.3.3",
-    "stylelint": "^16.9.0",
+    "stylelint": "^16.10.0",
     "stylelint-prettier": "^5.0.2",
-    "terser": "^5.34.1"
+    "terser": "^5.36.0"
   }
 }
