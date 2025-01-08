@@ -52,6 +52,11 @@ pre code.hljs {
   font-size: 0.8rem;
 }
 
+.redacted::after {
+  background: var(--color-grey-900);
+  box-shadow: none;
+}
+
 .content {
   max-width: none;
 }

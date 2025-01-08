@@ -89,6 +89,7 @@ tags: ["post", "general"]
         <li><a href="#emphasis">Emphasis</a></li>
         <li><a href="#links">Links</a></li>
         <li><a href="#shortcuts">Shortcuts</a></li>
+        <li><a href="#redacted">Redacted</a></li>
       </ul>
     </li>
     <li><a href="#address">Address</a></li>
@@ -555,6 +556,39 @@ a > dfn {
   To toggle the theme, use the shortcut
   &lt;kbd&gt;&lt;kbd&gt;Shift&lt;/kbd&gt;+&lt;kbd&gt;T&lt;/kbd&gt;&lt;/kbd&gt;.
 &lt;/p&gt;</code></pre>
+</figure>
+
+<h5 id="redacted">Redacted</h5>
+<p>
+  The <code>.redacted</code> class will give the option to visually obscure
+  text. It is not meant to actually hide information, rather to offer a playful
+  option to potentially hide text content.
+</p>
+<figure>
+  <pre><code class="language-css hljs">.redacted {
+  position: relative;
+  white-space: pre;
+}
+
+.redacted::after {
+  background: var(--color-text);
+  border-radius: 0.1em;
+  box-shadow: 0 0 1px var(--color-text-secondary);
+  content: " ";
+  width: 100%;
+  height: 1.2em;
+  top: 0;
+  left: 0;
+  position: absolute;
+  transform: skewY(-5deg) rotate(5deg);
+}</code></pre>
+</figure>
+<p>
+  The secret word is <span class="redacted" aria-label="redacted">Geheim</span>.
+</p>
+<figure>
+  <pre><code class="language-html hljs">The secret word is
+&lt;span class="redacted" aria-label="redacted"&gt;Geheim&lt;/span&gt;.</code></pre>
 </figure>
 
 <h4 id="address">Address</h4>
