@@ -1,0 +1,16 @@
+{
+  "folders": [
+    {
+      "path": "."
+    }
+  ],
+  "build_systems": [
+    {
+      "name": "website_start",
+      "cmd": ["pnpm", "build"]
+    }
+  ],
+  "settings": {
+    "auto_complete": true,
+  },
+}
