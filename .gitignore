@@ -3,3 +3,4 @@ raw_assets/
 _site/
 \.DS_Store
 *.log
+*.sublime-workspace
