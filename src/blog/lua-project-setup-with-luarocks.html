@@ -1,6 +1,6 @@
 ---
 date: 2023-02-27
-lastmod: 2024-09-04
+lastmod: 2026-02-01
 title: "Lua project setup with LuaRocks"
 description: "A full guide on setting up a Lua project, including dependency management, code formatting and analysis, and editor setup. Part of a larger series about aspects of Lua."
 image: "/assets/blog/lua-series-part-1/title-card.png"
@@ -41,11 +41,14 @@ series: { name: lua, part: 1 }
 </p>
 <p>
   Running a first Lua program, using LuaRocks for dependency management, code
-  formatting, and linting, and setting up an editor or
+  formatting and linting, and setting up an editor or
   <abbr title="Integrated Development Environment">IDE</abbr> to support Lua
-  development as well as possible. <strong>Remark:</strong> This is
-  <strong>how I set up my projects</strong>, maybe not by the books, but the way
-  it works best for me in all environments, repeatedly.
+  development as well as possible.
+</p>
+<p>
+  <strong>Remark:</strong> This is <strong>how I set up my projects</strong>,
+  maybe not by the books, but the way it works best for me in all environments,
+  repeatedly. So please don't take this as gospel.
 </p>
 
 <nav>
@@ -108,7 +111,7 @@ series: { name: lua, part: 1 }
           <a href="#editor-setup-zerobrane">ZeroBrane</a>
         </li>
         <li>
-          <a href="#editor-setup-honorable-mentions">Honorable mentions</a>
+          <a href="#editor-setup-honorable-mentions">Honourable mentions</a>
         </li>
       </ul>
     </li>
@@ -120,10 +123,9 @@ series: { name: lua, part: 1 }
 
 <h3 id="lua-versions">Lua versions</h3>
 <p>
-  A note about versions. The latest Lua version as of this writing is 5.4
-  (released in
-  <time datetime="2020-05-29">June 2020</time>). Generally, everything in this
-  article series will work with Lua 5.1 (released in
+  A note about versions. The latest current Lua version is 5.5 (released in
+  <time datetime="2025-12-22">December 2025</time>). Generally, everything in
+  this article series will work with Lua 5.1 (released in
   <time datetime="2006-02-21">February 2006</time>) and up. If this is not the
   case, a callout such as the following will signal that a higher version is
   required.
@@ -157,7 +159,7 @@ series: { name: lua, part: 1 }
 </p>
 <figure>
   <pre><code class="language-shell hljs">$ lua -v
-Lua 5.4.4  Copyright (C) 1994-2022 Lua.org, PUC-Rio</code></pre>
+Lua 5.4.8  Copyright (C) 1994-2022 Lua.org, PUC-Rio</code></pre>
   <figcaption>
     The <code>$</code> is used to show a command will be entered.
   </figcaption>
@@ -367,7 +369,7 @@ Hello, reader.</code></pre>
   <code>lua_modules</code> directory.
 </p>
 <figure>
-  <pre><code class="language-shell hljs">$ luarocks init --lua-versions "5.1,5.2,5.3,5.4"</code></pre>
+  <pre><code class="language-shell hljs">$ luarocks init --lua-versions "5.1,5.2,5.3,5.4,5.5"</code></pre>
   <figcaption>
     This will mark the project's Lua support for version 5.1 and up.
   </figcaption>
@@ -445,7 +447,7 @@ description = {
    license = "*** please specify a license ***"
 }
 dependencies = {
-   "lua >= 5.1, < 5.5"
+   "lua >= 5.1, < 5.6"
 }
 build = {
    type = "builtin",
@@ -495,7 +497,7 @@ build = {
 </p>
 <figure>
   <pre><code class="language-lua hljs">dependencies = {
-   "lua >= 5.1, < 5.5"
+   "lua >= 5.1, < 5.6"
 }</code></pre>
 </figure>
 <p>
@@ -541,7 +543,7 @@ description = {
    license = "MIT"
 }
 dependencies = {
-   "lua >= 5.1, < 5.5"
+   "lua >= 5.1, < 5.6"
 }
 build = {
    type = "builtin",
@@ -571,7 +573,7 @@ build = {
 </p>
 <figure>
   <pre><code class="language-lua hljs">dependencies = {
-   "lua >= 5.1, < 5.5",
+   "lua >= 5.1, < 5.6",
    "inspect >= 3.1"
 }</code></pre>
 </figure>
@@ -877,7 +879,8 @@ Total: 0 warnings / 0 errors in 2 files</code></pre>
   No project setup is complete without setting up an editor environment. To have
   some options, <strong>I picked five</strong> well-known ones: an IntelliJ IDE,
   in this case <a href="#editor-setup-jetbrains">CLion</a> (paid),
-  <a href="#editor-setup-visual-studio-code">VS Code</a> (free),
+  <a href="#editor-setup-visual-studio-code">VS Code or VSCodium</a>
+  (free),
   <a href="#editor-setup-sublime-text">Sublime Text 4</a> (paid), and
   <a href="#editor-setup-zerobrane">ZeroBrane</a> (free).
 </p>
@@ -984,7 +987,8 @@ Total: 0 warnings / 0 errors in 2 files</code></pre>
   </picture>
 </figure>
 <p>
-  This is where the run config will be created. Add a new configuration as
+  This is where the run configuration will be created. Add a new configuration
+  as
   <em>"Native Application"</em>.
 </p>
 <figure>
@@ -1077,6 +1081,7 @@ Total: 0 warnings / 0 errors in 2 files</code></pre>
     title="Microsoft's Visual Studio Code editor website."
     >VS Code</a
   >
+  or <a href="https://vscodium.com/">VSCodium</a>
   <strong>two plugins</strong> do the heavy lifting &mdash; the
   <a
     href="https://marketplace.visualstudio.com/items?itemName=sumneko.lua"

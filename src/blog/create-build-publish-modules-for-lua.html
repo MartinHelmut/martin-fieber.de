@@ -1,6 +1,6 @@
 ---
 date: 2023-03-31
-lastmod: 2024-09-04
+lastmod: 2026-02-01
 title: "Create, build, and publish modules for Lua"
 description: "Going through the process of creating new packages with LuaRocks, and preparing them for publishing into the official LuaRocks registry. On top: how to manage new versions, include documentation, and configure platform support."
 image: "/assets/blog/lua-series-part-2/title-card.png"
@@ -142,7 +142,7 @@ series: { name: lua, part: 2 }
 </p>
 <figure>
   <pre><code class="language-shell hljs">$ luarocks init \
-    --lua-versions "5.1,5.2,5.3,5.4" \
+    --lua-versions "5.1,5.2,5.3,5.4,5.5" \
     my-package 1.0.0</code></pre>
   <figcaption>
     The <code>$</code> is used to show a command will be entered.
@@ -401,10 +401,10 @@ description = {
 </p>
 <figure>
   <pre><code class="language-lua hljs">dependencies = {
-  "lua >= 5.1, < 5.5"
+  "lua >= 5.1, < 5.6"
 }</code></pre>
   <figcaption>
-    Here the supported Lua versions are 5.1, 5.2, 5.3, and 5.4.
+    Here the supported Lua versions are 5.1, 5.2, 5.3, 5.4, and 5.5.
   </figcaption>
 </figure>
 <p>
@@ -460,7 +460,7 @@ test_dependencies = {
 </p>
 <figure>
   <pre><code class="language-lua hljs">dependencies = {
-  "lua >= 5.1, < 5.5",
+  "lua >= 5.1, < 5.6",
   "luaunit 3.2",
   platforms = {
     windows = { "luaunit 3.3" },
@@ -505,8 +505,8 @@ test_dependencies = {
 <p>
   Thanks to the local setup, this can be done per project inside the
   <code>.luarocks/config.lua</code> file. Usually this file is generated with a
-  specific version, like <code>.luarocks/config-5.4.lua</code>, when using Lua
-  5.4.
+  specific version, like <code>.luarocks/config-5.5.lua</code>, when using Lua
+  5.5.
 </p>
 <figure>
   <pre><code class="language-lua hljs">rocks_servers = {
@@ -936,7 +936,7 @@ $ ./luarocks upload my-package-1.1.0-1.rockspec \
 <p>Create a new package.</p>
 <figure>
   <pre><code class="language-shell hljs">$ luarocks init \
-    --lua-versions "5.1,5.2,5.3,5.4" \
+    --lua-versions "5.1,5.2,5.3,5.4,5.5" \
     my-package 1.0.0</code></pre>
 </figure>
 <p>Write your base <code>.rockspec</code> file.</p>
@@ -965,7 +965,7 @@ description = {
   maintainer = "Your Name &lt;your@email.tld&gt;"
 }
 dependencies = {
-  "lua >= 5.1, < 5.5",
+  "lua >= 5.1, < 5.6",
   "good-package >= 1"
 }
 build = {
