@@ -1,6 +1,6 @@
 ---
 date: 2023-07-31
-lastmod: 2024-09-04
+lastmod: 2026-02-01
 title: "How to test your Lua"
 description: "Having a look at testing Lua code, from small manual tests, to automated tests with LuaUnit. Also having a look at how to mock code and continuous integration with GitHub Actions."
 image: "/assets/blog/lua-series-part-3/title-card.png"
@@ -79,7 +79,7 @@ series: { name: lua, part: 3 }
         <li><a href="#a-single-test">A single test</a></li>
         <li><a href="#group-tests">Group tests</a></li>
         <li><a href="#multiple-files">Multiple files</a></li>
-        <li><a href="#setup-and-teardown">Setup and teardown</a></li>
+        <li><a href="#setup-and-tear-down">Setup and tear-down</a></li>
         <li>
           <a href="#pass-arguments-to-luaunit">Pass arguments to LuaUnit</a>
         </li>
@@ -106,8 +106,8 @@ series: { name: lua, part: 3 }
 
 <h3 id="about-versions">About versions</h3>
 <p>
-  The latest Lua version as of writing is 5.4 (released
-  <time datetime="2020-05-29">June 2020</time>), though everything in this
+  The latest Lua version as of writing is 5.5 (released
+  <time datetime="2025-12-22">December 2025</time>), though everything in this
   article series will work with Lua 5.1 (released
   <time datetime="2006-02-21">February 2006</time>) and up. If this deviates, a
   callout like the following will signal the required version.
@@ -140,7 +140,7 @@ series: { name: lua, part: 3 }
 </p>
 <figure>
   <pre><code class="language-shell hljs">$ luarocks init \
-    --lua-versions "5.1,5.2,5.3,5.4" \
+    --lua-versions "5.1,5.2,5.3,5.4,5.5" \
     my-project 1.0.0</code></pre>
   <figcaption>
     The <code>$</code> is used to show a command will be entered.
@@ -233,7 +233,7 @@ print("No tests defined, yet.")</code></pre>
 </p>
 <figure>
   <pre><code class="language-shell hljs">$ lua
-Lua 5.4.6  Copyright (C) 1994-2023 Lua.org, PUC-Rio
+Lua 5.4.8  Copyright (C) 1994-2023 Lua.org, PUC-Rio
 &gt;</code></pre>
   <figcaption>
     The Lua
@@ -267,7 +267,7 @@ print(factorial(4))  --> 24</code></pre>
 <p>The idea is to use the <code>dofile</code> function for quick tests.</p>
 <figure>
   <pre><code class="language-shell hljs">$ lua
-Lua 5.4.6  Copyright (C) 1994-2023 Lua.org, PUC-Rio
+Lua 5.4.8  Copyright (C) 1994-2023 Lua.org, PUC-Rio
 &gt; dofile("factorial.lua")
 24</code></pre>
   <figcaption>Loading and running the code from the file.</figcaption>
@@ -625,7 +625,7 @@ ok     5  TestRound.test2
   </figcaption>
 </figure>
 
-<h4 id="setup-and-teardown">Setup and teardown</h4>
+<h4 id="setup-and-tear-down">Setup and tear-down</h4>
 <p>
   LuaUnit provides
   <a
@@ -633,7 +633,7 @@ ok     5  TestRound.test2
     title="LuaUnit documentation about setUp and tearDown functions."
     >a way to call code before and after a set of grouped tests</a
   >
-  &mdash; often called <em>"setup"</em> and <em>"teardown"</em> or
+  &mdash; often called <em>"setup"</em> and <em>"tear-down"</em> or
   <em>"beforeAll"</em> and <em>"afterAll"</em> &mdash; via the special functions
   <code>setUp</code> and <code>tearDown</code>.
 </p>
@@ -808,7 +808,7 @@ os.exit(lu.LuaUnit.run())</code></pre>
 </h4>
 <p>
   Mocking a function or value exported by a module is best done inside LuaUnit's
-  <a href="#setup-and-teardown"
+  <a href="#setup-and-tear-down"
     ><code>setUp</code> and <code>tearDown</code> functions</a
   >. The exported function or value gets replaced with a mock in
   <code>setUp</code>, keeping a reference, and restoring the original value in

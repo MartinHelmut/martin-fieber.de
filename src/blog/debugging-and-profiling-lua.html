@@ -1,5 +1,6 @@
 ---
 date: 2024-09-04
+lastmod: 2026-02-01
 title: "Debugging and profiling Lua"
 description: "A solid test suite is one step, but errors will always be part of development. This article will go in-depth on how to debug Lua applications, from manual to IDE-based, including how to profile and find performance bottlenecks."
 image: "/assets/blog/lua-series-part-4/title-card.png"
@@ -140,8 +141,8 @@ series: { name: lua, part: 4 }
 
 <h3 id="about-versions">About versions</h3>
 <p>
-  The latest Lua version as of writing is 5.4 (released
-  <time datetime="2020-05-29">June 2020</time>), though almost everything in
+  The latest Lua version as of writing is 5.5 (released
+  <time datetime="2025-12-22">December 2025</time>), though almost everything in
   this article series will work with Lua 5.1 (released
   <time datetime="2006-02-21">February 2006</time>) and up. If this deviates, a
   callout like the following will signal the required version.
@@ -1207,7 +1208,7 @@ end</code></pre>
 
 <h4 id="visual-studio-code">Visual Studio Code</h4>
 <p>
-  VS Code can be used to debug Lua when used with the
+  VS Code or VSCodium can be used to debug Lua when used with the
   <a
     href="https://marketplace.visualstudio.com/items?itemName=actboy168.lua-debug"
     title="VS Code Marketplace site for the Lua Debug extension"
@@ -1784,6 +1785,11 @@ end</code></pre>
             id, info.short_src, info.linedefined)
         local start_time = self.function_stack[func][depth]
         local end_time = self.clock() - start_time
+
+        -- Avoid 0 values for end_time as it can
+        -- get interpreted as "forever"
+        if end_time < 1 then end_time = 1 end
+
         self.profile:write_item(name, start_time, end_time)
         self.function_stack[func][depth] = nil
       end
@@ -1852,6 +1858,11 @@ end</code></pre>
       name, info.short_src, info.linedefined)
     local start_time = self.scope_stack[name]
     local end_time = self.clock() - start_time
+
+    -- Avoid 0 values for end_time as it can
+    -- get interpreted as "forever"
+    if end_time < 1 then end_time = 1 end
+
     self.profile:write_item(
       scope_name, start_time, end_time)
 
@@ -1953,8 +1964,8 @@ end</code></pre>
   <p>This following feature requires Lua 5.4 or up.</p>
 </aside>
 <p>
-  When using Lua 5.4, the <code>&lt;close&gt;</code> attribute can be used to
-  automatically close a scope, removing the need to call
+  When using Lua 5.4 or later, the <code>&lt;close&gt;</code> attribute can be
+  used to automatically close a scope, removing the need to call
   <code>close</code> manually.
 </p>
 <figure>
