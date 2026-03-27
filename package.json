@@ -13,7 +13,7 @@
     "compress": "./tools/compress.sh"
   },
   "engines": {
-    "node": ">=22"
+    "node": ">=24"
   },
   "repository": {
     "type": "git",
@@ -35,15 +35,15 @@
   "devDependencies": {
     "@11ty/eleventy": "^3.1.2",
     "@11ty/eleventy-plugin-rss": "^2.0.4",
-    "@eslint/js": "^9.39.2",
-    "eslint": "^9.39.2",
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.0.3",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-html": "^8.1.4",
-    "globals": "^17.2.0",
+    "globals": "^17.4.0",
     "luxon": "^3.7.2",
     "prettier": "^3.8.1",
-    "stylelint": "^17.0.0",
+    "stylelint": "^17.4.0",
     "stylelint-prettier": "^5.0.3",
-    "terser": "^5.46.0"
+    "terser": "^5.46.1"
   }
 }

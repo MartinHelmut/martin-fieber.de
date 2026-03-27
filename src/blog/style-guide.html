@@ -1,6 +1,6 @@
 ---
 date: 2022-09-24
-lastmod: 2024-11-17
+lastmod: 2026-03-20
 title: "Website style guide"
 description: 'The style guide for my website, how components are created and then used, as simplicity saved me from falling into the hole of "not creating".'
 linkTitle: "This websites style guide including context about the why and how."
@@ -1170,21 +1170,24 @@ video + figcaption {
 </p>
 <figure>
   <pre><code class="language-css hljs">pre code.hljs {
+  position: relative;
   font-family: monospace;
   font-size: 0.8rem;
   display: block;
   overflow-x: auto;
   white-space: pre-wrap;
   padding: 1rem 0;
-  color: var(--color-grey-900);
-  border-top: 1px solid var(--color-grey-500);
-  border-bottom: 1px solid var(--color-grey-500);
+  margin: 0 calc(-1 * var(--size-500));
+  color: var(--color-text);
+  background-color: var(--color-low-contrast);
 }
 
 @media (min-width: 660px) {
   pre code.hljs {
     padding: 1rem;
+    margin: 0;
     font-size: 1rem;
+    border-radius: var(--size-300);
   }
 }
 

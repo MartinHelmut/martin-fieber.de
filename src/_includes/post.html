@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -15,13 +15,21 @@
       title="Martin Fieber's Blog"
       href="/feed.xml"
     />
-    <meta name="theme-color" media="(prefers-color-scheme: light)" content="white" />
-    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#191223" />
+    <meta
+      name="theme-color"
+      media="(prefers-color-scheme: light)"
+      content="white"
+    />
+    <meta
+      name="theme-color"
+      media="(prefers-color-scheme: dark)"
+      content="#191223"
+    />
     <meta
       name="google-site-verification"
       content="3EUDp2p1HY0eouMKX3PBvPSv3Mr6WNL-4sUYA2yNxz8"
     />
-    <meta name="generator" content="{{ eleventy.generator }}">
+    <meta name="generator" content="{{ eleventy.generator }}" />
     <meta name="author" content="{{ site.author }}" />
     <meta name="description" content="{{ description }}" />
     <meta property="og:title" content="{{ title }}" />
@@ -39,8 +47,8 @@
       defer
       data-api="/api/event"
       data-domain="{{ site.name }}"
-      src="/js/script.js">
-    </script>
+      src="/js/script.js"
+    ></script>
     <script>
       window.plausible =
         window.plausible ||
@@ -53,8 +61,7 @@
     </script>
     {%- if hasCode %}
     <script defer src="/scripts/highlight.min.js"></script>
-    {%- endif %}
-    {%- if hasImageCompare %}
+    {%- endif %} {%- if hasImageCompare %}
     <script defer src="/scripts/image-compare.min.js"></script>
     {%- endif %}
     <script defer src="/scripts/theme-toggle.min.js"></script>
@@ -69,7 +76,8 @@
       </header>
       <main>
         <article>
-          {% from 'components.njk' import badge with context %} {{ badge(series) }}
+          {% from 'components.njk' import badge with context %} {{ badge(series)
+          }}
           <h2>{{ title | safe }}</h2>
           <footer>
             <p>
@@ -80,8 +88,7 @@
               {%- if lastmod %}
               <span class="optional">
                 &mdash; Updated
-                <time
-                  datetime="{{ lastmod | htmlDateString }}">
+                <time datetime="{{ lastmod | htmlDateString }}">
                   {{ lastmod | postDate }}
                 </time>
               </span>
@@ -92,9 +99,8 @@
         </article>
         <p>
           <a href="/blog" title="Main blog page">← Show all posts</a>
-          {%- if series.part %}
-          {% set part = series[series.name] %}
-          | <a
+          {%- if series.part %} {% set part = series[series.name] %} |
+          <a
             href="/series/{{ part.link }}"
             title="Show all parts of the series: {{ part.title }}"
           >
@@ -107,19 +113,22 @@
         <a
           href="/legal-notice"
           title="Legal notice page includes address and contact information"
-        >Legal</a>
+          >Legal</a
+        >
         |
         <a
           href="/privacy-policy"
           title="Privacy policy includes cookie information, but there are no cookies"
-        >Privacy</a>
+          >Privacy</a
+        >
         |
         <a href="/feed.xml" title="Atom feed">Feed</a>
         |
         <a
           href="/blog/my-blog"
           title="Additional information about this website, what to expect and how it was built."
-        >About</a>
+          >About</a
+        >
       </footer>
     </div>
   </body>
