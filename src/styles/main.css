@@ -25,9 +25,10 @@
 
   --color-grey-200: #f1f1f1;
   --color-grey-300: #dcdcdc;
+  --color-grey-400: #cfcfcf;
   --color-grey-500: #aaaaaa;
-  --color-grey-700: #767676;
-  --color-grey-800: #595959;
+  --color-grey-700: #575757;
+  --color-grey-800: #404040;
   --color-grey-900: #0f0f0f;
 }
 
@@ -51,11 +52,10 @@ body {
   --color-highlight: var(--color-blue-500);
   --color-low-contrast: var(--color-grey-200);
   --color-high-contrast: white;
+  --color-background: white;
 
   --font-weight-normal: 300;
   --font-weight-bold: 700;
-
-  background: white;
 }
 
 body.dark-theme {
@@ -65,11 +65,10 @@ body.dark-theme {
   --color-highlight: var(--color-blue-200);
   --color-low-contrast: var(--color-blue-800);
   --color-high-contrast: var(--color-blue-900);
+  --color-background: var(--color-blue-900);
 
   --font-weight-normal: 250;
   --font-weight-bold: 600;
-
-  background: var(--color-blue-900);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -80,11 +79,10 @@ body.dark-theme {
     --color-highlight: var(--color-blue-200);
     --color-low-contrast: var(--color-blue-800);
     --color-high-contrast: var(--color-blue-900);
+    --color-background: var(--color-blue-900);
 
     --font-weight-normal: 250;
     --font-weight-bold: 600;
-
-    background: var(--color-blue-900);
   }
 
   body.light-theme {
@@ -94,11 +92,10 @@ body.dark-theme {
     --color-highlight: var(--color-blue-500);
     --color-low-contrast: var(--color-grey-200);
     --color-high-contrast: white;
+    --color-background: white;
 
     --font-weight-normal: 300;
     --font-weight-bold: 700;
-
-    background: white;
   }
 }
 
@@ -114,6 +111,7 @@ body.dark-theme {
   cursor: pointer;
   text-decoration: none;
   text-transform: none;
+  appearance: none;
   -webkit-appearance: none;
   border: none;
 }
@@ -123,6 +121,10 @@ body.dark-theme {
 }
 
 /* Structural */
+
+body {
+  background-color: var(--color-background);
+}
 
 .content {
   margin: 0 auto;
@@ -555,6 +557,11 @@ thead {
   border-bottom: 2px solid var(--color-highlight);
 }
 
+tfoot {
+  background-color: var(--color-blue-100);
+  border-top: 2px solid var(--color-highlight);
+}
+
 th,
 td {
   border: 1px solid var(--color-grey-500);
@@ -566,6 +573,7 @@ tbody > tr:nth-of-type(even) {
 }
 
 body.dark-theme thead,
+body.dark-theme tfoot,
 body.dark-theme tbody > tr:nth-of-type(even) {
   background-color: var(--color-low-contrast);
   color: var(--color-grey-300);
@@ -764,14 +772,48 @@ article.disabled p {
   transform: rotate(180deg) translateX(-4px);
 }
 
+/* Lua Stack Examples  */
+
+.lua-stack-table tbody {
+  font-family: monospace;
+  font-size: 0.8rem;
+}
+
+.lua-stack-table tbody td:nth-last-child(-n + 2) {
+  text-align: right;
+  width: 24px;
+}
+
+.lua-stack-table tbody td[colspan="5"] {
+  text-transform: uppercase;
+  color: var(--color-text-dark);
+}
+
+.lua-stack-table td pre {
+  margin: 0;
+}
+
+.lua-stack-table tfoot pre {
+  margin: var(--size-300) 0;
+}
+
+.lua-stack-table tfoot pre code {
+  background: var(--color-background);
+  border: 1px solid var(--color-background);
+  border-radius: 0;
+  margin: 0;
+  padding: 0.5rem;
+  font-size: 0.8rem;
+}
+
 /* Code block compatible with highlight.js */
 
 .hljs {
-  --color-code-attribute: #aa5d00;
+  --color-code-attribute: #8a4700;
   --color-code-symbol: green;
   --color-code-keyword: #7928a1;
   --color-code-class: #d91e18;
-  --color-code-title: #007faa;
+  --color-code-title: #005d80;
 }
 
 body.dark-theme .hljs {
@@ -792,11 +834,11 @@ body.dark-theme .hljs {
   }
 
   body.light-theme .hljs {
-    --color-code-attribute: #aa5d00;
+    --color-code-attribute: #8a4700;
     --color-code-symbol: green;
     --color-code-keyword: #7928a1;
     --color-code-class: #d91e18;
-    --color-code-title: #007faa;
+    --color-code-title: #005d80;
   }
 }
 
@@ -809,21 +851,24 @@ li code {
 }
 
 pre code.hljs {
+  position: relative;
   font-family: monospace;
   font-size: 0.8rem;
   display: block;
   overflow-x: auto;
   white-space: pre-wrap;
-  padding: 1rem 0;
+  padding: 1rem;
+  margin: 0 calc(-1 * var(--size-500));
   color: var(--color-text);
-  border-top: 1px solid var(--color-grey-500);
-  border-bottom: 1px solid var(--color-grey-500);
+  background-color: var(--color-low-contrast);
 }
 
 @media (min-width: 720px) {
   pre code.hljs {
     padding: 1rem;
+    margin: 0;
     font-size: 1rem;
+    border-radius: var(--size-300);
   }
 }
 
@@ -887,4 +932,195 @@ pre code.hljs {
 
 .hljs-strong {
   font-weight: var(--font-weight-bold);
+}
+
+pre code.hljs::after {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0.2rem 0.2rem 0.1rem 0.2rem;
+  font-size: 0.7rem;
+  line-height: 0.7rem;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-secondary);
+  background-color: var(--color-background);
+  border-top: 1px solid var(--color-low-contrast);
+  border-right: 1px solid var(--color-low-contrast);
+}
+
+@media (min-width: 720px) {
+  pre code.hljs::after {
+    font-size: 0.8rem;
+    line-height: 0.8rem;
+    border-radius: 0 var(--size-300) 0 0;
+  }
+}
+
+.language-abnf::after {
+  content: "Augmented Backus-Naur Form";
+}
+
+.language-ada::after {
+  content: "Ada";
+}
+
+.language-bash::after,
+.language-shell::after,
+.language-sh::after {
+  content: "Console";
+}
+
+.language-bnf::after {
+  content: "Backus-Naur Form";
+}
+
+.language-cmake::after {
+  content: "CMake";
+}
+
+.language-cpp::after,
+.language-hpp::after {
+  content: "C++";
+}
+
+.language-c::after,
+.language-h::after {
+  content: "C";
+}
+
+.language-csharp::after,
+.language-cs::after {
+  content: "C#";
+}
+
+.language-css::after {
+  content: "CSS";
+}
+
+.language-diff::after,
+.language-patch::after {
+  content: "Diff View";
+}
+
+.language-dockerfile::after,
+.language-docker::after {
+  content: "Docker";
+}
+
+.language-ebnf::after {
+  content: "Extended Backus-Naur Form";
+}
+
+.language-glsl::after {
+  content: "GLSL";
+}
+
+.language-html::after {
+  content: "HTML";
+}
+
+.language-http::after,
+.language-https::after {
+  content: "HTTP";
+}
+
+.language-ini::after {
+  content: "Ini";
+}
+
+.language-ini::after {
+  content: "Ini";
+}
+
+.language-javascript::after,
+.language-js::after,
+.language-jsx::after {
+  content: "JavaScript";
+}
+
+.language-json::after {
+  content: "JSON";
+}
+
+.language-lua::after {
+  content: "Lua";
+}
+
+.language-makefile::after,
+.language-make::after {
+  content: "Make";
+}
+
+.language-markdown::after,
+.language-md::after {
+  content: "Markdown";
+}
+
+.language-objectivec::after,
+.language-objc::after {
+  content: "Objective-C";
+}
+
+.language-pgsql::after,
+.language-postgres::after,
+.language-postgresql::after {
+  content: "PostgreSQL";
+}
+
+.language-plaintext::after,
+.language-text::after,
+.language-txt::after {
+  content: "Text";
+}
+
+.language-properties::after {
+  content: ".properties";
+}
+
+.language-python::after,
+.language-py::after {
+  content: "Python";
+}
+
+.language-ruby::after,
+.language-rb::after {
+  content: "Ruby";
+}
+
+.language-sql::after {
+  content: "SQL";
+}
+
+.language-tap::after {
+  content: "Tap";
+}
+
+.language-toml::after {
+  content: "TOML";
+}
+
+.language-twig::after {
+  content: "Twig";
+}
+
+.language-typescript::after,
+.language-ts::after,
+.language-tsx::after {
+  content: "TypeScript";
+}
+
+.language-xml::after,
+.language-rss::after,
+.language-atom::after,
+.language-svg::after {
+  content: "XML";
+}
+
+.language-yaml::after,
+.language-yml::after {
+  content: "Twig";
+}
+
+.language-cobol::after {
+  content: "Cobol";
 }

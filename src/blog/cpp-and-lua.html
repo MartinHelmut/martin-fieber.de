@@ -1,0 +1,1980 @@
+---
+date: 2026-03-27
+title: "C++ and Lua"
+description: "Besides on its own, Lua is also an amazing language to extend applications. This article is an overview of how to do just that. Integrating Lua into a C++ application, state and stack, accessing data, defining new functions and modules, and more."
+image: "/assets/blog/lua-series-part-5/title-card.png"
+imageAlt: "Showing a VSCodium window in dark mode, a C++ file open with some Lua library C-API code. The sidebar on the left, showing the contained project files that get built in this part of the series."
+linkTitle: "Using C++ and Lua together, extending applications."
+banner: "/assets/blog/lua-series-part-5/banner.png"
+bannerAlt: "Showing a VSCodium window in dark mode, a C++ file open with some Lua library C-API code. At the bottom the CMake file for the project. The sidebar on the left, showing the contained project files that get built in this part of the series."
+summary: '<p>Lua being an <em>"extensible extension language"</em>, it is perfect to extend and customise applications. This article will look at integrating Lua, accessing data, defining functions and modules, and much more.</p>'
+hasCode: true
+tags: ["post", "lua"]
+series: { name: lua, part: 5 }
+---
+
+<figure>
+  <picture>
+    <img
+      src="/assets/blog/lua-series-part-5/banner.png"
+      alt="{{ bannerAlt }}"
+      width="1360"
+      height="399"
+    />
+  </picture>
+  <figcaption>
+    Part of the example for setting up a Lua module via C++.
+  </figcaption>
+</figure>
+
+<h3>The Little Language That Could</h3>
+<p>
+  One of the great strengths of Lua is the relative ease of integrating it into
+  another language or application, especially when written in C or C++. With the
+  now better understanding of how to work with Lua, including
+  <a
+    href="/blog/debugging-and-profiling-lua"
+    title="Lua article about debugging and profiling"
+    >debugging and profiling from the last article</a
+  >, it is time to leverage use cases for the language outside its own language
+  scope.
+</p>
+
+<aside class="callout">
+  <h4>How much C++ knowledge is needed?</h4>
+  <p>
+    Not much, really! I tried to keep all C++ as simple as possible.
+    Nevertheless, basic knowledge won't hurt to have an easier time.
+  </p>
+</aside>
+
+<nav>
+  <h3>Table of contents</h3>
+  <ul>
+    <li><a href="#about-versions">About Versions</a></li>
+    <li>
+      <a href="#lua-integration">Lua Integration</a>
+      <ul>
+        <li>
+          <a href="#cmake-find_package">CMake <code>find_package</code></a>
+        </li>
+        <li><a href="#cmake-external-project">CMake External Project</a></li>
+        <li><a href="#git-submodule">Git Submodule</a></li>
+      </ul>
+    </li>
+    <li><a href="#the-lua-state">The Lua State</a></li>
+    <li><a href="#the-lua-stack">The Lua Stack</a></li>
+    <li>
+      <a href="#access-lua-data">Access Lua Data</a>
+      <ul>
+        <li><a href="#quick-start">Quick Start</a></li>
+        <li><a href="#numbers">Numbers</a></li>
+        <li><a href="#integer">Integer</a></li>
+        <li><a href="#boolean">Boolean</a></li>
+        <li><a href="#strings">Strings</a></li>
+        <li><a href="#tables">Tables</a></li>
+        <li><a href="#arrays">Arrays</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#call-lua-function-from-cpp">Call Lua Function from C++</a>
+      <ul>
+        <li>
+          <a href="#protected-call-message-handler"
+            >Protected Call Message Handler</a
+          >
+        </li>
+      </ul>
+    </li>
+    <li>
+      <a href="#call-cpp-function-from-lua">Call C++ Function from Lua</a>
+    </li>
+    <li><a href="#user-data">User Data</a></li>
+    <li>
+      <a href="#override-library-functions">Override Library Functions</a>
+    </li>
+    <li><a href="#more-about-the-lua-c-api">More About the Lua C-API</a></li>
+    <li><a href="#what-comes-next">What Comes Next</a></li>
+  </ul>
+</nav>
+
+<hr />
+
+<h3 id="about-versions">About Versions</h3>
+<p>
+  The latest Lua version as of writing is 5.5 (released
+  <time datetime="2025-12-22">December 2025</time>), though everything in this
+  article series will work with Lua 5.1 (released
+  <time datetime="2006-02-21">February 2006</time>) and up. If this is not the
+  case, a callout like the following will signal the required version.
+</p>
+<aside class="callout">
+  <h4>Example: Lua version required</h4>
+  <p>This feature requires Lua 5.x and up.</p>
+</aside>
+<p>
+  An overview of all versions and their main features can be found on the
+  <a href="https://www.lua.org/versions.html" title="Lua version release log."
+    >official Lua version history</a
+  >
+  page.
+</p>
+
+<h3 id="lua-integration">Lua Integration</h3>
+<p>
+  Focusing on adding Lua to a C++ project, I will use
+  <a href="https://cmake.org/" title="The CMake homepage">CMake</a> to show
+  different ways to integrate Lua into a codebase. Covering all the different
+  ways outside CMake would end in a book called
+  <em>"The 1000 Ways to Add External Dependencies to C++"</em>, and I won't
+  submit to that.
+</p>
+<p>
+  Nevertheless, the integration via a Git submodule should be something that
+  works with many different kinds of build and package tooling, so I'll show
+  that too.
+</p>
+<p>
+  As the examples are based on the usage in C++, the include header will be
+  <code>lua.hpp</code>, not <code>lua.h</code>. This is because the C++ header
+  is defined as follows:
+</p>
+<figure>
+  <pre><code class="language-cpp hljs">extern "C" {
+#include &lt;lauxlib.h&gt;
+#include &lt;lua.h&gt;
+#include &lt;lualib.h&gt;
+}</code></pre>
+  <figcaption>
+    Avoid the compiler name-mangling via <code>extern "C"</code>.
+  </figcaption>
+</figure>
+
+<h4 id="cmake-find_package">CMake <code>find_package</code></h4>
+<p>
+  To have CMake's <code>find_package</code> function work, Lua needs to be
+  installed somewhere on the system. The
+  <a
+    href="/blog/lua-project-setup-with-luarocks/#installing-lua"
+    title="How to setup Lua on your system"
+    >first article of the Lua series covered the installation of Lua</a
+  >
+  on all three major operating systems.
+</p>
+<p>
+  A small CMake configuration via <code>CMakeLists.txt</code> could look as
+  follows.
+</p>
+<figure>
+  <pre><code class="language-cmake hljs">cmake_minimum_required(VERSION 3.18)
+
+project(
+  LuaWithCMakeFindPackage
+  VERSION 1.0
+  LANGUAGES CXX)
+
+add_executable(ProgramName main.cpp)</code></pre>
+</figure>
+<p>
+  The first line sets the minimum required CMake version. Support for Lua 5.4
+  was added in CMake version 3.18; see the
+  <a
+    href="https://cmake.org/cmake/help/latest/module/FindLua.html"
+    title="CMake documentation for the FindLua module"
+    >FindLua page in the official CMake documentation</a
+  >.
+</p>
+<p>
+  Via <code>project</code> the project is defined with a name, a version, and
+  the fact that the C++ language is used.
+</p>
+<p>
+  CMake's <code>add_executable</code> defines the program name and the used
+  sources, in this case just a <code>main.cpp</code> file.
+</p>
+<figure>
+  <pre><code class="language-cpp hljs">#include &lt;lua.hpp&gt;
+int main() { return 0; }</code></pre>
+</figure>
+<p>
+  There are three parts to adding Lua to the CMake project: first, find the
+  installed Lua version.
+</p>
+<figure>
+  <pre><code class="language-cmake hljs">find_package(Lua)</code></pre>
+</figure>
+<p>
+  Second, if Lua was found and no target is defined yet, add a new CMake library
+  and set its target properties to find the include directory and link necessary
+  libraries.
+</p>
+<figure>
+  <pre><code class="language-cmake hljs">if(Lua_FOUND AND NOT TARGET Lua::Lua)
+  add_library(Lua::Lua
+    INTERFACE IMPORTED)
+  set_target_properties(
+    Lua::Lua
+    PROPERTIES
+      INTERFACE_INCLUDE_DIRECTORIES "${LUA_INCLUDE_DIR}"
+      INTERFACE_LINK_LIBRARIES "${LUA_LIBRARIES}"
+  )
+endif()</code></pre>
+</figure>
+<p>And third, <strong>linking the Lua library</strong> to the executable.</p>
+<figure>
+  <pre><code class="language-cmake hljs">target_link_libraries(
+  ProgramName
+  PRIVATE Lua::Lua)</code></pre>
+</figure>
+<p>The whole CMake <code>CMakeLists.txt</code> now looks like this:</p>
+<figure>
+  <pre><code class="language-cmake hljs"># src/cpp/cmake_find_package/CMakeLists.txt
+cmake_minimum_required(VERSION 3.18)
+
+project(
+  LuaWithCMakeFindPackage
+  VERSION 1.0
+  LANGUAGES CXX)
+
+add_executable(ProgramName main.cpp)
+
+find_package(Lua)
+
+if(Lua_FOUND AND NOT TARGET Lua::Lua)
+  add_library(Lua::Lua
+    INTERFACE IMPORTED)
+  set_target_properties(
+    Lua::Lua
+    PROPERTIES
+      INTERFACE_INCLUDE_DIRECTORIES "${LUA_INCLUDE_DIR}"
+      INTERFACE_LINK_LIBRARIES "${LUA_LIBRARIES}"
+  )
+endif()
+
+target_link_libraries(
+  ProgramName
+  PRIVATE Lua::Lua)</code></pre>
+</figure>
+<div class="side-note-ref">
+  <p>
+    The project is ready to be configured &mdash; from inside the folder the
+    <code>CMakeLists.txt</code> is defined, run the CMake configuration
+    generator*.
+  </p>
+  <aside class="side-note">
+    <p>
+      * When making changes to the CMake configuration file, the command needs
+      to be run again.
+    </p>
+  </aside>
+</div>
+<figure>
+  <pre><code class="language-shell hljs">$ cmake -B build</code></pre>
+  <figcaption>
+    The <code>$</code> is used to show a command will be entered.
+  </figcaption>
+</figure>
+<p>
+  This will create the configuration inside the folder <code>build/</code>, from
+  which the project then can be built.
+</p>
+<figure>
+  <pre><code class="language-shell hljs">$ cmake --build build</code></pre>
+</figure>
+<p>
+  Lua can now be included and used via <code>#include &lt;lua.hpp&gt;</code>.
+</p>
+
+<h4 id="cmake-external-project">CMake External Project</h4>
+<p>
+  If the dependency is not guaranteed to be installed on the system, a specific
+  version is needed, or the project is planned to be self-contained, Lua can be
+  included as an external dependency via CMake's
+  <code>FetchContent</code> module.
+</p>
+<p>
+  The basic <code>CMakeLists.txt</code> starts like the previous example:
+  setting a minimum CMake version, defining the project's name, version, and
+  used language, and defining an executable and its sources.
+</p>
+<figure>
+  <pre><code class="language-cmake hljs">cmake_minimum_required(VERSION 3.18)
+
+project(
+  LuaWithCMakeExternalProject
+  VERSION 1.0
+  LANGUAGES CXX)
+
+add_executable(ProgramName main.cpp)</code></pre>
+</figure>
+<p>The <code>FetchContent</code> module needs to be included.</p>
+<figure>
+  <pre><code class="language-cmake hljs">include(FetchContent)</code></pre>
+</figure>
+<p>
+  Then Lua can be fetched from a Git repository, for example,
+  <a
+    href="https://github.com/lua/lua"
+    title="GitHub mirror of the Lua repository"
+    >the GitHub mirror</a
+  >.
+</p>
+<figure>
+  <pre><code class="language-cmake hljs">FetchContent_Declare(
+  lua
+  GIT_REPOSITORY "https://github.com/lua/lua.git"
+  GIT_TAG v5.5.0
+)</code></pre>
+</figure>
+<p>
+  After every dependency that uses <code>FetchContent</code> is declared,
+  <code>FetchContent_MakeAvailable</code> can be called with a list of those
+  dependencies, in this case only Lua.
+</p>
+<figure>
+  <pre><code class="language-cmake hljs">FetchContent_MakeAvailable(lua)</code></pre>
+</figure>
+<p>
+  Next, set up the Lua CMake library and define the include directory on the
+  library target.
+</p>
+<figure>
+  <pre><code class="language-cmake hljs">add_library(Lua::Lua
+  INTERFACE IMPORTED)
+
+target_include_directories(
+  Lua::Lua
+  INTERFACE "${lua_SOURCE_DIR}")</code></pre>
+</figure>
+<p>
+  What's left is to <strong>link the Lua library</strong> to the executable.
+</p>
+<figure>
+  <pre><code class="language-cmake hljs">target_link_libraries(
+  ProgramName
+  PRIVATE Lua::Lua)</code></pre>
+</figure>
+<p>The whole CMake <code>CMakeLists.txt</code> should now look like this:</p>
+<figure>
+  <pre><code class="language-cmake hljs"># src/cpp/cmake_external_project/CMakeLists.txt
+cmake_minimum_required(VERSION 3.18)
+
+project(
+  LuaWithCMakeExternalProject
+  VERSION 1.0
+  LANGUAGES CXX)
+
+add_executable(ProgramName main.cpp)
+
+include(FetchContent)
+
+FetchContent_Declare(
+  lua
+  GIT_REPOSITORY "https://github.com/lua/lua.git"
+  GIT_TAG v5.5.0
+)
+
+FetchContent_MakeAvailable(lua)
+
+add_library(Lua::Lua
+  INTERFACE IMPORTED)
+target_include_directories(
+  Lua::Lua
+  INTERFACE "${lua_SOURCE_DIR}")
+
+target_link_libraries(
+  ProgramName
+  PRIVATE Lua::Lua)</code></pre>
+</figure>
+<div class="side-note-ref">
+  <p>
+    From the folder where the <code>CMakeLists.txt</code> is defined, the CMake
+    configuration generator can now be run*.
+  </p>
+  <aside class="side-note">
+    <p>
+      * When making changes to CMake configuration files, this needs to be run
+      again.
+    </p>
+  </aside>
+</div>
+<figure>
+  <pre><code class="language-shell hljs">$ cmake -B build</code></pre>
+</figure>
+<p>
+  This will create the configuration files inside the folder
+  <code>build/</code>, from which the project then can be built.
+</p>
+<figure>
+  <pre><code class="language-shell hljs">$ cmake --build build</code></pre>
+</figure>
+<p>
+  Lua can now be included and used via <code>#include &lt;lua.hpp&gt;</code>.
+</p>
+
+<h4 id="git-submodule">Git Submodule</h4>
+<div class="side-note-ref">
+  <p>
+    Another way to integrate Lua is as a submodule when using Git; again, using
+    CMake*.
+  </p>
+  <aside class="side-note">
+    <p>* Though any build systems can be used.</p>
+  </aside>
+</div>
+<p>
+  Same as in the other examples, the <code>CMakeLists.txt</code> starts with
+  setting a minimum CMake version, the project name, the version, the language
+  used, and defining an executable with its sources.
+</p>
+<figure>
+  <pre><code class="language-cmake hljs">cmake_minimum_required(VERSION 3.18)
+
+project(
+  LuaWithGitSubmodules
+  VERSION 1.0
+  LANGUAGES CXX)
+
+add_executable(ProgramName main.cpp)</code></pre>
+</figure>
+<p>
+  The GitHub mirror of Lua can be used as a Git submodule. The git command will
+  take a URL and add the module under a folder named <code>lua/</code>.
+</p>
+<figure>
+  <pre><code class="language-shell hljs">$ git submodule add https://github.com/lua/lua.git</code></pre>
+</figure>
+<p>
+  The CMake library and its include path are set up via
+  <code>add_library</code> and <code>target_include_directories</code>.
+</p>
+<figure>
+  <pre><code class="language-cmake hljs">add_library(Lua::Lua
+  INTERFACE IMPORTED)
+target_include_directories(
+  Lua::Lua
+  INTERFACE "lua")</code></pre>
+</figure>
+<p>The last step is <strong>linking the library</strong> to the executable.</p>
+<figure>
+  <pre><code class="language-cmake hljs">target_link_libraries(
+  ProgramName
+  PRIVATE Lua::Lua)</code></pre>
+</figure>
+<p>The whole CMake <code>CMakeLists.txt</code> should now look like this:</p>
+<figure>
+  <pre><code class="language-cmake hljs"># src/cpp/cmake_git_submodule/CMakeLists.txt
+cmake_minimum_required(VERSION 3.18)
+
+project(
+  LuaWithGitSubmodules
+  VERSION 1.0
+  LANGUAGES CXX)
+
+add_executable(ProgramName main.cpp)
+
+add_library(Lua::Lua
+  INTERFACE IMPORTED)
+target_include_directories(
+  Lua::Lua
+  INTERFACE "lua")
+
+target_link_libraries(
+  ProgramName
+  PRIVATE Lua::Lua)</code></pre>
+</figure>
+<div class="side-note-ref">
+  <p>
+    From the folder where the <code>CMakeLists.txt</code> is defined, the CMake
+    configuration generator can be run*.
+  </p>
+  <aside class="side-note">
+    <p>
+      * When making changes to the CMake configuration file, this needs to be
+      run again.
+    </p>
+  </aside>
+</div>
+<figure>
+  <pre><code class="language-shell hljs">$ cmake -B build</code></pre>
+</figure>
+<p>
+  This will create the configuration inside the folder `build`, from which the
+  project then can be built.
+</p>
+<figure>
+  <pre><code class="language-shell hljs">$ cmake --build build</code></pre>
+</figure>
+<p>
+  Lua can now be included and used via <code>#include &lt;lua.hpp&gt;</code>.
+</p>
+
+<h3 id="the-lua-state">The Lua State</h3>
+<p>
+  With the integration done and Lua usable from C++, a Lua environment can be
+  created. Lua will not define any global C++ variables; this is all managed
+  through the state <code>lua_State</code>. All Lua C++ functions will get a
+  pointer to this state structure.
+</p>
+<p>
+  The state will serve as the environment for the Lua runtime, handle the
+  garbage collector, hold loaded libraries, and
+  <strong>manage the stack</strong>. By default, it will not contain any
+  libraries or functions, not even <code>print</code>.
+</p>
+<p>
+  The Lua standard library and its functions come as standalone packages that
+  can be loaded all at once or only as needed. This gives full control over the
+  environment on state creation. In its simplest form, this means to create a
+  new state and open all standard library modules on that state.
+</p>
+<figure>
+  <pre><code class="language-cpp hljs">lua_State* L = luaL_newstate();
+luaL_openlibs(L);</code></pre>
+</figure>
+
+<h3 id="the-lua-stack">The Lua Stack</h3>
+<p>
+  The Lua state is the environment giving context for running Lua from C++.
+  <strong>The question is</strong>, how does a statically typed language with
+  manual memory management communicate with a dynamically typed language with
+  automatic memory management and a garbage collector?
+</p>
+<p>
+  <strong>Answer:</strong> a virtual stack. This is the way C++ talks to Lua,
+  and vice versa. Each slot in the stack can hold any Lua value. When accessing,
+  e.g., a global Lua variable from C++, Lua will push the variable onto the
+  stack to be read from C++. The same goes the other way, where transferring a
+  value to Lua from C++ is pushing the value onto the stack, where Lua will pop
+  it off the stack.
+</p>
+<p>
+  Lua uses LIFO (Last In, First Out), while C++ can manipulate the stack with
+  full freedom, accessing, adding, or deleting elements on the stack anywhere.
+</p>
+<p>
+  There are functions in the Lua C library to push and read any Lua value. The
+  top of the stack can be accessed on index <code>-1</code>, the bottom of the
+  stack is at index <code>1</code>.
+</p>
+<p>
+  To make this easier to understand, here's an example of how the Lua stack
+  works.
+</p>
+<table class="lua-stack-table">
+  <thead>
+    <tr>
+      <th scope="col">C++</th>
+      <th scope="col">Lua</th>
+      <th scope="col">Stack</th>
+      <th scope="col" colspan="2">Index</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td colspan="5">Stack top</td>
+    </tr>
+    <tr>
+      <td><code>lua_getglobal(L, "width")</code></td>
+      <td><code>width = 42</code></td>
+      <td><code>42</code></td>
+      <td>3</td>
+      <td>-1</td>
+    </tr>
+    <tr>
+      <td><code>lua_getglobal(L, "height")</code></td>
+      <td><code>height = 23</code></td>
+      <td><code>23</code></td>
+      <td>2</td>
+      <td>-2</td>
+    </tr>
+    <tr>
+      <td><code>lua_getglobal(L, "ids")</code></td>
+      <td><code>ids = { 1, 2, 3 }</code></td>
+      <td><code>{ 1, 2, 3 }</code></td>
+      <td>1</td>
+      <td>-3</td>
+    </tr>
+    <tr>
+      <td colspan="5">Stack bottom</td>
+    </tr>
+  </tbody>
+  <tfoot>
+    <td colspan="5">
+      <pre><code class="language-lua hljs">width = 42
+height = 23
+ids = { 1, 2, 3 }</code></pre>
+    </td>
+  </tfoot>
+</table>
+
+<h3 id="access-lua-data">Access Lua Data</h3>
+
+<h4 id="quick-start">Quick Start</h4>
+<p>
+  It's best to head straight into a practical example by
+  <strong>reading data from a Lua file</strong>. This is a very common usage
+  when adding Lua to an existing application. Being able to simply read data
+  from a Lua file enables using Lua as a dynamic configuration format.
+</p>
+<p>
+  For the example I use C++23 and CMake with <code>find_package</code>, the
+  <a
+    href="https://github.com/MartinHelmut/lua-series/tree/part-5/src/cpp"
+    title=""
+    >full example can be found in the companion repository on GitHub</a
+  >.
+</p>
+<p>
+  As mentioned earlier, a new state needs to be created before Lua can be
+  accessed. It is also necessary to close this state when done with
+  <code>lua_close</code>.
+</p>
+<figure>
+  <pre><code class="language-cpp hljs">// src/cpp/example-read-config/main.cpp
+
+#include &lt;print&gt;
+#include &lt;lua.hpp&gt;
+
+int main() {
+  lua_State* L = luaL_newstate();
+
+  // Code comes here ...
+
+  lua_close(L);
+  return 0;
+}</code></pre>
+</figure>
+<p>
+  As this is an example of using Lua as a configuration format, there is no need
+  to initialise any standard library modules.
+</p>
+<p>
+  Via <code>luaL_dofile</code> a Lua file can be loaded and executed at once. If
+  there was a problem, an error will be pushed to the stack that can be accessed
+  with <code>lua_tostring(L, -1)</code>, where <code>-1</code> is the topmost
+  stack item.
+</p>
+<figure>
+  <pre><code class="language-cpp hljs">if (luaL_dofile(L, "./config.lua") == LUA_OK) {
+  // Upcoming code here ...
+} else {
+  luaL_error(L, "Error: %s\n", lua_tostring(L, -1));
+}</code></pre>
+</figure>
+<p>
+  When the script file is successfully loaded and run, a global variable can be
+  pushed to the stack to access its value. In this case, getting the variable
+  <code>width</code> from the top of the stack.
+</p>
+<figure>
+  <pre><code class="language-cpp hljs">lua_getglobal(L, "width");
+
+if (lua_isnumber(L, -1)) {
+  lua_Number width = lua_tonumber(L, -1);
+  std::print("width = {}\n", width);
+}</code></pre>
+</figure>
+<p>The full example looks like this:</p>
+<figure>
+  <pre><code class="language-cpp hljs">// src/cpp/example-read-config/main.cpp
+
+#include &lt;print&gt;
+#include &lt;lua.hpp&gt;
+
+int main() {
+  lua_State* L = luaL_newstate();
+
+  if (luaL_dofile(L, "./config.lua") == LUA_OK) {
+    lua_getglobal(L, "width");
+
+    if (lua_isnumber(L, -1)) {
+      lua_Number width = lua_tonumber(L, -1);
+      std::print("width = {}\n", width);
+    }
+  } else {
+    luaL_error(L, "Error: %s\n", lua_tostring(L, -1));
+  }
+
+  lua_close(L);
+  return 0;
+}</code></pre>
+</figure>
+<p>And the mentioned Lua file:</p>
+<figure>
+  <pre><code class="language-lua hljs">-- config.lua
+width = 42
+height = 23</code></pre>
+</figure>
+<p>Configuring and running CMake:</p>
+<figure>
+  <pre><code class="language-shell hljs">$ cmake -B build && make --build build</code></pre>
+</figure>
+<p>And finally, running the program.</p>
+<figure>
+  <pre><code class="language-shell hljs">$ ./build/ProgramName</code></pre>
+  <figcaption>This will print <code>width = 42</code>.</figcaption>
+</figure>
+
+<h4 id="numbers">Numbers</h4>
+<p>
+  Numbers on the stack can be checked with <code>lua_isnumber</code> and read
+  via <code>lua_tonumber</code>.
+</p>
+<figure>
+  <pre><code class="language-cpp hljs">lua_getglobal(L, "width");
+if (lua_isnumber(L, -1)) {
+  lua_Number width = lua_tonumber(L, -1);
+}</code></pre>
+</figure>
+<p>
+  <code>lua_Number</code> is a type definition of <code>double</code> by
+  default.
+</p>
+
+<h4 id="integer">Integer</h4>
+<p>
+  Integers on the stack can be checked with <code>lua_isinteger</code> and read
+  via <code>lua_tointeger</code>.
+</p>
+<figure>
+  <pre><code class="language-cpp hljs">lua_getglobal(L, "height");
+if (lua_isinteger(L, -1)) {
+  lua_Integer height = lua_tointeger(L, -1);
+}</code></pre>
+</figure>
+<p><code>lua_Integer</code> is by default <code>long long</code>.</p>
+
+<h4 id="boolean">Boolean</h4>
+<p>
+  Booleans on the stack can be checked with <code>lua_isboolean</code> and read
+  via <code>lua_toboolean</code>.
+</p>
+<figure>
+  <pre><code class="language-cpp hljs">lua_getglobal(L, "isResizable");
+if (lua_isboolean(L, -1)) {
+  int isResizable = lua_toboolean(L, -1);
+}</code></pre>
+</figure>
+<p>
+  <code>lua_toboolean</code> will return an <code>int</code> with
+  <code>0</code> or <code>1</code> as boolean value.
+</p>
+
+<h4 id="strings">Strings</h4>
+<p>
+  Strings on the stack can be checked with <code>lua_isstring</code> and read
+  via <code>lua_tostring</code>.
+</p>
+<figure>
+  <pre><code class="language-cpp hljs">lua_getglobal(L, "name");
+if (lua_isstring(L, -1)) {
+  const char* name = lua_tostring(L, -1);
+}</code></pre>
+</figure>
+
+<h4 id="tables">Tables</h4>
+<p>Given the following table in Lua:</p>
+<figure>
+  <pre><code class="language-lua hljs">labels = {
+  hello = "Hello",
+  reader = "Reader"
+}</code></pre>
+</figure>
+<p>
+  Tables are a little more involved, but not by much. Getting the table on top
+  of the stack via <code>lua_getglobal</code> and doing a check if it's actually
+  a table with <code>lua_istable</code>.
+</p>
+<figure>
+  <pre><code class="language-cpp hljs">lua_getglobal(L, "labels");
+if (lua_istable(L, -1)) {
+  // More here ...
+}</code></pre>
+</figure>
+<p>
+  From the table now at the top of the stack at <code>-1</code>, a field can be
+  pushed to the top of the stack with <code>lua_getfield</code>.
+</p>
+<figure>
+  <pre><code class="language-cpp hljs">lua_getglobal(L, "labels");
+if (lua_istable(L, -1)) {
+  // Table is at -1, push field to top
+  lua_getfield(L, -1, "hello");
+
+  // Now field is on top at -1
+  const char* hello = lua_tostring(L, -1);
+}</code></pre>
+</figure>
+<p>
+  With the field on top of the stack at <code>-1</code>, the table moved one
+  position down to <code>-2</code>. This is where the stack needs to be accessed
+  to get another field from the table.
+</p>
+<figure>
+  <pre><code class="language-cpp hljs">lua_getglobal(L, "labels");
+if (lua_istable(L, -1)) {
+  // First field code ...
+
+  // Table is now at -2, get next field on top of stack
+  lua_getfield(L, -2, "reader");
+
+  // New pushed field is now on top at -1
+  const char* hello = lua_tostring(L, -1);
+}</code></pre>
+</figure>
+<p>
+  To make this easier to understand, here another
+  <strong>example of how the stack works</strong>
+  when reading data from a Lua table.
+</p>
+<table class="lua-stack-table">
+  <thead>
+    <tr>
+      <th scope="col">C++</th>
+      <th scope="col">Lua</th>
+      <th scope="col">Stack</th>
+      <th scope="col" colspan="2">Index</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td colspan="5">Stack top</td>
+    </tr>
+    <tr>
+      <td><code>lua_getfield(L, -2, "reader")</code></td>
+      <td><code>reader = "Reader"</code></td>
+      <td><code>"Reader"</code></td>
+      <td>3</td>
+      <td>-1</td>
+    </tr>
+    <tr>
+      <td><code>lua_getfield(L, -1, "hello")</code></td>
+      <td><code>hello = "Hello"</code></td>
+      <td><code>"Hello"</code></td>
+      <td>2</td>
+      <td>-2</td>
+    </tr>
+    <tr>
+      <td><code>lua_getglobal(L, "labels")</code></td>
+      <td>
+        <pre><code class="nohighlight">labels = {
+  hello = "Hello",
+  reader = "Reader"
+}</code></pre>
+      </td>
+      <td>
+        <pre><code class="nohighlight">{
+  hello = "Hello",
+  reader = "Reader"
+}</code></pre>
+      </td>
+      <td>1</td>
+      <td>-3</td>
+    </tr>
+    <tr>
+      <td colspan="5">Stack bottom</td>
+    </tr>
+  </tbody>
+  <tfoot>
+    <td colspan="5">
+      <pre><code class="language-lua hljs">labels = {
+  hello = "Hello",
+  reader = "Reader"
+}</code></pre>
+    </td>
+  </tfoot>
+</table>
+
+<h4 id="arrays">Arrays</h4>
+<p>Given the following array in Lua:</p>
+<figure>
+  <pre><code class="language-lua hljs">numbers = {7, 13, 23, 42}</code></pre>
+</figure>
+<p>
+  Arrays are <strong>indexed tables</strong> in Lua. Therefore, when retrieving
+  an array from the stack, <code>lua_istable</code> needs to be used to validate
+  the value same as is done for tables.
+</p>
+<figure>
+  <pre><code class="language-cpp hljs">lua_getglobal(L, "numbers");
+if (lua_istable(L, -1)) {
+  // More here ...
+}</code></pre>
+</figure>
+<p>
+  With the array on top of the stack, the first index can be retrieved via
+  <code>lua_geti</code>.
+</p>
+<figure>
+  <pre><code class="language-cpp hljs">// Array is at -1, push first index 1 to top
+lua_geti(L, -1, 1);
+
+// Get value from top of the stack
+lua_Number first = lua_tonumber(L, -1);</code></pre>
+</figure>
+<p>
+  With the first index pushed to the top of the stack, the table moved down to
+  index
+  <code>-2</code>.
+</p>
+<figure>
+  <pre><code class="language-cpp hljs">// Get the second index, from the
+// table at stack index -2
+lua_geti(L, -2, 2);
+
+// Get the value from the second index
+// pushed to the top of the stack
+lua_Number second = lua_tonumber(L, -1);</code></pre>
+</figure>
+<p>
+  Again, an example should help to get a better intuition for the stack
+  behaviour.
+</p>
+<table class="lua-stack-table">
+  <thead>
+    <tr>
+      <th scope="col">C++</th>
+      <th scope="col">Lua</th>
+      <th scope="col">Stack</th>
+      <th scope="col" colspan="2">Index</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td colspan="5">Stack top</td>
+    </tr>
+    <tr>
+      <td><code>lua_tonumber(L, -1)</code></td>
+      <td><code>7</code></td>
+      <td><code>7</code></td>
+      <td>3</td>
+      <td>-1</td>
+    </tr>
+    <tr>
+      <td><code>lua_geti(L, -1, 1)</code></td>
+      <td><code>7</code></td>
+      <td><code>7</code></td>
+      <td>2</td>
+      <td>-2</td>
+    </tr>
+    <tr>
+      <td><code>lua_getglobal(L, "numbers")</code></td>
+      <td>
+        <pre><code class="nohighlight">numbers = {7, 13, 23, 42}</code></pre>
+      </td>
+      <td>
+        <pre><code class="nohighlight">{7, 13, 23, 42}</code></pre>
+      </td>
+      <td>1</td>
+      <td>-3</td>
+    </tr>
+    <tr>
+      <td colspan="5">Stack bottom</td>
+    </tr>
+  </tbody>
+  <tfoot>
+    <td colspan="5">
+      <pre><code class="language-lua hljs">numbers = {7, 13, 23, 42}</code></pre>
+    </td>
+  </tfoot>
+</table>
+
+<h3 id="call-lua-function-from-cpp">Call Lua Function from C++</h3>
+<p>
+  To call a <strong>global Lua function</strong> from C++ the function needs to
+  be put on the stack first. This is not yet calling it, only making it
+  accessible to pass arguments to it if needed. Those need to be pushed on the
+  stack from C++ too. When everything is ready the function can be called on the
+  stack.
+</p>
+<p>Given the following Lua code:</p>
+<figure>
+  <pre><code class="language-lua hljs">function some_fn(arg1, arg2)
+  local result = arg1 + arg2;
+  -- Multiple return values
+  return result, true
+end</code></pre>
+</figure>
+<p>From C++ the function needs to be pushed on the stack.</p>
+<figure>
+  <pre><code class="language-cpp hljs">lua_getglobal(L, "some_fn");</code></pre>
+</figure>
+<p>
+  If this was successful, checked via <code>lua_isfunction</code>, function
+  arguments can be pushed on the stack via <code>lua_pushnumber</code>.
+</p>
+<figure>
+  <pre><code class="language-cpp hljs">if (lua_isfunction(L, -1)) {
+  lua_pushnumber(L, 13);
+  lua_pushnumber(L, 23);
+
+  // ...
+}</code></pre>
+</figure>
+<p>
+  The function gets two arguments and returns two results. To call the now on
+  the stack prepared function a protected call can be made with
+  <code>lua_pcall</code>.
+</p>
+<p>
+  Sparing some details, protected call means any error on call can be handled.
+  The
+  <code>lua_pcall</code> function will return the call result and put a
+  potential error on top of the stack.
+</p>
+<figure>
+  <pre><code class="language-cpp hljs">if (lua_isfunction(L, -1)) {
+  lua_pushnumber(L, 13);
+  lua_pushnumber(L, 23);
+
+  constexpr int arguments_count = 2;
+  constexpr int returnvalues_count = 2;
+
+  // Ignore the `0` as last argument for now,
+  // the next section will explain more.
+  int status = lua_pcall(
+    L,
+    arguments_count,
+    returnvalues_count,
+    0
+  );
+}</code></pre>
+</figure>
+<p>
+  The different error codes from <code>lua_pcall</code> are shown in the
+  following table.
+</p>
+<table>
+  <caption>
+    <code>lua_pcall</code>
+    error codes
+  </caption>
+  <thead>
+    <tr>
+      <th scope="col">Return code</th>
+      <th scope="col">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row"><code>LUA_OK</code></th>
+      <td>Successful</td>
+    </tr>
+    <tr>
+      <th scope="row"><code>LUA_ERRRUN</code></th>
+      <td>Runtime error</td>
+    </tr>
+    <tr>
+      <th scope="row"><code>LUA_ERRMEM</code></th>
+      <td>Failed to allocate memory</td>
+    </tr>
+    <tr>
+      <th scope="row"><code>LUA_ERRERR</code></th>
+      <td>Failed to call the message handler</td>
+    </tr>
+    <tr>
+      <th scope="row"><code>LUA_ERRGCMM</code></th>
+      <td>Failed to run <code>__gc</code> metamethod</td>
+    </tr>
+  </tbody>
+</table>
+<p>
+  Let's say everything went splendid; multiple return values get pushed onto the
+  stack <strong>in order</strong>. That means, the first return value goes on
+  top of the stack at <code>-1</code>, then the second. Making the first return
+  value move down one position on the stack to <code>-2</code>.
+</p>
+<figure>
+  <pre><code class="language-cpp hljs">if (status == LUA_OK) {
+  // First return value at -2
+  lua_Number result1 = lua_tonumber(L, -2);
+  // Second return value on -1
+  bool result2 = lua_toboolean(L, -1);
+}</code></pre>
+</figure>
+
+<h4 id="protected-call-message-handler">Protected Call Message Handler</h4>
+<p>
+  The function <code>lua_pcall</code> alone will not give detailed error
+  information if something goes wrong. At the time
+  <code>lua_pcall</code> returns the stack is unwound and potential
+  <strong>tracing information is lost</strong>.
+</p>
+<p>
+  To solve this, a message handler can be referenced via stack index as last
+  argument of <code>lua_pcall</code>. Given an error handler function called
+  <code>on_error</code>.
+</p>
+<figure>
+  <pre><code class="language-cpp hljs">int on_error(lua_State* L) {
+  // More to come ...
+  return 1;
+}</code></pre>
+</figure>
+<p>
+  To get access to the stack after a faulty call the current top of the stack
+  index is needed, this can be done with <code>lua_gettop</code>. After that the
+  error message handler can be pushed and its index retrieved.
+</p>
+<figure>
+  <pre><code class="language-cpp hljs">const int top_index = lua_gettop(L);
+lua_pushcfunction(L, on_error);
+const int handler_index = lua_gettop(L);</code></pre>
+</figure>
+<p>
+  To test the protected call it needs a function that will throw. Setting up
+  such a function by pushing a faulty argument to a stack prepared function.
+</p>
+<figure>
+  <pre><code class="language-cpp hljs">lua_getglobal(L, "some_fn");
+if (lua_isfunction(L, -1)) {
+  lua_pushnumber(L, 13);
+  lua_pushliteral(L, "23"); // Faulty argument
+
+  constexpr int arguments_count = 2;
+  constexpr int returnvalues_count = 2;
+
+  // Call next ...
+}</code></pre>
+</figure>
+<p>
+  Instead of <code>0</code> the last argument to <code>lua_pcall</code> is the
+  <em>"message handler stack index"</em>.
+</p>
+<figure>
+  <pre><code class="language-cpp hljs">int status = lua_pcall(L,
+  arguments_count,
+  returnvalues_count,
+  // Handler index from earlier:
+  handler_index
+);</code></pre>
+</figure>
+<p>
+  On error, the <code>on_error</code> message handler is called. Testing for the
+  correct <code>lua_pcall</code> return value <code>LUA_ERRRUN</code>, the error
+  message can be retrieved from the top of the stack. Before it was put there it
+  went through the <code>on_error</code> handler.
+</p>
+<figure>
+  <pre><code class="language-cpp hljs">if (status == LUA_ERRRUN) {
+  const char* err = lua_tostring(L, -1);
+  std::print("Error = {}\n", err);
+  lua_pop(L, 1);
+}</code></pre>
+</figure>
+<p>All that's left is cleaning up the stack.</p>
+<figure>
+  <pre><code class="language-cpp hljs">lua_settop(L, top_index);</code></pre>
+</figure>
+<p>
+  There was nothing done initially with the error message in the
+  <code>on_error</code> function, but this would be the right place to
+  <strong>add traceback information</strong> via <code>luaL_traceback</code> for
+  a proper stacktrace of the error.
+</p>
+<figure>
+  <pre><code class="language-cpp hljs">int on_error(lua_State* L) {
+  const char* err = lua_tostring(L, -1);
+  lua_remove(L, -1);
+  luaL_traceback(L, L, err, 1);
+  return 1;
+}</code></pre>
+</figure>
+<p>
+  The full example code to call a function from Lua and handle potential errors:
+</p>
+<figure>
+  <pre><code class="language-cpp hljs">// src/cpp/example-functions/main.cpp
+
+#include &lt;print&gt;
+#include &lt;lua.hpp&gt;
+
+// Message handler to extend error message
+int on_error(lua_State* L) {
+  const char* err = lua_tostring(L, -1);
+  lua_remove(L, -1);
+  luaL_traceback(L, L, err, 1);
+  return 1;
+}
+
+int main() {
+  lua_State* L = luaL_newstate();
+  if (luaL_dofile(L, "./script.lua") == LUA_OK) {
+    const int top_index = lua_gettop(L);
+
+    // Set up message handler
+    lua_pushcfunction(L, on_error);
+    const int handler_index = lua_gettop(L);
+
+    lua_getglobal(L, "some_fn");
+    if (lua_isfunction(L, -1)) {
+      lua_pushnumber(L, 13);
+
+      // Faulty argument:
+      lua_pushliteral(L, "23");
+
+      int status = lua_pcall(L,
+        2, // Arguments count
+        2, // Return value count
+        handler_index
+      );
+
+      if (status == LUA_ERRRUN) {
+        const char* err = lua_tostring(L, -1);
+        std::print("Error = {}\n", err);
+        lua_pop(L, 1);
+      }
+
+      lua_settop(L, top_index);
+    }
+  } else {
+    luaL_error(L,
+      "Error: %s\n",
+      lua_tostring(L, -1));
+  }
+
+  lua_close(L);
+  return 0;
+}</code></pre>
+</figure>
+
+<h3 id="call-cpp-function-from-lua">Call C++ Function from Lua</h3>
+<p>
+  To get a function defined in C++ to Lua it needs to be on the stack
+  <strong>before</strong>
+  the Lua code calling this function is executed. Every of those defined
+  functions follows the same interface.
+</p>
+<figure>
+  <pre><code class="language-cpp hljs">int function_name(lua_State* L);</code></pre>
+</figure>
+<p>
+  It's a function returning an <code>int</code>, this is the number of arguments
+  the function will return in Lua. The single argument is always the Lua state
+  to get access to the stack where function arguments are and return-values can
+  be pushed to.
+</p>
+<p>
+  Given a function <code>compute</code> that takes two arguments and returns two
+  values. The function arguments are on the stack in
+  <strong>reverse order</strong>, as they get pushed from left to right when
+  calling a Lua function.
+</p>
+<table class="lua-stack-table">
+  <thead>
+    <tr>
+      <th scope="col">C++</th>
+      <th scope="col">Lua</th>
+      <th scope="col">Stack</th>
+      <th scope="col" colspan="2">Index</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td colspan="5">Stack top</td>
+    </tr>
+    <tr>
+      <td><code>lua_tonumber(L, -2)</code></td>
+      <td><code>2</code></td>
+      <td><code>2</code></td>
+      <td>2</td>
+      <td>-1</td>
+    </tr>
+    <tr>
+      <td><code>lua_tonumber(L, -1)</code></td>
+      <td><code>10</code></td>
+      <td><code>10</code></td>
+      <td>1</td>
+      <td>-2</td>
+    </tr>
+    <tr>
+      <td colspan="5">Stack bottom</td>
+    </tr>
+  </tbody>
+  <tfoot>
+    <td colspan="5">
+      <pre><code class="language-lua hljs">local first, second = compute(2, 10)</code></pre>
+    </td>
+  </tfoot>
+</table>
+<p>
+  The return values are pushed onto the stack in the order they are retrieved.
+</p>
+<p>This is how the function will be called in Lua:</p>
+<figure>
+  <pre><code class="language-lua hljs">local first, second = compute(2, 10)</code></pre>
+</figure>
+<p>And this is the function definition in C++:</p>
+<figure>
+  <pre><code class="language-cpp hljs">int lua_compute(lua_State* L) {
+  lua_Number arg_2 = lua_tonumber(L, -1);
+  lua_Number arg_1 = lua_tonumber(L, -2);
+
+  lua_pushnumber(L, arg_2 + arg_1);
+  lua_pushnumber(L, arg_2 * arg_1);
+
+  return 2;
+}</code></pre>
+</figure>
+<p>
+  After the state is created, the function needs to be pushed to the stack and a
+  name defined for the global access in Lua.
+</p>
+<figure>
+  <pre><code class="language-cpp hljs">lua_pushcfunction(L, lua_compute);
+lua_setglobal(L, "compute");</code></pre>
+</figure>
+<p>
+  After that the Lua script using the new function can be loaded and run, for
+  example via <code>luaL_dofile</code>.
+</p>
+<p>Full Lua example code:</p>
+<figure>
+  <pre><code class="language-lua hljs">local first, second = compute(2, 10)
+print("Result 1 = " .. first)
+print("Result 2 = " .. second)</code></pre>
+  <figcaption>Prints 12 and 20.</figcaption>
+</figure>
+<p>The full C++ code to define a new function in C++ callable by Lua:</p>
+<figure>
+  <pre><code class="language-cpp hljs">// src/cpp/example-cpp-to-lua/main.cpp
+
+#include &lt;print&gt;
+#include &lt;lua.hpp&gt;
+
+int lua_compute(lua_State* L) {
+  lua_Number arg_2 = lua_tonumber(L, -1);
+  lua_Number arg_1 = lua_tonumber(L, -2);
+
+  lua_pushnumber(L, arg_2 + arg_1);
+  lua_pushnumber(L, arg_2 * arg_1);
+
+  return 2;
+}
+
+int main() {
+  lua_State* L = luaL_newstate();
+  luaL_openlibs(L);
+
+  lua_pushcfunction(L, compute);
+  lua_setglobal(L, "compute");
+
+  if (luaL_dofile(L, "./script.lua") == LUA_OK) {
+    std::print("Done\n");
+  } else {
+    luaL_error(L,
+      "Error: %s\n",
+      lua_tostring(L, -1));
+  }
+
+  lua_close(L);
+  return 0;
+}</code></pre>
+</figure>
+
+<h3 id="user-data">User Data</h3>
+<div class="side-note-ref">
+  <p>
+    &hellip; or how to get C++ data to Lua. This is a little more involved, and
+    it helps to know how to
+    <a href="#call-cpp-function-from-lua">define a Lua function through C++</a>.
+    Generally, it needs a way to construct a new object and setting up getter
+    and setter for data entries*.
+  </p>
+  <aside class="side-note">
+    <p>
+      * If data can be written or not is up to the implementation. Methods can
+      be added, too.
+    </p>
+  </aside>
+</div>
+<p>
+  Doing this is by creating a new module that needs to be pushed to the stack
+  <strong>before</strong> a Lua script is run that will use it. It also needs a
+  new meta table, meta methods, and a factory to create a new instance of the
+  object.
+</p>
+<p>
+  The example will define a <code>GameData</code> module, that can be used in
+  Lua like this:
+</p>
+<figure>
+  <pre><code class="language-lua hljs">local GameData = require "GameData"</code></pre>
+</figure>
+<p>
+  A factory function usually named <code>new</code> will allow creating new
+  instances, taking a <code>name</code> and <code>amount</code> value as
+  arguments.
+</p>
+<figure>
+  <pre><code class="language-lua hljs">local data = GameData.new("Dwarves", 7)</code></pre>
+</figure>
+<p>Accessing data from the object:</p>
+<figure>
+  <pre><code class="language-lua hljs">print(data.amount .. " " .. data.name)</code></pre>
+  <figcaption>This will print <code>7 Dwarves</code>.</figcaption>
+</figure>
+<p>
+  The example setup will register a new module named <em>"GameData"</em> based
+  on the <code>GameData</code> struct via <code>luaL_requiref</code> in the
+  package table for use with <code>require</code>. The last parameter
+  <code>0</code> tells it to not create an equally named global variable called
+  <code>GameData</code> (<code>1</code> would create it).
+</p>
+<figure>
+  <pre><code class="language-cpp hljs">struct GameData {
+  const char* name;
+  int amount{0};
+};
+
+int main() {
+  lua_State* L = luaL_newstate();
+  luaL_openlibs(L);
+
+  // Add "GameData" module
+  luaL_requiref(L, "GameData", open_GameData, 0);
+
+  if (luaL_dofile(L, "./script.lua") == LUA_OK) {
+    std::print("Done\n");
+  } else {
+    luaL_error(L,
+      "Error: %s\n",
+      lua_tostring(L, -1));
+  }
+
+  lua_close(L);
+  return 0;
+}</code></pre>
+</figure>
+<p>
+  The function <code>open_GameData</code> is where the module will be set up.
+  The minimal version of this, defined outside <code>main</code>, will only
+  define a meta table with the same name.
+</p>
+<figure>
+  <pre><code class="language-cpp hljs">int open_GameData(lua_State* L) {
+  luaL_newmetatable(L, "GameData");
+  return 1;
+}</code></pre>
+</figure>
+<p>
+  Even though the name can be different, it is a good practice to keep it the
+  same as the module or object name, as this name will be used for the
+  <code>__name</code> meta field.
+</p>
+<p>
+  The <code>new</code> factory function will create a new user data object via
+  <code>lua_newuserdata</code> from <code>GameData</code>, assign the given
+  function parameters, and set its meta table to be <em>"GameData"</em>.
+</p>
+<figure>
+  <pre><code class="language-cpp hljs">int GameData_new(lua_State* L) {
+  auto* game_data = static_cast&lt;GameData*&gt;(
+    lua_newuserdata(L, sizeof(GameData))
+  );
+
+  game_data->amount = lua_tonumber(L, -2);
+  game_data->name = lua_tostring(L, -3);
+
+  luaL_setmetatable(L, "GameData");
+  return 1;
+}</code></pre>
+</figure>
+<p>
+  The new library gets created with <code>luaL_newlib</code>, and requires a
+  registry of functions to be part of; this is where the
+  <code>GameData_new</code> will go. The registry is a null terminated array of
+  type <code>luaL_Reg</code>.
+</p>
+<figure>
+  <pre><code class="language-cpp hljs">const luaL_Reg game_data_lib[] = {
+  {"new", GameData_new},
+  {nullptr, nullptr},
+};</code></pre>
+</figure>
+<p>The setup is done in <code>open_GameData</code>.</p>
+<figure>
+  <pre><code class="language-cpp hljs">int open_GameData(lua_State* L) {
+  luaL_newmetatable(L, "GameData");
+  luaL_newlib(L, game_data_lib);
+  return 1;
+}</code></pre>
+</figure>
+<p>
+  This will create the new Lua module called <em>"GameData"</em>, and define a
+  <code>new</code> function to create instances of the object.
+</p>
+<figure>
+  <pre><code class="language-lua hljs">local GameData = require "GameData"
+local data = GameData.new("Dwarves", 7)</code></pre>
+</figure>
+<p>
+  For read and write access to the table data it needs both meta methods
+  <code>__index</code> and <code>__newindex</code>. The meta method
+  <code>__index</code> is for reading fields from the table. The C++ function
+  will need to retrieve the user data and field name from the stack and return
+  the associated value. It also needs to manage the access to not defined
+  fields, either via returning <code>nil</code> or giving an error.
+</p>
+<figure>
+  <pre><code class="language-cpp hljs">int GameData_index(lua_State* L) {
+  // Get the object from the stack
+  auto* game_data = static_cast&lt;GameData*&gt;(
+    lua_touserdata(L, 1)
+  );
+
+  // Get the field name
+  const std::string key = luaL_checkstring(L, 2);
+
+  // Access to "name" field
+  if (key == "name") {
+    lua_pushstring(L, game_data->name);
+    return 1;
+  }
+
+  // Access to "amount" field
+  if (key == "amount") {
+    lua_pushinteger(L, game_data->amount);
+    return 1;
+  }
+
+  // Throw if field is not defined.
+  luaL_error(L,
+    "Unknown property access: %s",
+    key.c_str()
+  );
+  return 1;
+}</code></pre>
+</figure>
+<p>
+  Writing fields to the table is very similar, defined by the meta method
+  <code>__newindex</code> &mdash; retrieving the user data from the stack,
+  checking the field to access, and assigning a new value to it.
+</p>
+<figure>
+  <pre><code class="language-cpp hljs">int GameData_newindex(lua_State* L) {
+  // Get the object from the stack
+  auto* game_data = static_cast&lt;GameData*&gt;(
+    lua_touserdata(L, 1)
+  );
+
+  // Get the field name
+  const std::string key = luaL_checkstring(L, 2);
+
+  // Write to "name" field
+  if (key == "name") {
+    game_data->name = luaL_checkstring(L, 3);
+    return 1;
+  }
+
+  // Write to "amount" field
+  if (key == "amount") {
+    game_data->amount = luaL_checkinteger(L, 3);
+    return 1;
+  }
+
+  luaL_error(L,
+    "Unknown property access: %s",
+    key.c_str()
+  );
+  return 1;
+}</code></pre>
+</figure>
+<p>
+  The <code>GameData_index</code> and <code>GameData_newindex</code> are not yet
+  doing anything. Similar to <code>new</code> they need to be registered, but
+  this time to the objects meta table.
+</p>
+<figure>
+  <pre><code class="language-cpp hljs">const luaL_Reg game_data_meta[] = {
+  {"__index", GameData_index},
+  {"__newindex", GameData_newindex},
+  {nullptr, nullptr},
+};</code></pre>
+</figure>
+<p>
+  In <code>open_GameData</code> the meta method registry can be assigned to the
+  created meta table via <code>luaL_setfuncs</code>.
+</p>
+<figure>
+  <pre><code class="language-cpp hljs">int open_GameData(lua_State* L) {
+  luaL_newmetatable(L, "GameData");
+  luaL_setfuncs(L, game_data_meta, 0);
+  luaL_newlib(L, game_data_lib);
+  return 1;
+}</code></pre>
+</figure>
+<p>Here the full C++ code:</p>
+<figure>
+  <pre><code class="language-cpp hljs">// src/cpp/example-custom-module/main.cpp
+
+#include &lt;print&gt;
+#include &lt;lua.hpp&gt;
+
+struct GameData {
+  const char* name;
+  int amount{0};
+};
+
+int GameData_new(lua_State* L) {
+  auto* game_data = static_cast&lt;GameData*&gt;(
+    lua_newuserdata(L, sizeof(GameData))
+  );
+
+  game_data->amount = lua_tonumber(L, -2);
+  game_data->name = lua_tostring(L, -3);
+
+  luaL_setmetatable(L, "GameData");
+  return 1;
+}
+
+int GameData_index(lua_State* L) {
+  auto* game_data = static_cast&lt;GameData*&gt;(
+    lua_touserdata(L, 1)
+  );
+
+  const std::string key = luaL_checkstring(L, 2);
+
+  if (key == "name") {
+    lua_pushstring(L, game_data->name);
+    return 1;
+  }
+
+  if (key == "amount") {
+    lua_pushinteger(L, game_data->amount);
+    return 1;
+  }
+
+  luaL_error(L,
+    "Unknown property access: %s",
+    key.c_str()
+  );
+  return 1;
+}
+
+int GameData_newindex(lua_State* L) {
+  auto* game_data = static_cast&lt;GameData*&gt;(
+    lua_touserdata(L, 1)
+  );
+
+  const std::string key = luaL_checkstring(L, 2);
+
+  if (key == "name") {
+    game_data->name = luaL_checkstring(L, 3);
+    return 1;
+  }
+
+  if (key == "amount") {
+    game_data->amount = luaL_checkinteger(L, 3);
+    return 1;
+  }
+
+  luaL_error(L,
+    "Unknown property access: %s",
+    key.c_str()
+  );
+  return 1;
+}
+
+const luaL_Reg game_data_meta[] = {
+  {"__index", GameData_index},
+  {"__newindex", GameData_newindex},
+  {nullptr, nullptr},
+};
+
+const luaL_Reg game_data_lib[] = {
+  {"new", GameData_new},
+  {nullptr, nullptr},
+};
+
+int open_GameData(lua_State* L) {
+  luaL_newmetatable(L, "GameData");
+  luaL_setfuncs(L, game_data_meta, 0);
+  luaL_newlib(L, game_data_lib);
+  return 1;
+}
+
+int main() {
+  lua_State* L = luaL_newstate();
+  luaL_openlibs(L);
+
+  luaL_requiref(L, "GameData", open_GameData, 0);
+
+  if (luaL_dofile(L, "./script.lua") == LUA_OK) {
+    std::print("Done\n");
+  } else {
+    std::print("Error reading configuration file:\n");
+    luaL_error(L, "Error: %s\n", lua_tostring(L, -1));
+  }
+
+  lua_close(L);
+  return 0;
+}</code></pre>
+</figure>
+<p>And the Lua that is enabled through the C++:</p>
+<figure>
+  <pre><code class="language-lua hljs">local GameData = require "GameData"
+
+local data = GameData.new("Dwarves", 7)
+print(data.amount .. " " .. data.name)
+--&gt; "7 Dwarves"
+
+data.name = "Gnomes"
+print(data.amount .. " " .. data.name)
+--&gt; "7 Gnomes"</code></pre>
+</figure>
+
+<h3 id="override-library-functions">Override Library Functions</h3>
+<p>
+  Overriding a built-in library function is a handy way to provide a custom
+  version of a function, extend functionality, or implement a preferred
+  alternative. One of my go-to overrides I use is extending the Lua
+  <code>type</code> function to handle user data types in a, for me, more useful
+  way.
+</p>
+<p>
+  Taking the earlier <code>GameData</code> as example, when printing the type
+  via Lua, the result will always be <code>"userdata"</code> for any user data.
+</p>
+<figure>
+  <pre><code class="language-lua hljs">local GameData = require "GameData"
+local data = GameData.new("Dwarves", 7)
+
+print(type(data)) --&gt; "userdata"</code></pre>
+</figure>
+<p>
+  Therefore, I usually override the <code>type</code> function in C++ to take
+  the meta table name as type, accessible under the meta field
+  <code>__name</code>.
+</p>
+<p>
+  Taking the
+  <a href="#user-data"
+    >earlier example of setting up the user data <code>GameData</code></a
+  >, leaving out the setup code in this example.
+</p>
+<figure>
+  <pre><code class="language-cpp hljs">int main() {
+  lua_State* L = luaL_newstate();
+  luaL_openlibs(L);
+
+  luaL_requiref(L, "GameData", open_GameData, 0);
+
+  if (luaL_dofile(L, "./script.lua") == LUA_OK) {
+    std::print("Done\n");
+  } else {
+    std::print("Error reading configuration file:\n");
+    luaL_error(L, "Error: %s\n", lua_tostring(L, -1));
+  }
+
+  lua_close(L);
+  return 0;
+}</code></pre>
+</figure>
+<p>
+  The idea is to get a reference to the built-in Lua function <code>type</code>,
+  and then register a new <code>type</code> function handling user data. When
+  the argument is not a user data object, take the original built-in
+  <code>type</code> function.
+</p>
+<p>
+  I'll keep it simple and take a static variable for the reference to the Lua
+  <code>type</code> function.
+</p>
+<figure>
+  <pre><code class="language-cpp hljs">static int type_ref;</code></pre>
+</figure>
+<p>
+  With a setup function <code>setup_type_override</code> the
+  <code>type</code> global is retrieved. If not <code>nil</code> its reference
+  gets stored in the static <code>type_ref</code> variable. The
+  <code>lua_register</code> will then register a new <code>type</code> function,
+  <code>lua_type</code>.
+</p>
+<figure>
+  <pre><code class="language-cpp hljs">static int type_ref;
+
+void setup_type_override(lua_State* L) {
+  if (lua_getglobal(L, "type") != LUA_TNIL) {
+    type_ref = luaL_ref(L, LUA_REGISTRYINDEX);
+    lua_register(L, "type", lua_type);
+  }
+}</code></pre>
+</figure>
+<p>
+  The new function has the <strong>common signature</strong>, returning an
+  <code>int</code> for the number of return values and taking the Lua state as
+  an argument. The implementation will test if user data got passed to the
+  <code>type</code> call and if not, call the built-in
+  <code>type</code> function through the previously stored reference.
+</p>
+<figure>
+  <pre><code class="language-cpp hljs">int lua_type(lua_State* L) {
+  if (lua_isuserdata(L, -1)) {
+    // More here ...
+    return 1;
+  }
+
+  // Get and call original `type` function.
+  lua_rawgeti(L, LUA_REGISTRYINDEX, type_ref);
+  lua_pushvalue(L, -1);
+  lua_call(L, -1, -1);
+
+  return 1;
+}</code></pre>
+</figure>
+<p>
+  When user data gets passed, it is on top of the stack at <code>-1</code>. The
+  meta field <code>__name</code> needs to be pushed to the stack, and if not
+  <code>nil</code>, the string value retrieved. If a name is defined, it can get
+  pushed back as a function argument via <code>lua_pushlstring</code>.
+</p>
+<figure>
+  <pre><code class="language-cpp hljs">if (luaL_getmetafield(L, -1, "__name") != LUA_TNIL) {
+  const std::string name = lua_tostring(L, -1);
+  if (!name.empty()) {
+    lua_pushlstring(L, name.c_str(), name.size());
+    return 1;
+  }
+}</code></pre>
+</figure>
+<p>
+  The full function replacement is only a couple of lines and will give, if
+  available, the name for all defined user data when <code>type</code> is
+  called.
+</p>
+<figure>
+  <pre><code class="language-cpp hljs">int lua_type(lua_State* L) {
+  if (lua_isuserdata(L, -1)) {
+    if (luaL_getmetafield(L, -1, "__name") != LUA_TNIL) {
+      const std::string name = lua_tostring(L, -1);
+      if (!name.empty()) {
+        lua_pushlstring(L, name.c_str(), name.size());
+        return 1;
+      }
+    }
+  }
+
+  lua_rawgeti(L, LUA_REGISTRYINDEX, type_ref);
+  lua_pushvalue(L, -1);
+  lua_call(L, -1, -1);
+
+  return 1;
+}</code></pre>
+  <figcaption>Full <code>type</code> function replacement.</figcaption>
+</figure>
+<p>
+  One important part is that the <code>setup_type_override</code> function gets
+  called after <code>luaL_openlibs</code> that will bring the
+  <code>type</code> function into the registry before overriding it.
+</p>
+<figure>
+  <pre><code class="language-cpp hljs">lua_State* L = luaL_newstate();
+luaL_openlibs(L);
+setup_type_override(L);</code></pre>
+</figure>
+<p>
+  And here's the full setup, excluding the definition of
+  <code>GameData</code> as it was <a href="#user-data">defined earlier</a>.
+</p>
+<figure>
+  <pre><code class="language-cpp hljs">// src/cpp/example-override-builtin/main.cpp
+
+#include &lt;print&gt;
+#include &lt;lua.hpp&gt;
+
+static int type_ref;
+
+// The new type function override
+int lua_type(lua_State* L) {
+  // Override "userdata" type
+  if (lua_isuserdata(L, -1)) {
+    if (luaL_getmetafield(L, -1, "__name") != LUA_TNIL) {
+      const std::string name = lua_tostring(L, -1);
+      if (!name.empty()) {
+        lua_pushlstring(L, name.c_str(), name.size());
+        return 1;
+      }
+    }
+  }
+
+  // Call built-in function
+  lua_rawgeti(L, LUA_REGISTRYINDEX, type_ref);
+  lua_pushvalue(L, -1);
+  lua_call(L, -1, -1);
+
+  return 1;
+}
+
+// The setup helper
+void setup_type_override(lua_State* L) {
+  if (lua_getglobal(L, "type") != LUA_TNIL) {
+    type_ref = luaL_ref(L, LUA_REGISTRYINDEX);
+    lua_register(L, "type", lua_type);
+  }
+}
+
+int main() {
+  lua_State* L = luaL_newstate();
+  luaL_openlibs(L);
+
+  // Set up type override
+  setup_type_override(L);
+
+  // Example custom module
+  luaL_requiref(L, "GameData", open_GameData, 0);
+
+  if (luaL_dofile(L, "./script.lua") == LUA_OK) {
+    std::print("Done\n");
+  } else {
+    std::print("Error reading configuration file:\n");
+    luaL_error(L, "Error: %s\n", lua_tostring(L, -1));
+  }
+
+  lua_close(L);
+  return 0;
+}</code></pre>
+</figure>
+<p>And the example Lua code this enables:</p>
+<figure>
+  <pre><code class="language-lua hljs">local GameData = require "GameData"
+local data = GameData.new()
+print(type(data)) --&gt; "GameData"</code></pre>
+</figure>
+
+<h3 id="more-about-the-lua-c-api">More About the Lua C-API</h3>
+<p>
+  There is, of course, a lot more to the Lua C-API than any of my examples could
+  cover. My main resources for this are mainly
+  <a
+    href="https://lua.org/pil/"
+    title="Landing page for the official Lua programning book"
+    >the official Programming in Lua book</a
+  >
+  and the
+  <a
+    href="https://www.lua.org/manual/5.5/"
+    title="Lua online manual for version 5.5"
+    >online reference manual</a
+  >. One other non-official guide is the
+  <a href="https://lua.msys.ch/" title="Additional guide for Lua integrations"
+    >Lua Integration Guide</a
+  >
+  website.
+</p>
+
+<h3 id="what-comes-next">What Comes Next</h3>
+<p>
+  As usual, all the code shown in this article is also available in the
+  <a
+    href="https://github.com/MartinHelmut/lua-series/tree/part-5"
+    title="All code examples of this article"
+    >companion repository on GitHub, branch part-5</a
+  >.
+</p>
+<p>
+  Next comes a little excursion in building a CLI in Lua. Setup, dependencies,
+  how to package, and ultimately distribute it.
+</p>
+<p>Until then 👋🏻</p>
