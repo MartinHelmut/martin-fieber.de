@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -7,7 +7,7 @@
     <link rel="icon" href="/assets/favicon/icon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/assets/favicon/apple-touch-icon.png" />
     <link rel="manifest" href="/assets/favicon/site.webmanifest" />
-    <link rel="stylesheet" href="/styles/main.css" />
+    <link rel="stylesheet" href="/styles/main.css?v=2" />
     <link rel="stylesheet" media="print" href="/styles/print.css" />
     <link
       rel="alternate"
@@ -16,13 +16,21 @@
       href="/feed.xml"
     />
     <link rel="me" href="https://mastodon.gamedev.place/@martinhelmut" />
-    <meta name="theme-color" media="(prefers-color-scheme: light)" content="white" />
-    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#191223" />
+    <meta
+      name="theme-color"
+      media="(prefers-color-scheme: light)"
+      content="white"
+    />
+    <meta
+      name="theme-color"
+      media="(prefers-color-scheme: dark)"
+      content="#191223"
+    />
     <meta
       name="google-site-verification"
       content="3EUDp2p1HY0eouMKX3PBvPSv3Mr6WNL-4sUYA2yNxz8"
     />
-    <meta name="generator" content="{{ eleventy.generator }}">
+    <meta name="generator" content="{{ eleventy.generator }}" />
     <meta name="author" content="{{ site.author }}" />
     <meta name="description" content="{{ description }}" />
     {%- if title %}
@@ -42,8 +50,8 @@
       defer
       data-api="/api/event"
       data-domain="{{ site.name }}"
-      src="/js/script.js">
-    </script>
+      src="/js/script.js"
+    ></script>
     <script>
       window.plausible =
         window.plausible ||
@@ -70,19 +78,22 @@
         <a
           href="/legal-notice"
           title="Legal notice page includes address and contact information"
-        >Legal</a>
+          >Legal</a
+        >
         |
         <a
           href="/privacy-policy"
           title="Privacy policy includes cookie information, but there are no cookies"
-        >Privacy</a>
+          >Privacy</a
+        >
         |
         <a href="/feed.xml" title="Atom feed">Feed</a>
         |
         <a
           href="/blog/my-blog"
           title="Additional information about this website, what to expect and how it was built."
-        >About</a>
+          >About</a
+        >
       </footer>
     </div>
   </body>
