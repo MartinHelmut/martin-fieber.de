@@ -13,3 +13,7 @@ rm -f src/scripts/image-compare.min.js && \
   cat src/scripts/body-lock-scroll.js src/scripts/image-compare.js > src/scripts/image-compare.min.js && \
   terser --compress --mangle --output src/scripts/image-compare.min.js \
     -- src/scripts/image-compare.min.js
+
+# Compress Theme Toggle
+terser --compress --mangle --output src/scripts/common.min.js \
+  -- src/scripts/common.js

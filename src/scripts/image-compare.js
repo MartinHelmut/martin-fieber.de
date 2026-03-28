@@ -1,4 +1,4 @@
-(function () {
+(function (window, document) {
   "use strict";
 
   function createImageCompare(el, color, start) {
@@ -135,4 +135,4 @@
       createImageCompare(viewer, color, parseInt(start, 10));
     });
   });
-})();
+})(window, document);
