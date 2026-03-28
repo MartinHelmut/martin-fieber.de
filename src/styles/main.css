@@ -30,6 +30,13 @@
   --color-grey-700: #575757;
   --color-grey-800: #404040;
   --color-grey-900: #0f0f0f;
+
+  --color-white-70: rgba(255, 255, 255, 0.7);
+
+  --color-black-20: rgba(0, 0, 0, 0.2);
+  --color-black-80: rgba(0, 0, 0, 0.8);
+
+  --color-blue-900-80: rgba(25, 18, 35, 0.8);
 }
 
 *,
@@ -53,6 +60,7 @@ body {
   --color-low-contrast: var(--color-grey-200);
   --color-high-contrast: white;
   --color-background: white;
+  --color-shadow: var(--color-black-20);
 
   --font-weight-normal: 300;
   --font-weight-bold: 700;
@@ -66,6 +74,7 @@ body.dark-theme {
   --color-low-contrast: var(--color-blue-800);
   --color-high-contrast: var(--color-blue-900);
   --color-background: var(--color-blue-900);
+  --color-shadow: var(--color-blue-900-80);
 
   --font-weight-normal: 250;
   --font-weight-bold: 600;
@@ -80,6 +89,7 @@ body.dark-theme {
     --color-low-contrast: var(--color-blue-800);
     --color-high-contrast: var(--color-blue-900);
     --color-background: var(--color-blue-900);
+    --color-shadow: var(--color-blue-900-80);
 
     --font-weight-normal: 250;
     --font-weight-bold: 600;
@@ -93,6 +103,7 @@ body.dark-theme {
     --color-low-contrast: var(--color-grey-200);
     --color-high-contrast: white;
     --color-background: white;
+    --color-shadow: var(--color-black-20);
 
     --font-weight-normal: 300;
     --font-weight-bold: 700;
@@ -518,8 +529,8 @@ kbd > kbd {
   border-radius: 3px;
   border: 1px solid var(--color-grey-500);
   box-shadow:
-    0 1px 1px rgba(0, 0, 0, 0.2),
-    0 2px 0 0 rgba(255, 255, 255, 0.7) inset;
+    0 1px 1px var(--color-black-20),
+    0 2px 0 0 var(--color-white-70) inset;
   color: var(--color-grey-900);
   display: inline-block;
   font-size: 0.8em;
@@ -527,6 +538,49 @@ kbd > kbd {
   line-height: 1;
   padding: 2px 4px;
   white-space: nowrap;
+}
+
+.table-wrapper {
+  position: relative;
+  max-width: 100%;
+  margin: 0 0 var(--size-500) 0;
+}
+
+.table-wrapper::before,
+.table-wrapper::after {
+  pointer-events: none;
+  content: "";
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 16px;
+  z-index: 2;
+  opacity: 0;
+  transition: opacity 200ms ease;
+}
+
+.table-wrapper::before {
+  left: 0;
+  background: linear-gradient(90deg, var(--color-shadow), transparent);
+}
+
+.table-wrapper::after {
+  right: 0;
+  background: linear-gradient(-90deg, var(--color-shadow), transparent);
+}
+
+.table-wrapper.scroll-shadow-left::before,
+.table-wrapper.scroll-shadow-right::after {
+  opacity: 1;
+}
+
+.table-scroll-wrapper {
+  overflow-y: auto;
+  position: relative;
+}
+
+.table-scroll-wrapper > table {
+  margin: 0;
 }
 
 table {
@@ -774,7 +828,7 @@ article.disabled p {
 
 /* Lua Stack Examples  */
 
-.lua-stack-table tbody {
+.lua-stack-table {
   font-family: monospace;
   font-size: 0.8rem;
 }
@@ -787,6 +841,7 @@ article.disabled p {
 .lua-stack-table tbody td[colspan="5"] {
   text-transform: uppercase;
   color: var(--color-text-dark);
+  font-size: inherit;
 }
 
 .lua-stack-table td pre {
@@ -803,7 +858,11 @@ article.disabled p {
   border-radius: 0;
   margin: 0;
   padding: 0.5rem;
-  font-size: 0.8rem;
+  font-size: inherit;
+}
+
+.lua-stack-table tfoot pre code.hljs::after {
+  border: none;
 }
 
 /* Code block compatible with highlight.js */

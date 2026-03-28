@@ -1,5 +1,6 @@
 ---
 date: 2026-03-27
+lastmod: 2026-03-28
 title: "C++ and Lua"
 description: "Besides on its own, Lua is also an amazing language to extend applications. This article is an overview of how to do just that. Integrating Lua into a C++ application, state and stack, accessing data, defining new functions and modules, and more."
 image: "/assets/blog/lua-series-part-5/title-card.png"
@@ -561,52 +562,56 @@ luaL_openlibs(L);</code></pre>
   To make this easier to understand, here's an example of how the Lua stack
   works.
 </p>
-<table class="lua-stack-table">
-  <thead>
-    <tr>
-      <th scope="col">C++</th>
-      <th scope="col">Lua</th>
-      <th scope="col">Stack</th>
-      <th scope="col" colspan="2">Index</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td colspan="5">Stack top</td>
-    </tr>
-    <tr>
-      <td><code>lua_getglobal(L, "width")</code></td>
-      <td><code>width = 42</code></td>
-      <td><code>42</code></td>
-      <td>3</td>
-      <td>-1</td>
-    </tr>
-    <tr>
-      <td><code>lua_getglobal(L, "height")</code></td>
-      <td><code>height = 23</code></td>
-      <td><code>23</code></td>
-      <td>2</td>
-      <td>-2</td>
-    </tr>
-    <tr>
-      <td><code>lua_getglobal(L, "ids")</code></td>
-      <td><code>ids = { 1, 2, 3 }</code></td>
-      <td><code>{ 1, 2, 3 }</code></td>
-      <td>1</td>
-      <td>-3</td>
-    </tr>
-    <tr>
-      <td colspan="5">Stack bottom</td>
-    </tr>
-  </tbody>
-  <tfoot>
-    <td colspan="5">
-      <pre><code class="language-lua hljs">width = 42
+<div class="table-wrapper">
+  <div class="table-scroll-wrapper">
+    <table class="lua-stack-table">
+      <thead>
+        <tr>
+          <th scope="col">C++</th>
+          <th scope="col">Lua</th>
+          <th scope="col">Stack</th>
+          <th scope="col" colspan="2">Index</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td colspan="5">Stack top</td>
+        </tr>
+        <tr>
+          <td><code>lua_getglobal(L, "width")</code></td>
+          <td><code>width = 42</code></td>
+          <td><code>42</code></td>
+          <td>3</td>
+          <td>-1</td>
+        </tr>
+        <tr>
+          <td><code>lua_getglobal(L, "height")</code></td>
+          <td><code>height = 23</code></td>
+          <td><code>23</code></td>
+          <td>2</td>
+          <td>-2</td>
+        </tr>
+        <tr>
+          <td><code>lua_getglobal(L, "ids")</code></td>
+          <td><code>ids = { 1, 2, 3 }</code></td>
+          <td><code>{ 1, 2, 3 }</code></td>
+          <td>1</td>
+          <td>-3</td>
+        </tr>
+        <tr>
+          <td colspan="5">Stack bottom</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <td colspan="5">
+          <pre><code class="language-lua hljs">width = 42
 height = 23
 ids = { 1, 2, 3 }</code></pre>
-    </td>
-  </tfoot>
-</table>
+        </td>
+      </tfoot>
+    </table>
+  </div>
+</div>
 
 <h3 id="access-lua-data">Access Lua Data</h3>
 
@@ -828,63 +833,67 @@ if (lua_istable(L, -1)) {
   <strong>example of how the stack works</strong>
   when reading data from a Lua table.
 </p>
-<table class="lua-stack-table">
-  <thead>
-    <tr>
-      <th scope="col">C++</th>
-      <th scope="col">Lua</th>
-      <th scope="col">Stack</th>
-      <th scope="col" colspan="2">Index</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td colspan="5">Stack top</td>
-    </tr>
-    <tr>
-      <td><code>lua_getfield(L, -2, "reader")</code></td>
-      <td><code>reader = "Reader"</code></td>
-      <td><code>"Reader"</code></td>
-      <td>3</td>
-      <td>-1</td>
-    </tr>
-    <tr>
-      <td><code>lua_getfield(L, -1, "hello")</code></td>
-      <td><code>hello = "Hello"</code></td>
-      <td><code>"Hello"</code></td>
-      <td>2</td>
-      <td>-2</td>
-    </tr>
-    <tr>
-      <td><code>lua_getglobal(L, "labels")</code></td>
-      <td>
-        <pre><code class="nohighlight">labels = {
+<div class="table-wrapper">
+  <div class="table-scroll-wrapper">
+    <table class="lua-stack-table">
+      <thead>
+        <tr>
+          <th scope="col">C++</th>
+          <th scope="col">Lua</th>
+          <th scope="col">Stack</th>
+          <th scope="col" colspan="2">Index</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td colspan="5">Stack top</td>
+        </tr>
+        <tr>
+          <td><code>lua_getfield(L, -2, "reader")</code></td>
+          <td><code>reader = "Reader"</code></td>
+          <td><code>"Reader"</code></td>
+          <td>3</td>
+          <td>-1</td>
+        </tr>
+        <tr>
+          <td><code>lua_getfield(L, -1, "hello")</code></td>
+          <td><code>hello = "Hello"</code></td>
+          <td><code>"Hello"</code></td>
+          <td>2</td>
+          <td>-2</td>
+        </tr>
+        <tr>
+          <td><code>lua_getglobal(L, "labels")</code></td>
+          <td>
+            <pre><code class="nohighlight">labels = {
   hello = "Hello",
   reader = "Reader"
 }</code></pre>
-      </td>
-      <td>
-        <pre><code class="nohighlight">{
+          </td>
+          <td>
+            <pre><code class="nohighlight">{
   hello = "Hello",
   reader = "Reader"
 }</code></pre>
-      </td>
-      <td>1</td>
-      <td>-3</td>
-    </tr>
-    <tr>
-      <td colspan="5">Stack bottom</td>
-    </tr>
-  </tbody>
-  <tfoot>
-    <td colspan="5">
-      <pre><code class="language-lua hljs">labels = {
+          </td>
+          <td>1</td>
+          <td>-3</td>
+        </tr>
+        <tr>
+          <td colspan="5">Stack bottom</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <td colspan="5">
+          <pre><code class="language-lua hljs">labels = {
   hello = "Hello",
   reader = "Reader"
 }</code></pre>
-    </td>
-  </tfoot>
-</table>
+        </td>
+      </tfoot>
+    </table>
+  </div>
+</div>
 
 <h4 id="arrays">Arrays</h4>
 <p>Given the following array in Lua:</p>
@@ -931,54 +940,58 @@ lua_Number second = lua_tonumber(L, -1);</code></pre>
   Again, an example should help to get a better intuition for the stack
   behaviour.
 </p>
-<table class="lua-stack-table">
-  <thead>
-    <tr>
-      <th scope="col">C++</th>
-      <th scope="col">Lua</th>
-      <th scope="col">Stack</th>
-      <th scope="col" colspan="2">Index</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td colspan="5">Stack top</td>
-    </tr>
-    <tr>
-      <td><code>lua_tonumber(L, -1)</code></td>
-      <td><code>7</code></td>
-      <td><code>7</code></td>
-      <td>3</td>
-      <td>-1</td>
-    </tr>
-    <tr>
-      <td><code>lua_geti(L, -1, 1)</code></td>
-      <td><code>7</code></td>
-      <td><code>7</code></td>
-      <td>2</td>
-      <td>-2</td>
-    </tr>
-    <tr>
-      <td><code>lua_getglobal(L, "numbers")</code></td>
-      <td>
-        <pre><code class="nohighlight">numbers = {7, 13, 23, 42}</code></pre>
-      </td>
-      <td>
-        <pre><code class="nohighlight">{7, 13, 23, 42}</code></pre>
-      </td>
-      <td>1</td>
-      <td>-3</td>
-    </tr>
-    <tr>
-      <td colspan="5">Stack bottom</td>
-    </tr>
-  </tbody>
-  <tfoot>
-    <td colspan="5">
-      <pre><code class="language-lua hljs">numbers = {7, 13, 23, 42}</code></pre>
-    </td>
-  </tfoot>
-</table>
+<div class="table-wrapper">
+  <div class="table-scroll-wrapper">
+    <table class="lua-stack-table">
+      <thead>
+        <tr>
+          <th scope="col">C++</th>
+          <th scope="col">Lua</th>
+          <th scope="col">Stack</th>
+          <th scope="col" colspan="2">Index</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td colspan="5">Stack top</td>
+        </tr>
+        <tr>
+          <td><code>lua_tonumber(L, -1)</code></td>
+          <td><code>7</code></td>
+          <td><code>7</code></td>
+          <td>3</td>
+          <td>-1</td>
+        </tr>
+        <tr>
+          <td><code>lua_geti(L, -1, 1)</code></td>
+          <td><code>7</code></td>
+          <td><code>7</code></td>
+          <td>2</td>
+          <td>-2</td>
+        </tr>
+        <tr>
+          <td><code>lua_getglobal(L, "numbers")</code></td>
+          <td>
+            <pre><code class="nohighlight">numbers = {7, 13, 23, 42}</code></pre>
+          </td>
+          <td>
+            <pre><code class="nohighlight">{7, 13, 23, 42}</code></pre>
+          </td>
+          <td>1</td>
+          <td>-3</td>
+        </tr>
+        <tr>
+          <td colspan="5">Stack bottom</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <td colspan="5">
+          <pre><code class="language-lua hljs">numbers = {7, 13, 23, 42}</code></pre>
+        </td>
+      </tfoot>
+    </table>
+  </div>
+</div>
 
 <h3 id="call-lua-function-from-cpp">Call Lua Function from C++</h3>
 <p>
@@ -1045,40 +1058,42 @@ end</code></pre>
   The different error codes from <code>lua_pcall</code> are shown in the
   following table.
 </p>
-<table>
-  <caption>
-    <code>lua_pcall</code>
-    error codes
-  </caption>
-  <thead>
-    <tr>
-      <th scope="col">Return code</th>
-      <th scope="col">Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th scope="row"><code>LUA_OK</code></th>
-      <td>Successful</td>
-    </tr>
-    <tr>
-      <th scope="row"><code>LUA_ERRRUN</code></th>
-      <td>Runtime error</td>
-    </tr>
-    <tr>
-      <th scope="row"><code>LUA_ERRMEM</code></th>
-      <td>Failed to allocate memory</td>
-    </tr>
-    <tr>
-      <th scope="row"><code>LUA_ERRERR</code></th>
-      <td>Failed to call the message handler</td>
-    </tr>
-    <tr>
-      <th scope="row"><code>LUA_ERRGCMM</code></th>
-      <td>Failed to run <code>__gc</code> metamethod</td>
-    </tr>
-  </tbody>
-</table>
+<div class="table-wrapper">
+  <table>
+    <caption>
+      <code>lua_pcall</code>
+      error codes
+    </caption>
+    <thead>
+      <tr>
+        <th scope="col">Return code</th>
+        <th scope="col">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row"><code>LUA_OK</code></th>
+        <td>Successful</td>
+      </tr>
+      <tr>
+        <th scope="row"><code>LUA_ERRRUN</code></th>
+        <td>Runtime error</td>
+      </tr>
+      <tr>
+        <th scope="row"><code>LUA_ERRMEM</code></th>
+        <td>Failed to allocate memory</td>
+      </tr>
+      <tr>
+        <th scope="row"><code>LUA_ERRERR</code></th>
+        <td>Failed to call the message handler</td>
+      </tr>
+      <tr>
+        <th scope="row"><code>LUA_ERRGCMM</code></th>
+        <td>Failed to run <code>__gc</code> metamethod</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 <p>
   Let's say everything went splendid; multiple return values get pushed onto the
   stack <strong>in order</strong>. That means, the first return value goes on
@@ -1261,43 +1276,47 @@ int main() {
   <strong>reverse order</strong>, as they get pushed from left to right when
   calling a Lua function.
 </p>
-<table class="lua-stack-table">
-  <thead>
-    <tr>
-      <th scope="col">C++</th>
-      <th scope="col">Lua</th>
-      <th scope="col">Stack</th>
-      <th scope="col" colspan="2">Index</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td colspan="5">Stack top</td>
-    </tr>
-    <tr>
-      <td><code>lua_tonumber(L, -2)</code></td>
-      <td><code>2</code></td>
-      <td><code>2</code></td>
-      <td>2</td>
-      <td>-1</td>
-    </tr>
-    <tr>
-      <td><code>lua_tonumber(L, -1)</code></td>
-      <td><code>10</code></td>
-      <td><code>10</code></td>
-      <td>1</td>
-      <td>-2</td>
-    </tr>
-    <tr>
-      <td colspan="5">Stack bottom</td>
-    </tr>
-  </tbody>
-  <tfoot>
-    <td colspan="5">
-      <pre><code class="language-lua hljs">local first, second = compute(2, 10)</code></pre>
-    </td>
-  </tfoot>
-</table>
+<div class="table-wrapper">
+  <div class="table-scroll-wrapper">
+    <table class="lua-stack-table">
+      <thead>
+        <tr>
+          <th scope="col">C++</th>
+          <th scope="col">Lua</th>
+          <th scope="col">Stack</th>
+          <th scope="col" colspan="2">Index</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td colspan="5">Stack top</td>
+        </tr>
+        <tr>
+          <td><code>lua_tonumber(L, -2)</code></td>
+          <td><code>2</code></td>
+          <td><code>2</code></td>
+          <td>2</td>
+          <td>-1</td>
+        </tr>
+        <tr>
+          <td><code>lua_tonumber(L, -1)</code></td>
+          <td><code>10</code></td>
+          <td><code>10</code></td>
+          <td>1</td>
+          <td>-2</td>
+        </tr>
+        <tr>
+          <td colspan="5">Stack bottom</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <td colspan="5">
+          <pre><code class="language-lua hljs">local first, second = compute(2, 10)</code></pre>
+        </td>
+      </tfoot>
+    </table>
+  </div>
+</div>
 <p>
   The return values are pushed onto the stack in the order they are retrieved.
 </p>
