@@ -1,6 +1,6 @@
 ---
 date: 2026-03-27
-lastmod: 2026-03-28
+lastmod: 2026-04-05
 title: "C++ and Lua"
 description: "Besides on its own, Lua is also an amazing language to extend applications. This article is an overview of how to do just that. Integrating Lua into a C++ application, state and stack, accessing data, defining new functions and modules, and more."
 image: "/assets/blog/lua-series-part-5/title-card.png"
@@ -1089,7 +1089,10 @@ end</code></pre>
       </tr>
       <tr>
         <th scope="row"><code>LUA_ERRGCMM</code></th>
-        <td>Failed to run <code>__gc</code> metamethod</td>
+        <td>
+          Failed to run <code>__gc</code> metamethod.
+          <strong>Removed in Lua 5.4.</strong>
+        </td>
       </tr>
     </tbody>
   </table>
